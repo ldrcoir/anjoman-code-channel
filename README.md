@@ -24,23 +24,42 @@
 
 ```
 ├── assets/fonts/          فونت وزیرمتن (SIL OFL)
-├── content/plan.md        سامانه دسته‌بندی محتوا + تقویم + چک‌لیست انتشار
+├── content/
+│   ├── plan.md            سامانه دسته‌بندی + تقویم + پوشش بندهای داوری
+│   └── queue/             صف انتشار خودکار (پست‌های آماده)
+│       ├── 003-python-lesson-03/
+│       └── …
 ├── docs/                  شیوه‌نامه کدنویسی (PDF)
-├── posts/                 آرشیو پست‌ها: تصویر + کپشن + meta.json
-│   └── 001-python-lesson-01/
+├── posts/                 آرشیو پست‌های منتشرشده: تصویر + کپشن + meta.json
+│   ├── 001-python-lesson-01/
+│   └── 002-python-lesson-02/
 ├── scripts/
-│   ├── make_post.py       تولید عکس‌نوشته (Pillow + libraqm، متن فارسی RTL)
-│   └── send_post.py       ارسال به کانال با Bale Bot API
+│   ├── poster_lib.py      کتابخانه مشترک رندر (متن فارسی RTL با Pillow+raqm)
+│   ├── make_post.py       تولید دستی عکس‌نوشته
+│   ├── send_post.py       ارسال دستی به کانال با Bale Bot API
+│   ├── scheduler_daemon.py دیمن زمان‌بند روزانه (۱۹:۰۰ تهران)
+│   └── auto_publish.py    انتشار خودکار از صف + آرشیو + push
 └── README.md
 ```
 
 ## ⚙️ راه‌اندازی
 
 ```bash
-pip install pillow arabic-reshaper
-python3 scripts/make_post.py     # تولید تصویر پست
-BALE_TOKEN=<توکن بات> python3 scripts/send_post.py   # ارسال به کانال
+pip install pillow requests
+python3 scripts/make_post.py     # تولید تصویر پست (دستی)
+BALE_TOKEN=<توکن بات> python3 scripts/send_post.py   # ارسال دستی به کانال
 ```
+
+## 🤖 انتشار خودکار روزانه
+
+```bash
+nohup python3 scripts/scheduler_daemon.py &    # دیمن زمان‌بند (ساعت ۱۹:۰۰ تهران)
+python3 scripts/auto_publish.py --force        # انتشار فوری از صف (برای تست)
+```
+
+- صف پست‌ها: `content/queue/NNN-slug/` (هر پست: `spec.py` + `caption.txt`)
+- هر روز قدیمی‌ترین پست صف، رندر و منتشر می‌شود؛ سپس در `posts/` آرشیو و روی گیت push می‌شود.
+- جزئیات کامل و پوشش بندهای شیوه‌نامه: [`content/plan.md`](content/plan.md)
 
 توکن بات در فایل `.env` (خارج از ریپو) نگه‌داری می‌شود و هرگز کامیت نمی‌گردد.
 
