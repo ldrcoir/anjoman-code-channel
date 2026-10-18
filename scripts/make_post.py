@@ -23,10 +23,12 @@ ACCENT = (34, 211, 238)      # cyan
 ACCENT2 = (167, 139, 250)    # violet
 GREEN  = (52, 211, 153)      # emerald
 WHITE  = (255, 255, 255)
-LIGHT  = (226, 232, 240)
+LIGHT  = (232, 238, 248)
+SUB    = (198, 208, 228)     # زیرنویس هدر
+DESC   = (218, 226, 242)     # توضیحات کارت‌ها — روشن و خوانا
 MUTED  = (148, 163, 184)
-CARD_BG = (255, 255, 255, 14)
-CARD_BR = (255, 255, 255, 38)
+CARD_BG = (255, 255, 255, 24)
+CARD_BR = (255, 255, 255, 60)
 CODE_BG = (11, 14, 34)
 C_VAR  = (122, 162, 247)
 C_FN   = (187, 134, 252)
@@ -159,9 +161,9 @@ def code_block(d, y):
         if i == 4:
             d.line([x0 + 24, yy - 16, x1 - 24, yy - 16],
                    fill=(255, 255, 255, 26), width=1)
-            ftag = F(VZ_MED, 22)
+            ftag = F(VZ_MED, 23)
             d.text((x1 - 40, yy - 44), "خروجی برنامه", font=ftag,
-                   fill=(255, 255, 255, 110), direction="rtl", anchor="ra")
+                   fill=(255, 255, 255, 185), direction="rtl", anchor="ra")
         if segs:
             draw_ltr_segs(d, segs, lx, yy)
     return y + h
@@ -173,8 +175,8 @@ def bullet_card(d, y, title_segs, desc, accent):
                         outline=CARD_BR, width=1)
     d.rounded_rectangle([x1 - 22, y + 16, x1 - 10, y + h - 16], radius=6, fill=accent)
     tx_right = x1 - 44
-    f_title = F(VZ_BOLD, 31)
-    f_desc = F(VZ_MED, 26)
+    f_title = F(VZ_BOLD, 32)
+    f_desc = F(VZ_MED, 29)
     # عنوان: قطعات راست‌چین
     cur = tx_right
     for text, font, color, is_fa in title_segs:
@@ -182,7 +184,7 @@ def bullet_card(d, y, title_segs, desc, accent):
         d.text((cur, y + 16), text, font=font, fill=color,
                direction="rtl" if is_fa else "ltr", anchor="ra")
         cur -= w
-    d.text((tx_right, y + 57), desc, font=f_desc, fill=MUTED,
+    d.text((tx_right, y + 56), desc, font=f_desc, fill=DESC,
            direction="rtl", anchor="ra")
     return y + h
 
@@ -198,7 +200,7 @@ def footer(d, y):
     d.rounded_rectangle([x0, y, x0 + pill_w, y + 64], radius=32,
                         fill=ACCENT + (26,), outline=ACCENT + (150,), width=2)
     right_edge = (W + (w1 + w2)) / 2
-    d.text((right_edge, y + 14), label, font=f, fill=LIGHT,
+    d.text((right_edge, y + 14), label, font=f, fill=WHITE,
            direction="rtl", anchor="ra")
     d.text((right_edge - w1, y + 15), handle, font=fmono, fill=ACCENT,
            direction="ltr", anchor="ra")
@@ -217,7 +219,7 @@ def build():
     rtl_right(d, "اولین برنامه\u200cات را بنویس!", ft, WHITE, W - MARGIN, y)
     y += 92
     fs2 = F(VZ_MED, 34)
-    rtl_right(d, "در ۳۰ ثانیه با زبان پایتون آشنا شو", fs2, MUTED, W - MARGIN, y)
+    rtl_right(d, "در ۳۰ ثانیه با زبان پایتون آشنا شو", fs2, SUB, W - MARGIN, y)
     y += 62
     y = code_block(d, y) + 34
     mono_t = F(MONO, 30)

@@ -24,9 +24,10 @@
 
 ```
 ├── assets/fonts/          فونت وزیرمتن (SIL OFL)
+├── content/plan.md        سامانه دسته‌بندی محتوا + تقویم + چک‌لیست انتشار
 ├── docs/                  شیوه‌نامه کدنویسی (PDF)
-├── posts/                 آرشیو پست‌ها: تصویر + کپشن
-│   └── post-01-python/
+├── posts/                 آرشیو پست‌ها: تصویر + کپشن + meta.json
+│   └── 001-python-lesson-01/
 ├── scripts/
 │   ├── make_post.py       تولید عکس‌نوشته (Pillow + libraqm، متن فارسی RTL)
 │   └── send_post.py       ارسال به کانال با Bale Bot API
