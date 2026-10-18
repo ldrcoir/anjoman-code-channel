@@ -1,12 +1,14 @@
 {
   "number": 1,
   "code": "001",
-  "category": "TROJ",
+  "category": "AMOO",
+  "category_fa": "آموزشی",
   "series": "python",
-  "part": 1,
+  "lesson": 1,
   "title": "اولین برنامه‌ات را بنویس!",
   "date": "2026-10-18",
-  "message_id": 4,
-  "image": "python-post-01.png",
-  "replaced_message_id": 3
+  "message_id": 8,
+  "image": "post.png",
+  "clean_image": "post-clean.png",
+  "replaced_message_id": 4
 }

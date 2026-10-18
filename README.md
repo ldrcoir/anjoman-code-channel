@@ -25,20 +25,25 @@
 ```
 ├── assets/fonts/          فونت وزیرمتن (SIL OFL)
 ├── content/
-│   ├── plan.md            سامانه دسته‌بندی + تقویم + پوشش بندهای داوری
-│   └── queue/             صف انتشار خودکار (پست‌های آماده)
-│       ├── 003-python-lesson-03/
-│       └── …
+│   ├── plan.md            سامانه دسته‌بندی + تقویم روزنگار + پوشش بندهای داوری
+│   ├── stats.md / stats.json  آمار انتشار (تعداد + تفکیک دسته/سری)
+│   └── queue/
+│       ├── lessons/       درس‌های «آموزش پایتون از صفر» (نوبت انتشار)
+│       └── variety/       پست‌های متنوع (ترویجی/رویداد/معرفی/اطلاعیه)
 ├── docs/                  شیوه‌نامه کدنویسی (PDF)
-├── posts/                 آرشیو پست‌های منتشرشده: تصویر + کپشن + meta.json
-│   ├── 001-python-lesson-01/
-│   └── 002-python-lesson-02/
+├── posts/                 آرشیو پست‌های منتشرشده:
+│   ├── post.png           تصویر منتشرشده (با نشان انجمن)
+│   ├── post-clean.png     نسخه بدون نام/آدرس انجمن (برای استفاده آزاد)
+│   ├── text.md            متن کامل فارسی عکس (بایگانی)
+│   ├── caption.txt        کپشن + هشتگ‌ها
+│   └── meta.json          شناسنامه (شماره، دسته، message_id، تاریخ)
 ├── scripts/
-│   ├── poster_lib.py      کتابخانه مشترک رندر (متن فارسی RTL با Pillow+raqm)
-│   ├── make_post.py       تولید دستی عکس‌نوشته
-│   ├── send_post.py       ارسال دستی به کانال با Bale Bot API
-│   ├── scheduler_daemon.py دیمن زمان‌بند روزانه (۱۹:۰۰ تهران)
-│   └── auto_publish.py    انتشار خودکار از صف + آرشیو + push
+│   ├── poster_lib.py      کتابخانه مشترک رندر (RTL با Pillow+raqm، چیپ «درس N»، شبکه ۲×۲)
+│   ├── roznegar.py        روزنگار: انتشار یک پست از صف + آرشیو + آمار + push
+│   ├── roznegar_daemon.py دیمن زمان‌بند (درس ۱۰:۰۰ هر روز | متنوع ۱۹:۰۰ شنبه/سه‌شنبه/پنج‌شنبه)
+│   ├── update_stats.py    تولید آمار انتشار
+│   ├── make_post.py       تولید دستی عکس‌نوشته (نسخه اول)
+│   └── send_post.py       ارسال دستی به کانال با Bale Bot API
 └── README.md
 ```
 
@@ -50,15 +55,19 @@ python3 scripts/make_post.py     # تولید تصویر پست (دستی)
 BALE_TOKEN=<توکن بات> python3 scripts/send_post.py   # ارسال دستی به کانال
 ```
 
-## 🤖 انتشار خودکار روزانه
+## 🤖 روزنگار — سامانهٔ انتشار روزانه (بدون نیاز به پیام کاربر)
+
+«روزنگار» سامانهٔ رسمی انتشار خودکار کانال است:
 
 ```bash
-nohup python3 scripts/scheduler_daemon.py &    # دیمن زمان‌بند (ساعت ۱۹:۰۰ تهران)
-python3 scripts/auto_publish.py --force        # انتشار فوری از صف (برای تست)
+nohup python3 scripts/roznegar_daemon.py &    # دیمن زمان‌بند
+python3 scripts/roznegar.py --kind lesson --force    # انتشار فوری یک درس (تست)
+python3 scripts/roznegar.py --kind variety --dry     # رندر بدون ارسال (بازبینی)
 ```
 
-- صف پست‌ها: `content/queue/NNN-slug/` (هر پست: `spec.py` + `caption.txt`)
-- هر روز قدیمی‌ترین پست صف، رندر و منتشر می‌شود؛ سپس در `posts/` آرشیو و روی گیت push می‌شود.
+- ساعت‌ها (تهران): درس پایتون ۱۰:۰۰ هر روز | پست متنوع ۱۹:۰۰ شنبه/سه‌شنبه/پنج‌شنبه — سقف ۳ پست در روز.
+- هر پست پس از انتشار با `post.png` + `post-clean.png` + `text.md` + `meta.json` آرشیو و push می‌شود.
+- آمار زنده: [`content/stats.md`](content/stats.md)
 - جزئیات کامل و پوشش بندهای شیوه‌نامه: [`content/plan.md`](content/plan.md)
 
 توکن بات در فایل `.env` (خارج از ریپو) نگه‌داری می‌شود و هرگز کامیت نمی‌گردد.
