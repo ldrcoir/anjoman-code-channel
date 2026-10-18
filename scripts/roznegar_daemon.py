@@ -95,11 +95,9 @@ def main():
                     log(f"جبران انتشار {kind} امروز (دیرهنگام)")
                     run_roznegar(kind)
 
-            # نزدیک‌ترین اسلات آینده
+            # نزدیک‌ترین اسلات آینده (next_run_for خودش اسلات‌های انجام‌شده امروز را رد می‌کند)
             candidates = []
             for kind, slot in SLOTS.items():
-                if slot_done_today(kind) and now.hour >= slot["hour"]:
-                    continue
                 nr = next_run_for(kind, slot)
                 candidates.append((nr, kind))
             candidates.sort()
@@ -122,4 +120,18 @@ def main():
 
 
 if __name__ == "__main__":
+    if "--detach" in sys.argv:
+        # خوددیمونیزه‌شدن با double-fork تا پردازه مستقل از session بماند (ppid=1)
+        import signal
+        pid = os.fork()
+        if pid > 0:
+            os.waitpid(pid, 0)
+            sys.exit(0)
+        os.setsid()
+        signal.signal(signal.SIGHUP, signal.SIG_IGN)
+        pid2 = os.fork()
+        if pid2 > 0:
+            os._exit(0)
+        sys.stdout = open(LOG, "a", buffering=1)
+        sys.stderr = sys.stdout
     main()
