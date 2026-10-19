@@ -77,17 +77,26 @@ def git(*args):
 
 
 def git_sync_with_remote(env):
-    """state را از گیت‌هاب تازه می‌کند تا پس از ریست سرور هم درست باشد"""
+    """state را از گیت‌هاب تازه می‌کند؛ اگر محلی جلوتر باشد چیزی از دست نمی‌رود"""
     tok = env.get("GITHUB_TOKEN")
     if not tok:
         log("pull: GITHUB_TOKEN نیست — رد شد")
         return
     push_url = GH_PUSH_URL_TPL.format(tok=tok)
-    git("fetch", push_url, "main")
-    r = git("reset", "--hard", "FETCH_HEAD")
-    if r.returncode == 0:
+    f = git("fetch", push_url, "main")
+    if f.returncode != 0:
+        log(f"pull: fetch ناموفق — ادامه با نسخهٔ محلی ({f.stderr[:150]})")
+        return
+    m = git("merge", "--ff-only", "FETCH_HEAD")
+    if m.returncode == 0:
         git("remote", "set-url", "origin", GH_REPO_URL)
-        log("pull: state از گیت‌هاب همگام شد")
+        if "Already up to date" not in (m.stdout or ""):
+            log("pull: از گیت‌هاب همگام شد")
+    else:
+        # واگرایی نادر — بازگشت به ریموت (فقط وقتی محلی قابل اعتماد نیست)
+        log(f"pull: ff-merge نشد ({(m.stdout or m.stderr)[:120]}) — reset به ریموت")
+        git("reset", "--hard", "FETCH_HEAD")
+        git("remote", "set-url", "origin", GH_REPO_URL)
 
 
 def git_push(env):
@@ -235,15 +244,16 @@ def publish(kind):
     shutil.rmtree(folder)
     log(f"آرشیو شد: posts/{dest_name}")
 
-    # ۴) آمار + commit + push
+    # ۴) ثبت state «قبل» از commit/push تا هیچ‌وقت با reset از دست نرود
+    mark_today(kind, dest_name)
+
+    # ۵) آمار + commit + push
     subprocess.run([sys.executable, str(REPO / "scripts" / "update_stats.py")],
                    check=False)
     git("add", "-A")
     git("commit", "-m",
         f"پست {code:03d} منتشر شد: {meta['title']} (دستهٔ {cat_fa})")
     git_push(env)
-
-    mark_today(kind, dest_name)
     return True
 
 
