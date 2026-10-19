@@ -1,32 +1,21 @@
 {
-  "updated": "2026-10-18T14:55:54+03:30",
-  "total": 2,
+  "updated": "2026-10-19T23:15:18+03:30",
+  "total": 1,
   "by_category": {
-    "AMOO": 2
+    "اطلاعیه": 1
   },
   "by_series": {
-    "آموزش پایتون از صفر": 2
+    "اطلاع‌رسانی انجمن کدنویسی": 1
   },
   "posts": [
     {
       "code": "001",
-      "title": "اولین برنامه‌ات را بنویس!",
-      "category": "AMOO",
-      "category_fa": "آموزشی",
-      "series": "python",
-      "lesson": 1,
-      "date": "2026-10-18",
-      "message_id": 8
-    },
-    {
-      "code": "002",
-      "title": "متغیرها؛ جعبه‌های داده",
-      "category": "AMOO",
-      "category_fa": "آموزشی",
-      "series": "python",
-      "lesson": 2,
-      "date": "2026-10-18",
-      "message_id": 7
+      "title": "تقویم انتشار کانال",
+      "category_fa": "اطلاعیه",
+      "series": "اطلاع‌رسانی انجمن کدنویسی",
+      "lesson": null,
+      "date": "2026-10-19",
+      "message_id": 13
     }
   ]
 }
