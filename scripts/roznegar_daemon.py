@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-روزنگار — دیمن زمان‌بند انتشار روزانهٔ انجمن کدنویسی
-=====================================================
-اسلات‌های انتشار (به‌وقت تهران):
-- درس پایتون (آموزشی): هر روز ساعت ۱۰:۰۰ صبح
-- پست متنوع (ترویجی/رویداد/معرفی/اطلاعیه): ساعت ۱۹:۰۰ فقط شنبه، سه‌شنبه و پنج‌شنبه
+روزنگار — دیمن زمان‌بند انتشار روزانهٔ همهٔ کانال‌ها (نسخه ۴ — چندانجمنی)
+==========================================================================
+هر کانال اسلات‌های انتشار خودش را از channels/<slug>/channel.json می‌خواند:
+- «lesson»: پیش‌فرض هر روز ۱۰:۰۰ صبح (پست اصلی/آموزشی)
+- «variety»: پیش‌فرض ۱۹:۰۰ شنبه، سه‌شنبه و پنج‌شنبه (پست متنوع)
 → هر روز ۱ پست و در آن سه روز ۲ پست (سقف ۳ پست در روز رعایت می‌شود)
 
-- در صورت ری‌استارت محیط، با اجرای مجدد این اسکریپت ادامه می‌دهد (pid-guard دارد).
-- اگر سر ساعت امروز گذشته باشد و هنوز منتشر نشده، بلافاصله جبران می‌کند.
+چندانجمنی:
+- دیمن همهٔ channels/*/channel.json (به‌جز _TEMPLATE) را کشف می‌کند
+- state هر کانال جداگانه است (channels/<slug>/content/state.json) — هیچ قاطی‌شدنی نیست
+- افزودن کانال جدید = افزودن پوشهٔ جدید؛ دیمن خودش وارد چرخه می‌شود (بدون ری‌استارت)
+
+مقاوم در برابر ریست سرور:
+- در صورت ری‌استارت، با اجرای مجدد همین اسکریپت (یا bootstrap.sh) ادامه می‌دهد
+- اگر سر ساعت امروز گذشته باشد و هنوز منتشر نشده، بلافاصله جبران می‌کند
 - لاگ: logs/roznegar_daemon.log
 """
 import os
 import sys
+import json
 import time
 import subprocess
 from datetime import datetime, timedelta
@@ -25,12 +32,11 @@ ROOT = Path("/home/z/my-project")
 REPO = ROOT / "anjoman-code-bot"
 PID = ROOT / ".roznegar.pid"
 LOG = ROOT / "logs" / "roznegar_daemon.log"
-STATE = REPO / "content" / "state.json"   # وضعیت داخل مخزن گیت (مقاوم به ریست)
 
-# درس: هر روز ۱۰:۰۰ | متنوع: شنبه/سه‌شنبه/پنج‌شنبه ۱۹:۰۰
-SLOTS = {
-    "lesson":  {"hour": 10, "minute": 0,  "days": None},            # هر روز
-    "variety": {"hour": 19, "minute": 0,  "days": {5, 1, 3}},       # شنبه/سه‌شنبه/پنج‌شنبه
+# weekday پایتون: شنبه=۵، یکشنبه=۶، دوشنبه=۰، … پنج‌شنبه=۳
+DEFAULT_SLOTS = {
+    "lesson":  {"hour": 10, "minute": 0, "days": None},
+    "variety": {"hour": 19, "minute": 0, "days": [5, 1, 3]},
 }
 
 
@@ -42,34 +48,68 @@ def log(msg):
         f.write(line + "\n")
 
 
-def run_roznegar(kind):
-    log(f"اجرای روزنگار ({kind}) …")
+def discover_channels():
+    """همهٔ کانال‌های تعریف‌شده را برمی‌گرداند: [(slug, slots, state_path)]"""
+    out = []
+    base = REPO / "channels"
+    if not base.exists():
+        return out
+    for d in sorted(base.iterdir()):
+        cj = d / "channel.json"
+        if not d.is_dir() or d.name.startswith("_") or not cj.exists():
+            continue
+        try:
+            cfg = json.loads(cj.read_text(encoding="utf-8"))
+        except Exception as e:
+            log(f"channel.json نامعتبر برای {d.name}: {e}")
+            continue
+        raw = cfg.get("schedule") or {}
+        slots = {}
+        for kind, s in raw.items():
+            days = s.get("days")
+            slots[kind] = {
+                "hour": int(s.get("hour", 10)),
+                "minute": int(s.get("minute", 0)),
+                "days": set(days) if days is not None else None,
+            }
+        if not slots:
+            slots = DEFAULT_SLOTS
+        out.append((cfg.get("slug", d.name), slots,
+                    d / "content" / "state.json"))
+    return out
+
+
+def run_roznegar(slug, kind):
+    log(f"اجرای روزنگار [{slug}] ({kind}) …")
     r = subprocess.run(
-        [sys.executable, str(ROOT / "anjoman-code-bot" / "scripts" / "roznegar.py"),
-         "--kind", kind],
+        [sys.executable, str(REPO / "scripts" / "roznegar.py"),
+         "--channel", slug, "--kind", kind],
         capture_output=True, text=True, timeout=600)
-    log(f"روزنگار ({kind}) finished rc={r.returncode}")
+    log(f"روزنگار [{slug}] ({kind}) finished rc={r.returncode}")
     for line in (r.stdout or "").strip().splitlines():
         log("  | " + line)
     if r.returncode != 0:
         log("  stderr: " + (r.stderr or "")[:400])
 
 
-def slot_done_today(kind):
-    """آیا اسلات امروز از طریق state روزنگار انجام شده؟ (state داخل مخزن گیت)"""
-    if not STATE.exists():
+def slot_done_today(state_path, kind):
+    """آیا اسلات امروزِ این کانال انجام شده؟ (state داخل مخزن گیت — مقاوم به ریست)"""
+    if not state_path.exists():
         return False
-    import json
-    s = json.loads(STATE.read_text(encoding="utf-8"))
-    return s.get(kind) == datetime.now(TEHRAN).date().isoformat()
+    try:
+        s = json.loads(state_path.read_text(encoding="utf-8"))
+        return s.get(kind) == datetime.now(TEHRAN).date().isoformat()
+    except Exception:
+        return False
 
 
-def next_run_for(kind, slot):
+def next_run_for(slots, kind, state_path):
+    slot = slots[kind]
     now = datetime.now(TEHRAN)
     run = now.replace(hour=slot["hour"], minute=slot["minute"],
                       second=0, microsecond=0)
     while True:
-        if run > now and not (run.date() == now.date() and slot_done_today(kind)):
+        if run > now and not (run.date() == now.date() and slot_done_today(state_path, kind)):
             if slot["days"] is None or run.weekday() in slot["days"]:
                 return run
         run = (run + timedelta(days=1)).replace(
@@ -83,39 +123,58 @@ def main():
             log(f"دیمن قبلی روزنگار با pid={old} در حال اجراست — خروج")
             return
     PID.write_text(str(os.getpid()))
-    log("دیمن روزنگار راه‌اندازی شد — درس ۱۰:۰۰ هر روز | متنوع ۱۹:۰۰ شنبه/سه‌شنبه/پنج‌شنبه")
+    log("دیمن روزنگار v4 (چندانجمنی) راه‌اندازی شد")
 
     try:
         while True:
+            channels = discover_channels()
+            if not channels:
+                log("هیچ کانالی تعریف نشده — ۱۰ دقیقه بعد دوباره بررسی می‌شود")
+                time.sleep(600)
+                continue
             now = datetime.now(TEHRAN)
-            # جبران دیرهنگام
-            for kind, slot in SLOTS.items():
-                if slot["days"] is not None and now.weekday() not in slot["days"]:
-                    continue
-                if now.hour >= slot["hour"] and not slot_done_today(kind):
-                    log(f"جبران انتشار {kind} امروز (دیرهنگام)")
-                    run_roznegar(kind)
 
-            # نزدیک‌ترین اسلات آینده (next_run_for خودش اسلات‌های انجام‌شده امروز را رد می‌کند)
+            # جبران دیرهنگام برای همهٔ کانال‌ها و همهٔ اسلات‌ها
+            for slug, slots, state_path in channels:
+                for kind, slot in slots.items():
+                    if slot["days"] is not None and now.weekday() not in slot["days"]:
+                        continue
+                    if (now.hour, now.minute) >= (slot["hour"], slot["minute"]) \
+                            and not slot_done_today(state_path, kind):
+                        log(f"[{slug}] جبران انتشار {kind} امروز (دیرهنگام)")
+                        run_roznegar(slug, kind)
+                        now = datetime.now(TEHRAN)
+
+            # نزدیک‌ترین اسلات آینده بین همهٔ کانال‌ها
             candidates = []
-            for kind, slot in SLOTS.items():
-                nr = next_run_for(kind, slot)
-                candidates.append((nr, kind))
+            for slug, slots, state_path in channels:
+                for kind in slots:
+                    candidates.append(
+                        (next_run_for(slots, kind, state_path), slug, kind))
             candidates.sort()
-            nr, kind = candidates[0]
+            nr, slug, kind = candidates[0]
             wait = (nr - datetime.now(TEHRAN)).total_seconds()
-            log(f"انتشار بعدی: {kind} @ {nr.isoformat()} — انتظار {int(wait/60)} دقیقه")
+            log(f"انتشار بعدی: [{slug}] {kind} @ {nr.isoformat()} — "
+                f"انتظار {int(wait/60)} دقیقه ({len(channels)} کانال فعال)")
             while wait > 0:
                 time.sleep(min(wait, 1800))
                 wait = (nr - datetime.now(TEHRAN)).total_seconds()
                 if wait > 3600:
                     break
-            # اجرای اسلات
-            slot = SLOTS[kind]
-            if slot["days"] is not None and datetime.now(TEHRAN).weekday() not in slot["days"]:
+
+            # اجرای اسلات (با بررسی مجدد روزِ هفته بعد از خواب)
+            slot = dict(DEFAULT_SLOTS.get(kind, {}))
+            for s, slots, _ in channels:
+                if s == slug:
+                    slot = slots[kind]
+                    break
+            if slot.get("days") is not None and \
+                    datetime.now(TEHRAN).weekday() not in slot["days"]:
                 continue
-            if not slot_done_today(kind):
-                run_roznegar(kind)
+            for s, _, state_path in channels:
+                if s == slug and not slot_done_today(state_path, kind):
+                    run_roznegar(slug, kind)
+                    break
     finally:
         PID.unlink(missing_ok=True)
 
