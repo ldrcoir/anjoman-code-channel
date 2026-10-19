@@ -13,15 +13,6 @@ TEHRAN = ZoneInfo("Asia/Tehran")
 REPO = Path("/home/z/my-project/anjoman-code-bot")
 POSTS = REPO / "posts"
 
-CAT_FA = {
-    "TROJ": "ترویجی",
-    "AMOO": "آموزشی",
-    "ROOY": "رویداد",
-    "MOAR": "معرفی",
-    "ETTE": "اطلاعیه",
-    "KHOL": "خلاقانه",
-}
-
 def main():
     posts = []
     for d in sorted(POSTS.iterdir()):
@@ -34,10 +25,9 @@ def main():
 
     by_cat, by_series = {}, {}
     for p in posts:
-        c = p.get("category", "?")
+        c = p.get("category_fa") or p.get("category") or "؟"
         by_cat[c] = by_cat.get(c, 0) + 1
         s = p.get("series") or "—"
-        s = "آموزش پایتون از صفر" if s == "python" or "پایتون" in str(s) else s
         by_series[s] = by_series.get(s, 0) + 1
 
     now = datetime.now(TEHRAN)
@@ -48,7 +38,7 @@ def main():
         "by_series": by_series,
         "posts": [
             {k: p.get(k) for k in
-             ("code", "title", "category", "category_fa", "series", "lesson", "date", "message_id")}
+             ("code", "title", "category_fa", "series", "lesson", "date", "message_id")}
             for p in posts
         ],
     }
@@ -64,10 +54,10 @@ def main():
     L.append("")
     L.append("## به تفکیک دستهٔ محتوا")
     L.append("")
-    L.append("| دسته | نام فارسی | تعداد |")
-    L.append("|------|-----------|-------|")
-    for c, n in sorted(by_cat.items()):
-        L.append(f"| {c} | {CAT_FA.get(c, '—')} | {n} |")
+    L.append("| دسته | تعداد |")
+    L.append("|------|-------|")
+    for c, n in sorted(by_cat.items(), key=lambda x: -x[1]):
+        L.append(f"| {c} | {n} |")
     L.append("")
     L.append("## به تفکیک سری/سری‌ها")
     L.append("")
@@ -82,7 +72,7 @@ def main():
     L.append("|----|-------|------|-----|-------|-------------|")
     for p in posts:
         lesson = p.get("lesson") or "—"
-        L.append(f"| {p.get('code')} | {p.get('title')} | {p.get('category')} | "
+        L.append(f"| {p.get('code')} | {p.get('title')} | {p.get('category_fa')} | "
                  f"{lesson} | {p.get('date')} | {p.get('message_id')} |")
     L.append("")
     (REPO / "content" / "stats.md").write_text("\n".join(L), encoding="utf-8")

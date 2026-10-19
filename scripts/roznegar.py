@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-روزنگار — سامانهٔ انتشار روزانهٔ انجمن کدنویسی
-================================================
-هر بار اجرا، یک پست از صف (content/queue/lessons یا content/queue/variety)
-را به کانال بله منتشر می‌کند:
+روزنگار — سامانهٔ انتشار روزانهٔ انجمن کدنویسی (نسخه ۳)
+========================================================
+مقاوم در برابر ریست سرور:
+- وضعیت انتشار (state.json) داخل مخزن گیت است؛ منبع حقیقتِ واحد گیت‌هاب است
+- در شروع اجرا state از گیت‌هاب pull می‌شود تا هیچ‌وقت گم یا تکراری نشود
+- بعد از هر انتشار: آمار + commit + push
 
-۱) انتخاب قدیمی‌ترین پست unpublished از صف انتخابی
-۲) رندر دو نسخهٔ عکس: برند (با نشان انجمن) + clean (بدون نام/آدرس انجمن)
+هر اجرا یک پست از صف (content/queue/lessons یا variety) منتشر می‌کند:
+۱) انتخاب قدیمی‌ترین پست منتشرنشدهٔ صف
+۲) رندر دو نسخهٔ عکس: برند + clean (بدون نام/آدرس انجمن)
 ۳) بایگانی متن کامل فارسی عکس در text.md
-۴) بررسی سادهٔ کیفیت (اندازه/وجود فایل)
-۵) ارسال نسخهٔ برند به کانال + ثبت شناسنامه در meta.json
-۶) انتقال به posts/ با کد سه‌رقمی جدید + به‌روزرسانی آمار + commit و push
+۴) بررسی کیفیت (اندازهٔ فایل)
+۵) ارسال به کانال + شناسنامهٔ meta.json با دستهٔ فارسی
+۶) انتقال به posts/NNN-... + آمار + commit و push
 
-مصرف: python3 roznegar.py --kind lesson  [--force] [--dry]
-state روزانه هر نوع پست جدا نگه داشته می‌شود (.publish_state.json)
+مصرف: python3 roznegar.py --kind lesson|variety [--force] [--dry]
 """
 import os
 import sys
@@ -39,9 +41,10 @@ REPO = ROOT / "anjoman-code-bot"
 QUEUE = REPO / "content" / "queue"
 POSTS = REPO / "posts"
 LOCK = ROOT / ".roznegar.lock"
-STATE = ROOT / ".publish_state.json"
+STATE = REPO / "content" / "state.json"          # داخل مخزن — نسخه‌پشتیبان گیت‌هاب
 LOG = ROOT / "logs" / "roznegar.log"
 GH_REPO_URL = "https://github.com/ldrcoir/anjoman-code-channel.git"
+GH_PUSH_URL_TPL = "https://ldrcoir:{tok}@github.com/ldrcoir/anjoman-code-channel.git"
 CHAT_ID = "5100057643"
 
 FORCE = "--force" in sys.argv
@@ -68,18 +71,59 @@ def load_env():
     return env
 
 
+def git(*args):
+    return subprocess.run(["git", "-C", str(REPO), *args],
+                          capture_output=True, text=True, timeout=180)
+
+
+def git_sync_with_remote(env):
+    """state را از گیت‌هاب تازه می‌کند تا پس از ریست سرور هم درست باشد"""
+    tok = env.get("GITHUB_TOKEN")
+    if not tok:
+        log("pull: GITHUB_TOKEN نیست — رد شد")
+        return
+    push_url = GH_PUSH_URL_TPL.format(tok=tok)
+    git("fetch", push_url, "main")
+    r = git("reset", "--hard", "FETCH_HEAD")
+    if r.returncode == 0:
+        git("remote", "set-url", "origin", GH_REPO_URL)
+        log("pull: state از گیت‌هاب همگام شد")
+
+
+def git_push(env):
+    tok = env.get("GITHUB_TOKEN")
+    if not tok:
+        log("push: GITHUB_TOKEN نیست — رد شد")
+        return
+    p = git("push", GH_PUSH_URL_TPL.format(tok=tok), "main")
+    git("remote", "set-url", "origin", GH_REPO_URL)
+    log("push: OK" if p.returncode == 0 else f"push FAILED: {p.stderr[:300]}")
+
+
+def read_state():
+    if STATE.exists():
+        try:
+            return json.loads(STATE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+
+def write_state(s):
+    STATE.write_text(json.dumps(s, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def already_today(kind):
     if STATE.exists() and not FORCE:
-        s = json.loads(STATE.read_text())
-        return s.get(kind) == datetime.now(TEHRAN).date().isoformat()
+        return read_state().get(kind) == datetime.now(TEHRAN).date().isoformat()
     return False
 
 
 def mark_today(kind, folder_name):
-    s = json.loads(STATE.read_text()) if STATE.exists() else {}
+    s = read_state()
     s[kind] = datetime.now(TEHRAN).date().isoformat()
     s[f"{kind}_last"] = folder_name
-    STATE.write_text(json.dumps(s, ensure_ascii=False))
+    write_state(s)
 
 
 def next_queue_item(kind):
@@ -90,9 +134,10 @@ def next_queue_item(kind):
 
 def next_code():
     nums = []
-    for d in POSTS.iterdir():
-        if d.is_dir() and d.name[:3].isdigit():
-            nums.append(int(d.name[:3]))
+    if POSTS.exists():
+        for d in POSTS.iterdir():
+            if d.is_dir() and d.name[:3].isdigit():
+                nums.append(int(d.name[:3]))
     return max(nums) + 1 if nums else 1
 
 
@@ -105,17 +150,12 @@ def load_spec_module(folder):
     return mod
 
 
-def git(*args):
-    return subprocess.run(["git", "-C", str(REPO), *args],
-                          capture_output=True, text=True, timeout=120)
-
-
 def send_photo(token, png, caption):
     with open(png, "rb") as f:
         r = requests.post(
             f"https://tapi.bale.ai/bot{token}/sendPhoto",
             data={"chat_id": CHAT_ID, "caption": caption},
-            files={"photo": (Path(png).name, f, "image/png")}, timeout=120)
+            files={"photo": (Path(png).name, f, "image/png")}, timeout=180)
     resp = r.json()
     if not resp.get("ok"):
         raise RuntimeError(f"Bale API: {resp}")
@@ -170,16 +210,13 @@ def publish(kind):
 
     # ۳) کد سه‌رقمی و انتقال به آرشیو
     code = next_code()
-    slug = folder.name
-    for pre in ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"):
-        if len(slug) > 4 and slug[0] == pre and slug[1] in "0123456789":
-            slug = slug.split("-", 1)[1] if "-" in slug else slug
+    slug = folder.name.split("-", 1)[1] if folder.name[:2].isdigit() and "-" in folder.name else folder.name
     dest_name = f"{code:03d}-{slug}"
+    cat_fa = SPEC.get("category_fa", "نامشخص")
     meta = {
         "number": code,
         "code": f"{code:03d}",
-        "category": SPEC.get("category", "?"),
-        "category_fa": SPEC.get("category_fa", ""),
+        "category_fa": cat_fa,
         "series": SPEC.get("series_label", ""),
         "lesson": SPEC.get("lesson_no"),
         "title": SPEC.get("title", folder.name),
@@ -187,6 +224,7 @@ def publish(kind):
         "message_id": message_id,
         "image": "post.png",
         "clean_image": "post-clean.png",
+        "statute": "شیوه‌نامه هفتمین دوره مسابقات کدنویسی پژوهش‌سراها ۱۴۰۴-۱۴۰۳",
     }
     dest = POSTS / dest_name
     if dest.exists():
@@ -197,19 +235,13 @@ def publish(kind):
     shutil.rmtree(folder)
     log(f"آرشیو شد: posts/{dest_name}")
 
-    # ۴) آمار + push
+    # ۴) آمار + commit + push
     subprocess.run([sys.executable, str(REPO / "scripts" / "update_stats.py")],
                    check=False)
     git("add", "-A")
     git("commit", "-m",
-        f"پست {code:03d} منتشر شد: {meta['title']} (دسته {meta['category']})")
-    gh = env.get("GITHUB_TOKEN")
-    if gh:
-        p = git("push", f"https://ldrcoir:{gh}@github.com/ldrcoir/anjoman-code-channel.git", "main")
-        git("remote", "set-url", "origin", GH_REPO_URL)
-        log("push: OK" if p.returncode == 0 else f"push FAILED: {p.stderr[:200]}")
-    else:
-        log("push skipped: GITHUB_TOKEN not found")
+        f"پست {code:03d} منتشر شد: {meta['title']} (دستهٔ {cat_fa})")
+    git_push(env)
 
     mark_today(kind, dest_name)
     return True
@@ -223,6 +255,8 @@ def main():
         except BlockingIOError:
             log("اجرای دیگری در جریان است — خروج")
             return
+        env = load_env()
+        git_sync_with_remote(env)
         if already_today(KIND):
             log(f"[{KIND}] امروز قبلاً منتشر شده — خروج")
             return

@@ -22,8 +22,10 @@ from pathlib import Path
 
 TEHRAN = ZoneInfo("Asia/Tehran")
 ROOT = Path("/home/z/my-project")
+REPO = ROOT / "anjoman-code-bot"
 PID = ROOT / ".roznegar.pid"
 LOG = ROOT / "logs" / "roznegar_daemon.log"
+STATE = REPO / "content" / "state.json"   # وضعیت داخل مخزن گیت (مقاوم به ریست)
 
 # درس: هر روز ۱۰:۰۰ | متنوع: شنبه/سه‌شنبه/پنج‌شنبه ۱۹:۰۰
 SLOTS = {
@@ -54,12 +56,11 @@ def run_roznegar(kind):
 
 
 def slot_done_today(kind):
-    """آیا اسلات امروز از طریق state روزنگار انجام شده؟"""
-    state = ROOT / ".publish_state.json"
-    if not state.exists():
+    """آیا اسلات امروز از طریق state روزنگار انجام شده؟ (state داخل مخزن گیت)"""
+    if not STATE.exists():
         return False
     import json
-    s = json.loads(state.read_text())
+    s = json.loads(STATE.read_text(encoding="utf-8"))
     return s.get(kind) == datetime.now(TEHRAN).date().isoformat()
 
 
