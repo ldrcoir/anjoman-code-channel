@@ -1,0 +1,22 @@
+{
+  "slug": "coding",
+  "name": "انجمن کدنویسی",
+  "association": "انجمن علمی‌پژوهشی کدنویسی",
+  "chat_id": "5100057643",
+  "handle": "@anjomanfaghihi",
+  "link": "ble.ir/anjomanfaghihi",
+  "bot_username": "pc_anjoman_1_bot",
+  "token_key": "BALE_TOKEN",
+  "brand_name": "انجمن کدنویسی",
+  "footer_label": "کانال انجمن کدنویسی",
+  "statute": "شیوه‌نامه هفتمین دوره مسابقات کدنویسی پژوهش‌سراها ۱۴۰۴-۱۴۰۳",
+  "schedule": {
+    "lesson":  { "hour": 10, "minute": 0, "days": null, "desc": "درس پایتون — هر روز" },
+    "variety": { "hour": 19, "minute": 0, "days": [5, 1, 3], "desc": "پست متنوع — شنبه/سه‌شنبه/پنج‌شنبه" }
+  },
+  "notes": [
+    "days بر پایهٔ weekday پایتون است: شنبه=۵، یکشنبه=۶، دوشنبه=۰، سه‌شنبه=۱، چهارشنبه=۲، پنج‌شنبه=۳، جمعه=۴",
+    "token_key کلید توکن باتِ همین کانال در فایل .env است؛ اگر توکن اختصاصی نبود مقدار BALE_TOKEN به‌عنوان پشتیبان خوانده می‌شود",
+    "دسته‌بندی محتوا هرگز روی عکس یا متن کانال نمی‌آید — فقط داخلی (meta/stats/plan/inventory) طبق شیوه‌نامه"
+  ]
+}

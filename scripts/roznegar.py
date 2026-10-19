@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-روزنگار — سامانهٔ انتشار روزانهٔ انجمن کدنویسی (نسخه ۳)
-========================================================
+روزنگار — سامانهٔ انتشار روزانهٔ کانال‌ها (نسخه ۴ — چندانجمنی)
+================================================================
+هر کانال/انجمن یک پوشهٔ مستقل دارد: channels/<slug>/ با شناسنامهٔ
+channel.json، صف، آرشیو، state و آمار خودش — هیچ قاطی‌شدنی در کار نیست،
+حتی اگر دو کانال به یک انجمن تعلق داشته باشند.
+
 مقاوم در برابر ریست سرور:
 - وضعیت انتشار (state.json) داخل مخزن گیت است؛ منبع حقیقتِ واحد گیت‌هاب است
 - در شروع اجرا state از گیت‌هاب pull می‌شود تا هیچ‌وقت گم یا تکراری نشود
 - بعد از هر انتشار: آمار + commit + push
 
-هر اجرا یک پست از صف (content/queue/lessons یا variety) منتشر می‌کند:
-۱) انتخاب قدیمی‌ترین پست منتشرنشدهٔ صف
-۲) رندر دو نسخهٔ عکس: برند + clean (بدون نام/آدرس انجمن)
+هر اجرا یک پست از صف همان کانال منتشر می‌کند:
+۱) انتخاب قدیمی‌ترین پست منتشرنشدهٔ صف (lessons یا variety)
+۲) رندر دو نسخهٔ عکس: برند + clean (بدون نام/آدرس انجمن) — بدون هیچ دسته‌بندی
 ۳) بایگانی متن کامل فارسی عکس در text.md
 ۴) بررسی کیفیت (اندازهٔ فایل)
-۵) ارسال به کانال + شناسنامهٔ meta.json با دستهٔ فارسی
+۵) ارسال به کانال + شناسنامهٔ meta.json (دسته فقط داخلی — طبق شیوه‌نامه)
 ۶) انتقال به posts/NNN-... + آمار + commit و push
 
-مصرف: python3 roznegar.py --kind lesson|variety [--force] [--dry]
+مصرف: python3 roznegar.py --channel <slug> --kind lesson|variety [--force] [--dry]
 """
 import os
 import sys
@@ -31,21 +35,16 @@ from pathlib import Path
 
 import requests
 
-sys.path.insert(0, "/home/z/my-project/scripts")
-sys.path.insert(0, "/home/z/my-project/anjoman-code-bot/scripts")
-from poster_lib import render, spec_text
-
-TEHRAN = ZoneInfo("Asia/Tehran")
 ROOT = Path("/home/z/my-project")
 REPO = ROOT / "anjoman-code-bot"
-QUEUE = REPO / "content" / "queue"
-POSTS = REPO / "posts"
+sys.path.insert(0, str(REPO / "scripts"))
+from poster_lib import render, spec_text, set_channel  # noqa: E402
+
+TEHRAN = ZoneInfo("Asia/Tehran")
 LOCK = ROOT / ".roznegar.lock"
-STATE = REPO / "content" / "state.json"          # داخل مخزن — نسخه‌پشتیبان گیت‌هاب
 LOG = ROOT / "logs" / "roznegar.log"
 GH_REPO_URL = "https://github.com/ldrcoir/anjoman-code-channel.git"
 GH_PUSH_URL_TPL = "https://ldrcoir:{tok}@github.com/ldrcoir/anjoman-code-channel.git"
-CHAT_ID = "5100057643"
 
 FORCE = "--force" in sys.argv
 DRY = "--dry" in sys.argv
@@ -74,6 +73,24 @@ def load_env():
 def git(*args):
     return subprocess.run(["git", "-C", str(REPO), *args],
                           capture_output=True, text=True, timeout=180)
+
+
+def load_channel(slug):
+    """شناسنامهٔ کانال را می‌خواند و مسیرها را برمی‌گرداند"""
+    chdir = REPO / "channels" / slug
+    cj = chdir / "channel.json"
+    if not cj.exists():
+        raise FileNotFoundError(f"کانال «{slug}» وجود ندارد: {cj}")
+    cfg = json.loads(cj.read_text(encoding="utf-8"))
+    cfg["_dir"] = str(chdir)
+    logo = chdir / "assets" / "logo.png"
+    cfg["_logo_path"] = str(logo) if logo.exists() else ""
+    return cfg
+
+
+def token_for(env, cfg):
+    tok = env.get(cfg.get("token_key") or "")
+    return tok or env.get("BALE_TOKEN")
 
 
 def git_sync_with_remote(env):
@@ -109,42 +126,36 @@ def git_push(env):
     log("push: OK" if p.returncode == 0 else f"push FAILED: {p.stderr[:300]}")
 
 
-def read_state():
-    if STATE.exists():
-        try:
-            return json.loads(STATE.read_text(encoding="utf-8"))
-        except Exception:
-            pass
-    return {}
-
-
-def write_state(s):
-    STATE.write_text(json.dumps(s, ensure_ascii=False, indent=2), encoding="utf-8")
-
-
-def already_today(kind):
-    if STATE.exists() and not FORCE:
-        return read_state().get(kind) == datetime.now(TEHRAN).date().isoformat()
+def already_today(state_path, kind):
+    if state_path.exists() and not FORCE:
+        s = json.loads(state_path.read_text(encoding="utf-8"))
+        return s.get(kind) == datetime.now(TEHRAN).date().isoformat()
     return False
 
 
-def mark_today(kind, folder_name):
-    s = read_state()
+def mark_today(state_path, kind, folder_name):
+    s = {}
+    if state_path.exists():
+        try:
+            s = json.loads(state_path.read_text(encoding="utf-8"))
+        except Exception:
+            s = {}
     s[kind] = datetime.now(TEHRAN).date().isoformat()
     s[f"{kind}_last"] = folder_name
-    write_state(s)
+    state_path.write_text(json.dumps(s, ensure_ascii=False, indent=2),
+                          encoding="utf-8")
 
 
-def next_queue_item(kind):
-    base = QUEUE / ("lessons" if kind == "lesson" else "variety")
+def next_queue_item(queue_dir, kind):
+    base = queue_dir / ("lessons" if kind == "lesson" else "variety")
     dirs = sorted([d for d in base.iterdir() if d.is_dir()]) if base.exists() else []
     return dirs[0] if dirs else None
 
 
-def next_code():
+def next_code(posts_dir):
     nums = []
-    if POSTS.exists():
-        for d in POSTS.iterdir():
+    if posts_dir.exists():
+        for d in posts_dir.iterdir():
             if d.is_dir() and d.name[:3].isdigit():
                 nums.append(int(d.name[:3]))
     return max(nums) + 1 if nums else 1
@@ -159,11 +170,11 @@ def load_spec_module(folder):
     return mod
 
 
-def send_photo(token, png, caption):
+def send_photo(token, chat_id, png, caption):
     with open(png, "rb") as f:
         r = requests.post(
             f"https://tapi.bale.ai/bot{token}/sendPhoto",
-            data={"chat_id": CHAT_ID, "caption": caption},
+            data={"chat_id": chat_id, "caption": caption},
             files={"photo": (Path(png).name, f, "image/png")}, timeout=180)
     resp = r.json()
     if not resp.get("ok"):
@@ -171,20 +182,26 @@ def send_photo(token, png, caption):
     return resp["result"]["message_id"]
 
 
-def publish(kind):
-    env = load_env()
-    token = env.get("BALE_TOKEN")
+def publish(cfg, kind, env):
+    slug = cfg["slug"]
+    chdir = Path(cfg["_dir"])
+    queue = chdir / "content" / "queue"
+    posts = chdir / "posts"
+    state_path = chdir / "content" / "state.json"
+    chat_id = cfg["chat_id"]
+    token = token_for(env, cfg)
     if not token:
-        log("ERROR: BALE_TOKEN not found")
+        log(f"ERROR: توکن کانال {slug} یافت نشد ({cfg.get('token_key')})")
         return False
 
-    folder = next_queue_item(kind)
+    folder = next_queue_item(queue, kind)
     if not folder:
-        log(f"صف {kind} خالی است — پست جدید اضافه شود")
+        log(f"صف {kind} کانال {slug} خالی است — پست جدید اضافه شود")
         return False
-    log(f"[{kind}] انتخاب پست: {folder.name}")
+    log(f"[{slug}/{kind}] انتخاب پست: {folder.name}")
 
-    # ۱) رندر
+    # ۱) برند همان کانال ست می‌شود — هر عکس با شناسنامهٔ کانال خودش رندر می‌شود
+    set_channel(cfg)
     try:
         mod = load_spec_module(folder)
         SPEC = mod.SPEC
@@ -211,20 +228,21 @@ def publish(kind):
     # ۲) ارسال به کانال
     caption = (folder / "caption.txt").read_text(encoding="utf-8").strip()
     try:
-        message_id = send_photo(token, png, caption)
-        log(f"منتشر شد در کانال — message_id={message_id}")
+        message_id = send_photo(token, chat_id, png, caption)
+        log(f"منتشر شد در کانال {cfg.get('handle', chat_id)} — message_id={message_id}")
     except Exception as e:
         log(f"ERROR send {folder.name}: {e}")
         return False
 
-    # ۳) کد سه‌رقمی و انتقال به آرشیو
-    code = next_code()
-    slug = folder.name.split("-", 1)[1] if folder.name[:2].isdigit() and "-" in folder.name else folder.name
-    dest_name = f"{code:03d}-{slug}"
-    cat_fa = SPEC.get("category_fa", "نامشخص")
+    # ۳) کد سه‌رقمیِ «همین کانال» و انتقال به آرشیوِ همین کانال
+    code = next_code(posts)
+    slug_in_name = folder.name.split("-", 1)[1] if folder.name[:2].isdigit() and "-" in folder.name else folder.name
+    dest_name = f"{code:03d}-{slug_in_name}"
+    cat_fa = SPEC.get("category_fa", "نامشخص")   # دسته فقط داخلی — طبق شیوه‌نامه
     meta = {
         "number": code,
         "code": f"{code:03d}",
+        "channel": slug,
         "category_fa": cat_fa,
         "series": SPEC.get("series_label", ""),
         "lesson": SPEC.get("lesson_no"),
@@ -233,31 +251,36 @@ def publish(kind):
         "message_id": message_id,
         "image": "post.png",
         "clean_image": "post-clean.png",
-        "statute": "شیوه‌نامه هفتمین دوره مسابقات کدنویسی پژوهش‌سراها ۱۴۰۴-۱۴۰۳",
+        "statute": cfg.get("statute", ""),
     }
-    dest = POSTS / dest_name
+    dest = posts / dest_name
     if dest.exists():
         shutil.rmtree(dest)
     shutil.copytree(folder, dest)
     (dest / "meta.json").write_text(
         json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     shutil.rmtree(folder)
-    log(f"آرشیو شد: posts/{dest_name}")
+    log(f"آرشیو شد: channels/{slug}/posts/{dest_name}")
 
     # ۴) ثبت state «قبل» از commit/push تا هیچ‌وقت با reset از دست نرود
-    mark_today(kind, dest_name)
+    mark_today(state_path, kind, dest_name)
 
     # ۵) آمار + commit + push
-    subprocess.run([sys.executable, str(REPO / "scripts" / "update_stats.py")],
-                   check=False)
+    subprocess.run([sys.executable, str(REPO / "scripts" / "update_stats.py"),
+                    "--channel", slug], check=False)
     git("add", "-A")
     git("commit", "-m",
-        f"پست {code:03d} منتشر شد: {meta['title']} (دستهٔ {cat_fa})")
+        f"[{slug}] پست {code:03d} منتشر شد: {meta['title']} (دستهٔ {cat_fa})")
     git_push(env)
     return True
 
 
 def main():
+    slug = "coding"
+    if "--channel" in sys.argv:
+        i = sys.argv.index("--channel")
+        if i + 1 < len(sys.argv):
+            slug = sys.argv[i + 1]
     LOCK.parent.mkdir(exist_ok=True)
     with open(LOCK, "w") as lf:
         try:
@@ -267,10 +290,11 @@ def main():
             return
         env = load_env()
         git_sync_with_remote(env)
-        if already_today(KIND):
-            log(f"[{KIND}] امروز قبلاً منتشر شده — خروج")
+        cfg = load_channel(slug)
+        if not DRY and already_today(Path(cfg["_dir"]) / "content" / "state.json", KIND):
+            log(f"[{slug}/{KIND}] امروز قبلاً منتشر شده — خروج")
             return
-        ok = publish(KIND)
+        ok = publish(cfg, KIND, env)
         log("پایان موفق" if ok else "پایان بدون انتشار")
 
 

@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-poster_lib — کتابخانه مشترک تولید عکس‌نوشته کانال انجمن کدنویسی (نسخه ۲)
-امکانات نسخه ۲:
+poster_lib — کتابخانه مشترک تولید عکس‌نوشته برای همهٔ کانال‌ها (نسخه ۴)
+قاعدهٔ طلایی: دسته‌بندی محتوا هرگز روی عکس یا متن کانال نوشته نمی‌شود؛
+دسته فقط داخلی است (meta.json / stats / plan / inventory) طبق شیوه‌نامه.
+
+معماری چندانجمنی:
+- هر کانال شناسنامهٔ خودش را در channels/<slug>/channel.json دارد
+- قبل از رندر، roznegar.py با set_channel(cfg) برند همان کانال را ست می‌کند:
+  نام برند، پانویس، آیدی کانال و لوگوی اختصاصی channels/<slug>/assets/logo.png
+
+امکانات:
 - چیپ شماره درس («درس ۱») در ردیف بالای عکس
-- خط دستهٔ محتوا («دسته: آموزشی (AMOO)») در ردیف برچسب سری
-- فاصلهٔ بیشتر بین نشان «انجمن کدنویسی» و متن‌های فارسی (بازخورد کاربر)
 - نسخهٔ clean بدون نام/آدرس انجمن (برند=False) برای استفادهٔ آزاد
-- ذخیرهٔ متن فارسی هر عکس با spec_text()
-- هوک لوگوی اختصاصی: اگر assets/logo.png موجود باشد به‌جای نشان متنی می‌نشیند
+- ذخیرهٔ متن فارسی هر عکس با spec_text() (بدون هیچ اشارهٔ دسته‌بندی)
+- هوک لوگوی اختصاصی هر کانال
 رندر فارسی: Pillow + libraqm (direction='rtl' روی متن خام)
 """
 from pathlib import Path
@@ -24,7 +30,28 @@ FONTS = {
     "fa_med":   f"{FONT_DIR}/Vazirmatn-Medium.ttf",
     "fa_black": f"{FONT_DIR}/Vazirmatn-Black.ttf",
 }
-LOGO_PATH = Path("/home/z/my-project/anjoman-code-bot/assets/logo.png")
+# ---------- شناسنامهٔ کانال فعال (چندانجمنی) ----------
+# مقدار پیش‌فرض فقط برای اجرای مستقل spec ها؛ roznegar قبل از رندر set_channel می‌زند
+CHANNEL = {
+    "slug": "coding",
+    "brand_name": "انجمن کدنویسی",
+    "footer_label": "کانال انجمن کدنویسی",
+    "handle": "@anjomanfaghihi",
+}
+LOGO_PATH = Path("")
+
+
+def set_channel(cfg):
+    """شناسنامهٔ کانال فعال را قبل از رندر ست می‌کند (فراخوانی از roznegar)"""
+    global CHANNEL, LOGO_PATH
+    CHANNEL = {
+        "slug": cfg.get("slug", "coding"),
+        "brand_name": cfg.get("brand_name", "انجمن کدنویسی"),
+        "footer_label": cfg.get("footer_label", "کانال انجمن کدنویسی"),
+        "handle": cfg.get("handle", "@anjomanfaghihi"),
+    }
+    logo = cfg.get("_logo_path")
+    LOGO_PATH = Path(logo) if logo else Path("")
 
 def font(family, size):
     return ImageFont.truetype(FONTS[family], size)
@@ -125,8 +152,8 @@ def add_decor(img):
 
 # ---------- اجزا ----------
 def badge(d, y, img):
-    """نشان بالا-راست: لوگوی اختصاصی (اگر موجود باشد) یا متن «انجمن کدنویسی»"""
-    if LOGO_PATH.exists():
+    """نشان بالا-راست: لوگوی اختصاصی کانال (اگر موجود باشد) یا متن برند"""
+    if LOGO_PATH and LOGO_PATH.exists():
         try:
             logo = Image.open(LOGO_PATH).convert("RGBA")
             lh = 62
@@ -138,7 +165,7 @@ def badge(d, y, img):
             pass
     f = font("fa_bold", 30)
     fi = font("mono", 30)
-    label, icon = "انجمن کدنویسی", "</>"
+    label, icon = CHANNEL["brand_name"], "</>"
     lw = d.textlength(label, font=f, direction="rtl")
     iw = d.textlength(icon, font=fi, direction="ltr")
     pad, gap = 26, 14
@@ -241,7 +268,9 @@ def grid(d, y, sec):
     rows = (len(items) + 1) // 2
     return y + rows * ch + (rows - 1) * gy
 
-def footer(d, y, label="کانال انجمن کدنویسی", handle="@anjomanfaghihi"):
+def footer(d, y, label=None, handle=None):
+    label = label or CHANNEL["footer_label"]
+    handle = handle or CHANNEL["handle"]
     f = font("fa_bold", 30)
     fmono = font("mono", 30)
     w1 = d.textlength(label, font=f, direction="rtl")
@@ -278,7 +307,10 @@ def footer_clean(d, y, label):
 # ---------- رندر اصلی ----------
 def render(spec, out_path, brand=True):
     """spec: {series_label, lesson_no?, title, title_size?, subtitle, sections[],
-              note?, category_fa?, category_code?, clean_footer?}"""
+              note?, clean_footer?}
+    توجه: دسته‌بندی محتوا عمداً روی عکس نمی‌آید (قاعدهٔ دائمی — بازخورد کاربر).
+    دسته فقط در meta.json/stats ثبت می‌شود.
+    """
     img = add_decor(make_background())
     d = ImageDraw.Draw(img, "RGBA")
     y = 46
@@ -289,12 +321,6 @@ def render(spec, out_path, brand=True):
     # فاصلهٔ استاندارد بین ردیف بالا و متن‌ها (اصلاح بازخورد: نزدیک نبودن برند به متن)
     y = 46 + 62 + 54
     rtl_right(d, spec["series_label"], font("fa_med", 33), ACCENT, W - MARGIN, y)
-    cat_fa = spec.get("category_fa")
-    cat_code = spec.get("category_code") or spec.get("category")
-    if brand and cat_fa:
-        d.text((MARGIN, y + 7),
-               f"دسته: {cat_fa} ({cat_code})",
-               font=font("fa_med", 26), fill=MUTED, direction="rtl", anchor="la")
     y += 50
     tsize = spec.get("title_size", 62)
     rtl_right(d, spec["title"], font("fa_black", tsize), WHITE, W - MARGIN, y)
@@ -364,7 +390,5 @@ def spec_text(spec):
     if spec.get("note"):
         L.append(f"نکته: {spec['note']}")
         L.append("")
-    if spec.get("category_fa"):
-        cat_code = spec.get("category_code") or spec.get("category")
-        L.append(f"دستهٔ محتوا: {spec['category_fa']} (کد {cat_code})")
+    # دسته‌بندی عمداً در متن هم نمی‌آید — فقط داخلی است
     return "\n".join(L)
