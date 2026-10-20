@@ -206,7 +206,7 @@ def code_block(d, y, sec):
         cx = x0 + 30 + i * 34
         d.ellipse([cx - 9, dot_y - 9, cx + 9, dot_y + 9], fill=c)
     ff = font("mono", 26)
-    fname = sec.get("name", "main.py")
+    fname = sec.get("name", "main.rs")
     fw = d.textlength(fname, font=ff, direction="ltr")
     d.text(((x0 + x1) / 2 - fw / 2, y + bar_h / 2 - 15), fname, font=ff,
            fill=MUTED, direction="ltr")
@@ -370,8 +370,8 @@ def spec_text(spec):
     L.append("")
     for sec in spec["sections"]:
         if sec["type"] == "code":
-            L.append(f"فایل «{sec.get('name', 'main.py')}»:")
-            L.append("```python")
+            L.append(f"فایل «{sec.get('name', 'main.rs')}»:")
+            L.append("```rust")
             for item in sec["lines"]:
                 if "sep" in item:
                     L.append(f"# ──── {item['sep']} ────")

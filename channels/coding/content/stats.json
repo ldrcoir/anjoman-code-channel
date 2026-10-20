@@ -1,25 +1,14 @@
 {
-  "updated": "2026-10-20T11:03:46+03:30",
+  "updated": "2026-10-20T15:53:54+03:30",
   "channel": "coding",
-  "total": 2,
+  "total": 1,
   "by_category": {
-    "رویداد": 1,
     "آموزشی": 1
   },
   "by_series": {
-    "چالش هفتگی انجمن": 1,
     "آموزش Rust از صفر": 1
   },
   "posts": [
-    {
-      "code": "005",
-      "title": "چالش هفتگی ۱",
-      "category_fa": "رویداد",
-      "series": "چالش هفتگی انجمن",
-      "lesson": null,
-      "date": "2026-10-20",
-      "message_id": 17
-    },
     {
       "code": "006",
       "title": "Rust چیست و چرا؟",

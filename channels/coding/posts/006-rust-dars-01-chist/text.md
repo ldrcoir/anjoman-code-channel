@@ -4,7 +4,7 @@
 زبانی که سرعت و امنیت را با هم می‌دهد
 
 فایل «main.rs»:
-```python
+```rust
 // اولین نگاه به Rust
 fn main() {
     println!("Salam, donya!");
