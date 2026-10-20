@@ -4,7 +4,7 @@
 حرف زدن با صفحه؛ با جای‌خالی‌های {}
 
 فایل «src/main.rs»:
-```python
+```rust
 println!("Salam, donya!");
 println!("javab: {}", 42);
 println!("{} + {} = {}", 2, 3, 5);

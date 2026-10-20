@@ -4,14 +4,14 @@
 با rustup نصب کن، با cargo اجرا کن
 
 فایل «terminal»:
-```python
+```rust
 $ cargo new salam
 $ cd salam
 $ cargo run
 ```
 
 فایل «src/main.rs»:
-```python
+```rust
 fn main() {
     println!("Salam, donya!");
 }
