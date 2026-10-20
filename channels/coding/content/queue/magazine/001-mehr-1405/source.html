@@ -1,0 +1,87 @@
+<html><head><meta charset='utf-8'><style>
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Regular.ttf'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Medium.ttf'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Bold.ttf'); font-weight:700; }
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Black.ttf'); font-weight:900; }
+@page { size:A4; margin:0; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body { font-family:'Vazirmatn'; direction:rtl; color:#1c2340; font-size:13.5px; line-height:2; }
+.page { width:210mm; height:296mm; padding:16mm 15mm 14mm; page-break-after:always; position:relative; overflow:hidden; background:#fff; }
+.page:last-child { page-break-after:auto; }
+.brandbar { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #22D3EE; padding-bottom:6px; margin-bottom:26px; }
+.brandbar .b { font-weight:900; font-size:15px; color:#0D1230; }
+.brandbar .n { font-weight:700; font-size:12px; color:#64748B; direction:ltr; }
+.mono { font-family:'DejaVu Sans Mono', monospace; direction:ltr; }
+h1.cover { font-weight:900; font-size:44px; line-height:1.5; color:#0D1230; margin-top:26mm; }
+.cover-sub { font-size:17px; color:#334155; font-weight:700; margin-top:4mm; }
+.cover-date { display:inline-block; background:#0D1230; color:#fff; border-radius:12px; padding:2px 18px; font-weight:700; font-size:15px; margin-top:6mm; }
+.toc { margin-top:14mm; border:1.5px solid #E2E8F0; border-radius:14px; padding:8mm 10mm; }
+.toc h3 { color:#22D3EE; font-size:15px; font-weight:900; margin-bottom:4mm; }
+.toc .row { display:flex; justify-content:space-between; border-bottom:1px dashed #E2E8F0; padding:2.2mm 0; font-weight:500; }
+.toc .row:last-child { border-bottom:none; }
+.toc .pg { color:#22D3EE; font-weight:900; direction:ltr; }
+.cover-foot { position:absolute; bottom:12mm; right:15mm; left:15mm; text-align:center; color:#64748B; font-size:12px; border-top:1px solid #E2E8F0; padding-top:4mm; }
+h2.sec { font-weight:900; font-size:23px; color:#0D1230; margin-bottom:5mm; }
+h2.sec span { color:#22D3EE; }
+p { text-align:justify; margin-bottom:4mm; }
+.news h3 { font-size:15.5px; font-weight:900; color:#0E7490; margin:4mm 0 1mm; }
+.news .item { border-right:3.5px solid #22D3EE; padding-right:5mm; margin-bottom:5.5mm; }
+.hl { background:#ECFEFF; border:1.5px solid #A5F3FC; border-radius:12px; padding:5mm 7mm; margin-top:6mm; font-weight:700; }
+.codebox { background:#0D1230; color:#E2E8F0; border-radius:12px; padding:5mm 7mm; direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace; font-size:12.5px; line-height:1.9; margin:3mm 0 4mm; }
+.codebox .fn { color:#C4B5FD; } .codebox .str { color:#A6D6A7; } .codebox .out { color:#FCD34D; }
+.codebox .lbl { color:#94A3B8; direction:rtl; text-align:right; font-family:'Vazirmatn'; font-size:11.5px; border-bottom:1px solid #334155; padding-bottom:2mm; margin-bottom:2.5mm; }
+table.g { width:100%; border-collapse:collapse; margin-top:3mm; }
+table.g td { border-bottom:1px solid #E2E8F0; padding:2.6mm 3mm; vertical-align:top; }
+table.g td.k { font-weight:900; color:#0E7490; width:34mm; direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace; }
+.two { display:flex; gap:8mm; } .two > div { flex:1; }
+.card { border:1.5px solid #E2E8F0; border-radius:12px; padding:4mm 6mm; margin-bottom:4mm; }
+.card h4 { font-weight:900; font-size:14.5px; color:#0D1230; margin-bottom:1mm; }
+.card .c { direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace; font-weight:700; color:#0E7490; font-size:12.5px; }
+.card p { margin:0; font-size:12.8px; }
+.bigfoot { position:absolute; bottom:11mm; right:15mm; left:15mm; background:#0D1230; color:#fff; border-radius:14px; padding:4.5mm 8mm; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; font-weight:700; }
+.bigfoot .l { direction:ltr; color:#22D3EE; font-family:'DejaVu Sans Mono', monospace; }
+.cal .row { display:flex; gap:5mm; margin-bottom:4.5mm; }
+.cal .when { min-width:42mm; background:#ECFEFF; border:1.5px solid #A5F3FC; border-radius:10px; text-align:center; font-weight:900; color:#0E7490; padding:2.5mm 2mm; font-size:12.5px; }
+.cal .what { flex:1; border-bottom:1px dashed #E2E8F0; padding:2.5mm 0; }
+</style></head><body>
+<div class='page'>
+  <div class='brandbar'><div class='b'>نشریهٔ الکترونیکی انجمن علمی‌پژوهشی کدنویسی</div><div class='n mono'>@anjomanfaghihi</div></div>
+  <h1 class='cover'>مجلهٔ انجمن کدنویسی</h1>
+  <div class='cover-sub'>خبر، معرفی زبان و نرم‌افزار، ترفند و تقویم — به انتخاب اعضای انجمن</div>
+  <div class='cover-date'>شمارهٔ ۱ · مهر ۱۴۰۵</div>
+  <div class='toc'><h3>فهرست این شماره</h3><div class='row'><span>سرمقاله؛ چرا نشریه؟</span><span class='pg'>۲</span></div><div class='row'><span>خبرهای انجمن</span><span class='pg'>۲</span></div><div class='row'><span>معرفی زبان؛ Rust</span><span class='pg'>۳</span></div><div class='row'><span>معرفی نرم‌افزار؛ VS Code</span><span class='pg'>۴</span></div><div class='row'><span>ترفند ماه؛ cargo</span><span class='pg'>۴</span></div><div class='row'><span>تقویم شمارهٔ بعد</span><span class='pg'>۵</span></div></div>
+  <div class='cover-foot'>نسخهٔ کامل در قالب PDF — برای مطالعه، دانلود و چاپ · کانال انجمن کدنویسی: ble.ir/anjomanfaghihi</div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۱</div></div>
+  <h2 class='sec'>◈ سرمقاله؛ چرا نشریه؟</h2>
+  <p>انجمن علمی‌پژوهشی کدنویسی امسال با یک هدف روشن شروع شده است: ترویج فرهنگ کدنویسی میان دانش‌آموزان و مستندسازی قدم‌به‌قدم این مسیر در کانال انجمن. هر روز درس، هر هفته پست‌های متنوع و هر ماه یک نشریه؛ این نشریه آینهٔ کاری یک ماهِ انجمن است و در قالب PDF برای مطالعه، دانلود و چاپ آماده می‌شود.</p><p>در شمارهٔ نخست به سراغ سه چیز رفتیم: خبرهای خودِ انجمن، معرفی زبان Rust که درس‌های روزانهٔ ما روی آن سوار است، و معرفی نرم‌افزار VS Code که کارگاه کدنویسی هر دانش‌آموز است. در پایان هم ترفندی ساده برای ساخت و اجرای پروژه‌ها آورده‌ایم و تقویم ماه آینده را گفته‌ایم.</p>
+  <h2 class='sec' style='margin-top:6mm'>◈ خبرهای انجمن</h2>
+  <div class='item'><h3>آغاز سری «آموزش Rust از صفر»</h3><p>سری درس‌های روزانهٔ Rust از این ماه شروع شد. درس اول با عنوان «Rust چیست و چرا؟» منتشر شده و از این به بعد هر روز ساعت ۱۰ صبح یک درس جدید در کانال می‌گذاریم: از نصب و اولین برنامه تا متغیرها و چاپ متن. هدف این است که هرکس از صفر شروع کند، بدون اینکه چیزی از قلم بیفتد.</p></div><div class='item'><h3>کارگاه عملی جلسهٔ اول برگزار شد</h3><p>اولین جلسهٔ کارگاه عملی کدنویسی با استقبال اعضا برگزار شد؛ شرکت‌کننده‌ها اولین برنامهٔ خودشان را نوشتند و اجرا کردند. تمرین‌های جلسه در کانال منتشر شده و جلسهٔ بعدی به‌زودی اعلام می‌شود. اگر جایی از تمرین‌ها گیر کردی، همین حالا در کانال بپرس.</p></div><div class='item'><h3>مسیرهای مسابقات کدنویسی جشنواره</h3><p>مسابقات کدنویسی جشنوارهٔ علمی‌پژوهشی پژوهش‌سراها پنج مسیر دارد: برنامه‌نویسی، طراحی وب، هوش مصنوعی، دستگاه‌های هوشمند و بازی‌سازی. شرکت به‌صورت تیم دو نفره است و شرایط عمومی (منطقه، دوره و جنسیت یکسان اعضای تیم) طبق شیوه‌نامه بررسی می‌شود. جزئیات و زمان ثبت‌نام را به‌محض اعلام رسمی در کانال می‌خوانید.</p></div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۱</div></div>
+  <h2 class='sec'>◈ معرفی زبان؛ Rust</h2>
+  <p>Rust زبانی است که سرعت و امنیت را با هم می‌دهد؛ به همین دلیل سال‌ها محبوب‌ترین زبان در نظرسنجی‌های معتبر توسعه‌دهندگان بوده است. Rust بدون زباله‌روب (GC) کار می‌کند و سرعتی هم‌ردیف C دارد، ولی تفاوت اصلی‌اش این است که خطاهای حافظه — همان مشکلات خطرناک زبان‌های قدیمی — را پیش از اجرا، همان موقعِ کامپایل می‌گیرد.</p><p>این زبان امروز در پروژه‌های بزرگراهِ دنیای نرم‌افزار نقش دارد: بخش‌هایی از هستهٔ لینوکس، موتور مرورگر فایرفاکس و اجزایی از ویندوز با Rust نوشته شده‌اند. برای دانش‌آموزی که می‌خواهد مفهومی یاد بگیرد و به سؤال «چرا این کد خراب شد؟» جواب دقیق بگیرد، Rust معلم سخت‌گیر ولی مهربانی است.</p><p>درس اول سری ما همین نگاه را داد: یک برنامهٔ Rust فقط تابع main می‌خواهد و یک خط خوش‌آمد. کد زیر را ببینید — همان برنامه‌ای که در درس ۱ اجرا کردیم:</p>
+  <div class='codebox'><div class='lbl'>src/main.rs</div>fn main() {<br>    println!("Salam, donya!");<br>}<br><br>
+  <span class='lbl' style='display:block'>خروجی:</span><span class='out'>Salam, donya!</span></div>
+  <table class='g'><tr><td class='k'>fn</td><td>تعریف تابع؛ هر برنامهٔ Rust از main شروع می‌شود</td></tr><tr><td class='k'>println!</td><td>ماکروی چاپ متن روی صفحه؛ علامت ! آن را از تابع معمولی جدا می‌کند</td></tr><tr><td class='k'>cargo</td><td>ابزار رسمی ساخت و اجرای پروژه‌های Rust</td></tr></table>
+  <div class='hl'>🦀 تمرین شمارهٔ ۱: در یک جمله بنویس دوست داری با Rust چه چیزی بسازی و به کانال بفرست؛ پاسخ‌های خوب در شمارهٔ بعدی نشریه می‌آید.</div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۱</div></div>
+  <h2 class='sec'>◈ معرفی نرم‌افزار؛ VS Code</h2>
+  <p>Visual Studio Code (VS Code) یک ویرایشگر متن رایگان و سبک است که این روزها به رایج‌ترین محیط کدنویسی دنیا تبدیل شده است. سبکی و سادگی‌اش باعث شده برای شروع عالی باشد و در همان حال با افزونه‌ها به یک محیط کامل توسعه تبدیل می‌شود؛ برای درس‌های Rust ما هم افزونهٔ rust-analyzer کافی است.</p><p>چند ویژگی که در کارگاه‌ها بیشتر به کارتان می‌آید: ترمینال داخلی (بدون ترک ویرایشگر دستور اجرا می‌کنید)، پشتیبانی کامل از Git برای ثبت تغییرات پروژه، دیباگر برای پیدا کردن خطاها، و تکمیل خودکار هوشمند کد. فایل پروژه‌ها را هم می‌توانید از هر جا باز کنید و همه‌چیز را یک‌جا داشته باشید.</p>
+  <table class='g'><tr><td class='k'>Ctrl+S</td><td>ذخیرهٔ فایل — قبل از هر اجرایی ذخیره یادت نرود</td></tr><tr><td class='k'>Ctrl+`</td><td>باز و بسته کردن ترمینال داخلی</td></tr><tr><td class='k'>F5</td><td>اجرای و دیباگ برنامه</td></tr></table>
+  <h2 class='sec' style='margin-top:7mm'>◈ ترفند ماه؛ پروژه‌های Rust با cargo</h2>
+  <p>cargo جعبه‌ابزار رسمی Rust است و عمر پروژهٔ شما را از خط اول ساده می‌کند. چهار دستور زیر را بلد باشی، همهٔ درس‌های ما را می‌توانی خودت خانه اجرا کنی:</p>
+  <div class='card'><div class='c'>cargo new salam</div><p>ساخت پروژهٔ تازه با نام salam</p></div><div class='card'><div class='c'>cargo build</div><p>کامپایل پروژه و ساختن فایل اجرایی</p></div><div class='card'><div class='c'>cargo run</div><p>کامپایل و اجرا — سریع‌ترین راه برای تمرین</p></div><div class='card'><div class='c'>cargo check</div><p>بررسی سریع درستی کد بدون ساخت فایل اجرایی</p></div>
+  <p style='margin-top:2mm'>نصب خود Rust هم ساده است؛ درس ۲ سری ما قدم‌به‌قدم rustup.rs و اولین پروژه را آموزش می‌دهد.</p>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۱</div></div>
+  <h2 class='sec'>◈ تقویم شمارهٔ بعد</h2>
+  <div class='cal'><div class='row'><div class='when'>هر روز ۱۰ صبح</div><div class='what'>درس جدید سری «Rust از صفر» در کانال — نصب، println!، متغیرها و ادامه</div></div><div class='row'><div class='when'>شنبه، دوشنبه و پنج‌شنبه ۱۹:۰۰</div><div class='what'>پست‌های متنوع: چهره‌های دنیای کامپیوتر، منابع رسمی، نگاه خلاقانه به کد و معرفی مسیرهای مسابقات</div></div><div class='row'><div class='when'>آخر آبان</div><div class='what'>انتشار شمارهٔ ۲ نشریه — با مطالب پیشنهادی شما</div></div></div>
+  <div class='hl'>📮 برای شمارهٔ آبان منتظر مطالب شما هستیم: خبر، معرفی نرم‌افزار یا ابزار، تجربهٔ کدنویسی، یا معرفی کتاب. مطالب را در کانال بفرستید؛ نام شما کنار مطلب چاپ می‌شود.</div>
+  <div class='bigfoot'><div>کانال انجمن کدنویسی</div><div class='l'>ble.ir/anjomanfaghihi</div></div>
+</div></body></html>
