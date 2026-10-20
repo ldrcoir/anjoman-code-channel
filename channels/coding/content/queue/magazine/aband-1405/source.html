@@ -1,0 +1,99 @@
+<html><head><meta charset='utf-8'><style>
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Regular.ttf'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Medium.ttf'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Bold.ttf'); font-weight:700; }
+@font-face { font-family:'Vazirmatn'; src:url('file:///home/z/my-project/assets/fonts/Vazirmatn-Black.ttf'); font-weight:900; }
+@page { size:A4; margin:0; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body { font-family:'Vazirmatn'; direction:rtl; color:#1c2340; font-size:13.5px; line-height:2; }
+.page { width:210mm; height:296mm; padding:16mm 15mm 14mm; page-break-after:always; position:relative; overflow:hidden; background:#fff; }
+.page:last-child { page-break-after:auto; }
+.brandbar { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #22D3EE; padding-bottom:6px; margin-bottom:26px; }
+.brandbar .b { font-weight:900; font-size:15px; color:#0D1230; }
+.brandbar .n { font-weight:700; font-size:12px; color:#64748B; direction:ltr; }
+.mono { font-family:'DejaVu Sans Mono', monospace; direction:ltr; }
+h1.cover { font-weight:900; font-size:44px; line-height:1.5; color:#0D1230; margin-top:26mm; }
+.cover-sub { font-size:17px; color:#334155; font-weight:700; margin-top:4mm; }
+.cover-date { display:inline-block; background:#0D1230; color:#fff; border-radius:12px; padding:2px 18px; font-weight:700; font-size:15px; margin-top:6mm; }
+.toc { margin-top:14mm; border:1.5px solid #E2E8F0; border-radius:14px; padding:8mm 10mm; }
+.toc h3 { color:#22D3EE; font-size:15px; font-weight:900; margin-bottom:4mm; }
+.toc .row { display:flex; justify-content:space-between; border-bottom:1px dashed #E2E8F0; padding:2.2mm 0; font-weight:500; }
+.toc .row:last-child { border-bottom:none; }
+.toc .pg { color:#22D3EE; font-weight:900; direction:ltr; }
+.cover-foot { position:absolute; bottom:12mm; right:15mm; left:15mm; text-align:center; color:#64748B; font-size:12px; border-top:1px solid #E2E8F0; padding-top:4mm; }
+h2.sec { font-weight:900; font-size:23px; color:#0D1230; margin-bottom:5mm; }
+h2.sec span { color:#22D3EE; }
+p { text-align:justify; margin-bottom:4mm; }
+.news h3 { font-size:15.5px; font-weight:900; color:#0E7490; margin:4mm 0 1mm; }
+.news .item { border-right:3.5px solid #22D3EE; padding-right:5mm; margin-bottom:5.5mm; }
+.hl { background:#ECFEFF; border:1.5px solid #A5F3FC; border-radius:12px; padding:5mm 7mm; margin-top:6mm; font-weight:700; }
+.codebox { background:#0D1230; color:#E2E8F0; border-radius:12px; padding:5mm 7mm; direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace; font-size:12.5px; line-height:1.9; margin:3mm 0 4mm; }
+.codebox .fn { color:#C4B5FD; } .codebox .str { color:#A6D6A7; } .codebox .out { color:#FCD34D; }
+.codebox .lbl { color:#94A3B8; direction:rtl; text-align:right; font-family:'Vazirmatn'; font-size:11.5px; border-bottom:1px solid #334155; padding-bottom:2mm; margin-bottom:2.5mm; }
+table.g { width:100%; border-collapse:collapse; margin-top:3mm; }
+table.g td { border-bottom:1px solid #E2E8F0; padding:2.6mm 3mm; vertical-align:top; }
+table.g td.k { font-weight:900; color:#0E7490; width:34mm; direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace; }
+.two { display:flex; gap:8mm; } .two > div { flex:1; }
+.card { border:1.5px solid #E2E8F0; border-radius:12px; padding:4mm 6mm; margin-bottom:4mm; }
+.card h4 { font-weight:900; font-size:14.5px; color:#0D1230; margin-bottom:1mm; }
+.card .c { direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace; font-weight:700; color:#0E7490; font-size:12.5px; }
+.card p { margin:0; font-size:12.8px; }
+.bigfoot { position:absolute; bottom:11mm; right:15mm; left:15mm; background:#0D1230; color:#fff; border-radius:14px; padding:4.5mm 8mm; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; font-weight:700; }
+.bigfoot .l { direction:ltr; color:#22D3EE; font-family:'DejaVu Sans Mono', monospace; }
+.cal .row { display:flex; gap:5mm; margin-bottom:4.5mm; }
+.cal .when { min-width:42mm; background:#ECFEFF; border:1.5px solid #A5F3FC; border-radius:10px; text-align:center; font-weight:900; color:#0E7490; padding:2.5mm 2mm; font-size:12.5px; }
+.cal .what { flex:1; border-bottom:1px dashed #E2E8F0; padding:2.5mm 0; }
+</style></head><body>
+<div class='page'>
+  <div class='brandbar'><div class='b'>نشریهٔ الکترونیکی انجمن علمی‌پژوهشی کدنویسی</div><div class='n mono'>@anjomanfaghihi</div></div>
+  <h1 class='cover'>مجلهٔ انجمن کدنویسی</h1>
+  <div class='cover-sub'>خبر، معرفی زبان و نرم‌افزار، ترفند و تقویم — به انتخاب اعضای انجمن</div>
+  <div class='cover-date'>شمارهٔ ۲ · آبان ۱۴۰۵</div>
+  <div class='toc'><h3>فهرست این شماره</h3><div class='row'><span>سرمقاله؛ ماه دوم</span><span class='pg'>۲</span></div><div class='row'><span>خبرهای انجمن</span><span class='pg'>۲</span></div><div class='row'><span>اخبار هوش مصنوعی</span><span class='pg'>۳</span></div><div class='row'><span>اخبار فناوری و کدنویسی</span><span class='pg'>۴</span></div><div class='row'><span>معرفی نرم‌افزار؛ Git</span><span class='pg'>۵</span></div><div class='row'><span>ترفند ماه؛ سه فرمان اول Git</span><span class='pg'>۵</span></div><div class='row'><span>معرفی زبان؛ C</span><span class='pg'>۶</span></div><div class='row'><span>تقویم شمارهٔ بعد</span><span class='pg'>۷</span></div></div>
+  <div class='cover-foot'>نسخهٔ کامل در قالب PDF — برای مطالعه، دانلود و چاپ · کانال انجمن کدنویسی: ble.ir/anjomanfaghihi</div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۲</div></div>
+  <h2 class='sec'>◈ سرمقاله؛ ماه دوم</h2>
+  <p>شمارهٔ دوم نشریه با یک تغییر مهم می‌رسد: به درخواست اعضای انجمن، دو بخش دائمی «اخبار هوش مصنوعی» و «اخبار فناوری و کدنویسی» به مجله اضافه شد. خبرها فقط از منابع معتبر انتخاب می‌شوند — وبلاگ رسمی زبان‌ها، گزارش‌های دانشگاهی و رسانه‌های شناخته‌شدهٔ فناوری — و تاریخ هر خبر در متن آمده است تا همیشه قابل پیگیری باشد. دنیای نرم‌افزار هر هفته به‌هم می‌ریزد؛ کار ما این است که مهم‌ترینش را برایتان صاف و کوتاه بگوییم.</p><p>در شمارهٔ پیش تمرین گذاشته بودیم: «بنویس دوست داری با Rust چه چیزی بسازی». پاسخ‌ها رسید و جالب بود؛ بازی، ابزار محاسبه و ربات بیشترین رأی را آوردند. در همین شماره هم زبان C را معرفی می‌کنیم — زبانی که تقریباً همهٔ دنیای دیجیتال روی آن ساخته شده — و نرم‌افزار Git را که پروژهٔ شما را زمان‌سفر می‌کند.</p>
+  <h2 class='sec' style='margin-top:6mm'>◈ خبرهای انجمن</h2>
+  <div class='item'><h3>درس‌های Rust به درس سوم رسید</h3><p>سری «Rust از صفر» ادامه دارد: درس دوم نصب Rust و ساخت اولین پروژه را قدم‌به‌قدم گفت و درس سوم سراغ چاپ متن و فرمان println! رفت. از هفتهٔ بعد متغیرها و انواع داده شروع می‌شود. اگر جایی گیر کردی، سؤالت را در کانال بپرس — درس بعدی با توجه به سؤال‌ها آماده می‌شود.</p></div><div class='item'><h3>پاسخ تمرین شمارهٔ ۱</h3><p>به تمرین «چه می‌خواهی بسازی؟» پاسخ‌های خوبی رسید. رایج‌ترین آرزوها: ساخت بازی، نوشتن ابزار محاسبه‌ای برای درس‌ها و ساخت ربات. برنامهٔ ما این است که در پست‌های متنوع، مسیر ساختن یکی از همین‌ها را مرحله‌به‌مرحله باز کنیم. منتظر پاسخ‌های تمرین ۲ در همین شماره هستیم.</p></div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۲</div></div>
+  <h2 class='sec'>◈ اخبار هوش مصنوعی</h2>
+  <div class='item'><h3>مدل‌های کدنویس به آستانهٔ کامل رسیدند (گزارش استنفورد، ۲۰۲۶)</h3><p>گزارش سالانهٔ «شاخص هوش مصنوعی» دانشگاه استنفورد نوشته است نتیجهٔ مدل‌ها در آزمون SWE-bench — که مسئله‌های واقعی کدنویسی را می‌سنجد — در یک سال از حدود ۶۰ درصد به نزدیک ۱۰۰ درصد رسیده و ۸۸ درصد سازمان‌ها از این ابزارها استفاده می‌کنند. نکتهٔ ما برای دانش‌آموزها روشن است: کسی که خودش کد را می‌فهمد، فرمانده است؛ کسی که فقط کپی می‌کند، تماشاچی.</p></div><div class='item'><h3>«همکار دیجیتال» جای «دستیار» را گرفت (اوایل اکتبر ۲۰۲۶)</h3><p>شرکت‌های بزرگ ابزارهای تازه‌ای معرفی کردند که به‌جای «پاسخ دادن»، خودشان چند کار را همزمان دنبال می‌کنند؛ به این‌ها «عامل» یا ایجنت می‌گویند. نمونه‌اش عامل‌های همیشه‌روشن جدید داخل نرم‌افزارهای گفت‌وگوی کاری که می‌توانند پروژه را جلو ببرند و گزارش بدهند. مفهوم ایجنت به‌زودی مثل مفهوم «اپلیکیشن» عادی می‌شود؛ ارزش کسی که الگوریتم بلد است بیشتر می‌شود.</p></div><div class='item'><h3>موج مدل‌های متن‌باز (مهر ۱۴۰۵)</h3><p>در چند هفتهٔ اخیر چند مدل هوش مصنوعی قوی به‌صورت رایگان و متن‌باز منتشر شد؛ از جمله نسخهٔ جدید DeepSeek در ۲۵ مهر و خانوادهٔ Nemotron شرکت انویدیا در ۲۳ مهر. متن‌باز یعنی می‌توانی معماری‌شان را بخوانی، روی کامپیوتر خودت اجرا کنی و بدانی دقیقاً چه خبر است — همان روحیه‌ای که پروژه‌های متن‌باز مثل لینوکس را ساخت.</p></div><div class='item'><h3>مرز دندانه‌دار؛ طلای المپیاد، شکست ساعت‌خوانی (استنفورد، ۲۰۲۶)</h3><p>جالب‌ترین یافتهٔ گزارش استنفورد: مدل‌ها در المپیاد جهانی ریاضی مدال طلا می‌گیرند، اما در خواندن ساعت عقربه‌ای فقط حدود نیمی از مواقع درست عمل می‌کنند. به این می‌گویند «مرز دندانه‌دار»؛ توانایی‌ها ناهموار رشد می‌کنند. درسش برای ما: نه اسراف در تحسین، نه ترس — ابزار را بشناس و نقاط ضعفش را بلد باش.</p></div>
+  <div class='hl'>منابع: گزارش شاخص هوش مصنوعی ۲۰۲۶ (Stanford HAI) و رسانه‌های معتبر فناوری — تاریخ هر خبر در متن آمده است.</div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۲</div></div>
+  <h2 class='sec'>◈ اخبار فناوری و کدنویسی</h2>
+  <div class='item'><h3>Rust نسخهٔ ۱.۹۹ — یکی مانده به ۱۰۰ (۹ و ۲۳ مهر)</h3><p>وبلاگ رسمی زبان Rust انتشار نسخهٔ ۱.۹۹ را در ۹ مهر و به‌روزرسانی ۱.۹۹.۱ را در ۲۳ مهر اعلام کرد؛ یعنی قدم بعدی، نسخهٔ تاریخی ۱۰۰ است. زنگ تفریح ریاضی: Rust هر شش هفته یک نسخه می‌دهد؛ اگر در درس‌های ما Rust نصب کرده‌ای، با فرمان rustup update همیشه تازه نگهش دار.</p></div><div class='item'><h3>هشدار امنیتی؛ کلیدها را جا نگذارید (۳۰ شهریور)</h3><p>تیم Rust دربارهٔ نشت کلیدهای امنیتی در سرویس‌های ساخت خودکار (GitHub Actions) هشدار رسمی داد. درسش برای هر برنامه‌نویس تازه‌کاری است: توکن و رمز هرگز نباید داخل کد، فایل لاگ یا پیام کانال نوشته شود؛ در فایل جداگانه و بیرون از پروژه نگه‌داری می‌شود. همین قاعده را رعایت کنی، یک مشکل بزرگ همیشه جلوی پایت را گرفته‌ای.</p></div><div class='item'><h3>GitHub Universe ۲۰۲۶ (۶ و ۷ آبان)</h3><p>بزرگ‌ترین رویداد سالانهٔ گیت‌هاب ۶ و ۷ آبان در سان‌فرانسیسکو برگزار می‌شود و بخش آنلاین رایگان هم دارد. هر سال مهم‌ترین خبرهای ابزارهای توسعه‌دهندگان در همین همایش اعلام می‌شود. بعد از رویداد، خلاصهٔ مهم‌ترین خبرهایش را در شمارهٔ آذر مجله می‌خوانید.</p></div><div class='item'><h3>موج رویدادهای متن‌باز پاییز (۲۷ تا ۲۹ مهر)</h3><p>سه همایش بزرگ متن‌باز پشت‌سرهم برگزار شد: All Things Open و کنفرانس PyTorch و سپس همایش عامل‌های هوش مصنوعی لینوکس‌فاندیشن. نکتهٔ خوش برای ما: ویدیو و جزوهٔ بیشتر این رویدادها بعداً به‌صورت رایگان منتشر می‌شود؛ دنیای متن‌باز هنوز بزرگ‌ترین کتابخانهٔ درسی رایگان دنیاست.</p></div>
+  <div class='hl'>منابع: وبلاگ رسمی Rust (blog.rust-lang.org)، تقویم رویدادهای متن‌باز گوگل و رسانه‌های معتبر فناوری.</div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۲</div></div>
+  <h2 class='sec'>◈ معرفی زبان؛ C</h2>
+  <p>اگر دنیای نرم‌افزار یک درخت باشد، C ریشهٔ آن است. سیستم‌عامل ویندوز و لینوکس، پایهٔ زبان پایتون، و هزاران نرم‌افزار دیگر با C نوشته شده‌اند. این زبان در سال ۱۹۷۲ ساخته شد و هنوز بعد از بیش از پنجاه سال جزو پرکاربردترین‌هاست؛ چون کوچک، سریع و نزدیک به سخت‌افزار است و تقریباً روی هر دستگاهی — از ریزکنترل‌کنندهٔ یک دستگاه الکتریکی تا ابررایانه — اجرا می‌شود.</p><p>چرا برای دانش‌آموز مهم است؟ چون C مفاهیم پایه را بدون میانه‌رو بی‌رحمانه شفاف می‌کند: متغیر واقعاً یک خانهٔ حافظه است، آرایه واقعاً پشت‌سرهم چیده شده و هر بایت حساب شده. کسی که C را بفهمد، بعداً C++ و Rust و هر زبان دیگری را خیلی راحت‌تر یاد می‌گیرد؛ Rust خودش ادامهٔ همین راه است با وسواس بیشتر روی امنیت.</p><p>برنامهٔ آشنای ما در C این‌طور نوشته می‌شود؛ به printf و return 0 دقت کن:</p>
+  <div class='codebox'><div class='lbl'>salam.c</div>#include &lt;stdio.h&gt;<br><br>int main(void) {<br>    printf("Salam, donya!\n");<br>    return 0;<br>}<br><br>
+  <span class='lbl' style='display:block'>خروجی:</span><span class='out'>Salam, donya!</span></div>
+  <table class='g'><tr><td class='k'>#include &lt;stdio.h&gt;</td><td>آوردن کتابخانهٔ ورودی/خروجی استاندارد برای استفاده از printf</td></tr><tr><td class='k'>printf</td><td>چاپ متن روی صفحه؛ \n یعنی برو خط بعد</td></tr><tr><td class='k'>return 0</td><td>پایان موفق برنامه؛ عدد صفر به سیستم‌عامل گزارش می‌شود</td></tr></table>
+  <div class='hl'>🦀 تمرین شمارهٔ ۲: با printf یک مثلث ستاره‌ای سه‌ردیفه چاپ کن (هر ردیف یک ستاره بیشتر) و خروجی‌ات را در کانال بفرست؛ پاسخ‌های درست در شمارهٔ آذر با نام شما چاپ می‌شود.</div>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۲</div></div>
+  <h2 class='sec'>◈ معرفی نرم‌افزار؛ Git</h2>
+  <p>Git «دفتر ثبت تغییرات» پروژه است؛ فکرش کن مثل زمان‌سفر برای کدهایت. هر بار که کدت را به حالت درست رساندی، یک «کامیت» می‌زنی — یعنی عکس یادگاری از وضعیت فعلی پروژه ذخیره می‌شود. فردا اگر چیزی خراب شد، به عقب برمی‌گردی و نسخهٔ سالم را برمی‌داری. هیچ برنامه‌نویس حرفه‌ای در دنیا نیست که Git بلد نباشد.</p><p>Git از نوع «توزیع‌شده» است؛ یعنی کل تاریخچهٔ پروژه روی کامپیوتر خودت کپی می‌شود و بدون اینترنت هم کار می‌کند. سایت‌هایی مثل GitHub و GitLab خانهٔ پروژه‌های متن‌باز دنیا هستند و پروژه‌ها را برای همکاری چندنفره میزبانی می‌کنند. در مسابقات کدنویسی هم ارائهٔ سورس مرتب و تاریخچهٔ واقعی کار، امتیاز محسوب می‌شود.</p>
+  <table class='g'><tr><td class='k'>git init</td><td>آغاز دفتر ثبت تغییرات در پوشهٔ پروژه</td></tr><tr><td class='k'>git status</td><td>وضعیت الان؛ چه چیزی عوض شده و ثبت نشده</td></tr><tr><td class='k'>git log --oneline</td><td>تاریخچهٔ پروژه؛ هر کامیت یک خط</td></tr></table>
+  <h2 class='sec' style='margin-top:7mm'>◈ ترفند ماه؛ سه فرمان اول Git</h2>
+  <p>برای شروع با Git فقط سه فرمان لازم داری؛ همین سه تا پروژه‌ات را امن می‌کند:</p>
+  <div class='card'><div class='c'>git init</div><p>در پوشهٔ پروژه اجرا کن؛ از این لحظه Git تماشاچی تغییرات است</p></div><div class='card'><div class='c'>git add .</div><p>همهٔ تغییرات را برای ثبت علامت بزن</p></div><div class='card'><div class='c'>git commit -m "پیام"</div><p>ثبت نهایی با یک پیام کوتاه؛ مثلاً «نسخهٔ اول بازی»</p></div>
+  <p style='margin-top:2mm'>پیشنهاد: همین امروز پروژه‌ای که در درس‌های Rust ساختی را با این سه فرمان به یک مخزن واقعی تبدیل کن؛ در پست‌های متنوع کانال هم به‌زودی کار با مخزن را بیشتر باز می‌کنیم.</p>
+</div>
+<div class='page'>
+  <div class='brandbar'><div class='b'>مجلهٔ انجمن کدنویسی</div><div class='n mono'>شمارهٔ ۲</div></div>
+  <h2 class='sec'>◈ تقویم شمارهٔ بعد</h2>
+  <div class='cal'><div class='row'><div class='when'>هر روز ۱۰ صبح</div><div class='what'>ادامهٔ درس‌های Rust: متغیرها، انواع داده و تصمیم‌گیری با if</div></div><div class='row'><div class='when'>شنبه، دوشنبه و پنج‌شنبه ۱۹:۰۰</div><div class='what'>پست‌های متنوع + بازی کدنویسی تک‌صفحه‌ای جدید برای مرورگر — فایل HTML پست می‌شود و صفحهٔ بازی هم آنلاین است</div></div><div class='row'><div class='when'>۱۳ آبان</div><div class='what'>روز دانش‌آموز — پیام مناسبتی در کانال</div></div><div class='row'><div class='when'>آخر آذر</div><div class='what'>انتشار شمارهٔ ۳ نشریه — با خبرهای آبان و آذر و مطالب پیشنهادی شما</div></div></div>
+  <div class='hl'>📮 برای شمارهٔ آذر منتظر مطالب شما هستیم: خبر، معرفی نرم‌افزار یا زبان، تجربهٔ کدنویسی، یا معرفی کتاب. مطالب را در کانال بفرستید؛ نام شما کنار مطلب چاپ می‌شود.</div>
+  <div class='bigfoot'><div>کانال انجمن کدنویسی</div><div class='l'>ble.ir/anjomanfaghihi</div></div>
+</div></body></html>

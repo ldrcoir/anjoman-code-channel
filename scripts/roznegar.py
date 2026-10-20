@@ -30,7 +30,7 @@ import fcntl
 import shutil
 import subprocess
 import importlib.util
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
@@ -103,6 +103,11 @@ def git_sync_with_remote(env):
     tok = env.get("GITHUB_TOKEN")
     if not tok:
         log("pull: GITHUB_TOKEN نیست — رد شد")
+        return
+    # گارد: کار نیمه‌کارهٔ کامیت‌نشده هرگز با reset نباید نابود شود
+    dirty = git("status", "--porcelain").stdout or ""
+    if dirty.strip():
+        log("pull: تغییرات کامیت‌نشده در مخزن است — reset انجام نمی‌شود (اول کامیت/پوش کن)")
         return
     push_url = GH_PUSH_URL_TPL.format(tok=tok)
     f = git("fetch", push_url, "main")
@@ -193,12 +198,12 @@ def send_photo(token, chat_id, png, caption):
     return resp["result"]["message_id"]
 
 
-def send_document(token, chat_id, doc, caption):
+def send_document(token, chat_id, doc, caption, mime="application/pdf"):
     with open(doc, "rb") as f:
         r = requests.post(
             f"https://tapi.bale.ai/bot{token}/sendDocument",
             data={"chat_id": chat_id, "caption": caption},
-            files={"document": (Path(doc).name, f, "application/pdf")}, timeout=300)
+            files={"document": (Path(doc).name, f, mime)}, timeout=300)
     resp = r.json()
     if not resp.get("ok"):
         raise RuntimeError(f"Bale API: {resp}")
@@ -260,28 +265,66 @@ def publish(cfg, kind, env):
     if not folder:
         log(f"صف {kind} کانال {slug} خالی است — پست جدید اضافه شود")
         return False
+
+    # ۰-ب) گیت «تا تاریخ X منتشر نشود» — مجلهٔ آبان تا آخر آبان نگه داشته می‌شود
+    hold_file = folder / "hold_until.txt"
+    if hold_file.exists():
+        try:
+            hold = date.fromisoformat(hold_file.read_text(encoding="utf-8").strip()[:10])
+            if datetime.now(TEHRAN).date() < hold:
+                log(f"{folder.name} تا {hold.isoformat()} نگه داشته می‌شود — رد شد")
+                return False
+        except Exception as e:
+            log(f"hold_until نامعتبر ({e}) — ادامه")
+
+    # ۰-پ) گیت مناسبت — فقط در خودِ روزِ مناسبتی منتشر می‌شود
+    if kind == "occasion":
+        df = folder / "date.txt"
+        target = df.read_text(encoding="utf-8").strip()[:10] if df.exists() else ""
+        today = datetime.now(TEHRAN).date().isoformat()
+        if target != today:
+            log(f"مناسبت {folder.name} برای {target} است؛ امروز {today} — رد شد")
+            return False
+
     log(f"[{slug}/{kind}] انتخاب پست: {folder.name}")
 
     # ۱) برند همان کانال ست می‌شود — هر عکس با شناسنامهٔ کانال خودش رندر می‌شود
-    set_channel(cfg)
-    try:
-        mod = load_spec_module(folder)
-        SPEC = mod.SPEC
-        png = folder / "post.png"
-        png_clean = folder / "post-clean.png"
-        render(SPEC, png, brand=True)
-        render(SPEC, png_clean, brand=False)
-        (folder / "text.md").write_text(spec_text(SPEC), encoding="utf-8")
-        for p in (png, png_clean):
-            if not p.exists() or p.stat().st_size < 20000:
-                raise RuntimeError(f"rendered file missing/too small: {p.name}")
-        if len((folder / "text.md").read_text(encoding="utf-8")) < 100:
-            raise RuntimeError("text.md too short")
-        log(f"رندر انجام شد: post.png ({png.stat().st_size // 1024}KB) + "
-            f"post-clean.png ({png_clean.stat().st_size // 1024}KB) + text.md")
-    except Exception as e:
-        log(f"ERROR render {folder.name}: {e}")
-        return False
+    #    پست‌های ویژه (مثل بازی) ready_post.json دارند: عکس و متن از قبل آماده است
+    ready_file = folder / "ready_post.json"
+    if ready_file.exists():
+        try:
+            SPEC = json.loads(ready_file.read_text(encoding="utf-8"))
+            png = folder / "post.png"
+            png_clean = folder / "post-clean.png"
+            for p in (png, png_clean):
+                if not p.exists() or p.stat().st_size < 20000:
+                    raise RuntimeError(f"ready-post image missing/too small: {p.name}")
+            if len((folder / "text.md").read_text(encoding="utf-8")) < 100:
+                raise RuntimeError("text.md too short")
+            log("پست آمادهٔ ویژه — بدون رندر، فقط بررسی شد")
+        except Exception as e:
+            log(f"ERROR ready-post {folder.name}: {e}")
+            return False
+    else:
+        set_channel(cfg)
+        try:
+            mod = load_spec_module(folder)
+            SPEC = mod.SPEC
+            png = folder / "post.png"
+            png_clean = folder / "post-clean.png"
+            render(SPEC, png, brand=True)
+            render(SPEC, png_clean, brand=False)
+            (folder / "text.md").write_text(spec_text(SPEC), encoding="utf-8")
+            for p in (png, png_clean):
+                if not p.exists() or p.stat().st_size < 20000:
+                    raise RuntimeError(f"rendered file missing/too small: {p.name}")
+            if len((folder / "text.md").read_text(encoding="utf-8")) < 100:
+                raise RuntimeError("text.md too short")
+            log(f"رندر انجام شد: post.png ({png.stat().st_size // 1024}KB) + "
+                f"post-clean.png ({png_clean.stat().st_size // 1024}KB) + text.md")
+        except Exception as e:
+            log(f"ERROR render {folder.name}: {e}")
+            return False
 
     if DRY:
         log("حالت dry — ارسال نشد")
@@ -298,18 +341,23 @@ def publish(cfg, kind, env):
         log(f"ERROR send {folder.name}: {e}")
         return False
 
-    # ۲-ب) اگر پست «مجله» باشد، فایل کامل PDF در پیام بعدی به‌صورت document می‌رود
+    # ۲-ب) پیوست: PDF مجله یا فایل HTML بازی — در پیام بعدی به‌صورت document می‌رود
     doc_message_id = None
-    pdf_file = folder / "magazine.pdf"
-    if pdf_file.exists():
+    attach = None
+    if (folder / "magazine.pdf").exists():
+        attach = (folder / "magazine.pdf", "application/pdf")
+    elif (folder / "attach.html").exists():
+        attach = (folder / "attach.html", "text/html")
+    if attach:
         doc_cap_file = folder / "doc-caption.txt"
         doc_caption = (doc_cap_file.read_text(encoding="utf-8").strip()
-                       if doc_cap_file.exists() else "📄 نسخهٔ کامل PDF")
+                       if doc_cap_file.exists() else "📎 فایل پیوست")
         if live:
             doc_caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", doc_caption)
         try:
-            doc_message_id = send_document(token, chat_id, pdf_file, doc_caption)
-            log(f"PDF مجله ارسال شد — message_id={doc_message_id}")
+            doc_message_id = send_document(token, chat_id, attach[0], doc_caption,
+                                           mime=attach[1])
+            log(f"پیوست {attach[0].name} ارسال شد — message_id={doc_message_id}")
         except Exception as e:
             log(f"ERROR send doc {folder.name}: {e}")
 
