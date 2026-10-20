@@ -96,6 +96,23 @@ def build_html(i):
   {news_items}
 </div>""")
 
+    # ── صفحات اخبار اضافه (هوش مصنوعی / فناوری) — از شمارهٔ ۲ بخش دائمی شدند
+    for key in ("ai_news", "it_news"):
+        N = i.get(key)
+        if not N:
+            continue
+        items = "".join(
+            f"<div class='item'><h3>{esc(n['h'])}</h3><p>{esc(n['p'])}</p></div>"
+            for n in N["items"])
+        note = f"<div class='hl'>{esc(N['note'])}</div>" if N.get("note") else ""
+        P.append(f"""
+<div class='page'>
+  <div class='brandbar'><div class='b'>{esc(i['title'])}</div><div class='n mono'>{esc(i['issue_no'])}</div></div>
+  <h2 class='sec'>◈ {esc(N['title'])}</h2>
+  {items}
+  {note}
+</div>""")
+
     # ── صفحهٔ ۳: معرفی زبان
     L = i["language"]
     L_paras = "".join(f"<p>{esc(x)}</p>" for x in L["paras"])
