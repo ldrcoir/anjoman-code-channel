@@ -150,8 +150,11 @@ def mark_today(state_path, kind, folder_name):
                           encoding="utf-8")
 
 
+KIND_DIRS = {"lesson": "lessons", "variety": "variety", "magazine": "magazine"}
+
+
 def next_queue_item(queue_dir, kind):
-    base = queue_dir / ("lessons" if kind == "lesson" else "variety")
+    base = queue_dir / KIND_DIRS.get(kind, kind)
     dirs = sorted([d for d in base.iterdir() if d.is_dir()]) if base.exists() else []
     return dirs[0] if dirs else None
 
@@ -186,6 +189,18 @@ def send_photo(token, chat_id, png, caption):
     return resp["result"]["message_id"]
 
 
+def send_document(token, chat_id, doc, caption):
+    with open(doc, "rb") as f:
+        r = requests.post(
+            f"https://tapi.bale.ai/bot{token}/sendDocument",
+            data={"chat_id": chat_id, "caption": caption},
+            files={"document": (Path(doc).name, f, "application/pdf")}, timeout=300)
+    resp = r.json()
+    if not resp.get("ok"):
+        raise RuntimeError(f"Bale API: {resp}")
+    return resp["result"]["message_id"]
+
+
 def fresh_handle(token, chat_id):
     """نام‌کاربری زندهٔ کانال را از API می‌گیرد — ادمین‌ها گاهی آدرس را عوض می‌کنند"""
     try:
@@ -210,6 +225,19 @@ def publish(cfg, kind, env):
     if not token:
         log(f"ERROR: توکن کانال {slug} یافت نشد ({cfg.get('token_key')})")
         return False
+
+    # ۰) گیت ماهانهٔ مجله — هر ۲۵ روز حداکثر یک شماره (شیوه‌نامه تناوب نگفته؛ ماهانه)
+    if kind == "magazine":
+        try:
+            st = json.loads(state_path.read_text(encoding="utf-8") or "{}")
+            last = st.get("magazine") or ""
+            if last:
+                delta = (datetime.now(TEHRAN).date() - date.fromisoformat(last)).days
+                if delta < 25:
+                    log(f"مجله {delta} روز پیش منتشر شده (ماهانه) — رد شد")
+                    return False
+        except Exception as e:
+            log(f"state خواندن نشد ({e}) — مجله ادامه")
 
     # ۰) نام‌کاربری زندهٔ کانال — اگر ادمین‌ها آدرس را عوض کرده باشند،
     #    هم شناسنامهٔ کانال به‌روز می‌شود هم لینک کپشن و نشان روی عکس
@@ -266,6 +294,21 @@ def publish(cfg, kind, env):
         log(f"ERROR send {folder.name}: {e}")
         return False
 
+    # ۲-ب) اگر پست «مجله» باشد، فایل کامل PDF در پیام بعدی به‌صورت document می‌رود
+    doc_message_id = None
+    pdf_file = folder / "magazine.pdf"
+    if pdf_file.exists():
+        doc_cap_file = folder / "doc-caption.txt"
+        doc_caption = (doc_cap_file.read_text(encoding="utf-8").strip()
+                       if doc_cap_file.exists() else "📄 نسخهٔ کامل PDF")
+        if live:
+            doc_caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", doc_caption)
+        try:
+            doc_message_id = send_document(token, chat_id, pdf_file, doc_caption)
+            log(f"PDF مجله ارسال شد — message_id={doc_message_id}")
+        except Exception as e:
+            log(f"ERROR send doc {folder.name}: {e}")
+
     # ۳) کد سه‌رقمیِ «همین کانال» و انتقال به آرشیوِ همین کانال
     code = next_code(posts)
     slug_in_name = folder.name.split("-", 1)[1] if folder.name[:2].isdigit() and "-" in folder.name else folder.name
@@ -281,6 +324,7 @@ def publish(cfg, kind, env):
         "title": SPEC.get("title", folder.name),
         "date": datetime.now(TEHRAN).date().isoformat(),
         "message_id": message_id,
+        "doc_message_id": doc_message_id,
         "image": "post.png",
         "clean_image": "post-clean.png",
         "statute": cfg.get("statute", ""),
