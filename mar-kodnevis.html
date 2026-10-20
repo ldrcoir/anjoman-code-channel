@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مار کدنویس | انجمن علمی‌پژوهشی کدنویسی — مدرسهٔ شهید فقیهی</title>
+<!--
+  bazie "Mar Kodnevis" — bargerri, tak-fail, bedoone heech ketabkhane-i
+  anjome elmi-pajooheshi kodnevisi | madrese Shahid Faghihi
+  age inja ro mikhooni pas midooni khowabet mibare! ide-i dashti?
+  be channel begoo: ble.ir/anjomanfaghihi
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; margin:0 auto; }
+  body {
+    font-family:'Vazirmatn','Segoe UI',Tahoma,sans-serif;
+    background:linear-gradient(160deg,#0D1230 0%,#1A2151 60%,#0D1230 100%);
+    color:#E8EEF8; min-height:1350px; padding:14px 40px 16px;
+    text-align:center; position:relative;
+  }
+  .badane { width:1000px; margin:0 auto; }
+  .safhe-bala { display:flex; justify-content:space-between; align-items:center; }
+  .chip {
+    display:inline-block; background:rgba(34,211,238,.12); border:2px solid rgba(34,211,238,.7);
+    color:#fff; border-radius:999px; padding:6px 22px; font-weight:700; font-size:22px;
+  }
+  .chip .kod { direction:ltr; font-family:Consolas,monospace; color:#22D3EE; }
+  .dastresi { direction:ltr; color:#22D3EE; font-family:Consolas,monospace; font-size:22px; }
+  h1 { font-size:64px; font-weight:900; color:#fff; margin-top:8px; line-height:1.2; }
+  .zir-title { color:#C6D0E4; font-size:24px; margin-top:0; }
+  .nobat { display:flex; justify-content:center; gap:16px; margin-top:12px; }
+  .sandogh-nobat {
+    background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.22);
+    border-radius:14px; padding:6px 24px; font-size:24px; font-weight:700;
+  }
+  .sandogh-nobat .meghdar { color:#22D3EE; font-weight:900; }
+  .sandogh-nobat.ghermez .meghdar { color:#FB923C; }
+  #bazi {
+    display:block; margin:14px auto 0; border-radius:18px;
+    border:2px solid rgba(255,255,255,.25);
+    box-shadow:0 0 46px rgba(34,211,238,.22), inset 0 0 60px rgba(0,0,0,.4);
+    background:#0B0E22;
+  }
+  .dokme-ha { display:flex; justify-content:center; gap:12px; margin-top:10px; flex-wrap:wrap; }
+  button {
+    font-family:inherit; font-size:23px; font-weight:700; color:#fff; cursor:pointer;
+    background:rgba(255,255,255,.09); border:2px solid rgba(255,255,255,.28);
+    border-radius:12px; padding:8px 26px;
+  }
+  button.asli { background:rgba(34,211,238,.16); border-color:rgba(34,211,238,.8); }
+  button.entekhab { background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.8); }
+  .rahnama { color:#94A3B8; font-size:19px; margin-top:8px; }
+  .jahat-ha { display:grid; grid-template-columns:repeat(3,86px); grid-template-rows:repeat(2,48px);
+    gap:8px; justify-content:center; margin-top:12px; }
+  .jahat-ha button { font-size:30px; padding:0; border-radius:10px; }
+  .jahat-bala { grid-column:2; }
+  .jahat-chap { grid-column:1; grid-row:2; }
+  .jahat-paeen { grid-column:2; grid-row:2; }
+  .jahat-rast { grid-column:3; grid-row:2; }
+  .paeen {
+    margin-top:8px; border-top:1px solid rgba(255,255,255,.15); padding-top:8px;
+    display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .paeen .esm { font-size:22px; font-weight:700; color:#fff; }
+  .paeen .joda { color:#22D3EE; font-weight:900; }
+  .paeen .lin { direction:ltr; color:#22D3EE; font-family:Consolas,monospace; font-size:21px; text-decoration:none; }
+  body.pak .mahv { display:none; }
+</style>
+</head>
+<body>
+<div class="badane">
+
+  <div class="safhe-bala">
+    <span class="chip"><span class="kod">&lt;/&gt;</span> بازی شمارهٔ ۱</span>
+    <span class="dastresi mahv">@anjomanfaghihi</span>
+  </div>
+
+  <h1>مار کدنویس</h1>
+  <div class="zir-title">بازی مرورگری انجمن — از کد تا گرافیک، کار خود بچه‌های انجمن</div>
+
+  <div class="nobat">
+    <div class="sandogh-nobat">امتیاز: <span class="meghdar" id="nemayesh-emtiaz">۰</span></div>
+    <div class="sandogh-nobat">رکورد: <span class="meghdar" id="nemayesh-record">۰</span></div>
+    <div class="sandogh-nobat ghermez">وضعیت: <span class="meghdar" id="nemayesh-vaziat">آماده</span></div>
+  </div>
+
+  <canvas id="bazi" width="1000" height="720"></canvas>
+
+  <div class="dokme-ha">
+    <button class="asli" id="dokme-shroo">شروع</button>
+    <button id="dokme-mekes">مکث</button>
+    <button id="sath-kond">کند</button>
+    <button class="entekhab" id="sash-mamooli">معمولی</button>
+    <button id="sath-tand">تند</button>
+  </div>
+  <div class="rahnama">با کلیدهای جهت یا W A S D حرکت کن — مکث با دکمه یا Space — روی گوشی از دکمه‌های زیر استفاده کن</div>
+
+  <div class="jahat-ha">
+    <button class="jahat-bala" onclick="setJahat('bala')">▲</button>
+    <button class="jahat-chap" onclick="setJahat('chap')">◀</button>
+    <button class="jahat-paeen" onclick="setJahat('paeen')">▼</button>
+    <button class="jahat-rast" onclick="setJahat('rast')">▶</button>
+  </div>
+
+  <div class="paeen">
+    <span class="esm mahv">انجمن علمی‌پژوهشی کدنویسی</span>
+    <span class="joda mahv">|</span>
+    <span class="esm mahv">مدرسهٔ شهید فقیهی</span>
+    <span class="esm pak">بازی مار کدنویس — نسخهٔ مرورگری</span>
+    <span class="lin mahv">ble.ir/anjomanfaghihi</span>
+  </div>
+
+</div>
+
+<script>
+// ---------- moteghayyerha ----------
+var takhli = document.getElementById('bazi');
+var noghteh = takhli.getContext('2d');
+var KADR = 40, SOTUN = 25, SATR = 18;          // khane-haye bozorg: 25 dar 18
+var mar = [];                                   // badane mar: har khane {x, y}
+var jahat = {x:-1, y:0};                        // jahate felan (inja az rast be chap)
+var jahatBadi = null;                           // agar baran-e chand ta feshar dad
+var ghaza = {x:0, y:0};
+var emtiaz = 0, record = 0;
+var harekatOn = false, allanChand = null, takhir = 100;
+var shartSabt = true;
+var demo = location.search.indexOf('demo') > -1;   // baraye akse post
+
+try { record = +(localStorage.getItem('mar_kodnevis_record') || 0); } catch (e) { record = 0; }
+
+var RANG_SAR = [34, 211, 238];
+var RANG_DOM = [52, 211, 153];   // sar sab-tali, dom sabz — ghablan ino ba RANG Dom neveshte boodam ke kharab bood :)
+
+// ---------- komakchiha ----------
+function faN(n) {
+  var j = '۰۱۲۳۴۵۶۷۸۹', s = String(n), kholase = '';
+  for (var i = 0; i < s.length; i++) kholase += j[+s[i]];
+  return kholase;
+}
+function nemayesh() {
+  document.getElementById('nemayesh-emtiaz').textContent = faN(emtiaz);
+  document.getElementById('nemayesh-record').textContent = faN(record);
+}
+
+// ---------- ghaza ----------
+function ghazaJadid() {
+  var talash = 0;
+  while (talash++ < 500) {
+    var x = 1 + Math.floor(Math.random() * (SOTUN-2)), y = 1 + Math.floor(Math.random() * (SATR-2));
+    var bakhsh = true;
+    for (var i = 0; i < mar.length; i++) if (mar[i].x == x && mar[i].y == y) bakhsh = false;
+    if (bakhsh) { ghaza = {x:x, y:y}; return; }
+  }
+}
+
+// ---------- shroo / mekes / payan ----------
+function shrooBazi() {
+  mar = [{x:12,y:9},{x:13,y:9},{x:14,y:9},{x:15,y:9}];
+  jahat = {x:-1, y:0}; jahatBadi = null;
+  emtiaz = 0; ghazaJadid();
+  harekatOn = true;
+  document.getElementById('nemayesh-vaziat').textContent = 'در حال بازی';
+  setIntervalRo(allanChand);
+  nemayesh();
+}
+function mekse() {
+  if (!harekatOn) return;
+  harekatOn = false;
+  document.getElementById('nemayesh-vaziat').textContent = 'مکث';
+}
+function edame() {
+  if (harekatOn || mar.length == 0) return;
+  harekatOn = true;
+  document.getElementById('nemayesh-vaziat').textContent = 'در حال بازی';
+}
+function payanBazi() {
+  harekatOn = false;
+  document.getElementById('nemayesh-vaziat').textContent = 'پایان';
+  if (shartSabt && emtiaz > record) {
+    record = emtiaz;
+    try { localStorage.setItem('mar_kodnevis_record', record); } catch (e) {}
+    nemayesh();
+  }
+  rasm();
+  noghteh.direction = 'rtl';
+  noghteh.textAlign = 'center';
+  noghteh.fillStyle = 'rgba(11,14,34,.72)';
+  noghteh.fillRect(0, 0, takhli.width, takhli.height);
+  noghteh.fillStyle = '#fff';
+  noghteh.font = 'bold 52px Vazirmatn, Tahoma';
+  noghteh.fillText('اوه! خوردی به دیوار یا خودت', 500, 330);
+  noghteh.font = 'bold 38px Vazirmatn, Tahoma';
+  noghteh.fillStyle = '#22D3EE';
+  noghteh.fillText('امتیاز: ' + faN(emtiaz), 500, 400);
+  noghteh.fillStyle = '#94A3B8';
+  noghteh.font = '26px Vazirmatn, Tahoma';
+  noghteh.fillText('دوباره؟ دکمهٔ «شروع» را بزن', 500, 460);
+}
+
+// ---------- har ghadam ----------
+function yekGhadam() {
+  if (!harekatOn) return;
+  if (jahatBadi) { jahat = jahatBadi; jahatBadi = null; }
+  var sar = {x: mar[0].x + jahat.x, y: mar[0].y + jahat.y};
+
+  if (demo) {
+    sar.x = (sar.x + SOTUN) % SOTUN;
+    sar.y = (sar.y + SATR) % SATR;
+  } else if (sar.x < 0 || sar.y < 0 || sar.x >= SOTUN || sar.y >= SATR) {
+    return payanBazi();                       // oogh, khord be divar!
+  }
+
+  if (!demo) {
+    for (var i = 0; i < mar.length - 1; i++)
+      if (mar[i].x == sar.x && mar[i].y == sar.y) return payanBazi();
+  }
+
+  mar.unshift(sar);
+  if (sar.x == ghaza.x && sar.y == ghaza.y) {
+    emtiaz++;                                  // noosh!
+    if (shartSabt && emtiaz > record) {
+      record = emtiaz;
+      try { localStorage.setItem('mar_kodnevis_record', record); } catch (e) {}
+    }
+    ghazaJadid();
+  } else {
+    mar.pop();
+  }
+  rasm();
+  nemayesh();
+}
+
+// ---------- rasm ----------
+function rasm() {
+  noghteh.fillStyle = '#0B0E22';
+  noghteh.fillRect(0, 0, takhli.width, takhli.height);
+  // chand nokt-e safid rooye zamin — hes-e shabake
+  noghteh.fillStyle = 'rgba(255,255,255,.07)';
+  for (var gx = 2; gx < SOTUN; gx += 2)
+    for (var gy = 2; gy < SATR; gy += 2)
+      noghteh.fillRect(gx*KADR-1, gy*KADR-1, 2, 2);
+
+  if (!mar.length) return;   // hanooz bazi shroo nashode
+  // ghaza: dayereh-ye narenji ke nad-mikonad
+  var zaman = Date.now() / 300;
+  var andaze = KADR/2 - 3 + Math.sin(zaman) * 2;
+  noghteh.shadowColor = 'rgba(251,146,60,.9)';
+  noghteh.shadowBlur = 18;
+  noghteh.fillStyle = '#FB923C';
+  noghteh.beginPath();
+  noghteh.arc(ghaza.x*KADR + KADR/2, ghaza.y*KADR + KADR/2, andaze, 0, Math.PI*2);
+  noghteh.fill();
+  noghteh.shadowBlur = 0;
+
+  // mar: az sar sab-tali ta dom sabz
+  for (var i = mar.length - 1; i >= 0; i--) {
+    var p = mar[i], t = mar.length > 1 ? i / (mar.length - 1) : 0;
+    var r = Math.round(RANG_SAR[0] + (RANG_DOM[0]-RANG_SAR[0]) * t);
+    var g = Math.round(RANG_SAR[1] + (RANG_DOM[1]-RANG_SAR[1]) * t);
+    var b = Math.round(RANG_SAR[2] + (RANG_DOM[2]-RANG_SAR[2]) * t);
+    noghteh.shadowColor = 'rgba(34,211,238,.55)';
+    noghteh.shadowBlur = i == 0 ? 22 : 8;
+    noghteh.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+    nagard(p.x*KADR+1, p.y*KADR+1, KADR-2, KADR-2);
+    noghteh.shadowBlur = 0;
+  }
+  // cheshm-haye sar — be jahate harekat negah mikone
+  var sar = mar[0], cx = sar.x*KADR + KADR/2, cy = sar.y*KADR + KADR/2;
+  noghteh.fillStyle = '#0B0E22';
+  var ofx = jahat.x * 7, ofy = jahat.y * 7;
+  noghteh.beginPath();
+  noghteh.arc(cx + ofx - jahat.y*7, cy + ofy - jahat.x*7, 3.6, 0, Math.PI*2);
+  noghteh.arc(cx + ofx + jahat.y*7, cy + ofy + jahat.x*7, 3.6, 0, Math.PI*2);
+  noghteh.fill();
+}
+function nagard(x, y, w, h) {                   // gooshe-haye gard
+  var r = Math.round(KADR * 0.42);
+  noghteh.beginPath();
+  noghteh.moveTo(x+r, y);
+  noghteh.arcTo(x+w, y, x+w, y+h, r);
+  noghteh.arcTo(x+w, y+h, x, y+h, r);
+  noghteh.arcTo(x, y+h, x, y, r);
+  noghteh.arcTo(x, y, x+w, y, r);
+  noghteh.closePath();
+  noghteh.fill();
+}
+
+// ---------- zamankhah ----------
+function setIntervalRo(zaman) {
+  if (allanChand) clearInterval(allanChand);
+  allanChand = setInterval(yekGhadam, takhir);
+}
+
+// ---------- jahat ----------
+var JAHAT_HA = { bala:{x:0,y:-1}, paeen:{x:0,y:1}, chap:{x:-1,y:0}, rast:{x:1,y:0} };
+function setJahat(nam) {
+  var j = JAHAT_HA[nam];
+  if (!j) return;
+  var akhar = jahatBadi || jahat;
+  if (akhar.x + j.x == 0 && akhar.y + j.y == 0) return;   // bargasht mamnoo
+  if (mar.length && j.x == akhar.x && j.y == akhar.y) return;
+  jahatBadi = j;
+  if (!harekatOn && mar.length) edame();
+}
+document.addEventListener('keydown', function(e) {
+  var n = {ArrowUp:'bala', ArrowDown:'paeen', ArrowLeft:'chap', ArrowRight:'rast',
+           w:'bala', s:'paeen', a:'chap', d:'rast'}[e.key];
+  if (n) { setJahat(n); e.preventDefault(); }
+  if (e.key == ' ') { harekatOn ? mekse() : (mar.length ? edame() : shrooBazi()); e.preventDefault(); }
+});
+
+// ---------- dokme-ha ----------
+document.getElementById('dokme-shroo').onclick = shrooBazi;
+document.getElementById('dokme-mekes').onclick = function(){ harekatOn ? mekse() : edame(); };
+document.getElementById('sath-kond').onclick = function(){ takhir = 140; if (harekatOn) setIntervalRo(); };
+document.getElementById('sash-mamooli').onclick = function(){ takhir = 100; if (harekatOn) setIntervalRo(); };
+document.getElementById('sath-tand').onclick = function(){ takhir = 70; if (harekatOn) setIntervalRo(); };
+
+// ---------- ayande: do mar dar yek bazi? bebinim ba ki bashe :) ----------
+// halate "pak": ba ?clean=1 — esme anjoman va madrese az safhe bar midare (baraye estefade-ye azad)
+if (location.search.indexOf('clean') > -1) document.body.className = 'pak';
+
+if (demo) {
+  // taze baraye akse post — khodemoon bazi mikonim ta mar vasat kadr bashe
+  shartSabt = false;
+  shrooBazi();
+  for (var k = 0; k < 150; k++) {
+    var gh = ghaza, sar = mar[0];
+    var entekhab = null, behtarin = -1e9;
+    var gozine = [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
+    for (var i2 = 0; i2 < 4; i2++) {
+      var j2 = gozine[i2];
+      if (jahat.x + j2.x == 0 && jahat.y + j2.y == 0) continue;
+      var nx = (sar.x + j2.x + SOTUN) % SOTUN, ny = (sar.y + j2.y + SATR) % SATR;
+      var fasele = Math.abs(nx-gh.x) + Math.abs(ny-gh.y);
+      var jazr = -fasele * 4;
+      if (nx < 1 || nx > SOTUN-2 || ny < 1 || ny > SATR-2) jazr -= 12;  // az labeha door bemun
+      if (jazr > behtarin) { behtarin = jazr; entekhab = j2; }
+    }
+    jahat = entekhab || jahat;
+    yekGhadam();
+  }
+} else {
+  rasm();
+  nemayesh();
+  noghteh.direction = 'rtl';
+  noghteh.textAlign = 'center';
+  noghteh.fillStyle = 'rgba(11,14,34,.6)';
+  noghteh.fillRect(0, 0, takhli.width, takhli.height);
+  noghteh.fillStyle = '#fff';
+  noghteh.font = 'bold 46px Vazirmatn, Tahoma';
+  noghteh.fillText('برای شروع دکمهٔ «شروع» را بزن', 500, 370);
+  noghteh.font = '26px Vazirmatn, Tahoma';
+  noghteh.fillStyle = '#94A3B8';
+  noghteh.fillText('غذاها را بخور، بزرگ شو و رکورد بزن', 500, 430);
+}
+</script>
+</body>
+</html>
