@@ -266,6 +266,21 @@ def publish(cfg, kind, env):
         log(f"صف {kind} کانال {slug} خالی است — پست جدید اضافه شود")
         return False
 
+    # ۰-الف) مناسبت‌ها: پوشه‌ای که date.txt‌اش «امروز» است انتخاب می‌شود، نه قدیمی‌ترین
+    if kind == "occasion":
+        today = datetime.now(TEHRAN).date().isoformat()
+        base = queue / "mansabet"
+        folder = None
+        if base.exists():
+            for d in sorted(base.iterdir()):
+                df = d / "date.txt"
+                if df.exists() and df.read_text(encoding="utf-8").strip()[:10] == today:
+                    folder = d
+                    break
+        if not folder:
+            log(f"امروز ({today}) مناسبتی در صف نیست — رد شد")
+            return False
+
     # ۰-ب) گیت «تا تاریخ X منتشر نشود» — مجلهٔ آبان تا آخر آبان نگه داشته می‌شود
     hold_file = folder / "hold_until.txt"
     if hold_file.exists():
