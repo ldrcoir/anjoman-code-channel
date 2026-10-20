@@ -261,16 +261,11 @@ def publish(cfg, kind, env):
             encoding="utf-8")
         log(f"⚠️ نام‌کاربری کانال عوض شده: @{old} → @{live} — channel.json به‌روز شد")
 
-    folder = next_queue_item(queue, kind)
-    if not folder:
-        log(f"صف {kind} کانال {slug} خالی است — پست جدید اضافه شود")
-        return False
-
-    # ۰-الف) مناسبت‌ها: پوشه‌ای که date.txt‌اش «امروز» است انتخاب می‌شود، نه قدیمی‌ترین
+    folder = None
     if kind == "occasion":
+        # ۰-الف) مناسبت‌ها: پوشه‌ای که date.txt‌اش «امروز» است انتخاب می‌شود، نه قدیمی‌ترین
         today = datetime.now(TEHRAN).date().isoformat()
         base = queue / "mansabet"
-        folder = None
         if base.exists():
             for d in sorted(base.iterdir()):
                 df = d / "date.txt"
@@ -279,6 +274,11 @@ def publish(cfg, kind, env):
                     break
         if not folder:
             log(f"امروز ({today}) مناسبتی در صف نیست — رد شد")
+            return False
+    else:
+        folder = next_queue_item(queue, kind)
+        if not folder:
+            log(f"صف {kind} کانال {slug} خالی است — پست جدید اضافه شود")
             return False
 
     # ۰-ب) گیت «تا تاریخ X منتشر نشود» — مجلهٔ آبان تا آخر آبان نگه داشته می‌شود
