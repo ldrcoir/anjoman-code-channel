@@ -49,7 +49,11 @@ GH_PUSH_URL_TPL = "https://ldrcoir:{tok}@github.com/ldrcoir/anjoman-code-channel
 
 FORCE = "--force" in sys.argv
 DRY = "--dry" in sys.argv
-KIND = "variety" if "--kind" in sys.argv and "variety" in sys.argv else "lesson"
+KIND = "lesson"
+if "--kind" in sys.argv:
+    _i = sys.argv.index("--kind")
+    if _i + 1 < len(sys.argv):
+        KIND = sys.argv[_i + 1].strip()
 
 
 def log(msg):
