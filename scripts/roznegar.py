@@ -23,6 +23,7 @@ channel.json، صف، آرشیو، state و آمار خودش — هیچ قاط�
 مصرف: python3 roznegar.py --channel <slug> --kind lesson|variety [--force] [--dry]
 """
 import os
+import re
 import sys
 import json
 import fcntl
@@ -104,16 +105,19 @@ def git_sync_with_remote(env):
     if f.returncode != 0:
         log(f"pull: fetch ناموفق — ادامه با نسخهٔ محلی ({f.stderr[:150]})")
         return
-    m = git("merge", "--ff-only", "FETCH_HEAD")
-    if m.returncode == 0:
-        git("remote", "set-url", "origin", GH_REPO_URL)
-        if "Already up to date" not in (m.stdout or ""):
+    # هیچ‌وقت کامیت‌های محلی را با reset نابود نکن:
+    # اگر محلی جلوتر یا واگرده بود، نسخهٔ محلی مرجع است (فقط push می‌شود)
+    ahead = (git("rev-list", "--count", "FETCH_HEAD..HEAD").stdout or "0").strip()
+    if ahead and ahead != "0":
+        m = git("merge", "--ff-only", "FETCH_HEAD")
+        if m.returncode == 0:
             log("pull: از گیت‌هاب همگام شد")
+        else:
+            log(f"pull: محلی {ahead} کامیت جلوتر/واگرده — نسخهٔ محلی حفظ شد")
     else:
-        # واگرایی نادر — بازگشت به ریموت (فقط وقتی محلی قابل اعتماد نیست)
-        log(f"pull: ff-merge نشد ({(m.stdout or m.stderr)[:120]}) — reset به ریموت")
         git("reset", "--hard", "FETCH_HEAD")
-        git("remote", "set-url", "origin", GH_REPO_URL)
+        log("pull: به ریموت تراز شد")
+    git("remote", "set-url", "origin", GH_REPO_URL)
 
 
 def git_push(env):
@@ -182,6 +186,19 @@ def send_photo(token, chat_id, png, caption):
     return resp["result"]["message_id"]
 
 
+def fresh_handle(token, chat_id):
+    """نام‌کاربری زندهٔ کانال را از API می‌گیرد — ادمین‌ها گاهی آدرس را عوض می‌کنند"""
+    try:
+        r = requests.get(f"https://tapi.bale.ai/bot{token}/getChat",
+                         json={"chat_id": chat_id}, timeout=30)
+        res = r.json()
+        if res.get("ok"):
+            return (res.get("result") or {}).get("username")
+    except Exception as e:
+        log(f"getChat ناموفق: {e}")
+    return None
+
+
 def publish(cfg, kind, env):
     slug = cfg["slug"]
     chdir = Path(cfg["_dir"])
@@ -193,6 +210,19 @@ def publish(cfg, kind, env):
     if not token:
         log(f"ERROR: توکن کانال {slug} یافت نشد ({cfg.get('token_key')})")
         return False
+
+    # ۰) نام‌کاربری زندهٔ کانال — اگر ادمین‌ها آدرس را عوض کرده باشند،
+    #    هم شناسنامهٔ کانال به‌روز می‌شود هم لینک کپشن و نشان روی عکس
+    live = fresh_handle(token, chat_id)
+    old = (cfg.get("handle") or "").lstrip("@")
+    if live and live != old:
+        cfg["handle"] = f"@{live}"
+        cfg["link"] = f"ble.ir/{live}"
+        clean = {k: v for k, v in cfg.items() if not k.startswith("_")}
+        (chdir / "channel.json").write_text(
+            json.dumps(clean, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8")
+        log(f"⚠️ نام‌کاربری کانال عوض شده: @{old} → @{live} — channel.json به‌روز شد")
 
     folder = next_queue_item(queue, kind)
     if not folder:
@@ -225,8 +255,10 @@ def publish(cfg, kind, env):
         log("حالت dry — ارسال نشد")
         return True
 
-    # ۲) ارسال به کانال
+    # ۲) ارسال به کانال — لینک کپشن همیشه با نام‌کاربری زندهٔ همین لحظه اصلاح می‌شود
     caption = (folder / "caption.txt").read_text(encoding="utf-8").strip()
+    if live:
+        caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", caption)
     try:
         message_id = send_photo(token, chat_id, png, caption)
         log(f"منتشر شد در کانال {cfg.get('handle', chat_id)} — message_id={message_id}")
