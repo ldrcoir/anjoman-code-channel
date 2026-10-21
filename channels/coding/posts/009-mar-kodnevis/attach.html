@@ -2,70 +2,93 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>مار کدنویس | انجمن علمی‌پژوهشی کدنویسی — مدرسهٔ شهید فقیهی</title>
+<meta name="theme-color" content="#0D1230">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مار کدنویس">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
 <!--
   bazie "Mar Kodnevis" — bargerri, tak-fail, bedoone heech ketabkhane-i
   anjome elmi-pajooheshi kodnevisi | madrese Shahid Faghihi
+  in noskhe baraye gooshi sazi shode — aksariye bazi-konan ba mobile miyan!
   age inja ro mikhooni pas midooni khowabet mibare! ide-i dashti?
   be channel begoo: ble.ir/anjomanfaghihi
 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  html,body { width:1080px; margin:0 auto; }
+  html { -webkit-text-size-adjust:100%; }
   body {
     font-family:'Vazirmatn','Segoe UI',Tahoma,sans-serif;
     background:linear-gradient(160deg,#0D1230 0%,#1A2151 60%,#0D1230 100%);
-    color:#E8EEF8; min-height:1350px; padding:14px 40px 16px;
+    color:#E8EEF8; min-height:100vh; padding:12px 14px calc(12px + env(safe-area-inset-bottom));
     text-align:center; position:relative;
   }
-  .badane { width:1000px; margin:0 auto; }
+  .badane { width:100%; max-width:620px; margin:0 auto; }
   .safhe-bala { display:flex; justify-content:space-between; align-items:center; }
   .chip {
     display:inline-block; background:rgba(34,211,238,.12); border:2px solid rgba(34,211,238,.7);
-    color:#fff; border-radius:999px; padding:6px 22px; font-weight:700; font-size:22px;
+    color:#fff; border-radius:999px; padding:4px 16px; font-weight:700; font-size:clamp(14px,3.4vw,20px);
   }
   .chip .kod { direction:ltr; font-family:Consolas,monospace; color:#22D3EE; }
-  .dastresi { direction:ltr; color:#22D3EE; font-family:Consolas,monospace; font-size:22px; }
-  h1 { font-size:64px; font-weight:900; color:#fff; margin-top:8px; line-height:1.2; }
-  .zir-title { color:#C6D0E4; font-size:24px; margin-top:0; }
-  .nobat { display:flex; justify-content:center; gap:16px; margin-top:12px; }
+  .dastresi { direction:ltr; color:#22D3EE; font-family:Consolas,monospace; font-size:clamp(13px,3.2vw,19px); }
+  h1 { font-size:clamp(30px,8vw,52px); font-weight:900; color:#fff; margin-top:6px; line-height:1.2; }
+  .zir-title { color:#C6D0E4; font-size:clamp(13px,3.5vw,19px); margin-top:2px; }
+  .nobat { display:flex; justify-content:center; gap:8px; margin-top:10px; flex-wrap:wrap; }
   .sandogh-nobat {
     background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.22);
-    border-radius:14px; padding:6px 24px; font-size:24px; font-weight:700;
+    border-radius:12px; padding:4px 14px; font-size:clamp(14px,3.6vw,20px); font-weight:700;
   }
   .sandogh-nobat .meghdar { color:#22D3EE; font-weight:900; }
   .sandogh-nobat.ghermez .meghdar { color:#FB923C; }
   #bazi {
-    display:block; margin:14px auto 0; border-radius:18px;
+    display:block; width:100%; margin:12px auto 0; border-radius:16px;
     border:2px solid rgba(255,255,255,.25);
-    box-shadow:0 0 46px rgba(34,211,238,.22), inset 0 0 60px rgba(0,0,0,.4);
-    background:#0B0E22;
+    box-shadow:0 0 40px rgba(34,211,238,.2), inset 0 0 50px rgba(0,0,0,.4);
+    background:#0B0E22; touch-action:none;   /* engesht rooye zamin nabayad safhe ro becharkhoone */
   }
-  .dokme-ha { display:flex; justify-content:center; gap:12px; margin-top:10px; flex-wrap:wrap; }
+  .dokme-ha { display:flex; justify-content:center; gap:8px; margin-top:10px; flex-wrap:wrap; }
   button {
-    font-family:inherit; font-size:23px; font-weight:700; color:#fff; cursor:pointer;
+    font-family:inherit; color:#fff; cursor:pointer;
     background:rgba(255,255,255,.09); border:2px solid rgba(255,255,255,.28);
-    border-radius:12px; padding:8px 26px;
+    border-radius:12px; padding:8px 20px; font-size:clamp(15px,3.8vw,20px); font-weight:700;
+    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+    user-select:none; -webkit-user-select:none;
   }
   button.asli { background:rgba(34,211,238,.16); border-color:rgba(34,211,238,.8); }
-  button.entekhab { background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.8); }
-  .rahnama { color:#94A3B8; font-size:19px; margin-top:8px; }
-  .jahat-ha { display:grid; grid-template-columns:repeat(3,86px); grid-template-rows:repeat(2,48px);
-    gap:8px; justify-content:center; margin-top:12px; }
-  .jahat-ha button { font-size:30px; padding:0; border-radius:10px; }
+  button.entekhab { background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.85); box-shadow:0 0 14px rgba(52,211,153,.35); }
+  button.feshar:active { transform:scale(.93); filter:brightness(1.35); }
+  .rahnama { color:#94A3B8; font-size:clamp(12px,3vw,16px); margin-top:8px; line-height:1.7; }
+  .jahat-ha { direction:ltr; display:grid; grid-template-columns:repeat(3, min(24vw, 96px)); grid-template-rows:repeat(2, min(15vw, 62px));
+    gap:8px; justify-content:center; margin-top:10px; touch-action:none; }   /* ltr: ta flesh-ha dar rtl be ham narizan */
+  .jahat-ha button { font-size:clamp(20px,6vw,30px); padding:0; border-radius:14px;
+    background:rgba(34,211,238,.13); border-color:rgba(34,211,238,.65); }
   .jahat-bala { grid-column:2; }
   .jahat-chap { grid-column:1; grid-row:2; }
   .jahat-paeen { grid-column:2; grid-row:2; }
   .jahat-rast { grid-column:3; grid-row:2; }
-  .paeen {
-    margin-top:8px; border-top:1px solid rgba(255,255,255,.15); padding-top:8px;
-    display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap;
+  .dokme-nasb {
+    display:block; margin:12px auto 0; background:rgba(251,146,60,.14);
+    border-color:rgba(251,146,60,.75); color:#FFD9B8;
   }
-  .paeen .esm { font-size:22px; font-weight:700; color:#fff; }
+  .dokme-nasb[hidden] { display:none; }   /* ta morurgar nasb-ro taid nakarde neshoon nade */
+  .paeen {
+    margin-top:10px; border-top:1px solid rgba(255,255,255,.15); padding-top:10px;
+    display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;
+  }
+  .paeen .esm { font-size:clamp(13px,3.2vw,18px); font-weight:700; color:#fff; }
   .paeen .joda { color:#22D3EE; font-weight:900; }
-  .paeen .lin { direction:ltr; color:#22D3EE; font-family:Consolas,monospace; font-size:21px; text-decoration:none; }
+  .paeen .lin { direction:ltr; color:#22D3EE; font-family:Consolas,monospace; font-size:clamp(12px,3vw,17px); text-decoration:none; }
+  .paeen .esm.pak { display:none; }   /* in faghat dar hlate pak bayad pida beshe */
   body.pak .mahv { display:none; }
+  body.pak .esm.pak { display:inline; }
+  /* halate demo faghat baraye akse post — kadr bozorg mishe va vasat safhe mimone */
+  body.demo { display:flex; align-items:center; min-height:100vh; }
+  body.demo .badane { max-width:1040px; }
+  body.demo #bazi { max-width:1000px; }
 </style>
 </head>
 <body>
@@ -85,23 +108,25 @@
     <div class="sandogh-nobat ghermez">وضعیت: <span class="meghdar" id="nemayesh-vaziat">آماده</span></div>
   </div>
 
-  <canvas id="bazi" width="1000" height="720"></canvas>
+  <canvas id="bazi"></canvas>
 
   <div class="dokme-ha">
-    <button class="asli" id="dokme-shroo">شروع</button>
-    <button id="dokme-mekes">مکث</button>
-    <button id="sath-kond">کند</button>
-    <button class="entekhab" id="sash-mamooli">معمولی</button>
-    <button id="sath-tand">تند</button>
+    <button class="asli feshar" id="dokme-shroo">شروع</button>
+    <button class="feshar" id="dokme-mekes">مکث</button>
+    <button class="feshar" id="sath-kond">کند</button>
+    <button class="entekhab feshar" id="sash-mamooli">معمولی</button>
+    <button class="feshar" id="sath-tand">تند</button>
   </div>
-  <div class="rahnama">با کلیدهای جهت یا W A S D حرکت کن — مکث با دکمه یا Space — روی گوشی از دکمه‌های زیر استفاده کن</div>
+  <div class="rahnama">با کلیدهای جهت یا W A S D حرکت کن — مکث با دکمه یا Space<br>روی گوشی: روی زمین بازی انگشت بکش یا از دکمه‌های زیر استفاده کن</div>
 
   <div class="jahat-ha">
-    <button class="jahat-bala" onclick="setJahat('bala')">▲</button>
-    <button class="jahat-chap" onclick="setJahat('chap')">◀</button>
-    <button class="jahat-paeen" onclick="setJahat('paeen')">▼</button>
-    <button class="jahat-rast" onclick="setJahat('rast')">▶</button>
+    <button class="jahat-bala feshar">▲</button>
+    <button class="jahat-chap feshar">◀</button>
+    <button class="jahat-paeen feshar">▼</button>
+    <button class="jahat-rast feshar">▶</button>
   </div>
+
+  <button class="dokme-nasb" id="dokme-nasb" hidden>📲 نصب بازی روی گوشی</button>
 
   <div class="paeen">
     <span class="esm mahv">انجمن علمی‌پژوهشی کدنویسی</span>
@@ -117,13 +142,14 @@
 // ---------- moteghayyerha ----------
 var takhli = document.getElementById('bazi');
 var noghteh = takhli.getContext('2d');
-var KADR = 40, SOTUN = 25, SATR = 18;          // khane-haye bozorg: 25 dar 18
+var KADR = 40, SOTUN = 25, SATR = 18;           // khane-ha: 25 dar 18 (nesbate 1000 dar 720)
 var mar = [];                                   // badane mar: har khane {x, y}
 var jahat = {x:-1, y:0};                        // jahate felan (inja az rast be chap)
-var jahatBadi = null;                           // agar baran-e chand ta feshar dad
+var saf = [];                                   // agar bazi-kon chand ta jahat ro posht-e ham zad
 var ghaza = {x:0, y:0};
 var emtiaz = 0, record = 0;
-var harekatOn = false, allanChand = null, takhir = 100;
+var harekatOn = false, takhir = 170;            // 170 mili-sanie: mare aroom o farmoon (ghablan 100 bood, bisyar tond bood!)
+var vaziatBazi = 'amade';                       // amade / bazi / mkes / payan
 var shartSabt = true;
 var demo = location.search.indexOf('demo') > -1;   // baraye akse post
 
@@ -142,6 +168,26 @@ function nemayesh() {
   document.getElementById('nemayesh-emtiaz').textContent = faN(emtiaz);
   document.getElementById('nemayesh-record').textContent = faN(record);
 }
+function gozarVaziat(matn) {
+  document.getElementById('nemayesh-vaziat').textContent = matn;
+}
+
+// ---------- andaze-e kadr: rooye har gooshi-i khodeto tanviz mikone ----------
+function andazeKadr() {
+  var w = takhli.clientWidth;
+  if (!w) return;
+  var h = Math.round(w * SATR / SOTUN);
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);   // bishtar az 2 lazem nis, ram dad-e mikonim
+  takhli.style.height = h + 'px';
+  takhli.width = Math.round(w * dpr);
+  takhli.height = Math.round(h * dpr);
+  var s = takhli.width / (SOTUN * KADR);
+  noghteh.setTransform(s, 0, 0, s, 0, 0);                // az in be bad hamash ba adad-e 1000x720 kar mikonim
+  rasm();
+  if (vaziatBazi == 'amade') pardeShroo();
+  if (vaziatBazi == 'payan') pardePayan();
+}
+window.addEventListener('resize', andazeKadr);
 
 // ---------- ghaza ----------
 function ghazaJadid() {
@@ -157,36 +203,45 @@ function ghazaJadid() {
 // ---------- shroo / mekes / payan ----------
 function shrooBazi() {
   mar = [{x:12,y:9},{x:13,y:9},{x:14,y:9},{x:15,y:9}];
-  jahat = {x:-1, y:0}; jahatBadi = null;
+  jahat = {x:-1, y:0}; saf = [];
   emtiaz = 0; ghazaJadid();
-  harekatOn = true;
-  document.getElementById('nemayesh-vaziat').textContent = 'در حال بازی';
-  setIntervalRo(allanChand);
-  nemayesh();
+  harekatOn = true; vaziatBazi = 'bazi';
+  gozarVaziat('در حال بازی');
+  nemayesh(); rasm();
 }
 function mekse() {
   if (!harekatOn) return;
-  harekatOn = false;
-  document.getElementById('nemayesh-vaziat').textContent = 'مکث';
+  harekatOn = false; vaziatBazi = 'mkes';
+  gozarVaziat('مکث');
 }
 function edame() {
-  if (harekatOn || mar.length == 0) return;
-  harekatOn = true;
-  document.getElementById('nemayesh-vaziat').textContent = 'در حال بازی';
+  if (harekatOn || vaziatBazi != 'mkes') return;
+  harekatOn = true; vaziatBazi = 'bazi';
+  gozarVaziat('در حال بازی');
 }
-function payanBazi() {
-  harekatOn = false;
-  document.getElementById('nemayesh-vaziat').textContent = 'پایان';
+function sabtRecord() {
   if (shartSabt && emtiaz > record) {
     record = emtiaz;
     try { localStorage.setItem('mar_kodnevis_record', record); } catch (e) {}
     nemayesh();
   }
+}
+function pardeShroo() {
   rasm();
-  noghteh.direction = 'rtl';
-  noghteh.textAlign = 'center';
+  noghteh.direction = 'rtl'; noghteh.textAlign = 'center';
+  noghteh.fillStyle = 'rgba(11,14,34,.6)';
+  noghteh.fillRect(0, 0, SOTUN*KADR, SATR*KADR);
+  noghteh.fillStyle = '#fff';
+  noghteh.font = 'bold 46px Vazirmatn, Tahoma';
+  noghteh.fillText('برای شروع دکمهٔ «شروع» را بزن', 500, 370);
+  noghteh.font = '26px Vazirmatn, Tahoma';
+  noghteh.fillStyle = '#94A3B8';
+  noghteh.fillText('غذاها را بخور، بزرگ شو و رکورد بزن', 500, 430);
+}
+function pardePayan() {
+  noghteh.direction = 'rtl'; noghteh.textAlign = 'center';
   noghteh.fillStyle = 'rgba(11,14,34,.72)';
-  noghteh.fillRect(0, 0, takhli.width, takhli.height);
+  noghteh.fillRect(0, 0, SOTUN*KADR, SATR*KADR);
   noghteh.fillStyle = '#fff';
   noghteh.font = 'bold 52px Vazirmatn, Tahoma';
   noghteh.fillText('اوه! خوردی به دیوار یا خودت', 500, 330);
@@ -197,11 +252,17 @@ function payanBazi() {
   noghteh.font = '26px Vazirmatn, Tahoma';
   noghteh.fillText('دوباره؟ دکمهٔ «شروع» را بزن', 500, 460);
 }
+function payanBazi() {
+  harekatOn = false; vaziatBazi = 'payan';
+  gozarVaziat('پایان');
+  sabtRecord();
+  pardePayan();
+}
 
 // ---------- har ghadam ----------
 function yekGhadam() {
   if (!harekatOn) return;
-  if (jahatBadi) { jahat = jahatBadi; jahatBadi = null; }
+  if (saf.length) { jahat = saf.shift(); }                 // nobat-e jahat-ha yeki yeki
   var sar = {x: mar[0].x + jahat.x, y: mar[0].y + jahat.y};
 
   if (demo) {
@@ -219,10 +280,7 @@ function yekGhadam() {
   mar.unshift(sar);
   if (sar.x == ghaza.x && sar.y == ghaza.y) {
     emtiaz++;                                  // noosh!
-    if (shartSabt && emtiaz > record) {
-      record = emtiaz;
-      try { localStorage.setItem('mar_kodnevis_record', record); } catch (e) {}
-    }
+    sabtRecord();
     ghazaJadid();
   } else {
     mar.pop();
@@ -234,7 +292,7 @@ function yekGhadam() {
 // ---------- rasm ----------
 function rasm() {
   noghteh.fillStyle = '#0B0E22';
-  noghteh.fillRect(0, 0, takhli.width, takhli.height);
+  noghteh.fillRect(0, 0, SOTUN*KADR, SATR*KADR);
   // chand nokt-e safid rooye zamin — hes-e shabake
   noghteh.fillStyle = 'rgba(255,255,255,.07)';
   for (var gx = 2; gx < SOTUN; gx += 2)
@@ -286,10 +344,9 @@ function nagard(x, y, w, h) {                   // gooshe-haye gard
   noghteh.fill();
 }
 
-// ---------- zamankhah ----------
-function setIntervalRo(zaman) {
-  if (allanChand) clearInterval(allanChand);
-  allanChand = setInterval(yekGhadam, takhir);
+// ---------- halghe-ye asli: har takhir yek ghadam — aroom va ravan ----------
+function becharkh() {
+  setTimeout(function() { yekGhadam(); becharkh(); }, takhir);
 }
 
 // ---------- jahat ----------
@@ -297,32 +354,95 @@ var JAHAT_HA = { bala:{x:0,y:-1}, paeen:{x:0,y:1}, chap:{x:-1,y:0}, rast:{x:1,y:
 function setJahat(nam) {
   var j = JAHAT_HA[nam];
   if (!j) return;
-  var akhar = jahatBadi || jahat;
+  if (vaziatBazi == 'amade' || vaziatBazi == 'payan') shrooBazi();   // engesht-e aval khodesh shroo mikone
+  var akhar = saf.length ? saf[saf.length-1] : jahat;
   if (akhar.x + j.x == 0 && akhar.y + j.y == 0) return;   // bargasht mamnoo
   if (mar.length && j.x == akhar.x && j.y == akhar.y) return;
-  jahatBadi = j;
-  if (!harekatOn && mar.length) edame();
+  if (saf.length < 3) saf.push(j);                        // ta 3 feshar-e pir-e posht-e ham mimone dar saf
+  if (vaziatBazi == 'mkes') edame();
+  try { navigator.vibrate(12); } catch (e) {}             // yek lareze koochik ke dast beshe feshar dadim
 }
+
+// dokme-haye jahat: touchstart cheon click rooye gooshi takhir dare va kon mizane
+function feshar(el, kar) {
+  el.addEventListener('touchstart', function(e) { e.preventDefault(); kar(); }, {passive:false});
+  el.addEventListener('click', kar);                      // rooye kompi-tar ba click
+}
+var dokmeJahat = {
+  bala: document.querySelector('.jahat-bala'),
+  paeen: document.querySelector('.jahat-paeen'),
+  chap: document.querySelector('.jahat-chap'),
+  rast: document.querySelector('.jahat-rast')
+};
+for (var nam in dokmeJahat) feshar(dokmeJahat[nam], function(nam){ return function(){ setJahat(nam); }; }(nam));
+
+// keshidan-e engesht rooye khod-e zamin bazi — rahtar az har dokme-i
+var laghz = null;
+takhli.addEventListener('touchstart', function(e) {
+  var t = e.touches[0];
+  laghz = {x:t.clientX, y:t.clientY};
+}, {passive:true});
+takhli.addEventListener('touchmove', function(e) {
+  e.preventDefault();
+  if (!laghz) return;
+  var t = e.touches[0], dx = t.clientX - laghz.x, dy = t.clientY - laghz.y;
+  if (Math.abs(dx) < 26 && Math.abs(dy) < 26) return;      // hanooz kafi nakeshide
+  if (Math.abs(dx) > Math.abs(dy)) setJahat(dx > 0 ? 'rast' : 'chap');
+  else setJahat(dy > 0 ? 'paeen' : 'bala');
+  laghz = {x:t.clientX, y:t.clientY};                      // mishe bast-e bast keshid
+}, {passive:false});
+takhli.addEventListener('touchend', function() { laghz = null; });
+
+// tap rooye zamin = shroo (vaghti bazi tamome shode ya hanooz shroo nashode)
+takhli.addEventListener('click', function() {
+  if (vaziatBazi == 'amade' || vaziatBazi == 'payan') shrooBazi();
+});
+
+// ---------- kilid-e sahne ----------
 document.addEventListener('keydown', function(e) {
   var n = {ArrowUp:'bala', ArrowDown:'paeen', ArrowLeft:'chap', ArrowRight:'rast',
            w:'bala', s:'paeen', a:'chap', d:'rast'}[e.key];
   if (n) { setJahat(n); e.preventDefault(); }
-  if (e.key == ' ') { harekatOn ? mekse() : (mar.length ? edame() : shrooBazi()); e.preventDefault(); }
+  if (e.key == ' ') { harekatOn ? mekse() : (vaziatBazi == 'mkes' ? edame() : shrooBazi()); e.preventDefault(); }
 });
 
 // ---------- dokme-ha ----------
-document.getElementById('dokme-shroo').onclick = shrooBazi;
-document.getElementById('dokme-mekes').onclick = function(){ harekatOn ? mekse() : edame(); };
-document.getElementById('sath-kond').onclick = function(){ takhir = 140; if (harekatOn) setIntervalRo(); };
-document.getElementById('sash-mamooli').onclick = function(){ takhir = 100; if (harekatOn) setIntervalRo(); };
-document.getElementById('sath-tand').onclick = function(){ takhir = 70; if (harekatOn) setIntervalRo(); };
+feshar(document.getElementById('dokme-shroo'), shrooBazi);
+feshar(document.getElementById('dokme-mekes'), function(){ harekatOn ? mekse() : edame(); });
+feshar(document.getElementById('sath-kond'),    function(){ takhir = 240; });   // aroooooom, baraye rah oftadan
+feshar(document.getElementById('sash-mamooli'), function(){ takhir = 170; });
+feshar(document.getElementById('sath-tand'),    function(){ takhir = 115; });   // baraye mard-e gholabe
+
+// ---------- nasbe bazi (PWA) ----------
+// dasturi nist! faghat HTTPS + manifest + service worker bashe, menu-ye morurgar
+// khodesh gozine-ye "afzoodan be safhe-ye asli" ro neshoon mide.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').catch(function() {});   // rooye file nist, ghash nemiad
+  });
+}
+var nasbeAmade = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  nasbeAmade = e;
+  document.getElementById('dokme-nasb').hidden = false;   // faghat inja neshoon miad ke morurgar sapest
+});
+feshar(document.getElementById('dokme-nasb'), function() {
+  if (nasbeAmade) { nasbeAmade.prompt(); nasbeAmade = null; }
+});
 
 // ---------- ayande: do mar dar yek bazi? bebinim ba ki bashe :) ----------
 // halate "pak": ba ?clean=1 — esme anjoman va madrese az safhe bar midare (baraye estefade-ye azad)
 if (location.search.indexOf('clean') > -1) document.body.className = 'pak';
 
+// ----------
+andazeKadr();
+nemayesh();
+becharkh();
+
 if (demo) {
   // taze baraye akse post — khodemoon bazi mikonim ta mar vasat kadr bashe
+  document.body.className = (document.body.className + ' demo').trim();
   shartSabt = false;
   shrooBazi();
   for (var k = 0; k < 150; k++) {
@@ -335,25 +455,14 @@ if (demo) {
       var nx = (sar.x + j2.x + SOTUN) % SOTUN, ny = (sar.y + j2.y + SATR) % SATR;
       var fasele = Math.abs(nx-gh.x) + Math.abs(ny-gh.y);
       var jazr = -fasele * 4;
+      jazr += Math.sin(k/6) * 5;                                       // yek molek-e marpich — ta dar akse post rast nare
+      jazr -= Math.abs(ny - 9) * 1.3;                                  // vasat-e safhe bemoon — akse ghashang-tar
       if (nx < 1 || nx > SOTUN-2 || ny < 1 || ny > SATR-2) jazr -= 12;  // az labeha door bemun
       if (jazr > behtarin) { behtarin = jazr; entekhab = j2; }
     }
     jahat = entekhab || jahat;
     yekGhadam();
   }
-} else {
-  rasm();
-  nemayesh();
-  noghteh.direction = 'rtl';
-  noghteh.textAlign = 'center';
-  noghteh.fillStyle = 'rgba(11,14,34,.6)';
-  noghteh.fillRect(0, 0, takhli.width, takhli.height);
-  noghteh.fillStyle = '#fff';
-  noghteh.font = 'bold 46px Vazirmatn, Tahoma';
-  noghteh.fillText('برای شروع دکمهٔ «شروع» را بزن', 500, 370);
-  noghteh.font = '26px Vazirmatn, Tahoma';
-  noghteh.fillStyle = '#94A3B8';
-  noghteh.fillText('غذاها را بخور، بزرگ شو و رکورد بزن', 500, 430);
 }
 </script>
 </body>
