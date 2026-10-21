@@ -40,6 +40,7 @@ ROOT = Path("/home/z/my-project")
 REPO = ROOT / "anjoman-code-bot"
 sys.path.insert(0, str(REPO / "scripts"))
 from poster_lib import render, spec_text, set_channel  # noqa: E402
+from kootah import shorten_links_in  # noqa: E402  — سیاست مالک: لینک‌های بلند کوتاه شوند
 
 TEHRAN = ZoneInfo("Asia/Tehran")
 LOCK = ROOT / ".roznegar.lock"
@@ -349,6 +350,7 @@ def publish(cfg, kind, env):
     caption = (folder / "caption.txt").read_text(encoding="utf-8").strip()
     if live:
         caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", caption)
+    caption = shorten_links_in(caption)   # لینک‌های بلند → TinyURL (کش‌شده)
     try:
         message_id = send_photo(token, chat_id, png, caption)
         log(f"منتشر شد در کانال {cfg.get('handle', chat_id)} — message_id={message_id}")
@@ -369,6 +371,7 @@ def publish(cfg, kind, env):
                        if doc_cap_file.exists() else "📎 فایل پیوست")
         if live:
             doc_caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", doc_caption)
+        doc_caption = shorten_links_in(doc_caption)   # لینک‌های بلند → TinyURL
         try:
             doc_message_id = send_document(token, chat_id, attach[0], doc_caption,
                                            mime=attach[1])
