@@ -12,6 +12,12 @@ ISSUE = {
     "channel": "کانال انجمن کدنویسی",
     "handle": "@anjomanfaghihi",
     "link": "ble.ir/anjomanfaghihi",
+    "hero": ("imgs/cover-hero.png", ""),
+    "editorial_img": ("imgs/editorial.png", "تصویرسازی: نشریهٔ ما ساختهٔ مشارکت شماست"),
+    "ai_news_img": ("imgs/ai-news.png", "تصویرسازی: وقتی مدل‌ها همکار می‌شوند"),
+    "it_news_img": ("imgs/it-news.png", "تصویرسازی: امنیت، اولین درس دنیای واقعی کد"),
+    "language_img": ("imgs/c-language.png", "تصویرسازی: پایانه‌ای که همه‌چیز از آن شروع شد"),
+    "tip_img": ("imgs/git-tip.png", "تصویرسازی: شاخه‌های پروژه", 46),
     "toc": [
         ("سرمقاله؛ ماه دوم", "۲"),
         ("خبرهای انجمن", "۲"),

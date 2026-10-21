@@ -2,19 +2,67 @@
  "source": "psi1.ir (پژوهش‌سرای فرهیختگان ایلام) + uploadkon.ir",
  "harvest_date": "2026-10-20 / تکمیل 2026-10-21",
  "downloaded": [
-  {"file": "1-adabiat-oloom-ensani-7th-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/1-شیوه-نامه-هفتمین-دوره-مسابقات-قطب-ادبیات-و-علوم-انسانی-10-دی-14041405.pdf"},
-  {"file": "2-1-giyahan-daruyi-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/2-1شیوه-نامه-گیاهان-دارویی-1405-2.pdf"},
-  {"file": "3-enerjihaye-novin-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/3-انرژی-های-نوین-14041028.pdf"},
-  {"file": "5-zistfannavari-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/5-شیوه-نامه-زیست-فناوری-14041405.pdf"},
-  {"file": "7-nanofannavari-7th-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/7-شیوه-نامه-نانوفناوری-هفتمین-دوره-1405-1404-1.pdf"},
-  {"file": "8-haml-o-naql-pishrafte-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/8-حمل-و-نقل-پیشرفته-14041405.pdf"},
-  {"file": "9-kodnevisi-8th-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/9-شیوه-نامه-هشتمین-دوره-مسابقات-کد-نویسی-14041405.pdf"},
-  {"file": "10-azmaieshgah-oloom-tajrobi-24th-1404-1405.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/10-شیوه-نامه-نهایی-بیست-و-چهارمین-دوره-مسابقات-آزمایشگاه-علوم-تجربی-14041021-.pdf"},
-  {"file": "13-garayeshha-ebtedayi.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/13-گرایش-های-مسابقات-برای-مقطع-ابتدایی.pdf"},
-  {"file": "14-garayeshha-motevasete-avval.pdf", "url": "https://psi1.ir/wp-content/uploads/2026/02/14-گرایش-های-مسابقات-برای-مقطع-متوسطه-اول-.pdf"},
-  {"file": "hasteie-4th-1403-1404.pdf", "url": "https://psi1.ir/wp-content/uploads/2024/11/12-شیوه-نامه-چهارمین-دوره-مسابقات-علوم-و-فنون-هسته-ای.pdf", "note": "دورهٔ چهارم (سال قبل) — نسخهٔ سال جدید هنوز منتشر نشده؛ اولویت اول مالک؛ با روش دومرحله‌ای کوکی دانلود شد"},
-  {"file": "salool-bonyadi-7th.pdf", "url": "https://uploadkon.ir/uploads/a58419_25شیوه-نامه-محتوا-سلول-بنیادی.pdf", "note": "هفتمین دوره سلول‌های بنیادی"}
+  {
+   "file": "1-adabiat-oloom-ensani-7th-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/1-شیوه-نامه-هفتمین-دوره-مسابقات-قطب-ادبیات-و-علوم-انسانی-10-دی-14041405.pdf"
+  },
+  {
+   "file": "2-1-giyahan-daruyi-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/2-1شیوه-نامه-گیاهان-دارویی-1405-2.pdf"
+  },
+  {
+   "file": "3-enerjihaye-novin-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/3-انرژی-های-نوین-14041028.pdf"
+  },
+  {
+   "file": "5-zistfannavari-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/5-شیوه-نامه-زیست-فناوری-14041405.pdf"
+  },
+  {
+   "file": "7-nanofannavari-7th-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/7-شیوه-نامه-نانوفناوری-هفتمین-دوره-1405-1404-1.pdf"
+  },
+  {
+   "file": "8-haml-o-naql-pishrafte-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/8-حمل-و-نقل-پیشرفته-14041405.pdf"
+  },
+  {
+   "file": "9-kodnevisi-8th-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/9-شیوه-نامه-هشتمین-دوره-مسابقات-کد-نویسی-14041405.pdf"
+  },
+  {
+   "file": "10-azmaieshgah-oloom-tajrobi-24th-1404-1405.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/10-شیوه-نامه-نهایی-بیست-و-چهارمین-دوره-مسابقات-آزمایشگاه-علوم-تجربی-14041021-.pdf"
+  },
+  {
+   "file": "13-garayeshha-ebtedayi.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/13-گرایش-های-مسابقات-برای-مقطع-ابتدایی.pdf"
+  },
+  {
+   "file": "14-garayeshha-motevasete-avval.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2026/02/14-گرایش-های-مسابقات-برای-مقطع-متوسطه-اول-.pdf"
+  },
+  {
+   "file": "hasteie-4th-1403-1404.pdf",
+   "url": "https://psi1.ir/wp-content/uploads/2024/11/12-شیوه-نامه-چهارمین-دوره-مسابقات-علوم-و-فنون-هسته-ای.pdf",
+   "note": "دورهٔ چهارم (سال قبل) — نسخهٔ سال جدید هنوز منتشر نشده؛ اولویت اول مالک؛ با روش دومرحله‌ای کوکی دانلود شد"
+  },
+  {
+   "file": "salool-bonyadi-7th.pdf",
+   "url": "https://uploadkon.ir/uploads/a58419_25شیوه-نامه-محتوا-سلول-بنیادی.pdf",
+   "note": "هفتمین دوره سلول‌های بنیادی"
+  }
  ],
- "pending_fields": ["نجوم", "رباتیک و هوش مصنوعی"],
- "note": "پس از دانلود موفق هسته‌ای، psi1.ir محدود شد و نجوم/رباتیک از مسیر مستقیم نیامد (فایل‌های 0 بایت حذف شدند). لینک‌های شناخته‌شده برای تلاش بعدی: «6-شیوه-نامه-ششمین-دوره-مسابقات-نجوم.pdf» و «4-شیوه-نامه-چهارمین-دوره-مسابقات-رباتیک-و-هوش-مصنوعی.pdf» در همان مسیر /wp-content/uploads/2024/11/ + کانال ایتای رسمی srcfestival (مجموعهٔ ششمین دوره ۱۴۰۴-۱۴۰۳) و salamclass.ir/the-fifth-festival"
+ "pending_fields": [
+  "نجوم",
+  "رباتیک و هوش مصنوعی"
+ ],
+ "note": "پس از دانلود موفق هسته‌ای، psi1.ir محدود شد و نجوم/رباتیک از مسیر مستقیم نیامد (فایل‌های 0 بایت حذف شدند). لینک‌های شناخته‌شده برای تلاش بعدی: «6-شیوه-نامه-ششمین-دوره-مسابقات-نجوم.pdf» و «4-شیوه-نامه-چهارمین-دوره-مسابقات-رباتیک-و-هوش-مصنوعی.pdf» در همان مسیر /wp-content/uploads/2024/11/ + کانال ایتای رسمی srcfestival (مجموعهٔ ششمین دوره ۱۴۰۴-۱۴۰۳) و salamclass.ir/the-fifth-festival",
+ "audit_1405_07_29": {
+  "نکته": "سال تحصیلی جاری ۱۴۰۵-۱۴۰۶ است؛ شیوه‌نامه‌های آن (جشنوارهٔ هشتمین) هنوز در هیچ منبعی منتشر نشده — الگوی سال‌های قبل: حدود اسفند اعلام می‌شود",
+  "هسته‌ای": "نسخهٔ موجود (چهارمین، ۱۴۰۳-۱۴۰۴) قدیمی است؛ پنجمین دوره (۱۴۰۴-۱۴۰۵) پیدا شد: ebnesina.srct.ir صفحهٔ شیوه‌نامه‌های اختصاصی جشنواره (فایل مستقیم /wp-content/uploads/2026/01/علوم-و-فنون-هسته-ای.pdf) + ایتا eitaa.com/src_nuclear_s_t پیام ۷۴۴ و eitaa.com/khayampazhoohesh پیام ۱۷۲۱ — برداشت خودکار: scripts/harvest_ebnesina.sh",
+  "منبع کامل ۱۲ رشته": "ebnesina.srct.ir → شیوه‌نامه‌های اختصاصی جشنواره (همهٔ PDFهای هفتمین جشنواره مستقیم)",
+  "تمرکز": "دستور مالک: فقط ۴ رشتهٔ هسته‌ای/انرژی‌های نوین/حمل‌ونقل(فضایی)/کدنویسی — بقیه پارک شدند (نجوم و رباتیک فقط برای آرشیو دانلود می‌شود، ساختاری ساخته نمی‌شود)",
+  "سند مشاوره": "docs/mashavere-4-raste.md — گرایش‌ها + الزامات مقاله/آزمایش + پلن عملی هر ۴ رشته"
+ }
 }
