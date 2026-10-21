@@ -1,0 +1,19 @@
+{
+  "number": 11,
+  "code": "011",
+  "channel": "coding",
+  "category_fa": "ترویجی",
+  "series": "معرفی کتاب",
+  "title": "کتاب رسمی زبان Rust — The Rust Programming Language",
+  "date": "2026-10-22",
+  "message_id": 35,
+  "doc_message_id": null,
+  "image": "post.png",
+  "clean_image": "post-clean.png",
+  "links": {
+    "book": "https://clikr.ir/7eKClv",
+    "interactive": "https://clikr.ir/KXZ0ZJ"
+  },
+  "note": "جایگزین پیام ۲۸ (معرفی کتاب ساختگی پایتون با عکس AI) — کتاب کاملاً واقعی و بررسی‌شده",
+  "statute": "شیوه‌نامهٔ هشتمین دوره مسابقات کدنویسی پژوهش‌سراها ۱۴۰۵-۱۴۰۴ (پیوست ۱ — انجمن علمی و پژوهشی کدنویسی)"
+}
