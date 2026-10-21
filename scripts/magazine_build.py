@@ -29,12 +29,12 @@ body {{ font-family:'Vazirmatn'; direction:rtl; color:#1c2340; font-size:13.5px;
 .brandbar .b {{ font-weight:900; font-size:15px; color:#0D1230; }}
 .brandbar .n {{ font-weight:700; font-size:12px; color:#64748B; direction:ltr; }}
 .mono {{ font-family:'DejaVu Sans Mono', monospace; direction:ltr; }}
-h1.cover {{ font-weight:900; font-size:44px; line-height:1.5; color:#0D1230; margin-top:26mm; }}
+h1.cover {{ font-weight:900; font-size:44px; line-height:1.5; color:#0D1230; margin-top:12mm; }}
 .cover-sub {{ font-size:17px; color:#334155; font-weight:700; margin-top:4mm; }}
 .cover-date {{ display:inline-block; background:#0D1230; color:#fff; border-radius:12px; padding:2px 18px; font-weight:700; font-size:15px; margin-top:6mm; }}
-.toc {{ margin-top:14mm; border:1.5px solid #E2E8F0; border-radius:14px; padding:8mm 10mm; }}
+.toc {{ margin-top:9mm; border:1.5px solid #E2E8F0; border-radius:14px; padding:6mm 10mm; }}
 .toc h3 {{ color:#22D3EE; font-size:15px; font-weight:900; margin-bottom:4mm; }}
-.toc .row {{ display:flex; justify-content:space-between; border-bottom:1px dashed #E2E8F0; padding:2.2mm 0; font-weight:500; }}
+.toc .row {{ display:flex; justify-content:space-between; border-bottom:1px dashed #E2E8F0; padding:1.9mm 0; font-weight:500; }}
 .toc .row:last-child {{ border-bottom:none; }}
 .toc .pg {{ color:#22D3EE; font-weight:900; direction:ltr; }}
 .cover-foot {{ position:absolute; bottom:12mm; right:15mm; left:15mm; text-align:center; color:#64748B; font-size:12px; border-top:1px solid #E2E8F0; padding-top:4mm; }}
@@ -60,7 +60,34 @@ table.g td.k {{ font-weight:900; color:#0E7490; width:34mm; direction:ltr; text-
 .cal .row {{ display:flex; gap:5mm; margin-bottom:4.5mm; }}
 .cal .when {{ min-width:42mm; background:#ECFEFF; border:1.5px solid #A5F3FC; border-radius:10px; text-align:center; font-weight:900; color:#0E7490; padding:2.5mm 2mm; font-size:12.5px; }}
 .cal .what {{ flex:1; border-bottom:1px dashed #E2E8F0; padding:2.5mm 0; }}
+figure.fig {{ margin:1mm 0 5mm; }}
+figure.fig img {{ width:100%; height:42mm; object-fit:cover; border-radius:12px; border:1.5px solid #CFFAFE; display:block; }}
+figure.fig figcaption {{ font-size:11px; color:#64748B; margin-top:1.6mm; text-align:center; font-weight:500; }}
+img.hero {{ width:100%; height:50mm; object-fit:cover; border-radius:14px; border:2px solid #22D3EE; display:block; margin:5mm 0 4mm; }}
+.two-col {{ display:flex; gap:7mm; align-items:flex-start; }}
+.two-col .txt {{ flex:1.55; }}
+.two-col figure.fig {{ flex:1; margin:0; }}
+.two-col figure.fig img {{ height:52mm; }}
 """
+
+
+def _fig(i, key, cls="fig"):
+    """تولید <figure> اگر شماره، تصویر آن بخش را داشته باشد — مسیر نسبت به پوشهٔ شماره
+    ساختار تصویر: (مسیر، شرح) یا (مسیر، شرح، ارتفاع به میلی‌متر)"""
+    im = i.get(key)
+    if not im:
+        return ""
+    src, cap = im[0], im[1]
+    h = f"height:{im[2]}mm;" if len(im) > 2 else ""
+    cap_html = f"<figcaption>{esc(cap)}</figcaption>" if cap else ""
+    return f"<figure class='{cls}'><img style='{h}' src='{esc(src)}'>{cap_html}</figure>"
+
+
+def _hero(i):
+    im = i.get("hero")
+    if not im:
+        return ""
+    return f"<img class='hero' src='{esc(im[0])}'>"
 
 
 def build_html(i):
@@ -76,6 +103,7 @@ def build_html(i):
   <div class='brandbar'><div class='b'>{esc(i['subtitle'])}</div><div class='n mono'>{esc(i['handle'])}</div></div>
   <h1 class='cover'>{esc(i['title'])}</h1>
   <div class='cover-sub'>خبر، معرفی زبان و نرم‌افزار، ترفند و تقویم — به انتخاب اعضای انجمن</div>
+  {_hero(i)}
   <div class='cover-date'>{esc(i['issue_no'])} · {esc(i['date'])}</div>
   <div class='toc'><h3>فهرست این شماره</h3>{toc}</div>
   <div class='cover-foot'>نسخهٔ کامل در قالب PDF — برای مطالعه، دانلود و چاپ · {esc(i['channel'])}: {esc(i['link'])}</div>
@@ -92,7 +120,8 @@ def build_html(i):
   <div class='brandbar'><div class='b'>{esc(i['title'])}</div><div class='n mono'>{esc(i['issue_no'])}</div></div>
   <h2 class='sec'>◈ {esc(ed['title'])}</h2>
   {ed_paras}
-  <h2 class='sec' style='margin-top:6mm'>◈ {esc(i['news']['title'])}</h2>
+  {_fig(i, 'editorial_img')}
+  <h2 class='sec' style='margin-top:4mm'>◈ {esc(i['news']['title'])}</h2>
   {news_items}
 </div>""")
 
@@ -105,10 +134,12 @@ def build_html(i):
             f"<div class='item'><h3>{esc(n['h'])}</h3><p>{esc(n['p'])}</p></div>"
             for n in N["items"])
         note = f"<div class='hl'>{esc(N['note'])}</div>" if N.get("note") else ""
+        fig = _fig(i, key + "_img")
         P.append(f"""
 <div class='page'>
   <div class='brandbar'><div class='b'>{esc(i['title'])}</div><div class='n mono'>{esc(i['issue_no'])}</div></div>
   <h2 class='sec'>◈ {esc(N['title'])}</h2>
+  {fig}
   {items}
   {note}
 </div>""")
@@ -124,6 +155,7 @@ def build_html(i):
 <div class='page'>
   <div class='brandbar'><div class='b'>{esc(i['title'])}</div><div class='n mono'>{esc(i['issue_no'])}</div></div>
   <h2 class='sec'>◈ {esc(L['title'])}</h2>
+  {_fig(i, 'language_img')}
   {L_paras}
   <div class='codebox'><div class='lbl'>{esc(L['code_name'])}</div>{code}<br><br>
   <span class='lbl' style='display:block'>خروجی:</span><span class='out'>{out}</span></div>
@@ -145,8 +177,13 @@ def build_html(i):
   <h2 class='sec'>◈ {esc(S['title'])}</h2>
   {S_paras}
   <table class='g'>{scs}</table>
-  <h2 class='sec' style='margin-top:7mm'>◈ {esc(T['title'])}</h2>
-  {T_paras}
+  <div class='two-col' style='margin-top:7mm'>
+    <div class='txt'>
+      <h2 class='sec'>◈ {esc(T['title'])}</h2>
+      {T_paras}
+    </div>
+    {_fig(i, 'tip_img')}
+  </div>
   {cmds}
   <p style='margin-top:2mm'>{esc(T['closing'])}</p>
 </div>""")
