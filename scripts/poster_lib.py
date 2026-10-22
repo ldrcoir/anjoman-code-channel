@@ -29,6 +29,8 @@ FONTS = {
     "fa_bold":  f"{FONT_DIR}/Vazirmatn-Bold.ttf",
     "fa_med":   f"{FONT_DIR}/Vazirmatn-Medium.ttf",
     "fa_black": f"{FONT_DIR}/Vazirmatn-Black.ttf",
+    # فونت عنوان — لاله‌زار؛ چاپی و تمیز (بازخورد مالک: فونت عنوان قبلی خراب به نظر می‌رسید)
+    "fa_title": f"{FONT_DIR}/Lalezar-Regular.ttf",
 }
 # ---------- شناسنامهٔ کانال فعال (چندانجمنی) ----------
 # مقدار پیش‌فرض فقط برای اجرای مستقل spec ها؛ roznegar قبل از رندر set_channel می‌زند
@@ -323,8 +325,8 @@ def render(spec, out_path, brand=True):
     rtl_right(d, spec["series_label"], font("fa_med", 33), ACCENT, W - MARGIN, y)
     y += 50
     tsize = spec.get("title_size", 62)
-    rtl_right(d, spec["title"], font("fa_black", tsize), WHITE, W - MARGIN, y)
-    y += tsize + 26
+    rtl_right(d, spec["title"], font("fa_title", tsize), WHITE, W - MARGIN, y)
+    y += int(tsize * 1.22) + 20
     rtl_right(d, spec["subtitle"], font("fa_med", 34), SUB, W - MARGIN, y)
     y += 58
     sections = spec["sections"] if brand else spec.get("clean_sections", spec["sections"])
