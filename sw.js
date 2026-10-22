@@ -1,7 +1,7 @@
 // kash-e sade baraye bazi — mikhaym bazi bedoone internet ham bazar kone
 // vaghani avvalin bar ke bazi ro mikonin in fileha zakhire mishan, bad az oon
 // hatta ba internet-e kande bazi bala miad.
-var nomreKash = 'mar-kodnevis-v2';   // v2: font-e vazirmatn baft-shode + raf-e keshide-shodan-e kanvas
+var nomreKash = 'mar-kodnevis-v3';   // v2: font-e vazirmatn baft-shode + raf-e keshide-shodan-e kanvas
 var fileha = [
   './',
   './index.html',
