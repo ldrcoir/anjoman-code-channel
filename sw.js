@@ -1,7 +1,7 @@
 // kash-e sade baraye bazi — mikhaym bazi bedoone internet ham bazar kone
 // vaghani avvalin bar ke bazi ro mikonin in fileha zakhire mishan, bad az oon
 // hatta ba internet-e kande bazi bala miad.
-var nomreKash = 'rafiq-mar-v4';   // v4: esm-e jadid «rafiq mar» + enteghl az mar-kodnevis.html
+var nomreKash = 'rafiq-mar-v5';   // v5: Lalezar woff2 kam-hajm (237KB) — bazi ro internet-e zaeef ham zood bala miad
 var fileha = [
   './',
   './index.html',
