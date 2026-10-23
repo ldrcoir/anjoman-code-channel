@@ -17,13 +17,16 @@ poster_lib — کتابخانه مشترک تولید عکس‌نوشته برا
 - هوک لوگوی اختصاصی هر کانال
 رندر فارسی: Pillow + libraqm (direction='rtl' روی متن خام)
 """
+import os
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1080, 1350
 MARGIN = 64
 
-FONT_DIR = "/home/z/my-project/assets/fonts"
+# مسیر فونت‌ها از محل خود فایل مشتق می‌شود (repo/assets/fonts)؛ محیطی هم قابل‌بازنویسی است
+FONT_DIR = os.environ.get("ANJOMAN_FONT_DIR") or str(
+    Path(__file__).resolve().parent.parent / "assets" / "fonts")
 FONTS = {
     "mono":     "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
     "fa_bold":  f"{FONT_DIR}/Vazirmatn-Bold.ttf",

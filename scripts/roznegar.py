@@ -36,8 +36,11 @@ from pathlib import Path
 
 import requests
 
-ROOT = Path("/home/z/my-project")
-REPO = ROOT / "anjoman-code-bot"
+# مسیرها از محل خودِ فایل مشتق می‌شوند تا در هر محیطی (سرور، Actions) درست باشد؛
+# متغیرهای محیطی فقط برای بازنویسی اختیاری‌اند.
+_HERE = Path(__file__).resolve()
+ROOT = Path(os.environ.get("ANJOMAN_ROOT") or _HERE.parent.parent.parent)
+REPO = Path(os.environ.get("ANJOMAN_REPO") or _HERE.parent.parent)
 sys.path.insert(0, str(REPO / "scripts"))
 from poster_lib import render, spec_text, set_channel  # noqa: E402
 from kootah import shorten_links_in  # noqa: E402  — سیاست مالک: لینک‌های بلند کوتاه شوند
@@ -73,6 +76,10 @@ def load_env():
             if "=" in line and not line.startswith("#"):
                 k, v = line.split("=", 1)
                 env[k.strip()] = v.strip()
+    # پشتیبان محیطی (GitHub Actions: توکن‌ها Secret اند، فایل .env نداریم)
+    for k in ("BALE_TOKEN", "GITHUB_TOKEN"):
+        if not env.get(k) and os.environ.get(k):
+            env[k] = os.environ[k].strip()
     return env
 
 
