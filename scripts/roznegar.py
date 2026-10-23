@@ -427,7 +427,7 @@ def main():
         i = sys.argv.index("--channel")
         if i + 1 < len(sys.argv):
             slug = sys.argv[i + 1]
-    LOCK.parent.mkdir(exist_ok=True)
+    LOCK.parent.mkdir(parents=True, exist_ok=True)
     with open(LOCK, "w") as lf:
         try:
             fcntl.flock(lf, fcntl.LOCK_EX | fcntl.LOCK_NB)

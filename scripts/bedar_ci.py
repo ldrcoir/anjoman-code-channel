@@ -29,6 +29,7 @@ from zoneinfo import ZoneInfo
 from pathlib import Path
 
 ROOT = Path(os.environ.get("ANJOMAN_ROOT", "/home/z/my-project"))
+os.makedirs(ROOT, exist_ok=True)   # گارد: اگر ریشه در رانر ساخته نشده باشد، همین‌جا ساخته می‌شود
 REPO = Path(os.environ.get("ANJOMAN_REPO", str(ROOT / "anjoman-code-bot")))
 DRY = os.environ.get("BEDAR_DRY", "false").strip().lower() in ("1", "true", "yes")
 
@@ -47,7 +48,7 @@ except Exception:
     state = {}
 
 lines = [f"بیدار-سی‌آی | تهران {now.isoformat(timespec='seconds')} | "
-         f"weekday={wd} | dry={DRY}"]
+         f"weekday={wd} | dry={DRY} | ROOT={ROOT} | REPO={REPO}"]
 exit_code = 0
 
 for kind, slot in sorted(sched.items()):
@@ -67,14 +68,16 @@ for kind, slot in sorted(sched.items()):
         cmd.append("--dry")
     lines.append(f"→ {kind}: اجرای roznegar …")
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900,
+                           env=dict(os.environ))
         tail = "\n".join((r.stdout or "").strip().splitlines()[-8:])
         lines.append("  " + tail.replace("\n", "\n  "))
         if r.returncode != 0:
-            lines.append("  stderr: " + (r.stderr or "")[:300])
+            lines.append("  stderr کامل: " + (r.stderr or "")[:1500])
             exit_code = 1
     except Exception as e:
-        lines.append(f"  ERROR: {e}")
+        import traceback
+        lines.append(f"  ERROR: {e}\n  " + traceback.format_exc()[-800:])
         exit_code = 1
 
 report = "\n".join(lines)
