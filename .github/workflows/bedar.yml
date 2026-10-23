@@ -12,6 +12,8 @@ on:
     - cron: "40 14 * * *"   # ۱۸:۱۰ تهران — مجلهٔ ماهانه
     - cron: "40 15 * * *"   # ۱۹:۱۰ تهران — پست متنوع
     - cron: "30 16 * * *"   # ۲۰:۰۰ تهران — جبران کلیِ هر اسلات جاافتاده
+  repository_dispatch:
+    types: [bedar]
   workflow_dispatch:
     inputs:
       dry:
@@ -59,5 +61,5 @@ jobs:
           ANJOMAN_ROOT: ${{ runner.temp }}/root
           ANJOMAN_REPO: ${{ github.workspace }}
           ANJOMAN_FONT_DIR: ${{ github.workspace }}/assets/fonts
-          BEDAR_DRY: ${{ github.event.inputs.dry || 'false' }}
+          BEDAR_DRY: ${{ github.event.inputs.dry || github.event.client_payload.dry || 'false' }}
         run: python anjoman-code-bot/scripts/bedar_ci.py
