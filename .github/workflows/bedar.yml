@@ -62,4 +62,4 @@ jobs:
           ANJOMAN_REPO: ${{ github.workspace }}
           ANJOMAN_FONT_DIR: ${{ github.workspace }}/assets/fonts
           BEDAR_DRY: ${{ github.event.inputs.dry || github.event.client_payload.dry || 'false' }}
-        run: python anjoman-code-bot/scripts/bedar_ci.py
+        run: python scripts/bedar_ci.py
