@@ -8,13 +8,15 @@
 (بدون پارامتر: آمار همهٔ کانال‌ها ساخته می‌شود)
 """
 import json
+import os
 import sys
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
 TEHRAN = ZoneInfo("Asia/Tehran")
-REPO = Path("/home/z/my-project/anjoman-code-bot")
+REPO = Path(os.environ.get("ANJOMAN_REPO") or
+            Path(__file__).resolve().parent.parent)
 
 
 def build_stats(chdir):

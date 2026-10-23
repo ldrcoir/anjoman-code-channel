@@ -68,8 +68,14 @@ for kind, slot in sorted(sched.items()):
         cmd.append("--dry")
     lines.append(f"→ {kind}: اجرای roznegar …")
     try:
+        # env فرزند صریح است: هر سه مسیر + توکن‌ها، تا هیچ‌وقت گم نشوند
+        child_env = dict(os.environ)
+        child_env["ANJOMAN_ROOT"] = str(ROOT)
+        child_env["ANJOMAN_REPO"] = str(REPO)
+        child_env.setdefault("BALE_TOKEN", os.environ.get("BALE_TOKEN", ""))
+        child_env.setdefault("GITHUB_TOKEN", os.environ.get("GITHUB_TOKEN", ""))
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=900,
-                           env=dict(os.environ))
+                           env=child_env)
         tail = "\n".join((r.stdout or "").strip().splitlines()[-8:])
         lines.append("  " + tail.replace("\n", "\n  "))
         if r.returncode != 0:

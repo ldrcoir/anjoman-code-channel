@@ -22,9 +22,12 @@ grep -q '^BALE_TOKEN=.\+' "$ROOT/.env" || grep -q '^BALE_TOKEN_' "$ROOT/.env" \
 grep -q '^GITHUB_TOKEN=.\+' "$ROOT/.env" || echo "[$(TS)] WARN: GITHUB_TOKEN نیست — فقط انتشار محلی" >> "$LOG"
 
 # ۲) همگام‌سازی مخزن با گیت‌هاب (منبع حقیقتِ واحد)
+# ⚠️ گارد: اگر تغییرات کامیت‌نشده در مخزن است، هرگز reset نکن — کار نیمه‌کاره مقدس است
 GH=$(grep '^GITHUB_TOKEN=' "$ROOT/.env" | cut -d= -f2)
 if [ -n "$GH" ]; then
-  if git -C "$REPO" fetch "https://ldrcoir:${GH}@github.com/ldrcoir/anjoman-code-channel.git" main 2>>"$LOG"; then
+  if [ -n "$(git -C "$REPO" status --porcelain 2>/dev/null)" ]; then
+    echo "[$(TS)] تغییرات کامیت‌نشده در مخزن — sync این دور رد شد" >> "$LOG"
+  elif git -C "$REPO" fetch "https://ldrcoir:${GH}@github.com/ldrcoir/anjoman-code-channel.git" main 2>>"$LOG"; then
     # فقط اگر محلی جلوتر نیست hard-reset کن؛ وگرنه merge محلی را نگه دار
     AHEAD=$(git -C "$REPO" rev-list --count FETCH_HEAD..HEAD 2>/dev/null || echo 0)
     if [ "$AHEAD" -gt 0 ]; then
