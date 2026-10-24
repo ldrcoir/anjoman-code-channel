@@ -1,0 +1,23 @@
+{
+ "number": 16,
+ "code": "016",
+ "channel": "coding",
+ "category_fa": "رویداد — کارگاه عملی اعضا (بند ۳)",
+ "title": "کارگاه عملی کدنویسی | جلسه اول",
+ "date": null,
+ "message_id": 12,
+ "posted_by": {
+  "kind": "admin",
+  "name": "عرشیا",
+  "username": "arshyamouzoni",
+  "user_id": 663588415
+ },
+ "image": "post.jpg",
+ "clean_image": null,
+ "doc": null,
+ "hashtags_status": "۱۰ هشتگ خودِ نویسنده — مطابق تقسیم کار دست نخورد",
+ "notes": [
+  "تاریخ اصلی پست از API بله قابل دریافت نیست (فوروارد تاریخ امروز را برمی‌گرداند)",
+  "⚠️ لینک داخل متن غلط تایپی دارد: ble.ir/anjomanfagihi (باید anjomanfaghihi باشد) — نیازمند ویرایش خودِ نویسنده"
+ ]
+}
