@@ -1,0 +1,22 @@
+{
+  "updated": "2026-10-24T22:16:35+03:30",
+  "channel": "enerjy-novin",
+  "total": 1,
+  "by_category": {
+    "معرفی": 1
+  },
+  "by_series": {
+    "آغاز به کار | آبان ۱۴۰۵": 1
+  },
+  "posts": [
+    {
+      "code": "001",
+      "title": "انرژی‌پژوهان آغاز به کار کرد",
+      "category_fa": "معرفی",
+      "series": "آغاز به کار | آبان ۱۴۰۵",
+      "lesson": null,
+      "date": "2026-10-24",
+      "message_id": 2
+    }
+  ]
+}
