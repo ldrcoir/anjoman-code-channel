@@ -42,6 +42,7 @@ CHANNEL = {
     "brand_name": "انجمن کدنویسی",
     "footer_label": "کانال انجمن کدنویسی",
     "handle": "@anjomanfaghihi",
+    "school": "مدرسهٔ شهید فقیهی",
 }
 LOGO_PATH = Path("")
 
@@ -54,6 +55,7 @@ def set_channel(cfg):
         "brand_name": cfg.get("brand_name", "انجمن کدنویسی"),
         "footer_label": cfg.get("footer_label", "کانال انجمن کدنویسی"),
         "handle": cfg.get("handle", "@anjomanfaghihi"),
+        "school": cfg.get("school", ""),
     }
     logo = cfg.get("_logo_path")
     LOGO_PATH = Path(logo) if logo else Path("")
@@ -324,14 +326,20 @@ def render(spec, out_path, brand=True):
     if spec.get("lesson_no"):
         lesson_chip(d, 46, spec["lesson_no"])
     # فاصلهٔ استاندارد بین ردیف بالا و متن‌ها (اصلاح بازخورد: نزدیک نبودن برند به متن)
-    y = 46 + 62 + 54
+    y = 46 + 62 + 46
     rtl_right(d, spec["series_label"], font("fa_med", 33), ACCENT, W - MARGIN, y)
     y += 50
     tsize = spec.get("title_size", 62)
     rtl_right(d, spec["title"], font("fa_title", tsize), WHITE, W - MARGIN, y)
-    y += int(tsize * 1.22) + 20
+    y += int(tsize * 1.22) + 12
+    # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): «اسم زیر عنوان» — خط نام انجمن و مدرسه
+    # درست زیر عنوانِ همهٔ پوسترها (فقط نسخهٔ برند؛ نسخهٔ clean بدون نام می‌ماند)
+    if brand and CHANNEL.get("school"):
+        rtl_right(d, f"{CHANNEL['brand_name']} | {CHANNEL['school']}",
+                  font("fa_med", 27), MUTED, W - MARGIN, y)
+        y += 34
     rtl_right(d, spec["subtitle"], font("fa_med", 34), SUB, W - MARGIN, y)
-    y += 58
+    y += 52
     sections = spec["sections"] if brand else spec.get("clean_sections", spec["sections"])
     for sec in sections:
         if sec["type"] == "code":
@@ -370,6 +378,8 @@ def spec_text(spec):
     if spec.get("lesson_no"):
         head += f" — درس {fa_num(spec['lesson_no'])}"
     L.append(head)
+    if CHANNEL.get("school"):
+        L.append(f"{CHANNEL['brand_name']} | {CHANNEL['school']}")
     L.append("")
     L.append(spec["subtitle"])
     L.append("")
