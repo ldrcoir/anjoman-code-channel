@@ -1,0 +1,23 @@
+{
+ "number": 2,
+ "code": "002",
+ "channel": "enerjy-novin",
+ "category_fa": "الف — ترویجی/دانستنی (معرفی انرژی‌های نوین)",
+ "title": "انرژی‌های نوین چیست؟",
+ "date": null,
+ "message_id": 4,
+ "posted_by": {
+  "kind": "admin",
+  "name": "دنیا محسنی",
+  "username": null,
+  "user_id": 367337701
+ },
+ "image": null,
+ "clean_image": null,
+ "doc": null,
+ "hashtags_status": "پست بدون هشتگ است — ویرایش بات با ۴۰۳ Forbidden رد شد (بات اجازهٔ ویرایش پیام دیگران را ندارد)؛ نیاز به ویرایش خودِ ادمین دارد",
+ "notes": [
+  "متن کامل از رویداد ویرایش (edit_message) استخراج شد — ۱۰۱۴ نویسه",
+  "پست متنی است؛ عکس ندارد"
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "number": 19,
+ "code": "019",
+ "channel": "coding",
+ "category_fa": "معرفی ابزار/منبع (بند ۵)",
+ "title": "دستیار هوشمند برنامه‌نویسی: ChatGPT",
+ "date": null,
+ "message_id": 51,
+ "posted_by": {
+  "kind": "admin_manual",
+  "name": "ناشناس (پست دستی — نام فرستنده در رویدادهای قدیمی محفوظ نمانده)"
+ },
+ "image": "post.jpg",
+ "clean_image": null,
+ "doc": null,
+ "hashtags_status": "اصلاح شد (۱۴۰۵-۰۸-۰۳): کپشن قبلی فقط «پروب» بود → کپشن کامل + هشتگ بند ۵ (#معرفی_کتاب) + قاب — editMessageCaption ok=true",
+ "notes": [
+  "پوستر: Neon ChatGPT Programming Assistant (ساخته‌شده با هوش مصنوعی، پانویس @anjomanfaghihi)",
+  "خود پیام هم عکس دارد هم سند تصویری (پشتیبانی چندرسانه‌ای بله)"
+ ]
+}
