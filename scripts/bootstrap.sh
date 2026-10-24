@@ -13,6 +13,14 @@ TS() { date "+%Y-%m-%d %H:%M:%S %z"; }
 mkdir -p "$ROOT/logs"
 echo "[$(TS)] ── bootstrap start" >> "$LOG"
 
+# ۰) اگر .env ریشه بعد از ریست سرور پاک/پیش‌فرض شده، از .env مخزن بازیابی کن
+if ! grep -q '^BALE_TOKEN=.\+' "$ROOT/.env" 2>/dev/null; then
+  if [ -f "$REPO/.env" ]; then
+    cp "$REPO/.env" "$ROOT/.env"
+    echo "[$(TS)] .env ریشه از .env مخزن بازیابی شد" >> "$LOG"
+  fi
+fi
+
 # ۱) بررسی توکن‌ها در .env (خارج از مخزن — هرگز commit نمی‌شود)
 if [ ! -f "$ROOT/.env" ]; then
   echo "[$(TS)] ERROR: .env نیست" >> "$LOG"; exit 1

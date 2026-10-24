@@ -15,7 +15,7 @@ SPEC = {
     "subtitle": "پیش‌فرضِ Rust: هیچ‌چیز بی‌اجازه عوض نمی‌شود",
     "clean_footer": "آموزش Rust از صفر",
     "sections": [
-        {"type": "code", "name": "src/main.rs", "lines": [
+        {"type": "code", "name": "src/main.rs", "lh": 46, "lines": [
             {"segs": [T("let", FN), T(" rekord = ", FG), T("12", NUM), T(";", FG), T("      // rekord-e bazi", CMT)]},
             {"segs": [T("let mut", FN), T(" emtiaz = ", FG), T("10", NUM), T(";", FG), T("    // emtiaz-e bazi", CMT)]},
             {"segs": [T("emtiaz = emtiaz + ", FG), T("5", NUM), T(";", FG)]},
