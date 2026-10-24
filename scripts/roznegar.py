@@ -223,6 +223,54 @@ def load_spec_module(folder):
     return mod
 
 
+def dedupe_photo_send(token, chat_id, mid, caption):
+    """گردش ۲۴: گارد دوبارسردن سمت بله.
+    باگ «دوبارسردن سمت بله» دومین بار تکرار شد (کپی‌های ۳ و ۵ ساخته شدند و
+    شناسهٔ برگشتی ۴ هیچ‌کدام از کپی‌ها نبود — پست دستی ادمین وسطشان بود).
+    بعد از ارسال: فید getUpdates (بدون offset — updates را مصرف نمی‌کند) خوانده
+    می‌شود؛ همهٔ پست‌های عکس‌دارِ همین لحظه با همین کپشن پیدا می‌شوند؛ هر کپی
+    اضافی حذف و شناسهٔ کپیِ واقعیِ باقی‌مانده برگردانده می‌شود."""
+    import time
+    time.sleep(2.0)
+    try:
+        r = requests.get(f"https://tapi.bale.ai/bot{token}/getUpdates",
+                         json={"limit": 50}, timeout=30)
+        ups = (r.json().get("result") or []) if r.json().get("ok") else []
+    except Exception as e:
+        log(f"گارد تکرار: getUpdates ناموفق ({e}) — شناسهٔ {mid} ملاک")
+        return mid
+    now = time.time()
+    copies = []
+    for u in ups:
+        m = u.get("message") or u.get("channel_post")
+        if not m:
+            continue
+        if (m.get("chat") or {}).get("id") != chat_id:
+            continue
+        if not m.get("photo"):
+            continue
+        cap = (m.get("caption") or "")
+        if cap[:60] != caption[:60]:
+            continue
+        if abs(now - m.get("date", 0)) > 180:
+            continue
+        copies.append(m["message_id"])
+    if not copies:
+        return mid
+    keep = mid if mid in copies else max(copies)
+    for extra in sorted(copies):
+        if extra == keep:
+            continue
+        try:
+            dr = requests.post(f"https://tapi.bale.ai/bot{token}/deleteMessage",
+                               json={"chat_id": chat_id, "message_id": extra}, timeout=30)
+            ok = dr.json().get("ok")
+            log(f"گارد تکرار: کپی تکراری پیام {extra} {'حذف شد' if ok else 'حذف نشد'} — نگه‌داشته‌شده: {keep}")
+        except Exception as e:
+            log(f"گارد تکرار: حذف کپی {extra} ناموفق ({e})")
+    return keep
+
+
 def send_photo(token, chat_id, png, caption):
     with open(png, "rb") as f:
         r = requests.post(
@@ -232,7 +280,8 @@ def send_photo(token, chat_id, png, caption):
     resp = r.json()
     if not resp.get("ok"):
         raise RuntimeError(f"Bale API: {resp}")
-    return resp["result"]["message_id"]
+    mid = resp["result"]["message_id"]
+    return dedupe_photo_send(token, chat_id, mid, caption)
 
 
 def send_document(token, chat_id, doc, caption, mime="application/pdf"):
