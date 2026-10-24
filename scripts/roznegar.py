@@ -367,9 +367,18 @@ def publish(cfg, kind, env):
             SPEC = mod.SPEC
             png = folder / "post.png"
             png_clean = folder / "post-clean.png"
-            render(SPEC, png, brand=True)
-            render(SPEC, png_clean, brand=False)
-            (folder / "text.md").write_text(spec_text(SPEC), encoding="utf-8")
+            # گردش ۲۴: کانال انرژی‌پژوهان موتور مستقل خودش را دارد (هویت بصری جدا —
+            # دستور مالک: «پوستر انرژی اصلاً شبیه کدنویسی نباشد»)
+            if cfg.get("slug") == "enerjy-novin":
+                import enerjy_poster
+                enerjy_poster.set_channel(cfg)
+                enerjy_poster.render(SPEC, png, brand=True)
+                enerjy_poster.render(SPEC, png_clean, brand=False)
+                (folder / "text.md").write_text(enerjy_poster.spec_text(SPEC), encoding="utf-8")
+            else:
+                render(SPEC, png, brand=True)
+                render(SPEC, png_clean, brand=False)
+                (folder / "text.md").write_text(spec_text(SPEC), encoding="utf-8")
             for p in (png, png_clean):
                 if not p.exists() or p.stat().st_size < 20000:
                     raise RuntimeError(f"rendered file missing/too small: {p.name}")
