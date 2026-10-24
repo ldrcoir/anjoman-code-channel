@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path("/home/z/my-project")
 REPO = ROOT / "anjoman-code-bot"
 sys.path.insert(0, str(REPO / "scripts"))
-from poster_lib import render, spec_text, set_channel
+from enerjy_poster import render, spec_text, set_channel
 
 cfg = json.loads((REPO / "channels/enerjy-novin/channel.json").read_text(encoding="utf-8"))
 logo = REPO / "channels/enerjy-novin/assets/logo.png"
@@ -31,6 +31,10 @@ for folder in folders:
     render(mod.SPEC, folder / "post.png", brand=True)
     render(mod.SPEC, folder / "post-clean.png", brand=False)
     (folder / "text.md").write_text(spec_text(mod.SPEC), encoding="utf-8")
-    print("rendered:", folder.relative_to(QUEUE),
+    try:
+        rel = str(folder.relative_to(QUEUE))
+    except ValueError:
+        rel = folder.name
+    print("rendered:", rel,
           "| post.png:", (folder / "post.png").stat().st_size // 1024, "KB",
           "| post-clean.png:", (folder / "post-clean.png").stat().st_size // 1024, "KB")
