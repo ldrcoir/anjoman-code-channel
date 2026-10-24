@@ -45,6 +45,7 @@ CHANNEL = {
     "school": "مدرسهٔ شهید فقیهی",
 }
 LOGO_PATH = Path("")
+MOURN_MODE = False   # در رندرِ تم سوگواری True می‌شود — نماد </> از نشان و پانویس حذف می‌شود
 
 
 def set_channel(cfg):
@@ -88,6 +89,16 @@ C_NUM  = (249, 174, 124)
 
 # نام‌های کوتاه برای spec ها
 VAR, FN, STR, CMT, OUT, FG, NUM = C_VAR, C_FN, C_STR, C_CMT, C_OUT, C_FG, C_NUM
+
+# ---------- تم سوگواری (گردش ۲۲ — ۱۴۰۵-۰۸-۰۲) ----------
+# برای پیام‌های مناسبتی عزای مذهبی (ایام فاطمیه و…):
+# پس‌زمینهٔ مشکی محو، اکسنت طلایی، بدون نمادهای کد؛ با قاب دوخطی ظریف
+GOLD      = (222, 185, 100)
+GOLD_SOFT = (176, 142, 72)
+MOURN_GRN = (92, 128, 96)
+BG_M_TOP  = (9, 9, 11)
+BG_M_BOT  = (27, 25, 21)
+M_LIGHT   = (235, 228, 214)
 
 FA_DIGITS = "۰۱۲۳۴۵۶۷۸۹"
 def fa_num(n):
@@ -157,6 +168,33 @@ def add_decor(img):
         d.text((x, y), txt, font=fnt, fill=(255, 255, 255, a))
     return Image.alpha_composite(img.convert("RGBA"), layer).convert("RGB")
 
+def make_background_mourn():
+    img = Image.new("RGB", (W, H), BG_M_TOP)
+    px = img.load()
+    for y in range(H):
+        t = y / (H - 1)
+        r = int(BG_M_TOP[0] + (BG_M_BOT[0] - BG_M_TOP[0]) * t)
+        g = int(BG_M_TOP[1] + (BG_M_BOT[1] - BG_M_TOP[1]) * t)
+        b = int(BG_M_TOP[2] + (BG_M_BOT[2] - BG_M_TOP[2]) * t)
+        for x in range(W):
+            px[x, y] = (r, g, b)
+    return img
+
+def add_decor_mourn(img):
+    """تزئین سوگواری: درخشش ملایم طلایی بالا، نقطه‌چین بسیار کم‌رنگ، قاب دوخطی طلایی —
+    هیچ نماد کد (</>، { }، #، //) روی پوستر عزا نمی‌آید."""
+    layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    d.ellipse([W/2 - 420, -300, W/2 + 420, 180], fill=GOLD + (20,))
+    d.ellipse([-240, H - 420, 240, H + 120], fill=MOURN_GRN + (13,))
+    for gx in range(54, W, 92):
+        for gy in range(54, H, 92):
+            d.ellipse([gx, gy, gx + 2, gy + 2], fill=(255, 240, 205, 8))
+    m1 = 28
+    d.rectangle([m1, m1, W - m1, H - m1], outline=GOLD + (95,), width=2)
+    d.rectangle([m1 + 9, m1 + 9, W - m1 - 9, H - m1 - 9], outline=GOLD + (34,), width=1)
+    return Image.alpha_composite(img.convert("RGBA"), layer).convert("RGB")
+
 # ---------- اجزا ----------
 def badge(d, y, img):
     """نشان بالا-راست: لوگوی اختصاصی کانال (اگر موجود باشد) یا متن برند"""
@@ -172,16 +210,19 @@ def badge(d, y, img):
             pass
     f = font("fa_bold", 30)
     fi = font("mono", 30)
-    label, icon = CHANNEL["brand_name"], "</>"
+    label, icon = CHANNEL["brand_name"], ("" if MOURN_MODE else "</>")
     lw = d.textlength(label, font=f, direction="rtl")
-    iw = d.textlength(icon, font=fi, direction="ltr")
-    pad, gap = 26, 14
+    iw = d.textlength(icon, font=fi, direction="ltr") if icon else 0
+    pad, gap = 26, (0 if MOURN_MODE else 14)
     x1 = W - MARGIN
     x0 = x1 - (lw + iw + pad * 3 + gap)
     d.rounded_rectangle([x0, y, x1, y + 62], radius=31,
                         fill=(255, 255, 255, 16), outline=ACCENT + (160,), width=2)
-    d.text((x1 - pad, y + 14), icon, font=fi, fill=ACCENT, direction="ltr", anchor="ra")
-    d.text((x1 - pad - iw - gap, y + 14), label, font=f, fill=WHITE,
+    tx = x1 - pad
+    if icon:
+        d.text((tx, y + 14), icon, font=fi, fill=ACCENT, direction="ltr", anchor="ra")
+        tx -= iw + gap
+    d.text((tx, y + 14), label, font=f, fill=WHITE,
            direction="rtl", anchor="ra")
     return y + 62
 
@@ -276,6 +317,29 @@ def grid(d, y, sec):
     rows = (len(items) + 1) // 2
     return y + rows * ch + (rows - 1) * gy
 
+def quote_block(d, y, sec):
+    """بلوک نقل‌قول رسمی — برای پیام‌های مناسبتی و سوگ‌نامه‌ها؛
+    خطوط طلایی نازک بالا/پایین + متن در‌چین وسط. sec: {lines:[{text, size, color?, family?, gap?}] , pad?}"""
+    pad = sec.get("pad", 36)
+    x0, x1 = MARGIN + 30, W - MARGIN - 30
+    cur = y + pad
+    heights = []
+    for ln in sec["lines"]:
+        size = ln.get("size", 40)
+        family = ln.get("family", "fa_title")
+        heights.append(int(size * 1.3) + ln.get("gap", 10))
+    total = pad * 2 + sum(heights)
+    # خطوط نازک بالا و پایین
+    d.line([x0, y + 6, x1, y + 6], fill=GOLD + (120,), width=2)
+    d.line([x0, y + total - 6, x1, y + total - 6], fill=GOLD + (120,), width=2)
+    for ln, hh in zip(sec["lines"], heights):
+        f = font(ln.get("family", "fa_title"), ln.get("size", 40))
+        color = ln.get("color", WHITE)
+        d.text(((W) / 2, cur), ln["text"], font=f, fill=color,
+               direction="rtl", anchor="ma")
+        cur += hh
+    return y + total
+
 def footer(d, y, label=None, handle=None):
     label = label or CHANNEL["footer_label"]
     handle = handle or CHANNEL["handle"]
@@ -322,58 +386,82 @@ def footer_clean(d, y, label):
 # ---------- رندر اصلی ----------
 def render(spec, out_path, brand=True):
     """spec: {series_label, lesson_no?, title, title_size?, subtitle, sections[],
-              note?, clean_footer?}
+              note?, clean_footer?, theme?}
+    theme="mourning" → پوستر عزا: پس‌زمینهٔ مشکی، اکسنت طلایی، بدون نماد کد (گردش ۲۲).
     توجه: دسته‌بندی محتوا عمداً روی عکس نمی‌آید (قاعدهٔ دائمی — بازخورد کاربر).
     دسته فقط در meta.json/stats ثبت می‌شود.
     """
-    img = add_decor(make_background())
-    d = ImageDraw.Draw(img, "RGBA")
-    y = 46
-    if brand:
-        y = badge(d, y, img)
-    if spec.get("lesson_no"):
-        lesson_chip(d, 46, spec["lesson_no"])
-    # فاصلهٔ استاندارد بین ردیف بالا و متن‌ها (اصلاح بازخورد: نزدیک نبودن برند به متن)
-    y = 46 + 62 + 46
-    rtl_right(d, spec["series_label"], font("fa_bold", 33), ACCENT, W - MARGIN, y)
-    y += 50
-    tsize = spec.get("title_size", 62)
-    rtl_right(d, spec["title"], font("fa_title", tsize), WHITE, W - MARGIN, y)
-    y += int(tsize * 1.22) + 12
-    # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): «اسم زیر عنوان» — خط نام انجمن و مدرسه
-    # درست زیر عنوانِ همهٔ پوسترها (فقط نسخهٔ برند؛ نسخهٔ clean بدون نام می‌ماند)
-    if brand and CHANNEL.get("school"):
-        rtl_right(d, f"{CHANNEL['brand_name']} | {CHANNEL['school']}",
-                  font("fa_bold", 27), MUTED, W - MARGIN, y)
-        y += 34
-    # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): زیرنویس و متن درس‌ها بولد باشد
-    rtl_right(d, spec["subtitle"], font("fa_bold", 34), SUB, W - MARGIN, y)
-    y += 52
-    sections = spec["sections"] if brand else spec.get("clean_sections", spec["sections"])
-    for sec in sections:
-        if sec["type"] == "code":
-            y = code_block(d, y, sec) + 28
-        elif sec["type"] == "bullets":
-            for idx, item in enumerate(sec["items"]):
-                y = bullet_card(d, y, sec, idx, item)
-            y += 14
-        elif sec["type"] == "grid":
-            y = grid(d, y, sec) + 18
-    if spec.get("note"):
-        y += 4
-        rtl_right(d, spec["note"], font("fa_bold", 24), SUB, W - MARGIN, y)
-        y += 44
-    fy = min(y + 6, H - 88)
-    if fy - (y + 6) > 8:
-        print(f"WARN poster_lib: فضای خالی زیاد پیش از پانویس ({out_path}) y={y}")
-    if y + 70 > H - 12:
-        print(f"WARN poster_lib: سرریز محتوا ({out_path}) y={y}")
-    if brand:
-        footer(d, fy)
-    else:
-        footer_clean(d, fy, spec.get("clean_footer", spec["series_label"]))
-    img.save(out_path, "PNG")
-    return out_path
+    mourn = spec.get("theme") == "mourning"
+    global MOURN_MODE
+    MOURN_MODE = mourn
+    saved_palette = None
+    if mourn:
+        global ACCENT, ACCENT2, GREEN, ORANGE
+        saved_palette = (ACCENT, ACCENT2, GREEN, ORANGE)
+        ACCENT, ACCENT2, GREEN, ORANGE = GOLD, GOLD_SOFT, MOURN_GRN, GOLD_SOFT
+    try:
+        if mourn:
+            img = add_decor_mourn(make_background_mourn())
+        else:
+            img = add_decor(make_background())
+        d = ImageDraw.Draw(img, "RGBA")
+        y = 46
+        if brand:
+            y = badge(d, y, img)
+        if spec.get("lesson_no"):
+            lesson_chip(d, 46, spec["lesson_no"])
+        # فاصلهٔ استاندارد بین ردیف بالا و متن‌ها (اصلاح بازخورد: نزدیک نبودن برند به متن)
+        y = 46 + 62 + 46
+        rtl_right(d, spec["series_label"], font("fa_bold", 33), ACCENT, W - MARGIN, y)
+        y += 50
+        tsize = spec.get("title_size", 62)
+        rtl_right(d, spec["title"], font("fa_title", tsize), WHITE, W - MARGIN, y)
+        y += int(tsize * 1.22) + 12
+        # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): «اسم زیر عنوان» — خط نام انجمن و مدرسه
+        # درست زیر عنوانِ همهٔ پوسترها (فقط نسخهٔ برند؛ نسخهٔ clean بدون نام می‌ماند)
+        if brand and CHANNEL.get("school"):
+            rtl_right(d, f"{CHANNEL['brand_name']} | {CHANNEL['school']}",
+                      font("fa_bold", 27), MUTED, W - MARGIN, y)
+            y += 34
+        # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): زیرنویس و متن درس‌ها بولد باشد
+        rtl_right(d, spec["subtitle"], font("fa_bold", 34),
+                  M_LIGHT if mourn else SUB, W - MARGIN, y)
+        y += 52
+        sections = spec["sections"] if brand else spec.get("clean_sections", spec["sections"])
+        for sec in sections:
+            if sec["type"] == "code":
+                y = code_block(d, y, sec) + 28
+            elif sec["type"] == "bullets":
+                for idx, item in enumerate(sec["items"]):
+                    y = bullet_card(d, y, sec, idx, item)
+                y += 14
+            elif sec["type"] == "grid":
+                y = grid(d, y, sec) + 18
+            elif sec["type"] == "quote":
+                y = quote_block(d, y, sec) + 22
+        if spec.get("note"):
+            y += 4
+            rtl_right(d, spec["note"], font("fa_bold", 24),
+                      M_LIGHT if mourn else SUB, W - MARGIN, y)
+            y += 44
+        fy = min(y + 6, H - 88)
+        # در تم سوگواری پانویس به کادر پایین نزدیک می‌شود تا ته عکس خالی نماند
+        if mourn and y + 6 < H - 150:
+            fy = H - 150
+        if fy - (y + 6) > 8 and not mourn:
+            print(f"WARN poster_lib: فضای خالی زیاد پیش از پانویس ({out_path}) y={y}")
+        if y + 70 > H - 12:
+            print(f"WARN poster_lib: سرریز محتوا ({out_path}) y={y}")
+        if brand:
+            footer(d, fy)
+        else:
+            footer_clean(d, fy, spec.get("clean_footer", spec["series_label"]))
+        img.save(out_path, "PNG")
+        return out_path
+    finally:
+        if saved_palette:
+            ACCENT, ACCENT2, GREEN, ORANGE = saved_palette
+        MOURN_MODE = False
 
 # ---------- متن فارسی عکس (بایگانی برای استفادهٔ بعدی) ----------
 def segs_text(segs):
@@ -411,7 +499,11 @@ def spec_text(spec):
             for it in sec["items"]:
                 L.append(f"- **{segs_text(it['title'])}**: {it['desc']}")
             L.append("")
-    if spec.get("note"):
+        elif sec["type"] == "quote":
+            for ln in sec["lines"]:
+                L.append(f"«{ln['text']}»" if not ln["text"].startswith("—") else ln["text"])
+            L.append("")
+    if spec.get("note"): 
         L.append(f"نکته: {spec['note']}")
         L.append("")
     # دسته‌بندی عمداً در متن هم نمی‌آید — فقط داخلی است
