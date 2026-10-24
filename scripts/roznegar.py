@@ -44,6 +44,7 @@ REPO = Path(os.environ.get("ANJOMAN_REPO") or _HERE.parent.parent)
 sys.path.insert(0, str(REPO / "scripts"))
 from poster_lib import render, spec_text, set_channel  # noqa: E402
 from kootah import shorten_links_in  # noqa: E402  — سیاست مالک: لینک‌های بلند کوتاه شوند
+import fa_lint  # noqa: E402  — گردش ۲۱: چک نیم‌فاصله/املا پیش از انتشار
 
 TEHRAN = ZoneInfo("Asia/Tehran")
 LOCK = ROOT / ".roznegar.lock"
@@ -358,6 +359,10 @@ def publish(cfg, kind, env):
     if live:
         caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", caption)
     caption = shorten_links_in(caption)   # لینک‌های بلند → TinyURL (کش‌شده)
+    # ← گردش ۲۱: چک املا/نیم‌فاصله قبل از انتشار (بازخورد مالک: کتاب، کتاب‌خانه و…)
+    if fa_lint.lint_text(caption, source=folder.name):
+        log(f"ERROR fa_lint: کپشن «{folder.name}» غلط املایی/نیم‌فاصله دارد — انتشار متوقف شد")
+        return False
     try:
         message_id = send_photo(token, chat_id, png, caption)
         log(f"منتشر شد در کانال {cfg.get('handle', chat_id)} — message_id={message_id}")

@@ -224,7 +224,7 @@ def code_block(d, y, sec):
         if "sep" in item:
             d.line([x0 + 24, yy - 4, x1 - 24, yy - 4],
                    fill=(255, 255, 255, 26), width=1)
-            ftag = font("fa_med", 23)
+            ftag = font("fa_bold", 23)
             d.text((x1 - 40, yy + 4), item["sep"], font=ftag,
                    fill=(255, 255, 255, 185), direction="rtl", anchor="ra")
         elif item.get("segs"):
@@ -242,7 +242,8 @@ def bullet_card(d, y, sec, idx, item):
     d.rounded_rectangle([x1 - 22, y + 14, x1 - 10, y + h - 14], radius=6, fill=accent)
     tx_right = x1 - 44
     draw_rtl_segs(d, item["title"], tx_right, y + 12)
-    f_desc = font("fa_med", sec.get("desc_size", 28))
+    # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): فونت توضیح‌ها بولد و خواناتر باشد
+    f_desc = font("fa_bold", sec.get("desc_size", 28))
     dsc_dir = "ltr" if item.get("desc_ltr") else "rtl"
     d.text((tx_right, y + int(h * 0.57)), item["desc"], font=f_desc, fill=DESC,
            direction=dsc_dir, anchor="ra")
@@ -257,7 +258,7 @@ def grid(d, y, sec):
     cw = (W - 2 * MARGIN - gx) / 2
     colors = sec.get("colors", [ACCENT, GREEN, ACCENT2, ORANGE])
     f_title = font("fa_bold", 27)
-    f_desc = font("fa_med", sec.get("desc_size", 23))
+    f_desc = font("fa_bold", sec.get("desc_size", 23))  # بولد طبق بازخورد مالک
     for idx, item in enumerate(items):
         r, c = divmod(idx, 2)
         x1 = W - MARGIN - c * (cw + gx)
@@ -280,16 +281,23 @@ def footer(d, y, label=None, handle=None):
     handle = handle or CHANNEL["handle"]
     f = font("fa_bold", 30)
     fmono = font("mono", 30)
+    # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): بین نام فارسی و نام‌کاربری انگلیسی
+    # خط عمودی کوچک جداکننده — قبلاً دو اسم چسبیده به هم دیده می‌شد
+    gap_v = 16            # فاصلهٔ هر طرف خط عمودی
+    lw_v = 2              # ضخامت خط عمودی
     w1 = d.textlength(label, font=f, direction="rtl")
     w2 = d.textlength(handle, font=fmono, direction="ltr")
-    pill_w = w1 + w2 + 90
+    sep_w = gap_v * 2 + lw_v
+    pill_w = w1 + sep_w + w2 + 90
     x0 = (W - pill_w) / 2
     d.rounded_rectangle([x0, y, x0 + pill_w, y + 64], radius=32,
                         fill=ACCENT + (26,), outline=ACCENT + (150,), width=2)
-    right_edge = (W + (w1 + w2)) / 2
+    right_edge = (W + (w1 + sep_w + w2)) / 2
     d.text((right_edge, y + 14), label, font=f, fill=WHITE,
            direction="rtl", anchor="ra")
-    d.text((right_edge - w1, y + 15), handle, font=fmono, fill=ACCENT,
+    sx = right_edge - w1 - gap_v - lw_v / 2
+    d.line([sx, y + 17, sx, y + 47], fill=(255, 255, 255, 150), width=lw_v)
+    d.text((sx - lw_v / 2 - gap_v, y + 15), handle, font=fmono, fill=ACCENT,
            direction="ltr", anchor="ra")
     return y + 64
 
@@ -327,7 +335,7 @@ def render(spec, out_path, brand=True):
         lesson_chip(d, 46, spec["lesson_no"])
     # فاصلهٔ استاندارد بین ردیف بالا و متن‌ها (اصلاح بازخورد: نزدیک نبودن برند به متن)
     y = 46 + 62 + 46
-    rtl_right(d, spec["series_label"], font("fa_med", 33), ACCENT, W - MARGIN, y)
+    rtl_right(d, spec["series_label"], font("fa_bold", 33), ACCENT, W - MARGIN, y)
     y += 50
     tsize = spec.get("title_size", 62)
     rtl_right(d, spec["title"], font("fa_title", tsize), WHITE, W - MARGIN, y)
@@ -336,9 +344,10 @@ def render(spec, out_path, brand=True):
     # درست زیر عنوانِ همهٔ پوسترها (فقط نسخهٔ برند؛ نسخهٔ clean بدون نام می‌ماند)
     if brand and CHANNEL.get("school"):
         rtl_right(d, f"{CHANNEL['brand_name']} | {CHANNEL['school']}",
-                  font("fa_med", 27), MUTED, W - MARGIN, y)
+                  font("fa_bold", 27), MUTED, W - MARGIN, y)
         y += 34
-    rtl_right(d, spec["subtitle"], font("fa_med", 34), SUB, W - MARGIN, y)
+    # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): زیرنویس و متن درس‌ها بولد باشد
+    rtl_right(d, spec["subtitle"], font("fa_bold", 34), SUB, W - MARGIN, y)
     y += 52
     sections = spec["sections"] if brand else spec.get("clean_sections", spec["sections"])
     for sec in sections:
@@ -352,7 +361,7 @@ def render(spec, out_path, brand=True):
             y = grid(d, y, sec) + 18
     if spec.get("note"):
         y += 4
-        rtl_right(d, spec["note"], font("fa_med", 24), SUB, W - MARGIN, y)
+        rtl_right(d, spec["note"], font("fa_bold", 24), SUB, W - MARGIN, y)
         y += 44
     fy = min(y + 6, H - 88)
     if fy - (y + 6) > 8:
