@@ -45,6 +45,7 @@ sys.path.insert(0, str(REPO / "scripts"))
 from poster_lib import render, spec_text, set_channel  # noqa: E402
 from kootah import shorten_links_in  # noqa: E402  — سیاست مالک: لینک‌های بلند کوتاه شوند
 import fa_lint  # noqa: E402  — گردش ۲۱: چک نیم‌فاصله/املا پیش از انتشار
+import caption_frame  # noqa: E402  — گردش ۲۳: قاب هشتگ + آی‌دی کانال (دستور مالک)
 
 TEHRAN = ZoneInfo("Asia/Tehran")
 LOCK = ROOT / ".roznegar.lock"
@@ -78,9 +79,10 @@ def load_env():
                 k, v = line.split("=", 1)
                 env[k.strip()] = v.strip()
     # پشتیبان محیطی (GitHub Actions: توکن‌ها Secret اند، فایل .env نداریم)
-    for k in ("BALE_TOKEN", "GITHUB_TOKEN"):
-        if not env.get(k) and os.environ.get(k):
-            env[k] = os.environ[k].strip()
+    # ۱۴۰۵-۰۸-۰۲: چندکاناله — هر توکن اختصاصی (مثل ENERJY_TOKEN) هم پشتیبان می‌آید
+    for k, v in os.environ.items():
+        if (k.startswith("BALE_TOKEN") or k in ("GITHUB_TOKEN", "ENERJY_TOKEN")) and not env.get(k) and v.strip():
+            env[k] = v.strip()
     return env
 
 
@@ -171,10 +173,36 @@ def mark_today(state_path, kind, folder_name):
 KIND_DIRS = {"lesson": "lessons", "variety": "variety", "magazine": "magazine"}
 
 
-def next_queue_item(queue_dir, kind):
-    base = queue_dir / KIND_DIRS.get(kind, kind)
-    dirs = sorted([d for d in base.iterdir() if d.is_dir()]) if base.exists() else []
-    return dirs[0] if dirs else None
+def next_queue_item(queue_dir, kind, cfg=None):
+    """انتخاب قدیمی‌ترین آیتمِ صف برای انتشار.
+
+    پوشه‌بندی ۱۴۰۵-۰۸-۰۲ (دستور مالک: «طبق دسته‌بندی شیوه‌نامه پوشه‌بندی کن»):
+    پوشه‌های صف به‌نامِ بند شیوه‌نامه‌اند (b1-amoozesh، b2-nashriyeh، …).
+    اگر channel.json کلید «queue_map» داشته باشد، هر kind می‌تواند به چند
+    پوشهٔ بندمحور اشاره کند (چرخش آیتم‌ها بین بندها — مثلاً پست متنوع جمعه
+    بین مشاهیر/کتاب/چالش/خلاقانه می‌چرخد و اسلات روزانهٔ انرژی بین
+    خبر/نیروگاه/آموزش/معرفی/ترویجی/پروژه).
+    ترتیب انتشار = پیش‌شمارهٔ نام پوشهٔ آیتم (10-، 20-، …)؛ در برابر
+    شمارهٔ برابر، ترتیبِ فهرست queue_map ملاک است تا چرخهٔ روزانه
+    هفتگی حفظ شود. آیتم بی‌شماره همیشه آخر می‌افتد.
+    """
+    qmap = (cfg or {}).get("queue_map") or {}
+    rel_dirs = qmap.get(kind) or [KIND_DIRS.get(kind, kind)]
+    candidates = []  # (کلید مرتب‌سازی, مسیر)
+    for i, rd in enumerate(rel_dirs):
+        base = queue_dir / rd
+        if not base.exists():
+            continue
+        for d in sorted(base.iterdir()):
+            if d.is_dir() and (d / "spec.py").exists():
+                name = d.name
+                try:
+                    num = int(name.split("-", 1)[0])
+                except ValueError:
+                    num = 10 ** 6  # آیتم بی‌شماره = آخرِ صف
+                candidates.append(((num, i, name), d))
+    candidates.sort(key=lambda t: t[0])
+    return candidates[0][1] if candidates else None
 
 
 def next_code(posts_dir):
@@ -271,12 +299,15 @@ def publish(cfg, kind, env):
         log(f"⚠️ نام‌کاربری کانال عوض شده: @{old} → @{live} — channel.json به‌روز شد")
 
     folder = None
+    qmap = cfg.get("queue_map") or {}
     if kind == "occasion":
         # ۰-الف) مناسبت‌ها: پوشه‌ای که date.txt‌اش «امروز» است انتخاب می‌شود، نه قدیمی‌ترین
         today = datetime.now(TEHRAN).date().isoformat()
-        base = queue / "mansabet"
+        base = queue / (qmap.get("occasion") or ["mansabet"])[0]
         if base.exists():
             for d in sorted(base.iterdir()):
+                if not d.is_dir():
+                    continue
                 df = d / "date.txt"
                 if df.exists() and df.read_text(encoding="utf-8").strip()[:10] == today:
                     folder = d
@@ -285,7 +316,7 @@ def publish(cfg, kind, env):
             log(f"امروز ({today}) مناسبتی در صف نیست — رد شد")
             return False
     else:
-        folder = next_queue_item(queue, kind)
+        folder = next_queue_item(queue, kind, cfg)
         if not folder:
             log(f"صف {kind} کانال {slug} خالی است — پست جدید اضافه شود")
             return False
@@ -359,6 +390,11 @@ def publish(cfg, kind, env):
     if live:
         caption = re.sub(r"ble\.ir/[A-Za-z0-9_\-]+", f"ble.ir/{live}", caption)
     caption = shorten_links_in(caption)   # لینک‌های بلند → TinyURL (کش‌شده)
+    # ← گردش ۲۳: قاب خوشگل هشتگ + آی‌دی کانال — خودکار روی کپشن هر پست هر کانال
+    caption = caption_frame.apply_caption_frame(caption, cfg)
+    if len(caption) > 1024:
+        log(f"ERROR: کپشن «{folder.name}» بلندتر از سقف بله است ({len(caption)} > 1024) — انتشار متوقف شد")
+        return False
     # ← گردش ۲۱: چک املا/نیم‌فاصله قبل از انتشار (بازخورد مالک: کتاب، کتاب‌خانه و…)
     if fa_lint.lint_text(caption, source=folder.name):
         log(f"ERROR fa_lint: کپشن «{folder.name}» غلط املایی/نیم‌فاصله دارد — انتشار متوقف شد")

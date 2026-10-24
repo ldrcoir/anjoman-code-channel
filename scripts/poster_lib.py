@@ -57,6 +57,7 @@ def set_channel(cfg):
         "footer_label": cfg.get("footer_label", "کانال انجمن کدنویسی"),
         "handle": cfg.get("handle", "@anjomanfaghihi"),
         "school": cfg.get("school", ""),
+        "icon": cfg.get("icon", "</>"),   # نشان برند روی قرص بالای پوستر (گردش ۲۳)
     }
     logo = cfg.get("_logo_path")
     LOGO_PATH = Path(logo) if logo else Path("")
@@ -160,12 +161,15 @@ def add_decor(img):
             d.ellipse([gx, gy, gx+3, gy+3], fill=(255, 255, 255, 10))
     g1 = font("mono", 46)
     g2 = font("mono", 38)
-    for txt, x, y, fnt, a in [
-        ("</>", 78, 470, g1, 30), ("{ }", 930, 330, g1, 26),
-        ("#", 990, 690, g2, 26), ("//", 66, 1210, g2, 24),
-        ("</>", 940, 1130, g2, 22), ("=>", 70, 330, g2, 22),
-    ]:
-        d.text((x, y), txt, font=fnt, fill=(255, 255, 255, a))
+    # گردش ۲۳: نمادهای کد فقط وقتی نشانِ کانال خودش «</>» است (کدنویسی) —
+    # کانال‌های دیگر (مثل انرژی با نشان ⚡) پس‌زمینهٔ بی‌نمادِ کد دارند
+    if CHANNEL.get("icon", "</>") == "</>":
+        for txt, x, y, fnt, a in [
+            ("</>", 78, 470, g1, 30), ("{ }", 930, 330, g1, 26),
+            ("#", 990, 690, g2, 26), ("//", 66, 1210, g2, 24),
+            ("</>", 940, 1130, g2, 22), ("=>", 70, 330, g2, 22),
+        ]:
+            d.text((x, y), txt, font=fnt, fill=(255, 255, 255, a))
     return Image.alpha_composite(img.convert("RGBA"), layer).convert("RGB")
 
 def make_background_mourn():
@@ -210,7 +214,7 @@ def badge(d, y, img):
             pass
     f = font("fa_bold", 30)
     fi = font("mono", 30)
-    label, icon = CHANNEL["brand_name"], ("" if MOURN_MODE else "</>")
+    label, icon = CHANNEL["brand_name"], ("" if MOURN_MODE else CHANNEL.get("icon", "</>"))
     lw = d.textlength(label, font=f, direction="rtl")
     iw = d.textlength(icon, font=fi, direction="ltr") if icon else 0
     pad, gap = 26, (0 if MOURN_MODE else 14)
@@ -369,7 +373,7 @@ def footer_clean(d, y, label):
     """پانویس نسخهٔ clean — فقط برچسب خنثای محتوا، بدون نام/آدرس انجمن"""
     f = font("fa_bold", 29)
     fi = font("mono", 28)
-    icon = "</>"
+    icon = CHANNEL.get("icon", "</>")
     w1 = d.textlength(label, font=f, direction="rtl")
     w2 = d.textlength(icon, font=fi, direction="ltr")
     pill_w = w1 + w2 + 84
@@ -419,9 +423,11 @@ def render(spec, out_path, brand=True):
         y += int(tsize * 1.22) + 12
         # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): «اسم زیر عنوان» — خط نام انجمن و مدرسه
         # درست زیر عنوانِ همهٔ پوسترها (فقط نسخهٔ برند؛ نسخهٔ clean بدون نام می‌ماند)
-        if brand and CHANNEL.get("school"):
-            rtl_right(d, f"{CHANNEL['brand_name']} | {CHANNEL['school']}",
-                      font("fa_bold", 27), MUTED, W - MARGIN, y)
+        # گردش ۲۳: اگر school ست نشده باشد، فقط نام برند می‌آید — خط هیچ‌وقت حذف نمی‌شود
+        if brand:
+            name_line = (f"{CHANNEL['brand_name']} | {CHANNEL['school']}"
+                         if CHANNEL.get("school") else CHANNEL["brand_name"])
+            rtl_right(d, name_line, font("fa_bold", 27), MUTED, W - MARGIN, y)
             y += 34
         # ← بازخورد مالک (۱۴۰۵-۰۸-۰۲): زیرنویس و متن درس‌ها بولد باشد
         rtl_right(d, spec["subtitle"], font("fa_bold", 34),
