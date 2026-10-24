@@ -14,7 +14,7 @@ logo = REPO / "channels/coding/assets/logo.png"
 cfg["_logo_path"] = str(logo) if logo.exists() else ""
 set_channel(cfg)
 
-queue = REPO / "channels/coding/content/queue/lessons"
+queue = REPO / "channels/coding/content/queue/b1-amoozesh"
 for folder in sorted(p for p in queue.iterdir() if p.is_dir()):
     if not (folder / "spec.py").exists():
         continue

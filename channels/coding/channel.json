@@ -15,7 +15,14 @@
     "lesson": {
       "hour": 10,
       "minute": 0,
-      "days": [5, 6, 0, 1, 2, 3],
+      "days": [
+        5,
+        6,
+        0,
+        1,
+        2,
+        3
+      ],
       "desc": "درس Rust — هر روز جز جمعه (۱۴۰۵-۰۸-۰۱: جمعه استراحت/مرور تمرین‌ها طبق تقویم plan.md)"
     },
     "occasion": {
@@ -49,5 +56,24 @@
     "بازی‌های مرورگری روی شاخهٔ web میزبانی می‌شوند (GitHub Pages): https://ldrcoir.github.io/anjoman-code-channel/",
     "token_key کلید توکن باتِ همین کانال در فایل .env است؛ اگر توکن اختصاصی نبود مقدار BALE_TOKEN به‌عنوان پشتیبان خوانده می‌شود",
     "دسته‌بندی محتوا هرگز روی عکس یا متن کانال نمی‌آید — فقط داخلی (meta/stats/plan/inventory) طبق شیوه‌نامه"
-  ]
+  ],
+  "queue_map": {
+    "lesson": [
+      "b1-amoozesh"
+    ],
+    "occasion": [
+      "b7-mansabet"
+    ],
+    "magazine": [
+      "b2-nashriyeh"
+    ],
+    "variety": [
+      "b1-moarefi-shakhsiat",
+      "b1-khabar",
+      "b3-chalesh",
+      "b4-khollagheh",
+      "b5-moarefi-manabe",
+      "b6-gerayeshha"
+    ]
+  }
 }

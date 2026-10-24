@@ -11,7 +11,7 @@ sys.path.insert(0, "/home/z/my-project/scripts")
 sys.path.insert(0, "/home/z/my-project/anjoman-code-bot/scripts")
 from poster_lib import render, spec_text
 
-QUEUE = Path("/home/z/my-project/anjoman-code-bot/content/queue")
+QUEUE = Path("/home/z/my-project/anjoman-code-bot/channels/coding/content/queue")
 PREVIEW = Path("/home/z/my-project/download/queue_preview")
 PREVIEW.mkdir(parents=True, exist_ok=True)
 
