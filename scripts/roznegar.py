@@ -208,7 +208,8 @@ def next_queue_item(queue_dir, kind, cfg=None):
 def next_code(posts_dir):
     nums = []
     if posts_dir.exists():
-        for d in posts_dir.iterdir():
+        # گردش ۲۶: آرشیو پوشه‌بندی بندِ شیوه‌نامه شد — پویش بازگشتی (posts/<بند>/<NNN-…>)
+        for d in posts_dir.rglob("*"):
             if d.is_dir() and d.name[:3].isdigit():
                 nums.append(int(d.name[:3]))
     return max(nums) + 1 if nums else 1
@@ -489,6 +490,13 @@ def publish(cfg, kind, env):
     code = next_code(posts)
     slug_in_name = folder.name.split("-", 1)[1] if folder.name[:2].isdigit() and "-" in folder.name else folder.name
     dest_name = f"{code:03d}-{slug_in_name}"
+    # ← گردش ۲۶: آرشیو هم مثل صف، پوشه‌بندی بندِ شیوه‌نامه دارد —
+    #   پوشهٔ بند = پوشهٔ والدِ آیتم در صف (b1-amoozesh، pe-niroogah، …)؛
+    #   اگر آیتم بیرون از پوشه‌های بند بود → دستهٔ «خلاقیت» (دستور مالک ۱۴۰۵-۰۸-۰۴:
+    #   «هر چی که تو شیوه‌نامه نیست میشه خلاقیت»).
+    cat_dir = folder.parent.name
+    if cat_dir in ("queue", "content") or cat_dir[:2].isdigit():
+        cat_dir = cfg.get("fallback_archive_dir", "khollagheh")
     cat_fa = SPEC.get("category_fa", "نامشخص")   # دسته فقط داخلی — طبق شیوه‌نامه
     meta = {
         "number": code,
@@ -505,14 +513,15 @@ def publish(cfg, kind, env):
         "clean_image": "post-clean.png",
         "statute": cfg.get("statute", ""),
     }
-    dest = posts / dest_name
+    dest = posts / cat_dir / dest_name
+    dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.exists():
         shutil.rmtree(dest)
     shutil.copytree(folder, dest)
     (dest / "meta.json").write_text(
         json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     shutil.rmtree(folder)
-    log(f"آرشیو شد: channels/{slug}/posts/{dest_name}")
+    log(f"آرشیو شد: channels/{slug}/posts/{cat_dir}/{dest_name}")
 
     # ۴) ثبت state «قبل» از commit/push تا هیچ‌وقت با reset از دست نرود
     mark_today(state_path, kind, dest_name)
