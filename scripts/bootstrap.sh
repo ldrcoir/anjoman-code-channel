@@ -52,14 +52,18 @@ if [ -n "$GH" ]; then
   fi
 fi
 
-# ۳) دیمن روزنگار چندکاناله — اگر مرده، دوباره روشن کن (double-fork مستقل)
-if [ -f "$ROOT/.roznegar.pid" ] && [ -d "/proc/$(cat "$ROOT/.roznegar.pid" 2>/dev/null)" ]; then
-  echo "[$(TS)] دیمن زنده است (pid $(cat "$ROOT/.roznegar.pid"))" >> "$LOG"
-else
-  rm -f "$ROOT/.roznegar.pid"
-  python3 "$REPO/scripts/roznegar_daemon.py" --detach >> "$LOG" 2>&1
-  echo "[$(TS)] دیمن چندکاناله روشن شد" >> "$LOG"
-fi
+# ۳) ⛔ دیمون روزنگار — غیرفعال به دستور مالک (۱۴۰۵-۰۸-۰۳)
+# «اعتماد نمی‌کنم به اون برنامه و صف؛ ایجنت خودش کانال را چک کند و پست بگذارد»
+# دلیل: دوبارسازی (درس ۵ سه بار، تسلیت انرژی دوبار). برای فعال‌سازی این بلوک را برگردان:
+# if [ -f "$ROOT/.roznegar.pid" ] && [ -d "/proc/$(cat "$ROOT/.roznegar.pid" 2>/dev/null)" ]; then
+#   echo "[$(TS)] دیمن زنده است (pid $(cat "$ROOT/.roznegar.pid"))" >> "$LOG"
+# else
+#   rm -f "$ROOT/.roznegar.pid"
+#   python3 "$REPO/scripts/roznegar_daemon.py" --detach >> "$LOG" 2>&1
+#   echo "[$(TS)] دیمن چندکاناله روشن شد" >> "$LOG"
+# fi
+echo "[$(TS)] دیمن غیرفعال است (دستور مالک) — انتشار فقط توسط ایجنت با چک زندهٔ کانال" >> "$LOG"
+rm -f "$ROOT/.roznegar.pid"
 
 # ۴) فهرست کانال‌های فعال را در لاگ بنویس
 for CH in "$REPO"/channels/*/channel.json; do
