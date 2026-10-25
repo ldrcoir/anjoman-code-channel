@@ -24,11 +24,12 @@ def build_stats(chdir):
     posts_dir = chdir / "posts"
     posts = []
     if posts_dir.exists():
-        for d in sorted(posts_dir.iterdir()):
+        # گردش ۲۶: آرشیو پوشه‌بندی بندِ شیوه‌نامه شد (posts/<بند>/<آیتم>) — پویش بازگشتی
+        for d in sorted(posts_dir.rglob("*")):
             m = d / "meta.json"
             if d.is_dir() and m.exists():
                 meta = json.loads(m.read_text(encoding="utf-8"))
-                meta["_folder"] = d.name
+                meta["_folder"] = str(d.relative_to(posts_dir))
                 posts.append(meta)
     posts.sort(key=lambda x: x.get("number", 0))
 

@@ -9,6 +9,7 @@
   "token_key": "ENERJY_TOKEN",
   "brand_name": "انرژی‌پژوهان اشرفی اصفهانی",
   "footer_label": "کانال انرژی‌پژوهان",
+  "fallback_archive_dir": "khollagheh",
   "statute": "شیوه‌نامهٔ ششمین دوره مسابقات انرژی‌های نوین ۱۴۰۵-۱۴۰۴ — statutes/1405-1404/3-enerjihaye-novin-1404-1405.pdf",
   "schedule": {
     "lesson": {
@@ -61,7 +62,8 @@
       "jim-nashriyeh"
     ],
     "variety": [
-      "zeh-zanavari"
+      "zeh-zanavari",
+      "khollagheh"
     ]
   },
   "notes": [
