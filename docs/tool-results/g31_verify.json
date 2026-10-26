@@ -1,0 +1,145 @@
+{
+ "time": "2026-10-26 15:10:22",
+ "channels": {
+  "coding": {
+   "updates_total": 1,
+   "events": [
+    {
+     "kind": "message",
+     "message_id": 183,
+     "date": 1793007446,
+     "from": 0,
+     "sender_chat": "anjomanfaghihi",
+     "forward": false,
+     "is_automatic_forward": false,
+     "text_head": "🐍 آموزش پایتون از صفر | درس ۱ نصب پایتون و اولین اجرا (ویدیو",
+     "update_id": 52
+    }
+   ],
+   "recent_since_yesterday_noon": [
+    {
+     "kind": "message",
+     "message_id": 183,
+     "date": 1793007446,
+     "from": 0,
+     "sender_chat": "anjomanfaghihi",
+     "forward": false,
+     "is_automatic_forward": false,
+     "text_head": "🐍 آموزش پایتون از صفر | درس ۱ نصب پایتون و اولین اجرا (ویدیو",
+     "update_id": 52
+    }
+   ],
+   "forwarded_copies_in_feed": [],
+   "probe": {
+    "23": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "43": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "53": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "157": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "158": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "161": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "162": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "163": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "165": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "159": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "160": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "166": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "167": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "168": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "169": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "170": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "171": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "172": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "173": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "174": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "175": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "176": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "177": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "178": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "179": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "180": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ"
+   },
+   "deleted_now": [],
+   "live_now": []
+  },
+  "enerjy": {
+   "updates_total": 2,
+   "events": [
+    {
+     "kind": "message",
+     "message_id": 0,
+     "date": 1792958327,
+     "from": null,
+     "sender_chat": null,
+     "forward": false,
+     "is_automatic_forward": false,
+     "text_head": "",
+     "update_id": 98
+    },
+    {
+     "kind": "message",
+     "message_id": 0,
+     "date": 1793021378,
+     "from": null,
+     "sender_chat": null,
+     "forward": false,
+     "is_automatic_forward": false,
+     "text_head": "",
+     "update_id": 99
+    }
+   ],
+   "recent_since_yesterday_noon": [
+    {
+     "kind": "message",
+     "message_id": 0,
+     "date": 1792958327,
+     "from": null,
+     "sender_chat": null,
+     "forward": false,
+     "is_automatic_forward": false,
+     "text_head": "",
+     "update_id": 98
+    },
+    {
+     "kind": "message",
+     "message_id": 0,
+     "date": 1793021378,
+     "from": null,
+     "sender_chat": null,
+     "forward": false,
+     "is_automatic_forward": false,
+     "text_head": "",
+     "update_id": 99
+    }
+   ],
+   "forwarded_copies_in_feed": [],
+   "probe": {
+    "11": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "13": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "15": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "3": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "4": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "8": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "9": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "10": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e",
+    "12": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "14": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "16": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "17": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "18": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "19": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "20": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "21": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "22": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "23": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "24": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "25": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "26": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "27": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "28": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ",
+    "29": "other:{\"ok\": false, \"error\": \"HTTP Error 400: Bad Request\", \"body\": \"{\\\"ok\\\":false,\\\"e | delete-failed:{\"ok\": false, \"error\": \"HTTP Error 404: Not Found\", \"body\": \"{\\\"ok\\\":false,\\\"error_code\\\":404,\\\"description\\\":\\\"Bad Requ"
+   },
+   "deleted_now": [],
+   "live_now": []
+  }
+ }
+}

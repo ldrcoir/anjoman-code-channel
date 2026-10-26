@@ -1,0 +1,209 @@
+{
+ "time": "2026-10-26 15:13:54",
+ "channels": {
+  "coding": {
+   "probe": {
+    "8": "alive",
+    "12": "alive",
+    "13": "alive",
+    "14": "alive",
+    "15": "alive",
+    "16": "alive",
+    "18": "alive",
+    "20": "alive",
+    "22": "alive",
+    "24": "alive",
+    "27": "alive",
+    "41": "alive",
+    "42": "alive",
+    "46": "alive",
+    "48": "alive",
+    "52": "alive",
+    "54": "alive",
+    "159": "alive",
+    "160": "alive",
+    "183": "alive",
+    "23": "gone",
+    "43": "gone",
+    "53": "gone",
+    "157": "gone",
+    "158": "gone",
+    "161": "gone",
+    "162": "gone",
+    "163": "gone",
+    "165": "gone",
+    "166": "gone",
+    "167": "gone",
+    "168": "gone",
+    "169": "gone",
+    "170": "gone",
+    "171": "gone",
+    "172": "gone",
+    "173": "gone",
+    "174": "gone",
+    "175": "gone",
+    "176": "gone",
+    "177": "gone",
+    "178": "gone",
+    "179": "gone",
+    "180": "gone",
+    "181": "gone",
+    "182": "gone"
+   },
+   "live_confirmed": [
+    8,
+    12,
+    13,
+    14,
+    15,
+    16,
+    18,
+    20,
+    22,
+    24,
+    27,
+    41,
+    42,
+    46,
+    48,
+    52,
+    54,
+    159,
+    160,
+    183
+   ],
+   "deleted_now": [],
+   "recent_raw_events": [
+    {
+     "update_id": 52,
+     "key": "message",
+     "event": {
+      "message_id": 183,
+      "from": {
+       "id": 0,
+       "is_bot": false,
+       "first_name": "",
+       "last_name": ""
+      },
+      "sender_chat": {
+       "id": 5100057643,
+       "type": "channel",
+       "title": "انجمن کدنویسی",
+       "username": "anjomanfaghihi"
+      },
+      "date": 1793007446,
+      "chat": {
+       "id": 5100057643,
+       "type": "channel",
+       "title": "انجمن کدنویسی",
+       "username": "anjomanfaghihi"
+      },
+      "document": {
+       "file_id": "805090347:-1505660937845793022:0:764311d9dc1f5dcc47b5dd28298acc6fab4cb669c3fbe543",
+       "file_unique_id": "",
+       "file_name": "2026-10-25 16-22-30.mp4",
+       "mime_type": "video/mp4",
+       "file_size": 17525141
+      },
+      "video": {
+       "file_id": "805090347:-1505660937845793022:0:764311d9dc1f5dcc47b5dd28298acc6fab4cb669c3fbe543",
+       "file_unique_id": "",
+       "width": 1920,
+       "height": 1080,
+       "duration": 192,
+       "mime_type": "video/mp4",
+       "file_size": 17525141
+      },
+      "caption": "🐍 آموزش پایتون از صفر | درس ۱\nنصب پایتون و اولین اجرا (ویدیو)\n\nدر این ویدیو، قدم به قدم یاد می‌گیریم که چطور پایتون را روی سیستم خودمون نصب کنیم و اولین کد رو اجرا کنیم. کافیه ویدیو رو تا آخر ببینید تا با تنظیمات مهم نصب آشنا بشید.\n\n🎯 تمرین این درس: پایتون رو نصب کن، اولین برنامه‌ات رو اجرا کن (کد print(\"Hello World\")) و عکس خروجی‌ات رو برای ما بفرست.\n\n📚 درس بعدی: متغیرها، print و دستورات شرطی (if)\n\n╔══════════════════════════════╗\n🔗 ble.ir/anjomanfaghihi\n#انجمن_کدنویسی #آموزش_پایتون #Python #برنامه_نویسی #آموزش_کدنویسی\n╚══════════════════════════════╝"
+     }
+    }
+   ]
+  },
+  "enerjy": {
+   "probe": {
+    "3": "alive",
+    "4": "alive",
+    "8": "alive",
+    "9": "alive",
+    "10": "alive",
+    "11": "gone",
+    "13": "gone",
+    "15": "gone",
+    "16": "gone",
+    "17": "gone",
+    "18": "gone",
+    "19": "gone",
+    "20": "gone",
+    "21": "gone",
+    "22": "gone",
+    "23": "gone",
+    "24": "gone",
+    "25": "gone",
+    "26": "gone",
+    "27": "gone",
+    "28": "gone",
+    "29": "gone",
+    "30": "gone",
+    "31": "gone",
+    "32": "gone",
+    "33": "gone",
+    "34": "gone",
+    "35": "gone",
+    "36": "gone",
+    "37": "gone",
+    "38": "gone",
+    "39": "gone"
+   },
+   "live_confirmed": [
+    3,
+    4,
+    8,
+    9,
+    10
+   ],
+   "deleted_now": [],
+   "recent_raw_events": [
+    {
+     "update_id": 98,
+     "key": "message",
+     "event": {
+      "message_id": 0,
+      "date": 1792958327,
+      "chat": {
+       "id": 4602076598,
+       "type": "channel",
+       "title": "انرژی پژوهان اشرفی اصفهانی",
+       "username": "anjoman_energypazhohan"
+      },
+      "left_chat_member": {
+       "id": 2055063847,
+       "is_bot": false,
+       "first_name": "نغمه سنگلجی ",
+       "last_name": ""
+      }
+     }
+    },
+    {
+     "update_id": 99,
+     "key": "message",
+     "event": {
+      "message_id": 0,
+      "date": 1793021378,
+      "chat": {
+       "id": 4602076598,
+       "type": "channel",
+       "title": "انرژی پژوهان اشرفی اصفهانی",
+       "username": "anjoman_energypazhohan"
+      },
+      "left_chat_member": {
+       "id": 1998932545,
+       "is_bot": false,
+       "first_name": "Anne with e",
+       "last_name": ""
+      }
+     }
+    }
+   ]
+  }
+ }
+}
