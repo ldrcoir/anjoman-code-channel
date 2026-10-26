@@ -1,18 +1,55 @@
 {
-  "updated": "2026-10-25T09:03:47+03:30",
+  "updated": "2026-10-26T20:19:43+03:30",
   "channel": "enerjy-novin",
-  "total": 3,
+  "total": 7,
   "by_category": {
+    "؟": 4,
     "معرفی": 1,
     "الف — ترویجی/دانستنی (معرفی انرژی‌های نوین)": 1,
     "اطلاعیه": 1
   },
   "by_series": {
+    "—": 5,
     "آغاز به کار | آبان ۱۴۰۵": 1,
-    "—": 1,
     "ایام فاطمیه | ۱۴ جمادی‌الاول ۱۴۴۸": 1
   },
   "posts": [
+    {
+      "code": null,
+      "title": null,
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 9
+    },
+    {
+      "code": null,
+      "title": null,
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 10
+    },
+    {
+      "code": null,
+      "title": "۲. انرژی باد — دنبالهٔ «۱. انرژی خورشیدی» ادمین",
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 20
+    },
+    {
+      "code": null,
+      "title": "نیروگاه خورشیدی متانول کاوه — ساوه (۱۳۰ مگاوات)",
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 18
+    },
     {
       "code": "001",
       "title": "انرژی‌پژوهان آغاز به کار کرد",
