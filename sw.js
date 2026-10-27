@@ -1,11 +1,12 @@
 // kash-e sade baraye bazi — mikhaym bazi bedoone internet ham bazar kone
 // vaghani avvalin bar ke bazi ro mikonin in fileha zakhire mishan, bad az oon
 // hatta ba internet-e kande bazi bala miad.
-var nomreKash = 'rafiq-mar-v6';   // v6: zamin-e shatranji + shoroo-e bazi be jahat-e feshar-e bazi-kon
+var nomreKash = 'rafiq-mar-v7';   // v7: rafiq-mar v6 (shatranji) + bazi-ye robot-masiryab
 var fileha = [
   './',
   './index.html',
   './rafiq-mar.html',
+  './robot-masiryab.html',
   './mar-kodnevis.html',
   './manifest.json',
   './icon-192.png',
