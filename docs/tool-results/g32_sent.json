@@ -1,0 +1,70 @@
+{
+ "pre_drain": {
+  "coding": [
+   {
+    "update_id": 52,
+    "kind": "message",
+    "chat_id": 5100057643,
+    "mid": 183,
+    "date": 1793007446,
+    "text": "🐍 آموزش پایتون از صفر | درس ۱\nنصب پایتون و اولین اجرا (ویدیو"
+   }
+  ],
+  "enerjy": [
+   {
+    "update_id": 98,
+    "kind": "message",
+    "chat_id": 4602076598,
+    "mid": 0,
+    "date": 1792958327,
+    "text": ""
+   },
+   {
+    "update_id": 99,
+    "kind": "message",
+    "chat_id": 4602076598,
+    "mid": 0,
+    "date": 1793021378,
+    "text": ""
+   },
+   {
+    "update_id": 100,
+    "kind": "message",
+    "chat_id": 4602076598,
+    "mid": 0,
+    "date": 1793032126,
+    "text": ""
+   }
+  ]
+ },
+ "posts": {
+  "023-rust-dars-06": {
+   "api_returned_message_id": 184,
+   "feed_events": [],
+   "dups_deleted": [],
+   "chat_id": "5100057643",
+   "caption_head": "🦀 آموزش Rust از صفر | در"
+  },
+  "024-chalesh-01": {
+   "api_returned_message_id": 185,
+   "feed_events": [],
+   "dups_deleted": [],
+   "chat_id": "5100057643",
+   "caption_head": "🧩 چالش کدنویسی | شمارهٔ "
+  },
+  "006-niroogah-kaveh": {
+   "api_returned_message_id": 18,
+   "feed_events": [],
+   "dups_deleted": [],
+   "chat_id": "4602076598",
+   "caption_head": "☀️ بزرگ‌ترین نیروگاه خور"
+  },
+  "007-enerjy-bad": {
+   "api_returned_message_id": 20,
+   "feed_events": [],
+   "dups_deleted": [],
+   "chat_id": "4602076598",
+   "caption_head": "💨 ۲. انرژی باد\n\nباد یعنی"
+  }
+ }
+}
