@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="رفیق مار">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
+<!-- noskhe 6: zamin-e shatranji + shoroo-e bazi be hamin jahati ke bazi-kon feshar mide -->
 <!--
   bazie "Mar Kodnevis" — bargerri, tak-fail, bedoone heech ketabkhane-i
   anjome elmi-pajooheshi kodnevisi | madrese Shahid Faghihi
@@ -149,7 +150,7 @@ var takhli = document.getElementById('bazi');
 var noghteh = takhli.getContext('2d');
 var KADR = 40, SOTUN = 25, SATR = 18;           // khane-ha: 25 dar 18 (nesbate 1000 dar 720)
 var mar = [];                                   // badane mar: har khane {x, y}
-var jahat = {x:-1, y:0};                        // jahate felan (inja az rast be chap)
+var jahat = {x:1, y:0};                         // jahate felan — be rast, mesl-e har bazi adi
 var saf = [];                                   // agar bazi-kon chand ta jahat ro posht-e ham zad
 var ghaza = {x:0, y:0};
 var emtiaz = 0, record = 0;
@@ -206,9 +207,15 @@ function ghazaJadid() {
 }
 
 // ---------- shroo / mekes / payan ----------
-function shrooBazi() {
-  mar = [{x:12,y:9},{x:13,y:9},{x:14,y:9},{x:15,y:9}];
-  jahat = {x:-1, y:0}; saf = [];
+function shrooBazi(nam) {
+  // shoroo be hamin jahati ke bazi-kon feshar dade — na be yek jahat-e majboor!
+  // (ghablan hamishe be chap shoroo mishod va feshar-e rast kari nemikard — hamin baze sholugh bood)
+  var shoroo = JAHAT_HA[nam] || {x:1, y:0};
+  mar = [{x:12,y:9},
+         {x:12-shoroo.x,   y:9-shoroo.y},
+         {x:12-2*shoroo.x, y:9-2*shoroo.y},
+         {x:12-3*shoroo.x, y:9-3*shoroo.y}];   // badane posht-e sar, dar jahat-e barkas
+  jahat = shoroo; saf = [];
   emtiaz = 0; ghazaJadid();
   harekatOn = true; vaziatBazi = 'bazi';
   gozarVaziat('در حال بازی');
@@ -317,13 +324,12 @@ function yekGhadam() {
 
 // ---------- rasm ----------
 function rasm() {
-  noghteh.fillStyle = '#0B0E22';
-  noghteh.fillRect(0, 0, SOTUN*KADR, SATR*KADR);
-  // chand nokt-e safid rooye zamin — hes-e shabake
-  noghteh.fillStyle = 'rgba(255,255,255,.07)';
-  for (var gx = 2; gx < SOTUN; gx += 2)
-    for (var gy = 2; gy < SATR; gy += 2)
-      noghteh.fillRect(gx*KADR-1, gy*KADR-1, 2, 2);
+  // zamin-e shatranji — ta bazi-kon betune khane-ha ro besmore (masalan: se khane fasele dare)
+  for (var sx = 0; sx < SOTUN; sx++)
+    for (var sy = 0; sy < SATR; sy++) {
+      noghteh.fillStyle = (sx + sy) % 2 == 0 ? '#121838' : '#0B0E22';
+      noghteh.fillRect(sx*KADR, sy*KADR, KADR, KADR);
+    }
 
   if (!mar.length) return;   // hanooz bazi shroo nashode
   // ghaza: dayereh-ye narenji ke nad-mikonad
@@ -380,7 +386,7 @@ var JAHAT_HA = { bala:{x:0,y:-1}, paeen:{x:0,y:1}, chap:{x:-1,y:0}, rast:{x:1,y:
 function setJahat(nam) {
   var j = JAHAT_HA[nam];
   if (!j) return;
-  if (vaziatBazi == 'amade' || vaziatBazi == 'payan') shrooBazi();   // engesht-e aval khodesh shroo mikone
+  if (vaziatBazi == 'amade' || vaziatBazi == 'payan') shrooBazi(nam);   // engesht-e aval khodesh shroo mikone — be hamin jahat
   var akhar = saf.length ? saf[saf.length-1] : jahat;
   if (akhar.x + j.x == 0 && akhar.y + j.y == 0) return;   // bargasht mamnoo
   if (mar.length && j.x == akhar.x && j.y == akhar.y) return;
@@ -427,7 +433,8 @@ takhli.addEventListener('click', function() {
 // ---------- kilid-e sahne ----------
 document.addEventListener('keydown', function(e) {
   var n = {ArrowUp:'bala', ArrowDown:'paeen', ArrowLeft:'chap', ArrowRight:'rast',
-           w:'bala', s:'paeen', a:'chap', d:'rast'}[e.key];
+           w:'bala', s:'paeen', a:'chap', d:'rast',
+           'ص':'bala', 'س':'paeen', 'ش':'chap', 'ی':'rast'}[e.key];   // kibord-e farsi ham kar mikone
   if (n) { setJahat(n); e.preventDefault(); }
   if (e.key == ' ') { harekatOn ? mekse() : (vaziatBazi == 'mkes' ? edame() : shrooBazi()); e.preventDefault(); }
 });
