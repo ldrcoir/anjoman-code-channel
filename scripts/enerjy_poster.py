@@ -88,7 +88,8 @@ CHANNEL = {
     "footer_label": "کانال انرژی‌پژوهان",
     "handle": "@anjoman_energypazhohan",
     "assoc_name": "انجمن دانش‌آموزی انرژی‌های نوین",
-    "contest_line": "ششمین دورهٔ مسابقات انرژی‌های نوین",
+    # گردش ۳۶ — دستور مالک: «ششمین» حذف شود؛ نام کامل پژوهش‌سرا بیاید
+    "org_line": "پژوهش‌سرای دانش‌آموزی امام هادی (ع)",
 }
 LOGO_PATH = Path("")
 
@@ -100,7 +101,7 @@ def set_channel(cfg):
         "footer_label": cfg.get("footer_label", CHANNEL["footer_label"]),
         "handle": cfg.get("handle", CHANNEL["handle"]),
         "assoc_name": cfg.get("association", CHANNEL["assoc_name"]),
-        "contest_line": CHANNEL["contest_line"],
+        "org_line": cfg.get("pazhooheshsara", CHANNEL["org_line"]),
     }
     logo = cfg.get("_logo_path")
     LOGO_PATH = Path(logo) if logo else Path("")
@@ -256,7 +257,7 @@ def header_band(d, img, brand):
         f = font("fa_black", 34)
         d.text((W - MARGIN, 34), CHANNEL["brand_name"], font=f, fill=(255, 255, 255),
                direction="rtl", anchor="ra")
-        d.text((W - MARGIN, 92), CHANNEL["contest_line"], font=font("fa_med", 21),
+        d.text((W - MARGIN, 92), CHANNEL["org_line"], font=font("fa_med", 21),
                fill=(191, 227, 194), direction="rtl", anchor="ra")
 
 def footer_band(d, img, brand, mourn=False):
