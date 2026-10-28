@@ -1,0 +1,41 @@
+{
+ "update_id": 109,
+ "message": {
+  "message_id": 32,
+  "from": {
+   "id": 0,
+   "is_bot": false,
+   "first_name": "",
+   "last_name": ""
+  },
+  "sender_chat": {
+   "id": 4602076598,
+   "type": "channel",
+   "title": "انرژی پژوهان اشرفی اصفهانی",
+   "username": "anjoman_energypazhohan"
+  },
+  "date": 1793191299,
+  "chat": {
+   "id": 4602076598,
+   "type": "channel",
+   "title": "انرژی پژوهان اشرفی اصفهانی",
+   "username": "anjoman_energypazhohan"
+  },
+  "document": {
+   "file_id": "307109302:-4399542893090496767:1:aadb1c9e0bc3612bb5f64ef11ac31eddaf52e6b642e204853c7b7805ace94705",
+   "file_unique_id": "",
+   "file_name": "msg024-niroogah-saveh.png",
+   "mime_type": "image/png",
+   "file_size": 108857
+  },
+  "photo": [
+   {
+    "file_id": "307109302:-4399542893090496767:1:aadb1c9e0bc3612bb5f64ef11ac31eddaf52e6b642e204853c7b7805ace94705",
+    "file_unique_id": "",
+    "width": 1080,
+    "height": 1350,
+    "file_size": 108857
+   }
+  ]
+ }
+}
