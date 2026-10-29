@@ -11,7 +11,7 @@ from enerjy_poster import INK, GRN, AMBER_D, SKY, ORG
 
 SPEC = {
     "category_fa": "ترویجی",   # فقط داخلی — هرگز روی عکس/متن نمی‌آید
-    "series_label": "انرژی‌های نوین | دنبالهٔ ۲",
+    "series_label": "انرژی‌های نوین | آبان ۱۴۰۵",
     "title": "انرژی باد",
     "title_size": 58,
     "subtitle": "باد در حرکت است؛ برق هم با آن می‌آید",

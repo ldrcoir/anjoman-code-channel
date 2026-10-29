@@ -9,8 +9,8 @@ from poster_lib import FB, WHITE, ACCENT, ACCENT2, GREEN, ORANGE, GOLD
 
 SPEC = {
     "category_fa": "معرفی",   # فقط داخلی — هرگز روی عکس/متن نمی‌آید
-    "series_label": "آغاز به کار | آبان ۱۴۰۵",
-    "title": "انرژی‌پژوهان آغاز به کار کرد",
+    "series_label": "معرفی کانال | آبان ۱۴۰۵",
+    "title": "انرژی‌های نوین",
     "title_size": 56,
     "subtitle": "کانال رسمی انجمن دانش‌آموزی انرژی‌های نوین",
     "clean_footer": "پست معرفی انجمن",

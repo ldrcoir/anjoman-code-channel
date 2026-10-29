@@ -12,7 +12,7 @@ from enerjy_poster import INK, GRN, AMBER_D, SKY, ORG
 
 SPEC = {
     "category_fa": "ترویجی",   # فقط داخلی — هرگز روی عکس/متن نمی‌آید
-    "series_label": "انرژی‌های نوین | دنبالهٔ ۴",
+    "series_label": "انرژی‌های نوین | آبان ۱۴۰۵",
     "title": "انرژی آب (برق‌آبی)",
     "title_size": 54,
     "subtitle": "سد؛ باتریِ آبی طبیعت — برقی از دل رودخانه",

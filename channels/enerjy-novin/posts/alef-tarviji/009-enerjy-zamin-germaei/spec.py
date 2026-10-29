@@ -12,7 +12,7 @@ from enerjy_poster import INK, GRN, AMBER_D, SKY, ORG
 
 SPEC = {
     "category_fa": "ترویجی",   # فقط داخلی — هرگز روی عکس/متن نمی‌آید
-    "series_label": "انرژی‌های نوین | دنبالهٔ ۳",
+    "series_label": "انرژی‌های نوین | آبان ۱۴۰۵",
     "title": "انرژی زمین‌گرمایی",
     "title_size": 58,
     "subtitle": "گرمای دل زمین؛ برقی که شب و روز نمی‌شناسد",
