@@ -8,6 +8,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -136,7 +137,7 @@ class LessonActivity : Activity() {
         )
 
         val ghabeCode = HorizontalScrollView(this)
-        ghabeCode.horizontalScrollBarEnabled = false
+        ghabeCode.isHorizontalScrollBarEnabled = false
 
         val matnCode = TextView(this)
         matnCode.text = code
@@ -149,7 +150,7 @@ class LessonActivity : Activity() {
 
         ghabeCode.addView(
             matnCode,
-            HorizontalScrollView.LayoutParams(
+            FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
