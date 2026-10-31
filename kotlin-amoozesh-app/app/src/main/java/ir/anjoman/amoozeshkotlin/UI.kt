@@ -107,6 +107,13 @@ object Abzar {
         return adad.toString().map { raghamHa[it - '0'] }.joinToString("")
     }
 
+    // یکسان‌سازی خروجی برای مقایسهٔ تمرین‌ها: حذف فاصلهٔ انتهای هر خط
+    fun pakKonKhoruji(s: String): String {
+        val khatHa = s.split("\n")
+        val pak = khatHa.joinToString("\n") { it.trimEnd() }.trim()
+        return pak
+    }
+
     // نوار وضعیت رو هم‌رنگ پس‌زمینه می‌کنیم که تمیز باشه
     fun rangVaredKon(activity: Activity) {
         activity.window.statusBarColor = RANG_ZAMIN
@@ -141,5 +148,25 @@ object Zakhire {
             if (n > 0) jam += n
         }
         return jam
+    }
+
+    // تمرین‌های زمین بازی که درست حل شده‌اند
+    fun tamrinAnjamAst(context: Context, shomareh: Int): Boolean {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        return p.getBoolean("tamrin_$shomareh", false)
+    }
+
+    fun tamrinAnjamKon(context: Context, shomareh: Int) {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        p.edit().putBoolean("tamrin_$shomareh", true).apply()
+    }
+
+    // چند تمرین تا حالا درست حل شده؟
+    fun tamrinAnjamShode(context: Context): Int {
+        var tedad = 0
+        for (i in DarsHa.tamrinHa.indices) {
+            if (tamrinAnjamAst(context, i)) tedad++
+        }
+        return tedad
     }
 }
