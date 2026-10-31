@@ -80,7 +80,8 @@ class HomeActivity : Activity() {
         )
 
         val majmoo = Zakhire.majmoo(this)
-        val hadaf = DarsHa.darsList.size * 3
+        var hadaf = 0
+        for (d in DarsHa.darsList) hadaf += d.soalHa.size
         val matnPishraft = Abzar.tv(
             this,
             "پیشرفت کل: ${Abzar.adadFarsi(majmoo)} از ${Abzar.adadFarsi(hadaf)}",
@@ -130,6 +131,37 @@ class HomeActivity : Activity() {
             ghabe.addView(kartDars(dars), pDars)
         }
 
+        // بخش زمین بازی: کدنویسی زنده و تمرین‌ها
+        val matnTalar = Abzar.tv(this, "زمین بازی کد", 16f, Abzar.RANG_TALAEI, bold = true)
+        val pTalar = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pTalar.topMargin = Abzar.dp(this, 24f)
+        ghabe.addView(matnTalar, pTalar)
+
+        val pZamin = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pZamin.topMargin = Abzar.dp(this, 12f)
+        ghabe.addView(kartTalar("⌨  زمین بازی کد", "کد بنویس، اجرا کن، خطاها را ببین", "zamin"), pZamin)
+
+        val pTamrin = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pTamrin.topMargin = Abzar.dp(this, 12f)
+        val tedadTamrin = Zakhire.tamrinAnjamShode(this)
+        ghabe.addView(
+            kartTalar(
+                "✏  تمرین‌های عملی",
+                "${Abzar.adadFarsi(tedadTamrin)} از ${Abzar.adadFarsi(DarsHa.tamrinHa.size)} حل شده",
+                "tamrin"
+            ),
+            pTamrin
+        )
+
         // دکمهٔ درباره در ته صفحه
         val dokmeDarbare = Abzar.dokme(this, "درباره", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
         dokmeDarbare.setOnClickListener {
@@ -141,6 +173,45 @@ class HomeActivity : Activity() {
         )
         pDarbare.topMargin = Abzar.dp(this, 28f)
         ghabe.addView(dokmeDarbare, pDarbare)
+    }
+
+    // کارت‌های زمین بازی: بازکردن Playground یا Tamrin
+    private fun kartTalar(onvan: String, tozih: String, noo: String): LinearLayout {
+        val kart = LinearLayout(this)
+        kart.orientation = LinearLayout.HORIZONTAL
+        kart.gravity = Gravity.CENTER_VERTICAL
+        kart.background = Abzar.kart(this, Abzar.RANG_KART)
+        kart.setPadding(
+            Abzar.dp(this, 14f), Abzar.dp(this, 14f),
+            Abzar.dp(this, 14f), Abzar.dp(this, 14f)
+        )
+        kart.isClickable = true
+        Abzar.lams(kart)
+        kart.setOnClickListener {
+            val niat = Intent(
+                this,
+                if (noo == "tamrin") TamrinActivity::class.java else PlaygroundActivity::class.java
+            )
+            startActivity(niat)
+        }
+
+        val sotoon = LinearLayout(this)
+        sotoon.orientation = LinearLayout.VERTICAL
+
+        val matnOnvan = Abzar.tv(this, onvan, 16f, Abzar.RANG_MATN, bold = true)
+        sotoon.addView(matnOnvan)
+
+        val matnTozih = Abzar.tv(this, tozih, 13f, Abzar.RANG_KAMRANG)
+        matnTozih.setPadding(0, Abzar.dp(this, 3f), 0, 0)
+        sotoon.addView(matnTozih)
+
+        val pSotoon = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        kart.addView(sotoon, pSotoon)
+
+        val flash = Abzar.tv(this, "‹", 22f, Abzar.RANG_KAMRANG)
+        kart.addView(flash)
+
+        return kart
     }
 
     // کارت هر درس: دایرهٔ شماره + عنوان + وضعیت آزمون
@@ -164,7 +235,7 @@ class HomeActivity : Activity() {
         // رنگ دایره بسته به نمرهٔ آزمون عوض می‌شه
         val behtarin = Zakhire.behtarin(this, dars.shomareh)
         val rangDayereh = when {
-            behtarin >= 3 -> Abzar.RANG_SABZ
+            behtarin >= dars.soalHa.size -> Abzar.RANG_SABZ
             behtarin > 0 -> Abzar.RANG_TALAEI
             else -> Abzar.RANG_KHAKISTARI
         }
@@ -185,7 +256,7 @@ class HomeActivity : Activity() {
         sotoon.addView(matnDars)
 
         val halat = if (behtarin >= 0) {
-            "${Abzar.adadFarsi(behtarin)} از ۳ درست"
+            "${Abzar.adadFarsi(behtarin)} از ${Abzar.adadFarsi(dars.soalHa.size)} درست"
         } else {
             "هنوز آزمون ندادی"
         }

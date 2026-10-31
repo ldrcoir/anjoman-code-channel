@@ -88,7 +88,7 @@ class LessonActivity : Activity() {
         if (behtarin >= 0) {
             val matnBehtarin = Abzar.tv(
                 this,
-                "بهترین نتیجهٔ آزمون: ${Abzar.adadFarsi(behtarin)} از ۳",
+                "بهترین نتیجهٔ آزمون: ${Abzar.adadFarsi(behtarin)} از ${Abzar.adadFarsi(dars.soalHa.size)}",
                 13f, Abzar.RANG_KAMRANG
             )
             val pBehtarin = LinearLayout.LayoutParams(
@@ -98,6 +98,20 @@ class LessonActivity : Activity() {
             pBehtarin.topMargin = Abzar.dp(this, 16f)
             ghabe.addView(matnBehtarin, pBehtarin)
         }
+
+        // دکمهٔ امتحان کد درس در زمین بازی
+        val dokmeBazi = Abzar.dokme(this, "⌨  امتحان کد درس در زمین بازی", Abzar.RANG_TALAEI, Abzar.RANG_ZAMIN)
+        dokmeBazi.setOnClickListener {
+            val niat = Intent(this, PlaygroundActivity::class.java)
+            niat.putExtra("kod", dars.codeNemooneh)
+            startActivity(niat)
+        }
+        val pBazi = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pBazi.topMargin = Abzar.dp(this, 18f)
+        ghabe.addView(dokmeBazi, pBazi)
 
         // دکمهٔ شروع آزمون
         val dokmeAzmoon = Abzar.dokme(this, "شروع آزمون", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)

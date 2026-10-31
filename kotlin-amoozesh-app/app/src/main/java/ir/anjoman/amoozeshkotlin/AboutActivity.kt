@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 
 /*
- * صفحهٔ درباره: فقط اسم انجمن و یه خط
+ * صفحهٔ درباره: نام پژوهش‌سرا، انجمن و استاد راهنما
  */
 class AboutActivity : Activity() {
 
@@ -47,7 +47,7 @@ class AboutActivity : Activity() {
             Abzar.dp(this, 24f), Abzar.dp(this, 28f)
         )
 
-        // لوزی کوچیک طلایی بالای کارت
+        // لوزی کوچک طلایی بالای کارت
         val ghabeLozi = FrameLayout(this)
         val lozi = View(this)
         lozi.background = Abzar.kart(this, Abzar.RANG_TALAEI, 7f)
@@ -63,6 +63,12 @@ class AboutActivity : Activity() {
         pGhabe.gravity = Gravity.CENTER_HORIZONTAL
         kart.addView(ghabeLozi, pGhabe)
 
+        // خط اول: پژوهش‌سرا
+        val pajoheshSara = Abzar.tv(this, "پژوهش‌سرای امام هادی (علیه‌السلام)", 15f, Abzar.RANG_TALAEI, bold = true)
+        pajoheshSara.gravity = Gravity.CENTER
+        kart.addView(pajoheshSara)
+
+        // خط دوم: انجمن
         val onvan = Abzar.tv(this, "انجمن کدنویسی مدرسهٔ شهید فقیهی", 19f, Abzar.RANG_MATN, bold = true)
         onvan.gravity = Gravity.CENTER
         onvan.setPadding(0, Abzar.dp(this, 8f), 0, 0)
@@ -72,6 +78,16 @@ class AboutActivity : Activity() {
         tozih.gravity = Gravity.CENTER
         tozih.setPadding(0, Abzar.dp(this, 10f), 0, 0)
         kart.addView(tozih)
+
+        // خط آخر: استاد راهنما
+        val ostad = Abzar.tv(this, "استاد راهنما: مهندس احسان مراد", 14f, Abzar.RANG_MATN, bold = true)
+        ostad.gravity = Gravity.CENTER
+        val pOstad = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pOstad.topMargin = Abzar.dp(this, 18f)
+        kart.addView(ostad, pOstad)
 
         vasat.addView(kart)
 
