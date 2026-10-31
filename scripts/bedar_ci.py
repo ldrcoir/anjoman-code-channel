@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+بیدار-سی‌آی — لایهٔ ۳ بیداری: پشتیبان گیت‌هاب‌اکشنز (چندکاناله)
+================================================================
+وقتی سرور ما ریست شود و هیچکس bootstrap نزند، این اسکریپت روی
+GitHub Actions اجرا می‌شود و اسلات‌های ازدست‌رفتهٔ امروزِ «همهٔ کانال‌ها»
+را منتشر می‌کند — همان کاری که دیمون روی سرور می‌کند.
+
+منطق (عین منطق دیمون، برای هر کانال و هر kind):
+- روز درست؟ ساعت گذشته؟ امروز انجام نشده؟ (state از همین checkout تازه است)
+- اگر هر سه درست بود → roznegar.py همان کانال را اجرا می‌کند
+  (roznegar خودش state را از گیت‌هاب تازه می‌کند، گیت‌های hold/date را
+  می‌سنجد، می‌فرستد، آرشیو و commit/push می‌کند)
+- چون ران Actions ۱۰ دقیقه «بعد از» ساعت دیمون است، اگر سرور زنده
+  باشد state تازه push شده → اینجا رد می‌شود؛ هیچ دوبارسازی نیست.
+- کانالِ بدون channel.json (مثل صف‌های آمادهٔ نشده) خودبه‌خود رد می‌شود.
+
+محیط:
+- ANJOMAN_ROOT  ریشه‌ای که .env و logs در آن است
+- ANJOMAN_REPO  مسیر مخزن
+- ANJOMAN_FONT_DIR  مسیر فونت‌ها برای poster_lib
+- BEDAR_DRY=true  فقط شبیه‌سازی (--dry) بدون ارسال
+"""
+import os
+import sys
+import json
+import subprocess
+from datetime import datetime
+from zoneinfo import ZoneInfo
+from pathlib import Path
+
+ROOT = Path(os.environ.get("ANJOMAN_ROOT", "/home/z/my-project"))
+os.makedirs(ROOT, exist_ok=True)   # گارد: اگر ریشه در رانر ساخته نشده باشد، همین‌جا ساخته می‌شود
+REPO = Path(os.environ.get("ANJOMAN_REPO", str(ROOT / "anjoman-code-bot")))
+DRY = os.environ.get("BEDAR_DRY", "false").strip().lower() in ("1", "true", "yes")
+
+now = datetime.now(ZoneInfo("Asia/Tehran"))
+today = now.date().isoformat()
+wd = now.weekday()
+
+lines = [f"بیدار-سی‌آی | تهران {now.isoformat(timespec='seconds')} | "
+         f"weekday={wd} | dry={DRY} | ROOT={ROOT} | REPO={REPO}"]
+exit_code = 0
+
+# ─── کشف همهٔ کانال‌ها — مثل دیمون: هر پوشهٔ channels/* با channel.json ───
+base = REPO / "channels"
+channel_dirs = []
+if base.exists():
+    for d in sorted(base.iterdir()):
+        if d.is_dir() and not d.name.startswith("_") and (d / "channel.json").exists():
+            channel_dirs.append(d)
+
+for d in channel_dirs:
+    try:
+        cfg = json.loads((d / "channel.json").read_text(encoding="utf-8"))
+    except Exception as e:
+        lines.append(f"⚠️ channel.json نامعتبر: {d.name}: {e}")
+        exit_code = 1
+        continue
+    slug = cfg.get("slug") or d.name
+    sched = cfg.get("schedule") or {}
+    state_path = d / "content" / "state.json"
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8") or "{}")
+    except Exception:
+        state = {}
+    lines.append(f"▼ کانال [{slug}] — {len(sched)} اسلات")
+
+    for kind, slot in sorted(sched.items()):
+        days = slot.get("days")
+        if days is not None and wd not in days:
+            lines.append(f"— [{slug}] {kind}: امروز روز انتشارش نیست — رد شد")
+            continue
+        if (now.hour, now.minute) < (int(slot["hour"]), int(slot["minute"])):
+            lines.append(f"— [{slug}] {kind}: هنوز ساعتش نرسیده "
+                         f"({int(slot['hour']):02d}:{int(slot['minute']):02d}) — رد شد")
+            continue
+        if state.get(kind) == today:
+            lines.append(f"— [{slug}] {kind}: امروز انجام شده — رد شد")
+            continue
+        cmd = [sys.executable, str(REPO / "scripts" / "roznegar.py"),
+               "--channel", slug, "--kind", kind]
+        if DRY:
+            cmd.append("--dry")
+        lines.append(f"→ [{slug}] {kind}: اجرای roznegar …")
+        try:
+            # env فرزند صریح است: مسیرها + توکن‌ها، تا هیچ‌وقت گم نشوند
+            child_env = dict(os.environ)
+            child_env["ANJOMAN_ROOT"] = str(ROOT)
+            child_env["ANJOMAN_REPO"] = str(REPO)
+            child_env.setdefault("BALE_TOKEN", os.environ.get("BALE_TOKEN", ""))
+            child_env.setdefault("GITHUB_TOKEN", os.environ.get("GITHUB_TOKEN", ""))
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=900,
+                               env=child_env)
+            tail = "\n".join((r.stdout or "").strip().splitlines()[-8:])
+            lines.append("  " + tail.replace("\n", "\n  "))
+            if r.returncode != 0:
+                lines.append("  stderr کامل: " + (r.stderr or "")[:1500])
+                exit_code = 1
+        except Exception as e:
+            import traceback
+            lines.append(f"  ERROR: {e}\n  " + traceback.format_exc()[-800:])
+            exit_code = 1
+
+if not channel_dirs:
+    lines.append("⚠️ هیچ کانالی با channel.json پیدا نشد")
+
+report = "\n".join(lines)
+print(report, flush=True)
+
+# خلاصهٔ انسانی در GitHub Step Summary
+ss = os.environ.get("GITHUB_STEP_SUMMARY")
+if ss:
+    with open(ss, "a", encoding="utf-8") as f:
+        f.write("## گزارش بیدار\n\n```\n" + report + "\n```\n")
+
+sys.exit(exit_code)
