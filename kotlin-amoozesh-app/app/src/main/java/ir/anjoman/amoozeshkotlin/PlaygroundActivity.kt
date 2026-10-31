@@ -223,7 +223,7 @@ class PlaygroundActivity : Activity() {
     }
 
     // چیپ‌های مثال آمادهٔ حالت آزاد
-    private fun namuneHa(): LinearLayout {
+    private fun namuneHa(): View {
         val sotoon = LinearLayout(this)
         sotoon.orientation = LinearLayout.HORIZONTAL
 
