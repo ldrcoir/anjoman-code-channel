@@ -54,10 +54,14 @@ jobs:
         working-directory: kotlin-pajoohesh-app
 
       - name: Verify APK signature
+        working-directory: kotlin-pajoohesh-app
         run: |
           APK=app/build/outputs/apk/release/app-release.apk
           test -f "$APK"
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "$APK" | head -5
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner 2>/dev/null | sort -V | tail -1)
+          echo "apksigner: $APKSIGNER"
+          "$APKSIGNER" verify --print-certs "$APK" > /tmp/sig.txt
+          head -4 /tmp/sig.txt
 
       - name: Rename APK
         run: cp app/build/outputs/apk/release/app-release.apk DastavardhayePajoohesh-v1.1.apk
