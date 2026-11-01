@@ -1,4 +1,4 @@
-package ir.anjoman.pajoohesh
+package ir.ehsanmorad.pajoohesh
 
 import android.app.Activity
 import android.content.Context
@@ -8,11 +8,15 @@ import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 
 /*
  * جعبه‌ابزار کتاب + پالت تم‌ها
- * ۶ تم: کلاسیک کرم، شب مطالعه، کاغذ گرم، سبز آرام، بنفش شفق، طلایی سلطنتی
+ * ۱۰ تم: کلاسیک کرم، شب مطالعه، کاغذ گرم، سبز آرام، بنفش شفق، طلایی سلطنتی،
+ *        رزگلد دلنشین، نیلی اقیانوس، روز روشن، زیتون آرام
+ * شش تم نخست با نسخهٔ ۱.۰ هم‌ترازند تا انتخاب قدیمی کاربران حفظ شود
  * رنگ فیروزه‌ای تم‌ها با طراحی خود کتاب (جلد فیروزه‌ای) هم‌خانواده است
  * تم انتخابی در حافظهٔ گوشی ذخیره می‌شود
  */
@@ -43,7 +47,15 @@ object TemEnekhab {
         Tem("بنفش شفق", 0xFF120E1F.toInt(), 0xFF1C1631.toInt(), 0xFF151026.toInt(),
             0xFFF0EAFF.toInt(), 0xFF9B8FC0.toInt(), 0xFFA78BFA.toInt(), 0xFF8B5CF6.toInt(), true),
         Tem("طلایی سلطنتی", 0xFF191307.toInt(), 0xFF241B0C.toInt(), 0xFF1C150A.toInt(),
-            0xFFF5EEDC.toInt(), 0xFFB3A172.toInt(), 0xFFD4A017.toInt(), 0xFFF59E0B.toInt(), true)
+            0xFFF5EEDC.toInt(), 0xFFB3A172.toInt(), 0xFFD4A017.toInt(), 0xFFF59E0B.toInt(), true),
+        Tem("رزگلد دلنشین", 0xFFFBEFEF.toInt(), 0xFFFDF6F4.toInt(), 0xFFF3DFDD.toInt(),
+            0xFF4A2C3A.toInt(), 0xFFB08793.toInt(), 0xFFD2627E.toInt(), 0xFFF0A3B5.toInt(), false),
+        Tem("نیلی اقیانوس", 0xFF0A1628.toInt(), 0xFF12233D.toInt(), 0xFF0E1C31.toInt(),
+            0xFFE0F2FE.toInt(), 0xFF7FA6C9.toInt(), 0xFF38BDF8.toInt(), 0xFF0284C7.toInt(), true),
+        Tem("روز روشن", 0xFFF7F8FA.toInt(), 0xFFFFFFFF.toInt(), 0xFFEDF0F4.toInt(),
+            0xFF1E293B.toInt(), 0xFF64748B.toInt(), 0xFF2563EB.toInt(), 0xFF3B82F6.toInt(), false),
+        Tem("زیتون آرام", 0xFFF2F5EC.toInt(), 0xFFFAFCF5.toInt(), 0xFFE7EDDE.toInt(),
+            0xFF2F3A26.toInt(), 0xFF7C8A66.toInt(), 0xFF65A30D.toInt(), 0xFF84CC16.toInt(), false)
     )
 
     fun bekhon(context: Context): Tem {
@@ -86,8 +98,26 @@ object Abzar {
         t.text = matn
         t.setTextSize(TypedValue.COMPLEX_UNIT_SP, size)
         t.setTextColor(rang)
-        t.typeface = if (bold) FontBox.vazirBold(context) else FontBox.vazir(context)
+        t.typeface = if (bold) Fontha.vazirPorReng(context) else Fontha.vazir(context)
         return t
+    }
+
+    // آیکون وکتوری با رنگ دلخواه — برای منو و دکمه‌ها
+    fun neshane(context: Context, nam: String, rang: Int, boorg: Int = 26): ImageView {
+        val n = ImageView(context)
+        val h = try {
+            context.getDrawable(
+                context.resources.getIdentifier(nam, "drawable", context.packageName)
+            )
+        } catch (_: Exception) {
+            null
+        }
+        if (h != null) {
+            n.setImageDrawable(h)
+            n.setColorFilter(rang)
+        }
+        n.scaleType = ImageView.ScaleType.FIT_CENTER
+        return n
     }
 
     fun kart(context: Context, rang: Int, shoa: Float = 18f): GradientDrawable {
@@ -141,7 +171,7 @@ object Abzar {
         t.text = matn
         t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         t.setTextColor(rangMatn)
-        t.typeface = FontBox.vazirBold(context)
+        t.typeface = Fontha.vazirPorReng(context)
         t.gravity = Gravity.CENTER
         t.background = if (khateDor) kartKhatei(context, rangPosht) else kart(context, rangPosht)
         t.setPadding(dp(context, 16f), dp(context, 14f), dp(context, 16f), dp(context, 14f))
@@ -180,16 +210,36 @@ object Abzar {
         v.background = kartGradient(context, rang1, rang2, 0f)
         return v
     }
+
+    // تیتر بخش با میلهٔ رنگی کنارش — به‌جای شکلک
+    fun titrBakhsh(context: Context, matn: String, tem: Tem): LinearLayout {
+        val saf = LinearLayout(context)
+        saf.orientation = LinearLayout.HORIZONTAL
+        saf.gravity = Gravity.CENTER_VERTICAL
+        val mikh = View(context)
+        mikh.background = kartGradient(context, tem.asli, tem.dovom, 3f)
+        saf.addView(mikh, LinearLayout.LayoutParams(dp(context, 4.5f), dp(context, 19f)))
+        val t = TextView(context)
+        t.text = matn
+        t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16.5f)
+        t.setTextColor(tem.matn)
+        t.typeface = Fontha.vazirPorReng(context)
+        val p = LinearLayout.LayoutParams(0, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        p.marginStart = dp(context, 9f)
+        saf.addView(t, p)
+        return saf
+    }
 }
 
 /*
- * فونت وزیرمتن — یک بار از assets لود و کش می‌شود
+ * فونت‌ها — وزیرمتن برای متن و لاله‌زار برای عنوان‌ها؛ یک بار از assets لود و کش می‌شود
  */
-object FontBox {
+object Fontha {
 
     private var vazir: Typeface? = null
-    private var vazirBold: Typeface? = null
-    private var vazirBlack: Typeface? = null
+    private var vazirPorReng: Typeface? = null
+    private var vazirSiaah: Typeface? = null
+    private var lalezar: Typeface? = null
 
     fun vazir(c: Context): Typeface {
         if (vazir == null) {
@@ -198,17 +248,25 @@ object FontBox {
         return vazir!!
     }
 
-    fun vazirBold(c: Context): Typeface {
-        if (vazirBold == null) {
-            vazirBold = Typeface.createFromAsset(c.assets, "fonts/Vazirmatn-Bold.ttf")
+    fun vazirPorReng(c: Context): Typeface {
+        if (vazirPorReng == null) {
+            vazirPorReng = Typeface.createFromAsset(c.assets, "fonts/Vazirmatn-Bold.ttf")
         }
-        return vazirBold!!
+        return vazirPorReng!!
     }
 
-    fun vazirBlack(c: Context): Typeface {
-        if (vazirBlack == null) {
-            vazirBlack = Typeface.createFromAsset(c.assets, "fonts/Vazirmatn-Black.ttf")
+    fun vazirSiaah(c: Context): Typeface {
+        if (vazirSiaah == null) {
+            vazirSiaah = Typeface.createFromAsset(c.assets, "fonts/Vazirmatn-Black.ttf")
         }
-        return vazirBlack!!
+        return vazirSiaah!!
+    }
+
+    // فونت نمایشی عنوان‌ها — زیبا و درشت
+    fun lalezar(c: Context): Typeface {
+        if (lalezar == null) {
+            lalezar = Typeface.createFromAsset(c.assets, "fonts/Lalezar-Regular.ttf")
+        }
+        return lalezar!!
     }
 }

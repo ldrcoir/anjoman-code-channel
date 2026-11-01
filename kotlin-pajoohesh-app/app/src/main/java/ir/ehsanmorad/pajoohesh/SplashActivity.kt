@@ -1,4 +1,4 @@
-package ir.anjoman.pajoohesh
+package ir.ehsanmorad.pajoohesh
 
 import android.app.Activity
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -18,13 +19,14 @@ import kotlin.math.sin
 
 /*
  * جلد کتاب — صفحهٔ نخست با جلد واقعی کتاب، پس‌زمینهٔ متحرک و منوی اصلی
+ * عنوان با فونت نمایشی لاله‌زار؛ منو با آیکون‌های وکتوری
  */
 class SplashActivity : Activity() {
 
     private lateinit var tem: Tem
 
     // پس‌زمینهٔ متحرک — حلقه‌های شناور ملایم
-    class DriftView(context: Context, rangAsli: Int) : View(context) {
+    class HalgheShenaView(context: Context, rangAsli: Int) : View(context) {
         private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         private var zaman = 0f
 
@@ -64,29 +66,32 @@ class SplashActivity : Activity() {
         tem = TemEnekhab.bekhon(this)
         val mojojod = Ketab.mojojod(this)
 
-        val root = FrameLayout(this)
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        root.setBackgroundColor(tem.zamin)
-        root.addView(DriftView(this, tem.asli))
+        val rishe = FrameLayout(this)
+        rishe.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        rishe.setBackgroundColor(tem.zamin)
+        rishe.addView(HalgheShenaView(this, tem.asli))
 
-        val scroll = ScrollView(this)
-        scroll.isVerticalScrollBarEnabled = false
+        val lafand = ScrollView(this)
+        lafand.isVerticalScrollBarEnabled = false
         val ghabe = LinearLayout(this)
         ghabe.orientation = LinearLayout.VERTICAL
         ghabe.setPadding(Abzar.dp(this, 22f), Abzar.dp(this, 24f), Abzar.dp(this, 22f), Abzar.dp(this, 24f))
-        scroll.addView(ghabe)
-        root.addView(scroll, FrameLayout.LayoutParams(
+        lafand.addView(ghabe)
+        rishe.addView(lafand, FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         ))
 
-        // ---------- سربرگ ----------
-        val onvan = Abzar.tv(this, "دستاوردهای پژوهشی", 27f, tem.matn)
-        onvan.typeface = FontBox.vazirBlack(this)
+        // ---------- سربرگ — نام کتاب با فونت نمایشی ----------
+        val onvan = TextView(this)
+        onvan.text = "دستاوردهای پژوهشی ۱۴۰۴"
+        onvan.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+        onvan.setTextColor(tem.matn)
+        onvan.typeface = Fontha.lalezar(this)
         ghabe.addView(onvan)
 
         val zirOnvan = Abzar.tv(
             this,
-            "دانش‌آموزان و هنرجویان پژوهشگر و فناور برگزیده — هفتهٔ پژوهش ۱۴۰۴",
+            "دانش‌آموزان و هنرجویان پژوهشگر و فناور برگزیده — هفتهٔ پژوهش",
             12.5f, tem.kamrang
         )
         ghabe.addView(zirOnvan)
@@ -127,10 +132,17 @@ class SplashActivity : Activity() {
 
         // ---------- دکمهٔ اصلی ----------
         val safheAkhar = Ketab.safheAkharBekhon(this)
-        val matnDokme = if (mojojod && safheAkhar > 1) "📖  ادامهٔ خواندن — صفحهٔ ${Abzar.adadFarsi(safheAkhar + 1)}"
-        else "📖  گشودن کتاب"
-        val dokmeAsli = Abzar.dokme(this, matnDokme, tem.asli, 0xFFFFFFFF.toInt())
+        val matnDokme = if (mojojod && safheAkhar > 1) "ادامهٔ خواندن — صفحهٔ ${Abzar.adadFarsi(safheAkhar + 1)}"
+        else "گشودن کتاب"
+        val dokmeAsli = TextView(this)
+        dokmeAsli.text = matnDokme
+        dokmeAsli.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        dokmeAsli.setTextColor(0xFFFFFFFF.toInt())
+        dokmeAsli.typeface = Fontha.lalezar(this)
+        dokmeAsli.gravity = android.view.Gravity.CENTER
         dokmeAsli.background = Abzar.kartGradient(this, tem.asli, tem.dovom, 18f)
+        Abzar.lams(dokmeAsli)
+        dokmeAsli.setPadding(Abzar.dp(this, 16f), Abzar.dp(this, 13f), Abzar.dp(this, 16f), Abzar.dp(this, 11f))
         dokmeAsli.setOnClickListener {
             if (!mojojod) {
                 Toast.makeText(this, "محتوا در این نسخه نیست", Toast.LENGTH_SHORT).show()
@@ -140,34 +152,42 @@ class SplashActivity : Activity() {
         }
         ghabe.addView(dokmeAsli, safP(14))
 
-        // ---------- منوی اصلی ۲×۲ ----------
-        val menu = listOf(
-            Triple("📑", "فهرست مطالب", { startActivity(Intent(this, FehrestActivity::class.java)) }),
-            Triple("🔍", "جست‌وجو در کتاب", { startActivity(Intent(this, JustoJoActivity::class.java)) }),
-            Triple("🎨", "تم‌ها", { startActivity(Intent(this, TemHaActivity::class.java)) }),
-            Triple("ℹ️", "دربارهٔ کتاب", { startActivity(Intent(this, DarbareActivity::class.java)) })
+        // ---------- منوی اصلی ۲×۲ با آیکون وکتوری ----------
+        data class Gozine(val neshane: String, val esm: String, val raftan: () -> Unit)
+        val gozineHa = listOf(
+            Gozine("ic_fehrest", "فهرست مطالب", { startActivity(Intent(this, FehrestActivity::class.java)) }),
+            Gozine("ic_justojo", "جست‌وجو در کتاب", { startActivity(Intent(this, JustoJoActivity::class.java)) }),
+            Gozine("ic_tem", "تم‌ها", { startActivity(Intent(this, TemHaActivity::class.java)) }),
+            Gozine("ic_rahnama", "راهنما", { startActivity(Intent(this, RahnamaActivity::class.java)) })
         )
         var saf = LinearLayout(this)
         saf.orientation = LinearLayout.HORIZONTAL
-        for ((i, m) in menu.withIndex()) {
+        for ((i, g) in gozineHa.withIndex()) {
             val dokme = LinearLayout(this)
             dokme.orientation = LinearLayout.VERTICAL
             dokme.gravity = android.view.Gravity.CENTER
             dokme.background = Abzar.kart(this, tem.kart, 18f)
-            dokme.setPadding(Abzar.dp(this, 8f), Abzar.dp(this, 12f), Abzar.dp(this, 8f), Abzar.dp(this, 12f))
+            dokme.setPadding(Abzar.dp(this, 8f), Abzar.dp(this, 13f), Abzar.dp(this, 8f), Abzar.dp(this, 13f))
             dokme.isClickable = true
             Abzar.lams(dokme)
-            val neshane = Abzar.tv(this, m.first, 24f, tem.asli)
-            neshane.gravity = android.view.Gravity.CENTER
-            dokme.addView(neshane)
-            val esm = Abzar.tv(this, m.second, 12.5f, tem.matn, bold = true)
+
+            val ghabeNeshane = FrameLayout(this)
+            val neshane = Abzar.neshane(this, g.neshane, tem.asli, 0)
+            neshane.scaleType = ImageView.ScaleType.FIT_CENTER
+            ghabeNeshane.addView(neshane, FrameLayout.LayoutParams(
+                Abzar.dp(this, 27f), Abzar.dp(this, 27f)
+            ))
+            dokme.addView(ghabeNeshane)
+
+            val esm = Abzar.tv(this, g.esm, 12.5f, tem.matn, bold = true)
             esm.gravity = android.view.Gravity.CENTER
+            esm.setPadding(0, Abzar.dp(this, 7f), 0, 0)
             dokme.addView(esm)
             val pK = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             pK.marginStart = Abzar.dp(this, 4f)
             pK.marginEnd = Abzar.dp(this, 4f)
             saf.addView(dokme, pK)
-            dokme.setOnClickListener { m.third() }
+            dokme.setOnClickListener { g.raftan() }
             if (i % 2 == 1) {
                 ghabe.addView(saf, safP(10))
                 saf = LinearLayout(this)
@@ -178,13 +198,17 @@ class SplashActivity : Activity() {
         // ---------- خط پایانی ----------
         val payin = Abzar.tv(
             this,
-            "۲۱۶ صفحه • ۱۱ بخش • کاملاً آفلاین • بدون هیچ مجوزی",
+            "۲۱۶ صفحه • ۱۱ بخش • ورق‌خوردن با صدا • کاملاً آفلاین • بدون هیچ مجوزی",
             11.5f, tem.kamrang
         )
         payin.gravity = android.view.Gravity.CENTER
         ghabe.addView(payin, safP(18))
 
-        setContentView(root)
+        val domain = Abzar.tv(this, "نسخهٔ ۱.۱  •  EhsanMorad.ir", 11f, tem.kamrang)
+        domain.gravity = android.view.Gravity.CENTER
+        ghabe.addView(domain, safP(2))
+
+        setContentView(rishe)
 
         // ---------- انیمیشن ورود ----------
         val bekha = listOf<View>(onvan, kartJeld, dokmeAsli)

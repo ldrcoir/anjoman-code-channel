@@ -1,4 +1,4 @@
-package ir.anjoman.pajoohesh
+package ir.ehsanmorad.pajoohesh
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -98,6 +98,15 @@ object Ketab {
     fun shabZakhire(c: Context, v: Boolean) {
         c.getSharedPreferences("pajoohesh", Context.MODE_PRIVATE)
             .edit().putBoolean("shab", v).apply()
+    }
+
+    // ---------- صدای ورق‌خوردن (کلید بی‌صدا) ----------
+    fun sedaBekhon(c: Context): Boolean =
+        c.getSharedPreferences("pajoohesh", Context.MODE_PRIVATE).getBoolean("seda", true)
+
+    fun sedaZakhire(c: Context, v: Boolean) {
+        c.getSharedPreferences("pajoohesh", Context.MODE_PRIVATE)
+            .edit().putBoolean("seda", v).apply()
     }
 
     // ---------- جست‌وجوی متن ----------

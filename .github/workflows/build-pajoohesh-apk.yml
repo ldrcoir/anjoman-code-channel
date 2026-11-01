@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "kotlin-pajoohesh-app/**"
+      - "enteshar/**"
       - ".github/workflows/build-pajoohesh-apk.yml"
   workflow_dispatch:
 
@@ -47,17 +48,24 @@ jobs:
         with:
           gradle-version: "8.5"
 
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon
+      # نسخهٔ release امضاشده با کلید enteshar/ (طبق دستور سردبیر کلید در مخزن است)
+      - name: Build signed release APK
+        run: gradle assembleRelease --no-daemon
         working-directory: kotlin-pajoohesh-app
 
+      - name: Verify APK signature
+        run: |
+          APK=app/build/outputs/apk/release/app-release.apk
+          test -f "$APK"
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "$APK" | head -5
+
       - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk DastavardhayePajoohesh-v1.0-debug.apk
+        run: cp app/build/outputs/apk/release/app-release.apk DastavardhayePajoohesh-v1.1.apk
         working-directory: kotlin-pajoohesh-app
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: dastavardha-pajoohesh-apk
-          path: kotlin-pajoohesh-app/DastavardhayePajoohesh-v1.0-debug.apk
+          path: kotlin-pajoohesh-app/DastavardhayePajoohesh-v1.1.apk
           if-no-files-found: error

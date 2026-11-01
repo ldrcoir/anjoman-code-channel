@@ -1,18 +1,37 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
+// کلید امضا — پوشهٔ enteshar در ریشهٔ مخزن (طبق دستور سردبیر، کلید در مخزن نگهداری می‌شود)
+val klidProps = Properties().apply {
+    val f = rootProject.file("../enteshar/klid.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+
 android {
-    namespace = "ir.anjoman.pajoohesh"
+    namespace = "ir.ehsanmorad.pajoohesh"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "ir.anjoman.pajoohesh"
+        applicationId = "ir.ehsanmorad.pajoohesh"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
+    }
+
+    if (klidProps.isNotEmpty()) {
+        signingConfigs {
+            create("enteshar") {
+                storeFile = rootProject.file("../enteshar/${klidProps.getProperty("klid.fail")}")
+                storePassword = klidProps.getProperty("klid.ramz")
+                keyAlias = klidProps.getProperty("klid.alias")
+                keyPassword = klidProps.getProperty("klid.ramzKey")
+            }
+        }
     }
 
     buildTypes {
@@ -22,6 +41,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (klidProps.isNotEmpty()) {
+                signingConfig = signingConfigs.getByName("enteshar")
+            }
         }
     }
 
