@@ -22,6 +22,8 @@ class SplashActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Abzar.rangVaredKon(this)
+        // مهاجرت نمره‌های نسخهٔ قبلی به شماره‌گذاری تازه (یک‌بار برای همیشه)
+        Zakhire.mohajeratV3(this)
 
         val root = FrameLayout(this)
         root.layoutDirection = View.LAYOUT_DIRECTION_RTL

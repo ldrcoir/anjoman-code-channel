@@ -12,8 +12,9 @@ import android.widget.ScrollView
 import android.widget.TextView
 
 /*
- * صفحهٔ اصلی: سرصفحه، نوار پیشرفت کل و کارت هر درس
- * چون نمره‌ها ممکنه عوض بشن، اینجا هر بار برگردیم صفحه از نو ساخته می‌شه
+ * صفحهٔ اصلی نسخهٔ ۳: سرصفحه با دکمهٔ منو، کارت پیشرفت، میان‌بُرها
+ * و درس‌ها مرتب‌شده داخل فصل‌ها
+ * چون نمره‌ها ممکنه عوض بشن، هر بار برگردیم صفحه از نو ساخته می‌شه
  */
 class HomeActivity : Activity() {
 
@@ -61,16 +62,38 @@ class HomeActivity : Activity() {
     private fun safheBekon() {
         ghabe.removeAllViews()
 
-        // سرصفحه
+        // ---------- سرصفحه با دکمهٔ منو ----------
+        val sar = LinearLayout(this)
+        sar.orientation = LinearLayout.HORIZONTAL
+        sar.gravity = Gravity.CENTER_VERTICAL
+
+        val sotoonOnvan = LinearLayout(this)
+        sotoonOnvan.orientation = LinearLayout.VERTICAL
         val onvan = Abzar.tv(this, "آموزش کاتلین", 30f, Abzar.RANG_MATN)
         onvan.typeface = FontBox.vazirBlack(this)
-        ghabe.addView(onvan)
-
-        val zirOnvan = Abzar.tv(this, "قدم‌به‌قدم کاتلین یاد بگیر", 14f, Abzar.RANG_KAMRANG)
+        sotoonOnvan.addView(onvan)
+        val zirOnvan = Abzar.tv(this, "از مقدمه تا پیشرفته — ۲۵ درس کامل", 14f, Abzar.RANG_KAMRANG)
         zirOnvan.setPadding(0, Abzar.dp(this, 6f), 0, 0)
-        ghabe.addView(zirOnvan)
+        sotoonOnvan.addView(zirOnvan)
+        sar.addView(sotoonOnvan, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
 
-        // کارت پیشرفت کل
+        val dokmeMenu = TextView(this)
+        dokmeMenu.text = "☰"
+        dokmeMenu.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26f)
+        dokmeMenu.setTextColor(Abzar.RANG_TIZ)
+        dokmeMenu.typeface = FontBox.vazirBold(this)
+        dokmeMenu.gravity = Gravity.CENTER
+        dokmeMenu.background = Abzar.kart(this, Abzar.RANG_KART)
+        dokmeMenu.isClickable = true
+        Abzar.lams(dokmeMenu)
+        dokmeMenu.setOnClickListener { startActivity(Intent(this, MenuActivity::class.java)) }
+        val pMenu = LinearLayout.LayoutParams(Abzar.dp(this, 52f), Abzar.dp(this, 52f))
+        pMenu.marginStart = Abzar.dp(this, 12f)
+        sar.addView(dokmeMenu, pMenu)
+
+        ghabe.addView(sar)
+
+        // ---------- کارت پیشرفت کل ----------
         val kartPishraft = LinearLayout(this)
         kartPishraft.orientation = LinearLayout.VERTICAL
         kartPishraft.background = Abzar.kart(this)
@@ -79,17 +102,22 @@ class HomeActivity : Activity() {
             Abzar.dp(this, 16f), Abzar.dp(this, 16f)
         )
 
-        val majmoo = Zakhire.majmoo(this)
+        var majmoo = 0
         var hadaf = 0
-        for (d in DarsHa.darsList) hadaf += d.soalHa.size
+        var darsTam = 0
+        for (d in DarsHa.darsList) {
+            val n = Zakhire.behtarin(this, d.shomareh)
+            if (n > 0) majmoo += n
+            hadaf += d.soalHa.size
+            if (n >= d.soalHa.size) darsTam++
+        }
         val matnPishraft = Abzar.tv(
             this,
-            "پیشرفت کل: ${Abzar.adadFarsi(majmoo)} از ${Abzar.adadFarsi(hadaf)}",
+            "پیشرفت کل: ${Abzar.adadFarsi(majmoo)} از ${Abzar.adadFarsi(hadaf)} سؤال — ${Abzar.adadFarsi(darsTam)} درس کامل",
             14f, Abzar.RANG_KAMRANG
         )
         kartPishraft.addView(matnPishraft)
 
-        // نوار پیشرفت دست‌ساز: یه نوار خاکستری با پرشدهٔ فیروزه‌ای
         val nobat = LinearLayout(this)
         nobat.background = Abzar.kart(this, Abzar.RANG_KHAKISTARI, 6f)
         val pishrafte = View(this)
@@ -112,8 +140,26 @@ class HomeActivity : Activity() {
         pKart.topMargin = Abzar.dp(this, 20f)
         ghabe.addView(kartPishraft, pKart)
 
-        // عنوان بخش درس‌ها
-        val matnBakhsh = Abzar.tv(this, "درس‌ها", 16f, Abzar.RANG_TALAEI, bold = true)
+        // ---------- منوی میان‌بُر (۴ کارت دوتایی) ----------
+        val matnMenu = Abzar.tv(this, "منوی سریع", 16f, Abzar.RANG_TALAEI, bold = true)
+        val pMenuSari = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pMenuSari.topMargin = Abzar.dp(this, 24f)
+        ghabe.addView(matnMenu, pMenuSari)
+
+        ghabe.addView(safDota("⌨  زمین بازی کد", "کد بنویس و اجرا کن", zaminKlik()),
+            pDota())
+        ghabe.addView(safDota("✏  تمرین‌های عملی", "${Abzar.adadFarsi(Zakhire.tamrinAnjamShode(this))} از ${Abzar.adadFarsi(DarsHa.tamrinHa.size)} حل شده", tamrinKlik()),
+            pDota())
+        ghabe.addView(safDota("🏅  آزمون جامع", "سؤال از همهٔ درس‌ها", jameKlik()),
+            pDota())
+        ghabe.addView(safDota("🎨  تم و ظاهر", TemHa.faeli.esm, temKlik()),
+            pDota())
+
+        // ---------- فصل‌ها و درس‌ها ----------
+        val matnBakhsh = Abzar.tv(this, "درس‌ها به تفکیک فصل", 16f, Abzar.RANG_TALAEI, bold = true)
         val pBakhsh = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -121,49 +167,41 @@ class HomeActivity : Activity() {
         pBakhsh.topMargin = Abzar.dp(this, 24f)
         ghabe.addView(matnBakhsh, pBakhsh)
 
-        // یه کارت برای هر درس
-        for (dars in DarsHa.darsList) {
-            val pDars = LinearLayout.LayoutParams(
+        for (fasl in DarsHa.faslHa) {
+            // سربرگ فصل
+            val kartFasl = LinearLayout(this)
+            kartFasl.orientation = LinearLayout.VERTICAL
+            kartFasl.background = Abzar.kart(this, Abzar.RANG_CODE, 14f)
+            kartFasl.setPadding(
+                Abzar.dp(this, 14f), Abzar.dp(this, 12f),
+                Abzar.dp(this, 14f), Abzar.dp(this, 12f)
+            )
+            val matnFasl = Abzar.tv(this, fasl.esm, 15f, Abzar.RANG_TALAEI, bold = true)
+            kartFasl.addView(matnFasl)
+            val matnTozih = Abzar.tv(this, fasl.tozih, 12f, Abzar.RANG_KAMRANG)
+            matnTozih.setPadding(0, Abzar.dp(this, 3f), 0, 0)
+            kartFasl.addView(matnTozih)
+            val pFasl = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            pDars.topMargin = Abzar.dp(this, 12f)
-            ghabe.addView(kartDars(dars), pDars)
+            pFasl.topMargin = Abzar.dp(this, 16f)
+            ghabe.addView(kartFasl, pFasl)
+
+            // درس‌های این فصل
+            val darsHaFasl = DarsHa.darsList.filter { it.shomareh in fasl.az..fasl.ta }
+            for (dars in darsHaFasl) {
+                val pDars = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                pDars.topMargin = Abzar.dp(this, 12f)
+                ghabe.addView(kartDars(dars), pDars)
+            }
         }
 
-        // بخش زمین بازی: کدنویسی زنده و تمرین‌ها
-        val matnTalar = Abzar.tv(this, "زمین بازی کد", 16f, Abzar.RANG_TALAEI, bold = true)
-        val pTalar = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        pTalar.topMargin = Abzar.dp(this, 24f)
-        ghabe.addView(matnTalar, pTalar)
-
-        val pZamin = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        pZamin.topMargin = Abzar.dp(this, 12f)
-        ghabe.addView(kartTalar("⌨  زمین بازی کد", "کد بنویس، اجرا کن، خطاها را ببین", "zamin"), pZamin)
-
-        val pTamrin = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        pTamrin.topMargin = Abzar.dp(this, 12f)
-        val tedadTamrin = Zakhire.tamrinAnjamShode(this)
-        ghabe.addView(
-            kartTalar(
-                "✏  تمرین‌های عملی",
-                "${Abzar.adadFarsi(tedadTamrin)} از ${Abzar.adadFarsi(DarsHa.tamrinHa.size)} حل شده",
-                "tamrin"
-            ),
-            pTamrin
-        )
-
         // دکمهٔ درباره در ته صفحه
-        val dokmeDarbare = Abzar.dokme(this, "درباره", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
+        val dokmeDarbare = Abzar.dokme(this, "دربارهٔ ما", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
         dokmeDarbare.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
@@ -175,8 +213,35 @@ class HomeActivity : Activity() {
         ghabe.addView(dokmeDarbare, pDarbare)
     }
 
-    // کارت‌های زمین بازی: بازکردن Playground یا Tamrin
-    private fun kartTalar(onvan: String, tozih: String, noo: String): LinearLayout {
+    // ---------- کمکی‌های منوی سریع ----------
+    private fun pDota(): LinearLayout.LayoutParams {
+        val p = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        p.topMargin = Abzar.dp(this, 12f)
+        return p
+    }
+
+    private fun zaminKlik(): (Activity) -> Unit = {
+        it.startActivity(Intent(it, PlaygroundActivity::class.java))
+    }
+
+    private fun tamrinKlik(): (Activity) -> Unit = {
+        it.startActivity(Intent(it, TamrinActivity::class.java))
+    }
+
+    private fun jameKlik(): (Activity) -> Unit = {
+        val niat = Intent(it, QuizActivity::class.java)
+        niat.putExtra("azmoon_jame", true)
+        it.startActivity(niat)
+    }
+
+    private fun temKlik(): (Activity) -> Unit = {
+        it.startActivity(Intent(it, TemActivity::class.java))
+    }
+
+    private fun safDota(onvan: String, tozih: String, klik: (Activity) -> Unit): LinearLayout {
         val kart = LinearLayout(this)
         kart.orientation = LinearLayout.HORIZONTAL
         kart.gravity = Gravity.CENTER_VERTICAL
@@ -187,30 +252,19 @@ class HomeActivity : Activity() {
         )
         kart.isClickable = true
         Abzar.lams(kart)
-        kart.setOnClickListener {
-            val niat = Intent(
-                this,
-                if (noo == "tamrin") TamrinActivity::class.java else PlaygroundActivity::class.java
-            )
-            startActivity(niat)
-        }
+        kart.setOnClickListener { klik(this) }
 
         val sotoon = LinearLayout(this)
         sotoon.orientation = LinearLayout.VERTICAL
-
         val matnOnvan = Abzar.tv(this, onvan, 16f, Abzar.RANG_MATN, bold = true)
         sotoon.addView(matnOnvan)
-
         val matnTozih = Abzar.tv(this, tozih, 13f, Abzar.RANG_KAMRANG)
         matnTozih.setPadding(0, Abzar.dp(this, 3f), 0, 0)
         sotoon.addView(matnTozih)
-
-        val pSotoon = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        kart.addView(sotoon, pSotoon)
+        kart.addView(sotoon, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
 
         val flash = Abzar.tv(this, "‹", 22f, Abzar.RANG_KAMRANG)
         kart.addView(flash)
-
         return kart
     }
 
@@ -268,7 +322,6 @@ class HomeActivity : Activity() {
         pSotoon.marginStart = Abzar.dp(this, 14f)
         kart.addView(sotoon, pSotoon)
 
-        // فلش کوچیک سمت چپ
         val flash = Abzar.tv(this, "‹", 22f, Abzar.RANG_KAMRANG)
         kart.addView(flash)
 
