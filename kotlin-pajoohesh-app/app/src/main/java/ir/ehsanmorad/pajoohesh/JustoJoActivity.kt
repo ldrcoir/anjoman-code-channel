@@ -1,4 +1,4 @@
-package ir.anjoman.pajoohesh
+package ir.ehsanmorad.pajoohesh
 
 import android.app.Activity
 import android.content.Intent
@@ -30,45 +30,45 @@ class JustoJoActivity : Activity() {
         TemEnekhab.rangVaredKon(this)
         tem = TemEnekhab.bekhon(this)
 
-        val root = LinearLayout(this)
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        root.orientation = LinearLayout.VERTICAL
-        root.setBackgroundColor(tem.zamin)
+        val rishe = LinearLayout(this)
+        rishe.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        rishe.orientation = LinearLayout.VERTICAL
+        rishe.setBackgroundColor(tem.zamin)
 
         // سربرگ
-        val sar = LinearLayout(this)
-        sar.orientation = LinearLayout.HORIZONTAL
-        sar.gravity = Gravity.CENTER_VERTICAL
-        sar.setPadding(Abzar.dp(this, 18f), Abzar.dp(this, 18f), Abzar.dp(this, 18f), Abzar.dp(this, 6f))
+        val sarBar = LinearLayout(this)
+        sarBar.orientation = LinearLayout.HORIZONTAL
+        sarBar.gravity = Gravity.CENTER_VERTICAL
+        sarBar.setPadding(Abzar.dp(this, 18f), Abzar.dp(this, 18f), Abzar.dp(this, 18f), Abzar.dp(this, 6f))
         val onvan = Abzar.tv(this, "🔍 جست‌وجو", 24f, tem.matn)
-        onvan.typeface = FontBox.vazirBlack(this)
-        sar.addView(onvan, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        onvan.typeface = Fontha.vazirSiaah(this)
+        sarBar.addView(onvan, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         val dokmePosht = Abzar.tv(this, "بستن ✕", 13f, tem.kamrang)
         dokmePosht.setPadding(Abzar.dp(this, 12f), Abzar.dp(this, 6f), Abzar.dp(this, 12f), Abzar.dp(this, 6f))
         dokmePosht.background = Abzar.kartKhatei(this, tem.kamrang, 0, 12f)
         Abzar.lams(dokmePosht)
         dokmePosht.setOnClickListener { finish() }
-        sar.addView(dokmePosht)
-        root.addView(sar)
-        root.addView(Abzar.nobarZiba(this, tem.asli, tem.dovom, 3))
+        sarBar.addView(dokmePosht)
+        rishe.addView(sarBar)
+        rishe.addView(Abzar.nobarZiba(this, tem.asli, tem.dovom, 3))
 
-        val scroll = ScrollView(this)
+        val lafand = ScrollView(this)
         val ghabe = LinearLayout(this)
         ghabe.orientation = LinearLayout.VERTICAL
         ghabe.setPadding(Abzar.dp(this, 18f), Abzar.dp(this, 12f), Abzar.dp(this, 18f), Abzar.dp(this, 26f))
-        scroll.addView(ghabe)
-        root.addView(scroll)
+        lafand.addView(ghabe)
+        rishe.addView(lafand)
 
         // کادر جست‌وجو
-        val edt = EditText(this)
-        edt.hint = "مثلاً: نجف آباد، شطرنج، جابر، المپیاد ریاضی…"
-        edt.setTextColor(tem.matn)
-        edt.setHintTextColor(tem.kamrang)
-        edt.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14.5f)
-        edt.typeface = FontBox.vazir(this)
-        edt.background = Abzar.kart(this, tem.kart, 16f)
-        edt.setPadding(Abzar.dp(this, 16f), Abzar.dp(this, 12f), Abzar.dp(this, 16f), Abzar.dp(this, 12f))
-        ghabe.addView(edt)
+        val kadrMatn = EditText(this)
+        kadrMatn.hint = "مثلاً: نجف آباد، شطرنج، جابر، المپیاد ریاضی…"
+        kadrMatn.setTextColor(tem.matn)
+        kadrMatn.setHintTextColor(tem.kamrang)
+        kadrMatn.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14.5f)
+        kadrMatn.typeface = Fontha.vazir(this)
+        kadrMatn.background = Abzar.kart(this, tem.kart, 16f)
+        kadrMatn.setPadding(Abzar.dp(this, 16f), Abzar.dp(this, 12f), Abzar.dp(this, 16f), Abzar.dp(this, 12f))
+        ghabe.addView(kadrMatn)
 
         matnHal = Abzar.tv(this, "حداقل دو حرف بنویس تا جست‌وجو شروع شود", 12f, tem.kamrang)
         matnHal.setPadding(Abzar.dp(this, 4f), Abzar.dp(this, 8f), 0, 0)
@@ -78,11 +78,11 @@ class JustoJoActivity : Activity() {
         ghabeNatije.orientation = LinearLayout.VERTICAL
         ghabe.addView(ghabeNatije, safP(4))
 
-        setContentView(root)
+        setContentView(rishe)
 
-        edt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
-            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+        kadrMatn.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(matn: CharSequence?, pish: Int, dovvom: Int, sevvom: Int) {}
+            override fun onTextChanged(matn: CharSequence?, pish: Int, dovvom: Int, sevvom: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 jostojo(s?.toString() ?: "")
             }
@@ -122,15 +122,15 @@ class JustoJoActivity : Activity() {
 
         val mohr = Abzar.tv(this, Abzar.adadFarsi(shomare + 1), 13f, 0xFFFFFFFF.toInt(), bold = true)
         mohr.gravity = Gravity.CENTER
-        mohr.typeface = FontBox.vazirBold(this)
+        mohr.typeface = Fontha.vazirPorReng(this)
         mohr.background = Abzar.kartGradient(this, tem.asli, tem.dovom, 12f)
         rade.addView(mohr, LinearLayout.LayoutParams(Abzar.dp(this, 46f), Abzar.dp(this, 46f)))
 
-        val sotoon = LinearLayout(this)
-        sotoon.orientation = LinearLayout.VERTICAL
+        val sotoonMatn = LinearLayout(this)
+        sotoonMatn.orientation = LinearLayout.VERTICAL
         val pS = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         pS.marginStart = Abzar.dp(this, 12f)
-        sotoon.addView(Abzar.tv(this, Ketab.esmeBakhsh(shomare), 13.5f, tem.asli, bold = true))
+        sotoonMatn.addView(Abzar.tv(this, Ketab.esmeBakhsh(shomare), 13.5f, tem.asli, bold = true))
 
         val az = max(0, j - 42)
         val ta = min(t.length, j + tool + 62)
@@ -140,8 +140,8 @@ class JustoJoActivity : Activity() {
         val matnGhetee = Abzar.tv(this, ghetee, 11.5f, tem.matn)
         matnGhetee.maxLines = 3
         matnGhetee.setPadding(0, Abzar.dp(this, 3f), 0, 0)
-        sotoon.addView(matnGhetee)
-        rade.addView(sotoon, pS)
+        sotoonMatn.addView(matnGhetee)
+        rade.addView(sotoonMatn, pS)
 
         rade.setOnClickListener {
             startActivity(Intent(this, KhavanakActivity::class.java).putExtra("safhe", shomare))

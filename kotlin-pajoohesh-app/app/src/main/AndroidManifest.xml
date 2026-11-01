@@ -5,6 +5,7 @@
     <application
         android:label="دستاوردهای پژوهشی ۱۴۰۴"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:allowBackup="true"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
@@ -40,7 +41,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".DarbareActivity"
+            android:name=".RahnamaActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
