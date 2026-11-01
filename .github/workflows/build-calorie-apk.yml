@@ -33,12 +33,12 @@ jobs:
         working-directory: kotlin-calorie-app
 
       - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk KalariYar-v1.0-debug.apk
+        run: cp app/build/outputs/apk/debug/app-debug.apk KalariYar-v2.0-debug.apk
         working-directory: kotlin-calorie-app
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kalaryar-apk
-          path: kotlin-calorie-app/KalariYar-v1.0-debug.apk
+          name: kalaryar-v2-apk
+          path: kotlin-calorie-app/KalariYar-v2.0-debug.apk
           if-no-files-found: error

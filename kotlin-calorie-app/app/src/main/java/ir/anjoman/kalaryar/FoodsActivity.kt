@@ -37,7 +37,7 @@ class FoodsActivity : Activity() {
         root.orientation = LinearLayout.VERTICAL
 
         // سرصفحه با دکمهٔ بازگشت
-        root.addView(sarOnvan("افزودن غذا", "مقادیر تقریبی به‌ازای ۱۰۰ گرم است"))
+        root.addView(sarOnvan("افزودن غذا", "به‌ازای ۱۰۰ گرم — غذای خودت را هم می‌توانی اضافه کنی ⭐"))
 
         // جست‌وجو
         val edtJostOJoo = EditText(this)
@@ -79,6 +79,41 @@ class FoodsActivity : Activity() {
             safDaste.addView(d, pD)
             dokmeDasteHa.add(daste to d)
         }
+
+        // چیپ غذاهای دلخواه + دکمهٔ افزودن (نسخهٔ ۲)
+        val chipMan = TextView(this)
+        chipMan.text = "⭐ غذای من"
+        chipMan.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+        chipMan.typeface = FontBox.vazirBold(this)
+        chipMan.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 8f), Abzar.dp(this, 14f), Abzar.dp(this, 8f))
+        Abzar.lams(chipMan)
+        chipMan.setOnClickListener {
+            dasteFaali = "غذای من"
+            rangDasteHa()
+            safheBekon()
+        }
+        val pMan = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pMan.marginStart = Abzar.dp(this, 6f)
+        safDaste.addView(chipMan, pMan)
+        dokmeDasteHa.add("غذای من" to chipMan)
+
+        val chipEzafe = TextView(this)
+        chipEzafe.text = "＋ افزودن"
+        chipEzafe.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+        chipEzafe.typeface = FontBox.vazirBold(this)
+        chipEzafe.setTextColor(Color.WHITE)
+        chipEzafe.background = Abzar.kartGradient(this, Abzar.RANG_TALAEI, Abzar.RANG_NARENJI, 12f)
+        chipEzafe.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 8f), Abzar.dp(this, 14f), Abzar.dp(this, 8f))
+        Abzar.lams(chipEzafe)
+        chipEzafe.setOnClickListener { sohbatGhazaJadid() }
+        val pEzafe = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pEzafe.marginStart = Abzar.dp(this, 6f)
+        safDaste.addView(chipEzafe, pEzafe)
+
         scrollDaste.addView(safDaste)
         root.addView(scrollDaste)
 
@@ -125,12 +160,23 @@ class FoodsActivity : Activity() {
     private fun safheBekon() {
         ghabe.removeAllViews()
 
-        var fehrrest: List<Ghaza> = if (jostoJoo.isNotBlank()) {
-            PayegahGhaza.jostOJoo(jostoJoo)
-        } else if (dasteFaali != "همه") {
-            PayegahGhaza.ghazaHa.filter { it.daste == dasteFaali }
-        } else {
-            PayegahGhaza.ghazaHa
+        // پایگاه اصلی + غذاهای دلخواه کاربر (نسخهٔ ۲)
+        val khodamHa = Khazide.ghazayeManBekhon(this)
+        val hame = PayegahGhaza.ghazaHa + khodamHa
+        var fehrrest: List<Ghaza> = when {
+            jostoJoo.isNotBlank() -> {
+                val pak = jostoJoo.trim()
+                val daghigh = hame.filter { it.esm == pak }
+                if (daghigh.isNotEmpty()) daghigh
+                else {
+                    val ebteda = hame.filter { it.esm.startsWith(pak) }
+                    if (ebteda.isNotEmpty()) ebteda
+                    else hame.filter { it.esm.contains(pak) }
+                }
+            }
+            dasteFaali == "غذای من" -> khodamHa
+            dasteFaali != "همه" -> hame.filter { it.daste == dasteFaali }
+            else -> hame
         }
 
         if (fehrrest.isEmpty()) {
@@ -144,17 +190,18 @@ class FoodsActivity : Activity() {
             return
         }
 
+        val esmeKhodamHa = khodamHa.map { it.esm }.toSet()
         for (g in fehrrest) {
             val pKart = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )
             pKart.topMargin = Abzar.dp(this, 10f)
-            ghabe.addView(kartGhaza(g), pKart)
+            ghabe.addView(kartGhaza(g, g.esm in esmeKhodamHa), pKart)
         }
     }
 
-    // کارت هر غذا
-    private fun kartGhaza(g: Ghaza): LinearLayout {
+    // کارت هر غذا — اگر غذای دلخواه کاربر باشد مهر «من» می‌گیرد و با لمسِ طولانی حذف می‌شود
+    private fun kartGhaza(g: Ghaza, khodam: Boolean = false): LinearLayout {
         val kart = LinearLayout(this)
         kart.orientation = LinearLayout.HORIZONTAL
         kart.gravity = Gravity.CENTER_VERTICAL
@@ -193,7 +240,117 @@ class FoodsActivity : Activity() {
         mohr.background = Abzar.dayereh(this, rangNomre)
         kart.addView(mohr, LinearLayout.LayoutParams(Abzar.dp(this, 38f), Abzar.dp(this, 38f)))
 
+        if (khodam) {
+            val mohrMan = TextView(this)
+            mohrMan.text = "⭐"
+            mohrMan.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+            mohrMan.gravity = Gravity.CENTER
+            kart.addView(mohrMan, LinearLayout.LayoutParams(Abzar.dp(this, 26f), Abzar.dp(this, 26f)))
+            kart.setOnLongClickListener {
+                taeedHazfKhodam(g.esm)
+                true
+            }
+        }
+
         return kart
+    }
+
+    // ---------- افزودن غذای دلخواه (نسخهٔ ۲) ----------
+    private fun sohbatGhazaJadid() {
+        val ghabe = LinearLayout(this)
+        ghabe.orientation = LinearLayout.VERTICAL
+        ghabe.setPadding(Abzar.dp(this, 22f), Abzar.dp(this, 20f), Abzar.dp(this, 22f), Abzar.dp(this, 12f))
+        ghabe.setBackgroundColor(Abzar.RANG_KART)
+
+        ghabe.addView(Abzar.tv(this, " غذای من ⭐", 20f, Abzar.RANG_MATN, bold = true))
+        ghabe.addView(Abzar.tv(this, "اسم غذا و کالری‌اش را خودت تعیین کن؛ برای هر مقدار که می‌خواهی.", 13f, Abzar.RANG_KAMRANG))
+
+        fun edtedad(hint: String, adadi: Boolean): EditText {
+            val e = EditText(this)
+            e.hint = hint
+            e.setTextColor(Abzar.RANG_MATN)
+            e.setHintTextColor(Abzar.RANG_KAMRANG)
+            e.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+            e.typeface = FontBox.vazir(this)
+            e.background = Abzar.kart(this, Abzar.RANG_CODE, 12f)
+            e.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 10f), Abzar.dp(this, 14f), Abzar.dp(this, 10f))
+            if (adadi) e.inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+            return e
+        }
+
+        val pE = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pE.topMargin = Abzar.dp(this, 8f)
+
+        ghabe.addView(Abzar.tv(this, "اسم غذا", 13f, Abzar.RANG_SABZ, bold = true))
+        val edtEsm = edtedad("مثلاً: خورشت مامان‌بزرگ", false)
+        ghabe.addView(edtEsm, pE)
+
+        ghabe.addView(Abzar.tv(this, "کالری هر سهم (کیلوکالری)", 13f, Abzar.RANG_SABZ, bold = true))
+        val edtKalar = edtedad("مثلاً: ۳۵۰", true)
+        ghabe.addView(edtKalar, pE)
+
+        ghabe.addView(Abzar.tv(this, "سهم رایج چقدر است؟ (گرم یا عدد)", 13f, Abzar.RANG_SABZ, bold = true))
+        val edtSahm = edtedad("مثلاً: ۲۵۰", true)
+        edtSahm.setText("100")
+        ghabe.addView(edtSahm, pE)
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(ghabe)
+            .create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val safDokme = LinearLayout(this)
+        safDokme.orientation = LinearLayout.HORIZONTAL
+        val dokmeEnseraf = Abzar.dokme(this, "انصراف", Abzar.RANG_KHAKISTARI, Abzar.RANG_KAMRANG, khateDor = true)
+        dokmeEnseraf.setOnClickListener { dialog.dismiss() }
+        safDokme.addView(dokmeEnseraf, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+
+        val dokmeSabt = Abzar.dokme(this, "اضافه کن ⭐", Abzar.RANG_TALAEI, Abzar.RANG_ZAMIN)
+        dokmeSabt.setOnClickListener {
+            val esm = edtEsm.text.toString().trim()
+            val kalar = edtKalar.text.toString().toDoubleOrNull()
+            val sahm = edtSahm.text.toString().toIntOrNull()
+            if (esm.isEmpty() || kalar == null || kalar <= 0) {
+                android.widget.Toast.makeText(this, "اسم و کالری را درست پر کن", android.widget.Toast.LENGTH_SHORT).show()
+            } else {
+                val sahmeGhaza = if (sahm != null && sahm > 0) sahm else 100
+                val ghazaJadid = Ghaza(esm, "غذای من", 0, 0.0, 0.0, 0.0, "سهم من", sahmeGhaza)
+                // کالری هر ۱۰۰ گرم از روی سهم تعریف‌شده برمی‌گردد تا محاسبهٔ سهم دقیق بماند
+                val kalar100 = (kalar * 100.0 / sahmeGhaza).toInt()
+                val ghazaNahaei = ghazaJadid.copy(kalar = kalar100)
+                Khazide.ghazayeManEzafe(this, ghazaNahaei)
+                dialog.dismiss()
+                dasteFaali = "غذای من"
+                rangDasteHa()
+                safheBekon()
+                android.widget.Toast.makeText(this, "$esm به غذاهای من اضافه شد ⭐", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+        val pSabt = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        pSabt.marginStart = Abzar.dp(this, 8f)
+        safDokme.addView(dokmeSabt, pSabt)
+
+        val pSafDokme = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pSafDokme.topMargin = Abzar.dp(this, 16f)
+        ghabe.addView(safDokme, pSafDokme)
+    }
+
+    private fun taeedHazfKhodam(esm: String) {
+        AlertDialog.Builder(this)
+            .setTitle("حذف غذا؟")
+            .setMessage("«$esm» از غذاهای من پاک شود؟")
+            .setPositiveButton("حذف") { _, _ ->
+                Khazide.ghazayeManHazf(this, esm)
+                safheBekon()
+                android.widget.Toast.makeText(this, "حذف شد", android.widget.Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("نه", null)
+            .show()
     }
 
     // ---------- دیالوگ سهم و وعده ----------

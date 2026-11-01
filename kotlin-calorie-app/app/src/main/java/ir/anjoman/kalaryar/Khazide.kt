@@ -255,4 +255,74 @@ object Khazide {
         }
         return tedad
     }
+
+    // ---------- غذاهای دلخواه کاربر (نسخهٔ ۲ — گردش ۵۳) ----------
+    // هرکس غذای خودش را با کالری و مقدار مشخص اضافه می‌کند؛ در همین حافظهٔ آفلاین می‌ماند
+    fun ghazayeManBekhon(context: Context): List<Ghaza> {
+        val kh = ArrayList<Ghaza>()
+        try {
+            val matn = p(context).getString("ghazaye_man", "[]") ?: "[]"
+            val j = JSONArray(matn)
+            for (i in 0 until j.length()) {
+                val o = j.getJSONObject(i)
+                kh.add(
+                    Ghaza(
+                        o.getString("esm"),
+                        "غذای من",
+                        o.optInt("kalar", 0),
+                        o.optDouble("protein", 0.0),
+                        o.optDouble("karbohidrat", 0.0),
+                        o.optDouble("charbi", 0.0),
+                        o.optString("porzionEsm", "یک سهم"),
+                        o.optInt("porzionGram", 100)
+                    )
+                )
+            }
+        } catch (_: Exception) {
+        }
+        return kh
+    }
+
+    fun ghazayeManEzafe(context: Context, g: Ghaza) {
+        try {
+            val j = JSONArray(p(context).getString("ghazaye_man", "[]") ?: "[]")
+            val o = JSONObject()
+            o.put("esm", g.esm)
+            o.put("kalar", g.kalar)
+            o.put("protein", g.protein)
+            o.put("karbohidrat", g.karbohidrat)
+            o.put("charbi", g.charbi)
+            o.put("porzionEsm", g.porzionEsm)
+            o.put("porzionGram", g.porzionGram)
+            j.put(o)
+            p(context).edit().putString("ghazaye_man", j.toString()).apply()
+        } catch (_: Exception) {
+        }
+    }
+
+    fun ghazayeManHazf(context: Context, esm: String) {
+        try {
+            val j = JSONArray(p(context).getString("ghazaye_man", "[]") ?: "[]")
+            val no = JSONArray()
+            for (i in 0 until j.length()) {
+                val o = j.getJSONObject(i)
+                if (o.getString("esm") != esm) no.put(o)
+            }
+            p(context).edit().putString("ghazaye_man", no.toString()).apply()
+        } catch (_: Exception) {
+        }
+    }
+
+    // ---------- تنظیمات هوش مصنوعی عکس (نسخهٔ ۲) ----------
+    fun aiAPI(context: Context): String =
+        p(context).getString("ai_api", "https://api.z.ai/api/paas/v4/chat/completions") ?: ""
+
+    fun aiKelid(context: Context): String = p(context).getString("ai_kelid", "") ?: ""
+    fun aiModel(context: Context): String = p(context).getString("ai_model", "glm-4.5v") ?: ""
+
+    fun aiZakhire(context: Context, api: String, kelid: String, model: String) {
+        p(context).edit().putString("ai_api", api.trim())
+            .putString("ai_kelid", kelid.trim())
+            .putString("ai_model", model.trim()).apply()
+    }
 }
