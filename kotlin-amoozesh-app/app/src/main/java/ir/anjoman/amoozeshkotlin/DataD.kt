@@ -19,7 +19,7 @@ val darsHaPishrafteh: List<Dars> = listOf(
         ),
         """
         fun khoshAmad(esm: String = "دوست", say: Int = 2) {
-            println("سلام \$esm!")
+            println("سلام ${'$'}esm!")
             var i = 1
             while (i <= say) {
                 println("موفق باشی!")
@@ -1179,7 +1179,7 @@ val darsHaPishrafteh: List<Dars> = listOf(
                 "چالش بعدی تو: گزارش متنی با قالب \$",
                 """
                 fun gozaresh(d: DaneshAmooz): String {
-                    return "دانش‌آموز \${d.nam} با معدل \${d.moadel().toString()}"
+                    return "دانش‌آموز ${'$'}{d.nam} با معدل ${'$'}{d.moadel().toString()}"
                 }
                 // سعی کن همین تابع را به پروژهٔ دفتر نمره اضافه کنی
                 // و در حلقه گزارش‌ها را با آن چاپ کنی

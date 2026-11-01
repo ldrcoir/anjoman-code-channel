@@ -155,7 +155,7 @@ val darsHaMoghaddameh: List<Dars> = listOf(
             // چرخهٔ یادگیری در این اپ
             val masir = listOf("درس را بخوان", "آزمون بده", "تمرین بزن")
             for (ghadam in masir) {
-                println("قدم: \$ghadam")
+                println("قدم: ${'$'}ghadam")
             }
             println("برو سراغ درس بعدی! 🚀")
         }
@@ -240,7 +240,7 @@ val darsHaMoghaddameh: List<Dars> = listOf(
                 """
                 fun main() {
                     val esm = "دانش‌آموز عزیز"
-                    println("سلام \$esm!")
+                    println("سلام ${'$'}esm!")
                     println("مسیر یادگیری تو شروع شد")
                 }
                 """.trimIndent()
