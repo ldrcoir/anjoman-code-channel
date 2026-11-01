@@ -19,13 +19,11 @@ class Charkhesh3D(
     override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
         val daraje = az + (ta - az) * interpolatedTime
         val camera = Camera()
-        val matrix = Matrix()
         camera.save()
         camera.rotateY(daraje)
-        camera.getMatrix(matrix)
+        camera.getMatrix(t.matrix)
         camera.restore()
-        matrix.preTranslate(-pivotX, -pivotY)
-        matrix.postTranslate(pivotX, pivotY)
-        t.matrix = matrix
+        t.matrix.preTranslate(-pivotX, -pivotY)
+        t.matrix.postTranslate(pivotX, pivotY)
     }
 }

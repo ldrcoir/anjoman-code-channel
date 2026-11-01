@@ -136,7 +136,7 @@ class KhavanakActivity : Activity() {
         if (safheFaali > 0) safheBeKon(safheFaali - 1, pish = false)
     }
 
-    private fun safheBeKon(shomare: Int, pish: Boolean, avali: Boolean = false) {
+    private fun safheBeKon(shomare: Int, pish: Boolean = true, avali: Boolean = false) {
         if (darHarekat) return
         darHarekat = true
         val no = sakhtSafhe(shomare)
@@ -571,7 +571,7 @@ class KhavanakActivity : Activity() {
 
     // ---------- ابزار صفحه ----------
     private fun shomare(v: Double): String =
-        if (v == Math.floor(v) && !v.isInfinite()) Abzar.adadFarsi(v.toLong()) else Abzar.adadFarsi(v)
+        if (v == Math.floor(v) && !v.isInfinite()) Abzar.adadFarsi(v.toLong().toInt()) else Abzar.adadFarsi(v)
 
     private fun khane(matn: String, rang: Int, bold: Boolean, boland: Boolean): TextView {
         val t = TextView(this)
