@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .DS_Store
 tool-results/
+
+# محتوای کتاب (عکس دانش‌آموزان) هرگز در ریپوی عمومی نمی‌رود — از ریپوی خصوصی تزریق می‌شود
+kotlin-pajoohesh-app/app/src/main/assets/pages/
+kotlin-pajoohesh-app/app/src/main/assets/cover.webp
+kotlin-pajoohesh-app/app/src/main/assets/matn.json

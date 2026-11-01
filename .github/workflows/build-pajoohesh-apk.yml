@@ -1,0 +1,63 @@
+name: build-pajoohesh-apk
+
+on:
+  push:
+    paths:
+      - "kotlin-pajoohesh-app/**"
+      - ".github/workflows/build-pajoohesh-apk.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Accept Android SDK licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+
+      # صفحات کتاب (عکس دانش‌آموزان) در ریپوی عمومی نیست — از ریپوی خصوصی می‌آید
+      - name: Fetch book content from private repo
+        env:
+          GH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
+        run: |
+          mkdir -p kotlin-pajoohesh-app/app/src/main/assets
+          code=$(curl -sS -o /tmp/assets.zip -w "%{http_code}" -L \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            "https://raw.githubusercontent.com/ldrcoir/pajoohesh-pages/main/assets.zip")
+          echo "http: $code | size: $(wc -c < /tmp/assets.zip) bytes"
+          if [ "$code" = "200" ] && [ -s /tmp/assets.zip ]; then
+            unzip -o -q /tmp/assets.zip -d kotlin-pajoohesh-app/app/src/main/assets
+            echo "pages: $(ls kotlin-pajoohesh-app/app/src/main/assets/pages | wc -l)"
+            echo "cover: $(ls -la kotlin-pajoohesh-app/app/src/main/assets/cover.webp | awk '{print $5}') bytes"
+            echo "matn: $(ls -la kotlin-pajoohesh-app/app/src/main/assets/matn.json | awk '{print $5}') bytes"
+          else
+            echo "محتوا نیامد — بیلد بدون محتوا ادامه می‌یابد"
+          fi
+
+      - name: Set up Gradle 8.5
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.5"
+
+      - name: Build debug APK
+        run: gradle assembleDebug --no-daemon
+        working-directory: kotlin-pajoohesh-app
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk DastavardhayePajoohesh-v1.0-debug.apk
+        working-directory: kotlin-pajoohesh-app
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dastavardha-pajoohesh-apk
+          path: kotlin-pajoohesh-app/DastavardhayePajoohesh-v1.0-debug.apk
+          if-no-files-found: error
