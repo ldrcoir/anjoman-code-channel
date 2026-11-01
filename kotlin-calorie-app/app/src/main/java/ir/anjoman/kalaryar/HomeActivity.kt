@@ -227,6 +227,12 @@ class HomeActivity : Activity() {
         ghabe.addView(khoroo("🏃  ورزش", "${Abzar.adadFarsi(sozand)} کالری امروز سوزانده‌ای", VartamActivity::class.java))
         ghabe.addView(khoroo("📊  گزارش هفته", "نمودار کالری ۷ روز + تحلیل", GozareshActivity::class.java))
         ghabe.addView(khoroo("🤖  دستیار هوشمند", "سؤال بپرس: «الان چی بخورم؟»", HoshmandActivity::class.java))
+        ghabe.addView(khoroo("📸  عکس هوشمند", "عکس غذا → برآورد کالری با هوش مصنوعی", AksHoshmandActivity::class.java))
+
+        // انیمیشن ورود نرم صفحه (نسخهٔ ۲)
+        ghabe.alpha = 0f
+        ghabe.translationY = Abzar.dp(this, 24f).toFloat()
+        ghabe.animate().alpha(1f).translationY(0f).setDuration(360).start()
     }
 
     // یک آمار کوچک زیر حلقه
