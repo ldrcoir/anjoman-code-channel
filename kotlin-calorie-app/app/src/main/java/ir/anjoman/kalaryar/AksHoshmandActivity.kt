@@ -39,6 +39,7 @@ class AksHoshmandActivity : Activity() {
 
     private lateinit var neshandeAks: ImageView
     private lateinit var matnWazaat: TextView
+    private lateinit var neshaneKhali: TextView
     private lateinit var ghabeNatayej: LinearLayout
     private var aks: Bitmap? = null
     private val natayej = ArrayList<Trio>()
@@ -118,7 +119,7 @@ class AksHoshmandActivity : Activity() {
         ))
         val neshaneKhali = Abzar.tv(this, "هنوز عکسی انتخاب نشده", 13f, Abzar.RANG_KAMRANG)
         neshaneKhali.gravity = Gravity.CENTER
-        neshaneKhali.tag = "khali"
+        this.neshaneKhali = neshaneKhali
         qab.addView(neshaneKhali)
         ghabe.addView(qab, safP(14))
 
@@ -167,8 +168,7 @@ class AksHoshmandActivity : Activity() {
         }
         aks = kamKon(bmp)
         neshandeAks.setImageBitmap(aks)
-        val khali = findViewWithTag<View>("khali")
-        khali?.visibility = View.GONE
+        neshaneKhali.visibility = View.GONE
         peygham("عکس آماده است — «کالری کن!» را بزن")
         natayej.clear()
         ghabeNatayej.removeAllViews()
@@ -198,7 +198,7 @@ class AksHoshmandActivity : Activity() {
     }
 
     // ---------- تحلیل با هوش مصنوعی ----------
-    private fun tahlilKon(dokme: Button) {
+    private fun tahlilKon(dokme: TextView) {
         val bmp = aks
         if (bmp == null) {
             peygham("اول عکس بگیر یا از گالری انتخاب کن")

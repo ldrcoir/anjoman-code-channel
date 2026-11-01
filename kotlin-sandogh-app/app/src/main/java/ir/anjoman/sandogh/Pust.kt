@@ -188,13 +188,7 @@ object Abzar {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             dp(context, bolandi.toFloat())
         )
-        val shakl = GradientDrawable()
-        shakl.cornerRadius = 0f
-        shakl.shader = LinearGradient(
-            0f, 0f, dp(context, 360f).toFloat(), 0f,
-            rang1, rang2, Shader.TileMode.CLAMP
-        )
-        v.background = shakl
+        v.background = kartGradient(context, rang1, rang2, 0f)
         return v
     }
 }
