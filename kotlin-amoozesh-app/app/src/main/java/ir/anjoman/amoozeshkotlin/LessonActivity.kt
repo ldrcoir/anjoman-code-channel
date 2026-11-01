@@ -83,6 +83,23 @@ class LessonActivity : Activity() {
         pCode.topMargin = Abzar.dp(this, 20f)
         ghabe.addView(kartCode(dars.codeNemooneh), pCode)
 
+        // نمونه‌کدهای اضافهٔ درس (نسخهٔ ۳ — مثال‌های بیشتر)
+        for (nemoone in dars.nemooonehBish) {
+            val sarNemoone = Abzar.tv(this, "◼ " + nemoone.onvan, 14f, Abzar.RANG_TALAEI, bold = true)
+            val pSarNemoone = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            pSarNemoone.topMargin = Abzar.dp(this, 18f)
+            ghabe.addView(sarNemoone, pSarNemoone)
+            val pNemoone = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            pNemoone.topMargin = Abzar.dp(this, 8f)
+            ghabe.addView(kartCode(nemoone.code), pNemoone)
+        }
+
         // اگه قبلاً آزمون دادیم، بهترین نمره رو نشون بده
         val behtarin = Zakhire.behtarin(this, dars.shomareh)
         if (behtarin >= 0) {

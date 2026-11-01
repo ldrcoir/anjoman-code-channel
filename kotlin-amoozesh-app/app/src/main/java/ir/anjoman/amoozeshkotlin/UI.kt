@@ -15,16 +15,17 @@ import android.widget.TextView
  */
 object Abzar {
 
-    val RANG_ZAMIN = 0xFF0F172A.toInt()      // سرمه‌ای تیرهٔ پس‌زمینه
-    val RANG_KART = 0xFF1E293B.toInt()       // رنگ کارت‌ها
-    val RANG_CODE = 0xFF0B1220.toInt()       // پس‌زمینهٔ تیره‌تر برای کد
-    val RANG_TIZ = 0xFF2AA8B8.toInt()        // فیروزه‌ای
-    val RANG_TALAEI = 0xFFF2B134.toInt()     // طلایی
-    val RANG_MATN = 0xFFEAF2FF.toInt()       // رنگ اصلی متن
-    val RANG_KAMRANG = 0xFF94A3B8.toInt()    // متن کم‌رنگ
-    val RANG_SABZ = 0xFF22C55E.toInt()       // جواب درست
-    val RANG_GHERMEZ = 0xFFEF4444.toInt()    // جواب غلط
-    val RANG_KHAKISTARI = 0xFF334155.toInt() // برای چیزهای خالی
+    // همهٔ رنگ‌ها از تم فعلی می‌آیند؛ تغییر تم، کل اپ را عوض می‌کند
+    val RANG_ZAMIN: Int get() = TemHa.faeli.zamin       // پس‌زمینهٔ اصلی
+    val RANG_KART: Int get() = TemHa.faeli.kart         // رنگ کارت‌ها
+    val RANG_CODE: Int get() = TemHa.faeli.code         // پس‌زمینهٔ بلوک کد
+    val RANG_TIZ: Int get() = TemHa.faeli.tiz           // تاکیدی اصلی
+    val RANG_TALAEI: Int get() = TemHa.faeli.talaei     // تاکیدی دوم
+    val RANG_MATN: Int get() = TemHa.faeli.matn         // متن اصلی
+    val RANG_KAMRANG: Int get() = TemHa.faeli.kamrang   // متن کم‌رنگ
+    val RANG_SABZ: Int get() = TemHa.faeli.sabz         // جواب درست
+    val RANG_GHERMEZ: Int get() = TemHa.faeli.ghermez   // جواب غلط
+    val RANG_KHAKISTARI: Int get() = TemHa.faeli.khakestari // عناصر خنثی
 
     fun dp(context: Context, meghdar: Float): Int =
         TypedValue.applyDimension(
@@ -115,7 +116,9 @@ object Abzar {
     }
 
     // نوار وضعیت رو هم‌رنگ پس‌زمینه می‌کنیم که تمیز باشه
+    // اول تم از حافظه خوانده می‌شود که همهٔ صفحه‌ها با تم درست ساخته شوند
     fun rangVaredKon(activity: Activity) {
+        TemHa.barGhardan(activity)
         activity.window.statusBarColor = RANG_ZAMIN
         activity.window.navigationBarColor = RANG_ZAMIN
     }
@@ -126,6 +129,26 @@ object Abzar {
  * با SharedPreferences ساده، بدون دیتابیس
  */
 object Zakhire {
+
+    // نسخهٔ ۳ شمارهٔ درس‌ها را جابه‌جا کرد (دو درس مقدمه اول آمدند)
+    // نمره‌های قبلی یک‌بار به شماره‌های تازه منتقل می‌شوند تا پیشرفت بچه‌ها از دست نرود
+    fun mohajeratV3(context: Context) {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        if (p.getBoolean("mohajerat_v3_anjam_shod", false)) return
+        val negashte = mapOf(1 to 3, 2 to 4, 3 to 5, 4 to 6, 5 to 7, 6 to 8, 7 to 9, 8 to 10,
+            9 to 11, 10 to 12, 11 to 13, 12 to 14, 13 to 15, 14 to 24, 15 to 25)
+        val virayesh = p.edit()
+        for (ghadim in negashte.keys) {
+            val n = p.getInt("behtarin_dars_$ghadim", -1)
+            if (n > 0) {
+                val taze = negashte[ghadim]!!
+                if (n > p.getInt("behtarin_dars_$taze", -1)) {
+                    virayesh.putInt("behtarin_dars_$taze", n)
+                }
+            }
+        }
+        virayesh.putBoolean("mohajerat_v3_anjam_shod", true).apply()
+    }
 
     fun behtarin(context: Context, shomarehDars: Int): Int {
         val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
