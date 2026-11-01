@@ -38,6 +38,8 @@ class KhavanakActivity : Activity() {
     private lateinit var matnShomare: TextView
     private lateinit var dokmeShab: TextView
     private lateinit var search: SeekBar
+    private lateinit var nivarBala: LinearLayout
+    private lateinit var nivarPayin: LinearLayout
 
     private var safheFaali = 0
     private var halat = 0          // ۰ آرام / ۱ کشیدن / ۲ انیمیشن
@@ -157,6 +159,7 @@ class KhavanakActivity : Activity() {
         }
         bar.addView(dokmeShab)
         root.addView(bar)
+        nivarBala = bar
 
         // ---------- قاب صفحه‌ها ----------
         frame = GhabeSafhe(this)
@@ -246,6 +249,7 @@ class KhavanakActivity : Activity() {
         payin.addView(dokmeBadi, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
 
         root.addView(payin)
+        nivarPayin = payin
         setContentView(root)
 
         neshanBedeh(avali = true)
@@ -342,11 +346,9 @@ class KhavanakActivity : Activity() {
             ghabli()        // لبهٔ راست = صفحهٔ قبل
         } else {
             // وسط = نمایش/پنهان‌کردن نوارها
-            val bar = (frame.parent as LinearLayout).getChildAt(0)
-            val payin = (frame.parent as LinearLayout).getChildAt(frame.parent.childCount - 1)
-            val nemayesh = bar.visibility == View.VISIBLE
-            bar.visibility = if (nemayesh) View.GONE else View.VISIBLE
-            payin.visibility = if (nemayesh) View.GONE else View.VISIBLE
+            val nemayesh = nivarBala.visibility == View.VISIBLE
+            nivarBala.visibility = if (nemayesh) View.GONE else View.VISIBLE
+            nivarPayin.visibility = if (nemayesh) View.GONE else View.VISIBLE
         }
     }
 
