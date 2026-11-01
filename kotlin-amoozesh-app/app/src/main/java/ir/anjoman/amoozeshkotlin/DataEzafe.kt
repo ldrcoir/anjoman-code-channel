@@ -485,13 +485,13 @@ object SoalEzafeHa {
         ),
         6 to listOf(
             Nemooneh(
-                "قالب متن با $: جای چسباندن تمیزتر",
+                "قالب متن با \$: جای چسباندن تمیزتر",
                 """
                 fun main() {
                     val nam = "رضا"
                     val sen = 15
-                    println("سلام، من $nam هستم و $sen سال دارم")
-                    println("سال بعد: ${sen + 1} سال")
+                    println("سلام، من \$nam هستم و \$sen سال دارم")
+                    println("سال بعد: \${sen + 1} سال")
                 }
                 """.trimIndent()
             ),
@@ -529,7 +529,7 @@ object SoalEzafeHa {
                 fun main() {
                     println("اسمت چیه؟")
                     val esm = readln()
-                    println("سلام $esm! خوش آمدی به دنیای برنامه‌نویسی 🎉")
+                    println("سلام \$esm! خوش آمدی به دنیای برنامه‌نویسی 🎉")
                 }
                 """.trimIndent()
             )
@@ -619,7 +619,7 @@ object SoalEzafeHa {
                 fun main() {
                     val bacheHa = listOf("علی", "سارا", "رضا")
                     for (nam in bacheHa) {
-                        println("سلام $nam!")
+                        println("سلام \$nam!")
                     }
                 }
                 """.trimIndent()
