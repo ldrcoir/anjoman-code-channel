@@ -35,7 +35,7 @@ class HalgheView(context: Context) : View(context) {
         val vasatX = width / 2f
         val vasatY = height / 2f
         val shoaa = (minOf(width, height) / 2f) - Abzar.dp(context, andazeKhat)
-        val khat = Abzar.dp(context, andazeKhat)
+        val khat = Abzar.dp(context, andazeKhat).toFloat()
 
         // زمینهٔ حلقه
         ghalem.style = Paint.Style.STROKE
@@ -90,7 +90,7 @@ class HalgheKoochak(context: Context) : View(context) {
         val vasatX = width / 2f
         val vasatY = height / 2f
         val shoaa = (minOf(width, height) / 2f) - Abzar.dp(context, 8f)
-        val khat = Abzar.dp(context, 8f)
+        val khat = Abzar.dp(context, 8f).toFloat()
 
         ghalem.style = Paint.Style.STROKE
         ghalem.strokeWidth = khat
