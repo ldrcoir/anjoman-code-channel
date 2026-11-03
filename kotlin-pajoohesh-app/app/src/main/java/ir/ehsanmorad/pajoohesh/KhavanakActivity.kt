@@ -18,7 +18,8 @@ import android.widget.Toast
  * خواناک — ۲۱۶ صفحهٔ کتاب با ورق‌خوردن طبیعی (VaraghZanView)
  * کشیدن انگشت به راست = بعدی، به چپ = قبلی؛ لمس لبهٔ چپ = بعدی، راست = قبلی
  * لمس وسط = نمایش/پنهان‌کردن نوارها؛ دکمهٔ بی‌صدا برای صدای ورق‌خوردن
- * شب‌خوانی: وارونهٔ ملایم روشنایی صفحات برای خواندن در تاریکی
+ * شب‌خوانی: وارونهٔ ملایم روشنایی صفحات برای خواندن در تاریکی — فقط در تم‌های روشن
+ * (در تم تیره، وارونه‌کردن صفحه‌ها همه‌چیز را تیرهٔ بی‌تمایز می‌کند و دیده نمی‌شود)
  */
 class KhavanakActivity : Activity() {
 
@@ -93,9 +94,18 @@ class KhavanakActivity : Activity() {
         }
         nivarBalaJadid.addView(neshaneSeda)
 
-        // دکمهٔ شب‌خوانی
-        neshaneShab = dokmeGerd(if (Ketab.shabBekhon(this)) "ic_rooz" else "ic_shab")
+        // دکمهٔ شب‌خوانی — فقط برای تم‌های روشن؛ در تم تیره صفحه‌ها خودشان تیره‌اند
+        // و وارونه‌کردنشان هیچ‌چیز دیده نمی‌شود
+        neshaneShab = dokmeGerd(if (Ketab.shabBekhon(this) && !tem.khater) "ic_rooz" else "ic_shab")
         neshaneShab.setOnClickListener {
+            if (tem.khater) {
+                Toast.makeText(
+                    this,
+                    "تم تیره خودش حالِ شب دارد — شب‌خوانی برای تم‌های روشن است",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             val no = !Ketab.shabBekhon(this)
             Ketab.shabZakhire(this, no)
             neshaneSetColor(neshaneShab, if (no) "ic_rooz" else "ic_shab")
@@ -233,7 +243,9 @@ class KhavanakActivity : Activity() {
     }
 
     private fun filterHa() {
-        varaghZan.filterShab = if (Ketab.shabBekhon(this)) filterShab else null
+        // در تم تیره شب‌خوانی عملاً خاموش است تا صفحه‌ها خوانا بمانند
+        val shab = Ketab.shabBekhon(this) && !tem.khater
+        varaghZan.filterShab = if (shab) filterShab else null
         varaghZan.invalidate()
     }
 

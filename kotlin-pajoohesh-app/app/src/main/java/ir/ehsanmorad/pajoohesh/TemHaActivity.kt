@@ -14,7 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 /*
- * تم‌ها — ده چهره برای کتاب، با کارت‌های کوچک و مرتب در سه ستون
+ * تم‌ها — دوازده چهره برای کتاب، با کارت‌های کوچک و مرتب در سه ستون
  * انتخاب فوراً اعمال می‌شود و در حافظهٔ گوشی می‌ماند
  */
 class TemHaActivity : Activity() {
@@ -39,7 +39,7 @@ class TemHaActivity : Activity() {
         rishe.addView(onvan)
         val tozih = Abzar.tv(
             this,
-            "ده چهره برای کتاب — در خواناک هم دکمهٔ شب‌خوانی برای تاریکیِ صفحات هست",
+            "دوازده چهره برای کتاب — ۶ روشن و ۶ تیره؛ شب‌خوانی در خواناک مخصوص تم‌های روشن است",
             13f, tem.kamrang
         )
         tozih.setPadding(Abzar.dp(this, 18f), 0, Abzar.dp(this, 18f), 0)

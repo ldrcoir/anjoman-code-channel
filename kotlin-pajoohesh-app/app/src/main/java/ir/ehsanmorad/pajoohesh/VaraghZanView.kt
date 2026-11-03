@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Shader
 import android.media.AudioAttributes
@@ -21,10 +22,13 @@ import kotlin.math.sin
 
 /*
  * ورق‌زن — موتور ورق‌خوردن طبیعی کتاب
- * مدل فیزیکی تاشدن: خط تاشدن از لبهٔ آزاد (چپ) به سمت عطف (راست) می‌رود
- *   • زیرِ برگه: صفحهٔ مقصد پیدا می‌شود
- *   • بخش تخت: صفحهٔ فعلی کنار عطف دیده می‌شود
- *   • بخش تاشده: رویِ برگشته — متن صفحهٔ مقصد در آینهٔ خط تاشدن (مثل تاکردن واقعی کاغذ)
+ * مدل فیزیکی کاغذ با یک «برگه» و یک «زیر»:
+ *   • برگرداندن به جلو: برگه = صفحهٔ فعلی است که از لبهٔ چپ بلند می‌شود؛
+ *     زیرِ آن صفحهٔ بعد کم‌کم پیدا می‌شود
+ *   • برگرداندن به عقب: برگه = صفحهٔ مقصد است که از عطف باز می‌شود و
+ *     روی صفحهٔ فعلی می‌افتد (دقیقاً زمانِ معکوسِ حرکت جلو)
+ *   • بخش تختِ برگه: محتوای خود برگه کنار عطف
+ *   • بخش تاشده: پشتِ کاغذ — کاغذ ساده با سایه؛ هیچ متنی آینه‌ای نمی‌شود
  *   • استوانهٔ خم در خط تاشدن + سایه + برجستگی ملایم = حس کاغذ واقعی
  * کشیدن انگشت به راست = بعدی، به چپ = قبلی (کتاب راست‌چین)
  * لمس لبهٔ چپ = بعدی، لبهٔ راست = قبلی، وسط = خبر به اکتیویتی (نمایش/پنهان نوارها)
@@ -54,13 +58,10 @@ class VaraghZanView(
     private var zamAval = 0L
     private var animesh: ValueAnimator? = null
 
-    // قلم‌ها
+    // قلم‌ها — boresh برای صفحه‌ها، boreshKaghaz برای پشتِ کاغذ (هر دو فیلتر شب می‌گیرند)
     private val boresh = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val boreshRang = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    // ستون‌های مش تاشده
-    private val tedadSotoon = 28
-    private var ras = FloatArray((tedadSotoon + 1) * 2 * 2)
+    private val boreshKaghaz = Paint(Paint.ANTI_ALIAS_FLAG)
 
     fun safheRavanKon(shomare: Int) {
         animesh?.cancel()
@@ -250,26 +251,28 @@ class VaraghZanView(
         val ru = tasvirRu
         if (ru == null || ru.isRecycled) return
         boresh.colorFilter = filterShab
+        boreshKaghaz.colorFilter = filterShab
 
         if (halat == 0 || pishraft <= 0.001f || tasvirPust == null) {
             resmSade(canvas, ru)
             return
         }
         if (jahat == 1) {
-            sahneCharkhesh(canvas, ru, tasvirPust!!)
+            // جلو: برگه = صفحهٔ فعلی، زیرِ آن = صفحهٔ بعد
+            sahneCharkhesh(canvas, ru, tasvirPust!!, 1)
         } else {
-            // برگرداندن به عقب = آینهٔ همان صحنه
-            canvas.save()
-            canvas.scale(-1f, 1f)
-            canvas.translate(-width.toFloat(), 0f)
-            sahneCharkhesh(canvas, ru, tasvirPust!!)
-            canvas.restore()
+            // عقب: برگه = صفحهٔ مقصد که از عطف باز می‌شود، زیرِ آن = صفحهٔ فعلی
+            sahneCharkhesh(canvas, tasvirPust!!, ru, -1)
         }
     }
 
-    // صحنهٔ ورق‌خوردن به جلو (کتاب راست‌چین: خط تاشدن از چپ به راست)
-    private fun sahneCharkhesh(canvas: Canvas, ru: Bitmap, pust: Bitmap) {
-        val rect = mostatilSafhe(ru)
+    /*
+     * صحنهٔ ورق‌خوردن — برای هر دو جهت با یک نقشه:
+     * barg = برگهٔ در حال ورق‌خوردن، zir = صفحه‌ای که زیرِ آن پیدا می‌شود
+     * جلو: خط تاشدن از چپ به راست می‌رود؛ عقب: از راست به چپ (زمان معکوس)
+     */
+    private fun sahneCharkhesh(canvas: Canvas, barg: Bitmap, zir: Bitmap, jahat: Int) {
+        val rect = mostatilSafhe(barg)
         val L = rect.left
         val R = rect.right
         val T = rect.top
@@ -278,14 +281,15 @@ class VaraghZanView(
         val boland = rect.height()
         val cy = pahna * 0.05f                  // شعاع استوانهٔ خم
         val te = pishraft
-        val c = L - cy + (pahna + 2f * cy) * te // خط تاشدن
+        val c = if (jahat == 1) L - cy + (pahna + 2f * cy) * te
+        else R + cy - (pahna + 2f * cy) * te    // خط تاشدن
         val maxLift = boland * 0.055f * (1f - 0.55f * te)
         val dp1 = Abzar.dp(context, 1f).toFloat()
 
-        // ۱) صفحهٔ مقصد (زیرِ برگه)
-        resmDarMostatil(canvas, pust, rect)
+        // ۱) صفحهٔ زیرِ برگه
+        resmDarMostatil(canvas, zir, rect)
 
-        // ۲) سایهٔ برگهٔ بلندشده روی صفحهٔ مقصد (سمت چپ خط تاشدن)
+        // ۲) سایهٔ برگهٔ بلندشده روی صفحهٔ زیر (سمت چپ خط تاشدن)
         if (c > L && c < R + cy) {
             val x0 = max(L, c - 1.9f * cy)
             boreshRang.shader = LinearGradient(
@@ -296,11 +300,11 @@ class VaraghZanView(
             boreshRang.shader = null
         }
 
-        // ۳) صفحهٔ فعلیِ تخت (از خط تاشدن تا عطف) + سایهٔ خمیده‌شدن
-        if (c < R) {
+        // ۳) بخش تختِ برگه (از خط تاشدن تا عطف) + سایهٔ خمیده‌شدن
+        if (c < R && c > L - cy) {
             canvas.save()
             canvas.clipRect(max(L, c), T, R, B)
-            resmDarMostatil(canvas, ru, rect)
+            resmDarMostatil(canvas, barg, rect)
             canvas.restore()
             if (c > L) {
                 val x1 = min(R, c + cy)
@@ -313,9 +317,9 @@ class VaraghZanView(
             }
         }
 
-        // ۴) بخش تاشده — رویِ برگشته (آینهٔ صفحهٔ مقصد حول خط تاشدن) با برجستگی
-        if (c > L && c < R + 2f * cy) {
-            resmTashide(canvas, pust, rect, c, cy, maxLift)
+        // ۴) بخش تاشده — پشتِ کاغذ (کاغذ ساده؛ هیچ متنی آینه‌ای نمی‌شود)
+        if (c > L && c < R) {
+            resmPoshtKaghaz(canvas, rect, c, cy, maxLift)
         }
 
         // ۵) سایهٔ لبهٔ آزاد برگه روی صفحهٔ زیر
@@ -341,6 +345,56 @@ class VaraghZanView(
         }
     }
 
+    // برجستگی استوانهٔ خم — بلندشدن لبهٔ کاغذ نسبت به خط تاشدن
+    private fun liftDar(x: Float, c: Float, cy: Float, maxLift: Float): Float {
+        if (x <= c) return 0f
+        return maxLift * sin((Math.PI * min(1.0, ((x - c) / (2.2f * cy)).toDouble())).toFloat())
+    }
+
+    /*
+     * پشتِ برگهٔ تاشده — کاغذ ساده از خط تاشدن تا لبهٔ آزاد، با برجستگی خم
+     * پشتِ برگهٔ چاپی خالی است؛ پس هیچ متنی این‌جا کشیده نمی‌شود
+     */
+    private fun resmPoshtKaghaz(canvas: Canvas, rect: RectF, c: Float, cy: Float, maxLift: Float) {
+        val T = rect.top
+        val B = rect.bottom
+        val labe = min(rect.left + 2f * (c - rect.left), rect.right)   // لبهٔ آزاد برگه
+        if (labe <= c) return
+        val rah = 14
+        val shake = Path()
+        shake.moveTo(c, T)
+        for (i in 1..rah) {
+            val x = c + (labe - c) * i / rah.toFloat()
+            shake.lineTo(x, T - liftDar(x, c, cy, maxLift))
+        }
+        shake.lineTo(labe, B - liftDar(labe, c, cy, maxLift))
+        for (i in rah - 1 downTo 0) {
+            val x = c + (labe - c) * i / rah.toFloat()
+            shake.lineTo(x, B - liftDar(x, c, cy, maxLift))
+        }
+        shake.close()
+        boreshKaghaz.shader = LinearGradient(
+            c, 0f, labe, 0f,
+            intArrayOf(0xFFE7DFC9.toInt(), 0xFFFAF6EA.toInt(), 0xFFF2ECDC.toInt()),
+            floatArrayOf(0f, 0.35f, 1f), Shader.TileMode.CLAMP
+        )
+        canvas.drawPath(shake, boreshKaghaz)
+        boreshKaghaz.shader = null
+        // سایهٔ خمِ استوانه نزدیک خط تاشدن — فقط داخل خودِ برگه
+        val x1 = min(rect.right, c + 2.4f * cy)
+        if (x1 > c) {
+            canvas.save()
+            canvas.clipPath(shake)
+            boreshRang.shader = LinearGradient(
+                c, 0f, x1, 0f,
+                Color.argb(78, 0, 0, 0), Color.TRANSPARENT, Shader.TileMode.CLAMP
+            )
+            canvas.drawRect(c, T - maxLift, x1, B, boreshRang)
+            boreshRang.shader = null
+            canvas.restore()
+        }
+    }
+
     // نقاشی سادهٔ یک صفحه در قاب
     private fun resmSade(canvas: Canvas, b: Bitmap) {
         val rect = mostatilSafhe(b)
@@ -349,54 +403,6 @@ class VaraghZanView(
 
     private fun resmDarMostatil(canvas: Canvas, b: Bitmap, rect: RectF) {
         canvas.drawBitmap(b, null, rect, boresh)
-    }
-
-    /*
-     * بخش تاشدهٔ برگه:
-     * ستون‌های تصویر صفحهٔ مقصد حول خط تاشدن آینه می‌شوند؛ ستون‌های هنوز
-     * ناتاشده روی خط تاشدن جمع می‌شوند و ستون‌های ردشده از عطف بیرون می‌زنند
-     */
-    private fun resmTashide(canvas: Canvas, pust: Bitmap, rect: RectF, c: Float, cy: Float, maxLift: Float) {
-        val L = rect.left
-        val R = rect.right
-        val T = rect.top
-        val B = rect.bottom
-        val cL = c - L                       // خط تاشدن در مختصات صفحه
-        val sotoonHa = tedadSotoon + 1
-        val pahna = rect.width()
-        for (k in 0..tedadSotoon) {
-            val X = k / tedadSotoon.toFloat() * pahna     // جای ماده در صفحه (مختصات قاب)
-            var x = L + 2f * cL - X                        // آینه حول خط تاشدن
-            // ردهای بیرون از بازهٔ مجاز جمع می‌شوند تا چیزی نکشند
-            if (x > R) x = R
-            val lift: Float
-            if (x >= c) {
-                lift = maxLift * sin((Math.PI * min(1.0, ((x - c) / (2.2f * cy)).toDouble())).toFloat())
-            } else {
-                // ستون هنوز تاشده نشده — روی خط تاشدن جمع می‌شود
-                x = c
-                lift = 0f
-            }
-            val i = k * 2
-            ras[i] = x
-            ras[i + 1] = T - lift
-            val j = (sotoonHa + k) * 2
-            ras[j] = x
-            ras[j + 1] = B - lift
-        }
-        canvas.drawBitmapMesh(pust, tedadSotoon, 1, ras, 0, null, 0, boresh)
-
-        // سایهٔ خمِ استوانه روی بخش تاشده
-        val x0 = c
-        val x1 = min(R, c + 2.4f * cy)
-        if (x1 > x0) {
-            boreshRang.shader = LinearGradient(
-                x0, 0f, x1, 0f,
-                Color.argb(78, 0, 0, 0), Color.TRANSPARENT, Shader.TileMode.CLAMP
-            )
-            canvas.drawRect(x0, T - maxLift, x1, B, boreshRang)
-            boreshRang.shader = null
-        }
     }
 }
 
