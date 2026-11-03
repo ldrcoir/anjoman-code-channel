@@ -18,7 +18,7 @@ SPEC = {
     "sections": [
         {"type": "code", "name": "src/main.rs", "lh": 36, "lines": [
             {"segs": [T("fn", FN), T(" moadele(a: ", FG), T("i32", FN), T(", b: ", FG), T("i32", FN), T(") -> ", FG), T("i32", FN), T(" {", FG)]},
-            {"segs": [T("    (a + b) / ", FG), T("2", NUM), T("        ", FG), T("// bazgasht", CMT)]},
+            {"segs": [T("    return", FN), T(" (a + b) / ", FG), T("2", NUM), T(";     ", FG), T("// bazgasht", CMT)]},
             {"segs": [T("}", FG)]},
             {"segs": [T("fn", FN), T(" main() {", FG)]},
             {"segs": [T("    println!", FN), T("(", FG), T("\"{}\"", STR), T(", moadele(", FG), T("18", NUM), T(", ", FG), T("20", NUM), T("));  ", FG), T("// seda 1", CMT)]},
@@ -30,8 +30,8 @@ SPEC = {
         ]},
         {"type": "bullets", "h": 84, "gap": 10, "desc_size": 24, "items": [
             {"title": [FB("fn", ACCENT)], "desc": "کلیدواژهٔ تعریف تابع؛ اسمش را خودت انتخاب می‌کنی"},
-            {"title": [T("-> i32", GREEN, 31)], "desc": "نوع مقدارِ برگشتی؛ خطِ آخر بدون سمیکالن برمی‌گردد"},
-            {"title": [FB("moadele(18, 20)", ORANGE)], "desc": "صدا زدن تابع: اسم + ورودی‌ها داخل پرانتز"},
+            {"title": [T("-> i32", GREEN, 31)], "desc": "نوعِ مقدارِ برگشتی؛ خروجیِ تابع باید از این نوع باشد"},
+            {"title": [T("return (a+b)/2;", ORANGE, 27)], "desc": "مقدار را برمی‌گرداند؛ در خطِ آخر، return را می‌شود حذف کرد"},
         ]},
     ],
     "note": "تمرین: تابعی بنویس که سه نمره بگیرد و معدلشان را برگرداند؛ بعد در main صدایش کن و چاپ کن",

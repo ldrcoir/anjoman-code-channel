@@ -14,10 +14,11 @@ import android.widget.TextView
 
 /*
  * جعبه‌ابزار کتاب + پالت تم‌ها
- * ۱۰ تم: کلاسیک کرم، شب مطالعه، کاغذ گرم، سبز آرام، بنفش شفق، طلایی سلطنتی،
- *        رزگلد دلنشین، نیلی اقیانوس، روز روشن، زیتون آرام
+ * ۱۲ تم: کلاسیک کرم، شب مطالعه، کاغذ گرم، سبز آرام، بنفش شفق، طلایی سلطنتی،
+ *        رزگلد دلنشین، نیلی اقیانوس، روز روشن، زیتون آرام، آسمان سحر، زغالی گرم
+ * ۶ روشن + ۶ تیره با رنگ‌های خانواده‌های متفاوت (کرم/سفید/صورتی/زیتونی/آبی/فیروزه‌ای
+ * و سرمه‌ای/سبز/بنفش/طلایی/نیلی/زغالی) تا یکدست نباشد
  * شش تم نخست با نسخهٔ ۱.۰ هم‌ترازند تا انتخاب قدیمی کاربران حفظ شود
- * رنگ فیروزه‌ای تم‌ها با طراحی خود کتاب (جلد فیروزه‌ای) هم‌خانواده است
  * تم انتخابی در حافظهٔ گوشی ذخیره می‌شود
  */
 
@@ -55,7 +56,11 @@ object TemEnekhab {
         Tem("روز روشن", 0xFFF7F8FA.toInt(), 0xFFFFFFFF.toInt(), 0xFFEDF0F4.toInt(),
             0xFF1E293B.toInt(), 0xFF64748B.toInt(), 0xFF2563EB.toInt(), 0xFF3B82F6.toInt(), false),
         Tem("زیتون آرام", 0xFFF2F5EC.toInt(), 0xFFFAFCF5.toInt(), 0xFFE7EDDE.toInt(),
-            0xFF2F3A26.toInt(), 0xFF7C8A66.toInt(), 0xFF65A30D.toInt(), 0xFF84CC16.toInt(), false)
+            0xFF2F3A26.toInt(), 0xFF7C8A66.toInt(), 0xFF65A30D.toInt(), 0xFF84CC16.toInt(), false),
+        Tem("آسمان سحر", 0xFFE9F3FB.toInt(), 0xFFF8FBFE.toInt(), 0xFFDCEAF5.toInt(),
+            0xFF173247.toInt(), 0xFF6C90A8.toInt(), 0xFF0284C7.toInt(), 0xFF06B6D4.toInt(), false),
+        Tem("زغالی گرم", 0xFF171412.toInt(), 0xFF221E1A.toInt(), 0xFF1C1815.toInt(),
+            0xFFF4EEE5.toInt(), 0xFFA79B8B.toInt(), 0xFFF97316.toInt(), 0xFFFB923C.toInt(), true)
     )
 
     fun bekhon(context: Context): Tem {

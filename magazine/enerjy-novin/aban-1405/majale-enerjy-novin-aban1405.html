@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8">
+<title>مجلهٔ انرژی‌های نوین — شمارهٔ ۱ · آبان ۱۴۰۵</title>
+<style>
+/* ─── فونت‌های محلی ─── */
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Regular.ttf'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Medium.ttf'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Bold.ttf'); font-weight:700; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-ExtraBold.ttf'); font-weight:800; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Black.ttf'); font-weight:900; }
+@font-face { font-family:'Lalezar'; src:url('fonts/Lalezar-Regular.ttf'); font-weight:400; }
+
+@page { size: 794px 1123px; margin: 0; }
+
+:root{
+  --navy:#0D1230;
+  --green:#178A4C;
+  --green-d:#0E5C33;
+  --cyan:#0E7FA8;
+  --cyan-d:#0B5E7D;
+  --amber:#D9822B;
+  --paper:#F5FAF6;
+  --line:#E0EAE2;
+  --muted:#5B6472;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+html,body{
+  margin:0; padding:0; width:794px;
+  background:var(--navy);
+  color:var(--navy);
+  font-family:'Vazirmatn', sans-serif;
+  font-size:13.5px; line-height:2;
+  line-break:strict;
+}
+p,td,li{ overflow-wrap:break-word; word-break:break-word; }
+p{ text-align:justify; margin-bottom:9px; }
+
+@media screen{
+  html{ height:auto; display:flex; justify-content:center; background:#2a2f3a; }
+  body{ margin:20px auto; box-shadow:0 8px 40px rgba(0,0,0,.4); }
+}
+
+/* ═══════════ جلد ═══════════ */
+.cover{
+  width:794px; height:1123px; background:var(--navy);
+  color:#fff; position:relative; overflow:hidden;
+  break-after:page; display:flex; flex-direction:column;
+  padding:44px 52px 40px;
+}
+.cover .dot-a{ position:absolute; top:-90px; left:-90px; width:280px; height:280px; border-radius:50%;
+  background:radial-gradient(circle, rgba(74,222,128,.17), transparent 70%); }
+.cover .dot-b{ position:absolute; bottom:120px; right:-70px; width:240px; height:240px; border-radius:50%;
+  background:radial-gradient(circle, rgba(252,211,77,.14), transparent 70%); }
+.masthead{ display:flex; justify-content:space-between; align-items:center; }
+.masthead .org{ font-size:13.5px; font-weight:800; color:#EAF7F0; }
+.masthead .org small{ display:block; font-weight:500; font-size:11px; color:#8FE3C0; letter-spacing:.2px; }
+.masthead .no{ background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25);
+  border-radius:12px; padding:4px 16px; font-weight:800; font-size:14px; }
+.cover-title{ font-family:'Lalezar','Vazirmatn', sans-serif; font-size:72px; line-height:1.25;
+  margin-top:26px; text-align:center; }
+.cover-title .fa-grad{ color:#4ADE80; }
+.cover-title .en-grad{ color:#FCD34D; }
+.cover-sub{ text-align:center; color:#B9C4DE; font-size:15px; font-weight:500; margin-top:2px; }
+.cover-hero{ margin:20px auto 0; width:100%; }
+.toc-card{ margin-top:22px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16);
+  border-radius:16px; padding:16px 24px 12px; }
+.toc-card h3{ font-size:15px; font-weight:900; color:#4ADE80; margin-bottom:8px; }
+.toc-row{ display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+  padding:4.5px 0; border-bottom:1px dashed rgba(255,255,255,.14); font-size:13.5px; font-weight:500; }
+.toc-row:last-child{ border-bottom:none; }
+.toc-row .t{ color:#EAF0FF; }
+.toc-row .pg{ color:#FCD34D; font-weight:900; font-size:13px; min-width:22px; text-align:left; }
+.cover-foot{ margin-top:auto; border-top:1px solid rgba(255,255,255,.16); padding-top:12px;
+  display:flex; justify-content:space-between; color:#93A0C2; font-size:11.5px; }
+.cover-foot .mono{ direction:ltr; font-family:'DejaVu Sans Mono', monospace; color:#4ADE80; }
+
+/* ═══════════ بدنهٔ جاری ═══════════ */
+.main-content{ background:#fff; padding:44px 52px 40px; }
+
+.chapter-header{ break-after:avoid; break-inside:avoid; margin-top:26px; margin-bottom:12px; }
+.chapter-header:first-child{ margin-top:0; }
+.sec-tag{ display:inline-block; font-size:11px; font-weight:900; border-radius:9px; padding:1px 12px; letter-spacing:.3px; }
+.sec-tag.g{ background:#E7F6EE; color:var(--green-d); border:1.5px solid #BFE5CF; }
+.sec-tag.c{ background:#E6F5FA; color:var(--cyan-d); border:1.5px solid #BDE2F0; }
+.sec-tag.a{ background:#FBF0E2; color:#8F5212; border:1.5px solid #F0D9B8; }
+h2.sec{ font-family:'Lalezar','Vazirmatn', sans-serif; font-weight:400; font-size:30px; line-height:1.4; margin-top:4px; }
+h2.sec .g{ color:var(--green); } h2.sec .c{ color:var(--cyan); } h2.sec .a{ color:var(--amber); }
+.divider{ height:3px; width:100%; border-radius:3px; margin:6px 0 12px;
+  background:linear-gradient(270deg, var(--green), var(--cyan)); }
+
+h3.sub{ font-size:15.5px; font-weight:900; margin:10px 0 4px; }
+h3.sub .g{ color:var(--green-d); } h3.sub .c{ color:var(--cyan-d); }
+.lead{ font-weight:700; color:#243040; }
+
+/* خطِ زمانِ خبرنامه */
+.timeline{ margin:10px 0 6px; }
+.timeline .row{ display:flex; gap:12px; margin-bottom:8px; break-inside:avoid; }
+.timeline .when{ min-width:86px; background:#F0F9F3; border:1.5px solid #CBE8D6; border-radius:10px;
+  text-align:center; font-weight:900; color:var(--green-d); padding:3px 6px; font-size:12.5px; height:fit-content; }
+.timeline .when.c{ background:#E6F5FA; border-color:#BDE2F0; color:var(--cyan-d); }
+.timeline .when.a{ background:#FBF0E2; border-color:#F0D9B8; color:#8F5212; }
+.timeline .what{ flex:1; border-bottom:1px dashed var(--line); padding:3px 2px; font-size:12.8px; }
+.timeline .what b{ font-weight:800; }
+
+/* چیپ‌های منابع انرژی */
+.src-chips{ display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 4px; max-width:100%; }
+.src-chips .sc{ flex:1 1 130px; min-width:118px; max-width:100%; background:#F0F9F3; border:1.5px solid #CBE8D6;
+  border-radius:12px; padding:8px 10px; text-align:center; break-inside:avoid; }
+.src-chips .sc b{ display:block; font-size:14.5px; font-weight:900; color:var(--green-d); }
+.src-chips .sc span{ font-size:11px; color:var(--muted); font-weight:500; }
+
+/* کارت پروندهٔ منبع انرژی */
+.art-card{ border:1.5px solid var(--line); border-radius:16px; padding:14px 18px 12px; margin-bottom:14px;
+  break-inside:avoid; background:#fff; }
+.art-card h4{ font-family:'Lalezar','Vazirmatn',sans-serif; font-weight:400; font-size:22px; color:var(--green-d); }
+.art-card .stat{ background:#F0F9F3; border-right:4px solid var(--green); border-radius:10px;
+  padding:6px 12px; margin:8px 0; font-weight:800; font-size:13px; color:var(--green-d); }
+.art-card .stat small{ display:block; font-weight:500; color:var(--muted); font-size:11px; }
+
+figure.fig{ display:block; width:100%; margin:0 0 6px; }
+figure.fig img{ width:100%; height:220px; object-fit:cover; object-position:top;
+  border-radius:12px; border:1.5px solid #DCE7E0; display:block; }
+figure.fig figcaption{ font-size:10.5px; color:var(--muted); margin-top:4px; text-align:center; }
+
+.two{ display:flex; flex-wrap:wrap; gap:16px; align-items:stretch; max-width:100%; }
+.two > .col{ flex:1 1 320px; min-width:300px; max-width:100%; }
+
+/* نمودار */
+.chart-box{ border:1.5px solid var(--line); border-radius:16px; padding:14px 18px 10px; break-inside:avoid;
+  background:#fff; margin:12px 0; }
+.chart-box h4{ font-size:14px; font-weight:900; margin-bottom:2px; }
+.chart-box .cap{ font-size:11px; color:var(--muted); margin-bottom:6px; }
+
+/* جدول مقایسه */
+table.g{ width:100%; border-collapse:collapse; margin:10px 0 4px; }
+table.g th{ font-size:12px; font-weight:900; color:var(--cyan-d); border-bottom:2px solid #BDE2F0;
+  padding:5px 8px; text-align:right; }
+table.g td{ border-bottom:1px solid var(--line); padding:4.5px 8px; font-size:12.4px; vertical-align:top; }
+table.g td b{ font-weight:800; }
+
+/* جعبه‌های برجسته */
+.hl{ background:#EFFBFC; border:1.5px solid #BFE7F2; border-radius:14px; padding:11px 16px;
+  margin:12px 0; font-weight:700; break-inside:avoid; }
+.hl.g{ background:#F0F9F3; border-color:#BFE5CF; }
+
+/* کارت پروژه و لینک */
+.link-card{ display:flex; justify-content:space-between; align-items:center; gap:10px;
+  background:var(--paper); border:1.5px solid var(--line); border-radius:12px;
+  padding:8px 14px; margin-bottom:8px; break-inside:avoid; }
+.link-card .t{ font-weight:800; font-size:13px; }
+.link-card .t small{ display:block; font-weight:500; color:var(--muted); font-size:11px; }
+.link-card .u{ direction:ltr; font-family:'DejaVu Sans Mono',monospace; font-weight:700;
+  color:var(--cyan-d); font-size:12px; }
+.link-card .u-fa{ font-family:'Vazirmatn',sans-serif; font-weight:800; color:var(--cyan-d);
+  background:#E6F5FA; border:1.5px solid #BDE2F0; border-radius:10px; padding:3px 12px;
+  font-size:12px; white-space:nowrap; }
+
+/* تقویم */
+.cal .row{ display:flex; gap:10px; margin-bottom:8px; break-inside:avoid; }
+.cal .when{ min-width:120px; background:#F0F9F3; border:1.5px solid #CBE8D6; border-radius:10px;
+  text-align:center; font-weight:900; color:var(--green-d); padding:4px 6px; font-size:12.5px; }
+.cal .when.c{ background:#E6F5FA; border-color:#BDE2F0; color:var(--cyan-d); }
+.cal .what{ flex:1; border-bottom:1px dashed var(--line); padding:4px 2px; font-size:13px; }
+
+/* آمار جمع‌بندی */
+.sum-grid{ display:flex; flex-wrap:wrap; gap:12px; margin:10px 0 4px; }
+.sum-grid .s{ flex:1 1 150px; min-width:140px; max-width:100%; background:#F0F9F3; border:1.5px solid #CBE8D6;
+  border-radius:14px; padding:10px 12px; text-align:center; break-inside:avoid; }
+.sum-grid .s b{ display:block; font-size:26px; font-weight:900; color:var(--green-d); line-height:1.3; }
+.sum-grid .s span{ font-size:11.5px; color:var(--muted); font-weight:600; }
+
+/* ═══════════ پشت جلد ═══════════ */
+.ending{ width:794px; height:1123px; background:var(--navy); color:#fff; position:relative;
+  overflow:hidden; break-before:page; display:flex; flex-direction:column; padding:60px 60px 46px; }
+.ending .glow{ position:absolute; top:34%; left:50%; transform:translate(-50%,-50%);
+  width:520px; height:520px; border-radius:50%;
+  background:radial-gradient(circle, rgba(74,222,128,.13), transparent 65%); }
+.ending .masthead{ margin-bottom:6px; }
+.chan-cards{ display:flex; flex-wrap:wrap; gap:18px; margin-top:26px; }
+.chan{ flex:1 1 300px; min-width:280px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.2);
+  border-radius:18px; padding:20px 22px; }
+.chan h4{ font-family:'Lalezar','Vazirmatn',sans-serif; font-weight:400; font-size:24px; margin-bottom:4px; }
+.chan.en h4{ color:#4ADE80; } .chan.mad h4{ color:#FCD34D; }
+.chan p{ color:#B9C4DE; font-size:12.5px; text-align:right; }
+.chan .u{ direction:ltr; text-align:left; font-family:'DejaVu Sans Mono',monospace; color:#fff;
+  background:rgba(255,255,255,.1); border-radius:10px; padding:6px 12px; display:inline-block;
+  margin-top:8px; font-size:13px; }
+.ending .slogan{ margin-top:auto; text-align:center; }
+.ending .slogan .big{ font-family:'Lalezar','Vazirmatn',sans-serif; font-size:36px; color:#4ADE80; }
+.ending .slogan .small{ color:#8E9AB8; font-size:12.5px; margin-top:14px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ صفحهٔ ۱ — جلد ═══════════ -->
+<div class="cover">
+  <div class="dot-a"></div><div class="dot-b"></div>
+  <div class="masthead">
+    <div class="org">پژوهش‌سرای دانش‌آموزی امام هادی (ع)
+      <small>انجمن علمی انرژی‌پژوهان · دبیرستان اشرفی اصفهانی</small>
+    </div>
+    <div class="no">شمارهٔ ۱ — آبان ۱۴۰۵</div>
+  </div>
+
+  <div class="cover-title">مجلهٔ <span class="fa-grad">انرژی‌های</span> <span class="en-grad">نوین</span></div>
+  <div class="cover-sub">خبر، پروندهٔ آموزشی، نمودار و تقویم — از کانال انرژی‌پژوهان، به انتخاب بچه‌های پژوهش‌سرا</div>
+
+  <div class="cover-hero">
+    <svg viewBox="0 0 690 250" width="690" height="250" xmlns="http://www.w3.org/2000/svg">
+      <!-- آسمان سرمه‌ای -->
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#131A45"/><stop offset="1" stop-color="#0D1230"/>
+        </linearGradient>
+        <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#134E2E"/><stop offset="1" stop-color="#0E3B22"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0E7FA8"/><stop offset="1" stop-color="#0B5E7D"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="690" height="250" rx="18" fill="url(#sky)" stroke="#2A3358" stroke-width="1.5"/>
+      <!-- ستاره‌ها -->
+      <circle cx="520" cy="40" r="1.6" fill="#8EA2D8"/><circle cx="560" cy="70" r="1.2" fill="#8EA2D8"/>
+      <circle cx="610" cy="35" r="1.4" fill="#8EA2D8"/><circle cx="648" cy="90" r="1.2" fill="#8EA2D8"/>
+      <circle cx="470" cy="90" r="1.2" fill="#8EA2D8"/><circle cx="586" cy="120" r="1.4" fill="#8EA2D8"/>
+      <!-- خورشید -->
+      <circle cx="96" cy="70" r="30" fill="#FCD34D"/>
+      <circle cx="96" cy="70" r="40" fill="none" stroke="#FCD34D" stroke-opacity=".35" stroke-width="2"/>
+      <circle cx="96" cy="70" r="52" fill="none" stroke="#FCD34D" stroke-opacity=".15" stroke-width="2"/>
+      <!-- توربین بادی -->
+      <g stroke="#9AE6C2" stroke-width="5" stroke-linecap="round" fill="none">
+        <line x1="238" y1="210" x2="238" y2="108"/>
+        <line x1="238" y1="108" x2="238" y2="62"/>
+        <line x1="238" y1="108" x2="278" y2="130"/>
+        <line x1="238" y1="108" x2="198" y2="130"/>
+      </g>
+      <circle cx="238" cy="108" r="7" fill="#4ADE80"/>
+      <!-- پنل خورشیدی -->
+      <g>
+        <rect x="322" y="168" width="150" height="42" rx="6" fill="url(#panel)" stroke="#2F8F5B" stroke-width="2"/>
+        <line x1="372" y1="168" x2="372" y2="210" stroke="#2F8F5B" stroke-width="1.5"/>
+        <line x1="422" y1="168" x2="422" y2="210" stroke="#2F8F5B" stroke-width="1.5"/>
+        <line x1="322" y1="189" x2="472" y2="189" stroke="#2F8F5B" stroke-width="1.5"/>
+        <line x1="360" y1="210" x2="352" y2="222" stroke="#2F8F5B" stroke-width="3"/>
+        <line x1="434" y1="210" x2="442" y2="222" stroke="#2F8F5B" stroke-width="3"/>
+      </g>
+      <!-- سدّ برق‌آبی -->
+      <g>
+        <path d="M 520 222 L 534 150 L 560 150 L 574 222 Z" fill="#264069" stroke="#3D5A8F" stroke-width="1.5"/>
+        <rect x="440" y="150" width="94" height="72" rx="4" fill="url(#water)" opacity=".85"/>
+        <path d="M 446 162 q 12 -7 24 0 t 24 0 t 24 0" stroke="#7DDCF5" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M 446 180 q 12 -7 24 0 t 24 0 t 24 0" stroke="#7DDCF5" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>
+        <path d="M 540 170 q 14 26 6 52" stroke="#7DDCF5" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="8 6"/>
+        <circle cx="556" cy="230" r="6" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+      </g>
+      <!-- جوانهٔ زیست‌توده -->
+      <g>
+        <path d="M 636 222 q -2 -18 0 -30" stroke="#4ADE80" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M 636 200 q -14 -4 -16 -18 q 16 -2 16 18" fill="#4ADE80" opacity=".85"/>
+        <path d="M 636 194 q 12 -6 14 -20 q -16 0 -14 20" fill="#4ADE80"/>
+      </g>
+      <!-- خط زمین -->
+      <line x1="20" y1="222" x2="670" y2="222" stroke="#2A3358" stroke-width="2"/>
+      <text x="345" y="242" font-family="Vazirmatn" font-size="11" fill="#8FE3C0" text-anchor="middle">انرژی نو، اندیشه نو، آیندهٔ نو</text>
+    </svg>
+  </div>
+
+  <div class="toc-card">
+    <h3>فهرست این شماره</h3>
+    <div class="toc-row"><span class="t">سرمقاله؛ چرا مجلهٔ مستقلِ انرژی؟</span><span class="pg" id="pg-sarmaghale">۲</span></div>
+    <div class="toc-row"><span class="t">خبرنامهٔ آبان کانال انرژی‌پژوهان</span><span class="pg" id="pg-khabar">۲</span></div>
+    <div class="toc-row"><span class="t">انرژی نوین چیست؟</span><span class="pg" id="pg-chist">۳</span></div>
+    <div class="toc-row"><span class="t">پروندهٔ ۱ — انرژی خورشیدی + گزارش نیروگاه ساوه</span><span class="pg" id="pg-khorshidi">۳</span></div>
+    <div class="toc-row"><span class="t">پروندهٔ ۲ — انرژی باد</span><span class="pg" id="pg-bad">۴</span></div>
+    <div class="toc-row"><span class="t">پروندهٔ ۳ — انرژی زمین‌گرمایی</span><span class="pg" id="pg-germaei">۴</span></div>
+    <div class="toc-row"><span class="t">پروندهٔ ۴ — انرژی آب (برق‌آبی)</span><span class="pg" id="pg-ab">۵</span></div>
+    <div class="toc-row"><span class="t">پروندهٔ ۵ — انرژی زیست‌توده</span><span class="pg" id="pg-ziest">۵</span></div>
+    <div class="toc-row"><span class="t">نمودار ماه؛ جهش تجدیدپذیرهای ایران</span><span class="pg" id="pg-nemudar">۶</span></div>
+    <div class="toc-row"><span class="t">جدول مقایسهٔ پنج منبع</span><span class="pg" id="pg-moghayese">۶</span></div>
+    <div class="toc-row"><span class="t">پروژهٔ ماه؛ انیمیشن اسکرچ انرژی‌های نوین</span><span class="pg" id="pg-proje">۷</span></div>
+    <div class="toc-row"><span class="t">تقویم آذر + جمع‌بندی آماری شماره</span><span class="pg" id="pg-taghvim">۷</span></div>
+  </div>
+
+  <div class="cover-foot">
+    <span>نسخهٔ کامل در قالب PDF — برای مطالعه، دانلود و چاپ</span>
+    <span class="mono">ble.ir/anjoman_energypazhohan</span>
+  </div>
+</div>
+
+<!-- ═══════════ بدنهٔ جاری ═══════════ -->
+<div class="main-content">
+<!-- ═══════ سرمقاله ═══════ -->
+<div class="chapter-header" id="sec-sarmaghale">
+  <span class="sec-tag g">سرمقاله</span>
+  <h2 class="sec">چرا <span class="g">مجلهٔ مستقلِ</span> انرژی؟</h2>
+  <div class="divider"></div>
+</div>
+<p class="lead">آبان ماهِ پرکاری برای کانال انرژی‌پژوهان بود؛ از معرفی کانال و پرسشِ سادهٔ «انرژی نوین چیست؟» رسیدیم به پنج پروندهٔ کامل دربارهٔ منابع تجدیدپذیر، گزارش زندهٔ مزرعهٔ بادی و خبر نیروگاه خورشیدی ساوه.</p>
+<p>این مجله، آینهٔ همین یک ماه فعالیت است. همهٔ مطالب آن از بایگانی کانال انرژی‌پژوهان جمع شده تا یک‌جا، مرتب و قابل‌چاپ در دسترس اعضای انجمن باشد؛ کسی که پیام‌ها را از دست داده بتواند یک عصر بنشیند و کل مسیر را یک‌جا بخواند، و کسی که دنبال عدد و آمار درسی است بداند هر جمله از کدام پست آمده است. به همین دلیل در پایان هر بخش، «منبع» همان پست کانال ذکر شده است.</p>
+<p>قرار ما از ابتدا روشن بوده است: توضیح بدهیم، اغراق نکنیم. هر عددی که در این شماره می‌بینید از گزارش‌های رسمی — ساتبا و وزارت نیرو — آمده و در آبان ۱۴۰۵ دوباره بازبینی شده است. جایی که عدد نداریم، صادقانه می‌گوییم «در حال توسعه است»؛ مثل میدان زمین‌گرمایی سبلان.</p>
+
+<!-- ═══════ خبرنامهٔ آبان ═══════ -->
+<div class="chapter-header" id="sec-khabar">
+  <span class="sec-tag c">خبرنامه</span>
+  <h2 class="sec">آبان در <span class="c">کانال انرژی‌پژوهان</span></h2>
+  <div class="divider"></div>
+</div>
+<p>کانال اول آبان با دو پیام آغاز شد و در ادامهٔ ماه، پرونده‌ها یکی‌یکی منتشر شدند. این خطِ زمان، خلاصهٔ مسیر است:</p>
+<div class="timeline">
+  <div class="row"><span class="when">۲ آبان</span><span class="what"><b>معرفی کانال</b> — اهداف انجمن انرژی‌پژوهان: خبرهای نوآوری، شناخت نیروگاه‌های ایران و آموزش‌های کوتاه انرژی.</span></div>
+  <div class="row"><span class="when">۲ آبان</span><span class="what"><b>«انرژی نوین چیست؟»</b> — تعریف سادهٔ انرژی‌های تجدیدپذیر و تفاوتشان با سوخت‌های فسیلی.</span></div>
+  <div class="row"><span class="when">۳ آبان</span><span class="what"><b>پروندهٔ ۱ — انرژی خورشیدی</b>؛ نخستین پرونده از مجموعهٔ پنج منبع تجدیدپذیر.</span></div>
+  <div class="row"><span class="when">۴ آبان</span><span class="what"><b>گزارش نیروگاه ساوه</b> — رکورد تازهٔ نیروگاه خورشیدی خودمصرفی ایران.</span></div>
+  <div class="row"><span class="when">۴ آبان</span><span class="what"><b>پروندهٔ ۲ — انرژی باد</b>؛ از منجیل تا خواف.</span></div>
+  <div class="row"><span class="when">۵ آبان</span><span class="what"><b>گزارش زندهٔ توربین بادی</b> — تصاویر مستقیم از مزرعهٔ بادی.</span></div>
+  <div class="row"><span class="when">۹ آبان</span><span class="what"><b>سه پروندهٔ همزمان</b> — زمین‌گرمایی، آب (برق‌آبی) و زیست‌توده؛ مجموعهٔ پنج‌تایی کامل شد.</span></div>
+</div>
+
+<!-- ═══════ انرژی نوین چیست ═══════ -->
+<div class="chapter-header" id="sec-chist">
+  <span class="sec-tag g">درسنامه</span>
+  <h2 class="sec">انرژی نوین <span class="g">چیست؟</span></h2>
+  <div class="divider"></div>
+</div>
+<p>تا حالا فکر کرده‌ای برق خانه‌ها، مدرسه‌ها و خیابان‌ها از کجا تأمین می‌شود؟ بخشی از انرژی موردنیاز ما از سوخت‌هایی مثل نفت، گاز و زغال‌سنگ به دست می‌آید؛ اما این منابع محدودند و استفاده از آن‌ها آلودگی تولید می‌کند. به همین دلیل دانشمندان به دنبال راه‌هایی برای تولید انرژی پاک‌تر و پایدارتر هستند.</p>
+<p><b>انرژی‌های نوین</b> به روش‌ها و فناوری‌هایی گفته می‌شود که برای تأمین انرژی — به‌ویژه با استفاده از منابع تجدیدپذیر و فناوری‌های جدید — به کار می‌روند. بسیاری از این روش‌ها آلودگی بسیار کمتری نسبت به سوخت‌های فسیلی دارند و مهم‌تر از همه، برخلاف نفت و گاز، تمام‌شدنی نیستند: خورشید فردا هم می‌تابد، باد دوباره می‌وزد و باران، سدها را دوباره پُر می‌کند.</p>
+<p>در کانال، مجموعه‌ای پنج‌قسمتی برای شناخت این منابع ساخته شد که پرونده‌های این شمارهٔ مجله همان است:</p>
+<div class="src-chips">
+  <div class="sc"><b>☀️ خورشیدی</b><span>پروندهٔ ۱ — صفحهٔ ۳</span></div>
+  <div class="sc"><b>💨 بادی</b><span>پروندهٔ ۲ — صفحهٔ ۴</span></div>
+  <div class="sc"><b>🌡 زمین‌گرمایی</b><span>پروندهٔ ۳ — صفحهٔ ۴</span></div>
+  <div class="sc"><b>💧 آب</b><span>پروندهٔ ۴ — صفحهٔ ۵</span></div>
+  <div class="sc"><b>🌱 زیست‌توده</b><span>پروندهٔ ۵ — صفحهٔ ۵</span></div>
+</div>
+
+<!-- ═══════ پروندهٔ ۱ — خورشیدی ═══════ -->
+<div class="chapter-header" id="sec-khorshidi">
+  <span class="sec-tag a">پروندهٔ ۱</span>
+  <h2 class="sec">انرژی <span class="a">خورشیدی</span> ☀️</h2>
+  <div class="divider"></div>
+</div>
+<div class="two">
+  <div class="col">
+    <p>پنل‌های خورشیدی نور خورشید را به برق تبدیل می‌کنند؛ ساده و بی‌صدا. از این برق می‌توان برای روشنایی خانه، شارژ وسایل و تأمین برق ساختمان‌ها استفاده کرد. پنل هیچ بخش متحرکی ندارد، سوخت نمی‌خواهد و دود تولید نمی‌کند؛ برای همین روی پشت‌بام خانه‌ها و مدرسه‌ها هم جا می‌شود.</p>
+    <p>فناوری این پنل‌ها «فتوولتائیک» نام دارد: نور مستقیم به برق تبدیل می‌شود — بدون دیگ بخار و بدون توربین. همین ویژگی است که پنل بام را به یکی از پروژه‌های ایده‌آل مدرسه‌ها تبدیل کرده است؛ پروژه‌ای که قرار است خودِ ما در پژوهش‌سرا تجربه‌اش کنیم.</p>
+    <div class="stat">۱۳۰ مگاوات<small>ظرفیت نیروگاه خورشیدی ساوه — بزرگ‌ترین نیروگاه خورشیدی خودمصرفی ایران</small></div>
+  </div>
+  <div class="col">
+    <figure class="fig">
+      <img src="images/khorshidi.jpg" alt="پوستر انرژی خورشیدی">
+      <figcaption>پوستر پروندهٔ ۱ — منتشرشده در کانال، ۳ آبان ۱۴۰۵</figcaption>
+    </figure>
+  </div>
+</div>
+<h3 class="sub"><span class="g">گزارش —</span> بزرگ‌ترین نیروگاه خورشیدی خودمصرفی ایران در ساوه</h3>
+<div class="two">
+  <div class="col">
+    <p>روز یکم خرداد ۱۴۰۵، نیروگاه ۱۳۰ مگاواتی خورشیدی شرکت متانول کاوه در ساوه (استان مرکزی) وارد مدار شد. با این افتتاح، رکورد «بزرگ‌ترین نیروگاه خورشیدی خودمصرفی کشور» از فولاد مبارکه (۱۲۰ مگاوات، تیر ۱۴۰۴) گرفته شد؛ یعنی در کمتر از یک سال، رکورد با اختلاف ۱۰ مگاوات جابه‌جا شد.</p>
+    <p>«خودمصرفی» یعنی برقِ نیروگاه مستقیم مصرفِ خودِ کارخانه است؛ برقی که در محل تولید می‌شود، هزینهٔ انتقال ندارد و وابستگی به شبکه را کم می‌کند. برای بچه‌های انرژی‌پژوهان این گزارش یک پیام روشن دارد: انرژی خورشیدی دیگر پروژهٔ آینده نیست؛ همین حالا در صنعت ایران کار می‌کند.</p>
+  </div>
+  <div class="col">
+    <figure class="fig">
+      <img src="images/saveh.png" alt="پوستر نیروگاه ساوه" style="height:170px;">
+      <figcaption>پوستر گزارش نیروگاه ساوه — ۴ آبان ۱۴۰۵</figcaption>
+    </figure>
+  </div>
+</div>
+<div class="hl g">🔗 منبع: گزارش‌های رسمی افتتاح و اعلام ساتبا — بازبینی آبان ۱۴۰۵</div>
+
+<!-- ═══════ پروندهٔ ۲ — بادی ═══════ -->
+<div class="chapter-header" id="sec-bad">
+  <span class="sec-tag a">پروندهٔ ۲</span>
+  <h2 class="sec">انرژی <span class="a">بادی</span> 💨</h2>
+  <div class="divider"></div>
+</div>
+<div class="two">
+  <div class="col">
+    <p>باد یعنی هوای در حرکت. وقتی خورشید زمین را نابرابر گرم می‌کند، هوا جابه‌جا می‌شود و باد به راه می‌افتد؛ پس انرژی باد، در واقع همان انرژی خورشید است که پشتِ پنجرهٔ دیگری به ما می‌رسد. توربین بادی همین حرکت را با پروانه‌هایش می‌گیرد، ژنراتور را می‌چرخاند و برق تولید می‌کند — بدون هیچ سوخت و دودی.</p>
+    <p>ایران دو کوره‌وای معروف دارد: <b>دشت منجیل</b> در گیلان و <b>منطقهٔ خواف</b> در خراسان رضوی. مزرعهٔ بادی منجیل سال‌هاست بخشی از برق شبکه را با نسیم دشت تأمین می‌کند و در روزهای بادخیز، پروانه‌هایش از راه دور دیده می‌شوند. برای بچه‌های انرژی‌پژوهان، دیدن این توربین‌ها از نزدیک — مثل گزارش زندهٔ ۵ آبان — بهترین درسِ عملی است.</p>
+    <div class="stat">بیش از ۱۰۰ مگاوات<small>ظرفیت مزرعهٔ بادی منجیل — بزرگ‌ترین مزرعهٔ بادی کشور</small></div>
+  </div>
+  <div class="col">
+    <figure class="fig">
+      <img src="images/bad.png" alt="پوستر انرژی بادی">
+      <figcaption>پوستر پروندهٔ ۲ — منتشرشده در کانال، ۴ آبان ۱۴۰۵</figcaption>
+    </figure>
+  </div>
+</div>
+<div class="hl g">🔗 منبع: گزارش‌های ساتبا و اخبار رسمی انرژی — بازبینی آبان ۱۴۰۵</div>
+
+<!-- ═══════ پروندهٔ ۳ — زمین‌گرمایی ═══════ -->
+<div class="chapter-header" id="sec-germaei">
+  <span class="sec-tag a">پروندهٔ ۳</span>
+  <h2 class="sec">انرژی <span class="a">زمین‌گرمایی</span> 🌡</h2>
+  <div class="divider"></div>
+</div>
+<div class="two">
+  <div class="col">
+    <p>زمین فقط زیر پای ما نیست؛ در دلش یک کورهٔ بزرگ هم هست. سنگ‌های داغ درون زمین آب را به بخار تبدیل می‌کنند و همین بخار، توربین و ژنراتور را می‌چرخاند و برق تولید می‌کند — بدون هیچ سوخت و دودی. و برخلاف خورشید و باد، زمین همیشه گرم است؛ نیروگاه زمین‌گرمایی شب و روز نمی‌شناسد و آرام و پیوسته برق می‌دهد. همین «تداوم» است که زمین‌گرمایی را به مکملِ ارزشمند خورشید و باد تبدیل می‌کند.</p>
+    <p>ایران هم روی این گنج پا گذاشته است: نخستین میدان زمین‌گرمایی کشور در دامنهٔ <b>سبلان</b>، نزدیک مشکین‌شهر استان اردبیل، در حال توسعه است. نمونهٔ جهانیِ ماندگارش <b>ایسلند</b> است؛ جایی که حدود ۹۰ درصد خانه‌ها با گرمای زمین گرم می‌شوند.</p>
+    <div class="stat">حدود ۹۰٪ خانه‌ها<small>سهم گرمای زمین در گرمایش خانه‌های ایسلند</small></div>
+  </div>
+  <div class="col">
+    <figure class="fig">
+      <img src="images/germaei.png" alt="پوستر انرژی زمین‌گرمایی">
+      <figcaption>پوستر پروندهٔ ۳ — منتشرشده در کانال، ۹ آبان ۱۴۰۵</figcaption>
+    </figure>
+  </div>
+</div>
+<div class="hl g">🔗 منبع: گزارش‌های ساتبا و منابع رسمی انرژی — بازبینی آبان ۱۴۰۵</div>
+
+<!-- ═══════ پروندهٔ ۴ — آب ═══════ -->
+<div class="chapter-header" id="sec-ab">
+  <span class="sec-tag a">پروندهٔ ۴</span>
+  <h2 class="sec">انرژی <span class="a">آب</span> (برق‌آبی) 💧</h2>
+  <div class="divider"></div>
+</div>
+<div class="two">
+  <div class="col">
+    <p>آبِ ایستاده پشت سد فقط منظر نیست؛ انرژیِ ذخیره‌شده است. وقتی دریچه باز می‌شود، آب با فشار به پایین می‌ریزد و توربین را می‌چرخاند؛ ژنراتور هم همان حرکت را به برق تبدیل می‌کند. سد مثل یک باتری غول‌آساست: باران و برف دوباره پُرش می‌کنند و این چرخه هیچ‌وقت تمام نمی‌شود.</p>
+    <p>برق‌آبی یک مزیت مهم هم دارد: چند ثانیه بعد از فرمان، توربین می‌چرخد؛ برای همین در ساعات اوج مصرف کنار سایر نیروگاه‌ها می‌آید و شبکه را تعادل نگه می‌دارد. نمونهٔ جهانی‌اش <b>نروژ</b> است که حدود ۹۰ درصد برقش را از آب می‌گیرد؛ ایران هم با <b>کارون ۳</b> در مسجدسلیمان بزرگ‌ترین نیروگاه برق‌آبی کشور را دارد.</p>
+    <div class="stat">۲٬۲۸۰ مگاوات<small>نیروگاه برق‌آبی کارون ۳ — بزرگ‌ترین نیروگاه برق‌آبی ایران</small></div>
+  </div>
+  <div class="col">
+    <figure class="fig">
+      <img src="images/ab.png" alt="پوستر انرژی آب">
+      <figcaption>پوستر پروندهٔ ۴ — منتشرشده در کانال، ۹ آبان ۱۴۰۵</figcaption>
+    </figure>
+  </div>
+</div>
+<div class="hl g">🔗 منبع: گزارش‌های ساتبا و وزارت نیرو — بازبینی آبان ۱۴۰۵</div>
+
+<!-- ═══════ پروندهٔ ۵ — زیست‌توده ═══════ -->
+<div class="chapter-header" id="sec-ziest">
+  <span class="sec-tag a">پروندهٔ ۵</span>
+  <h2 class="sec">انرژی <span class="a">زیست‌توده</span> 🌱</h2>
+  <div class="divider"></div>
+</div>
+<div class="two">
+  <div class="col">
+    <p>زیست‌توده یعنی هر مادهٔ گیاهی و جانوری که از طبیعت به دست ما می‌رسد و هنوز انرژی خورشید را در دلش دارد: کاه و کلشِ مزرعه، برگ و علفِ خشک، تراشهٔ چوب، فضولات دامی و حتی بخشِ آلیِ زباله‌ها. این دورریزها اگر بسوزند گرما می‌دهند و اگر در مخزنِ بی‌هوازی بمانند «زیست‌گاز» آزاد می‌کنند؛ گازی که تا ۷۵ درصدش متان است — همان گاز اصلیِ گاز شهری.</p>
+    <p>برای همین مزیتِ دوگانه دارد: هم انرژی می‌دهد و هم پسماند را کم می‌کند. <b>آلمان</b> با نزدیک به ۹ هزار دستگاه هاضمِ زیست‌گاز، بزرگ‌ترین بازار این انرژی در جهان است و در ایران هم پسماندِ کشاورزی و دامیِ فراوان، ظرفیت بزرگی برای همین کار است. از زیست‌گاز می‌توان برای روشنایی، گرم کردن آب و چرخاندن ژنراتورِ برق استفاده کرد — انرژی‌ای که از چیزی می‌آید که قرار بود دور ریخته شود.</p>
+    <div class="stat">نزدیک ۹ هزار هاضم<small>تعداد دستگاه‌های زیست‌گاز در آلمان — بزرگ‌ترین بازار جهان</small></div>
+  </div>
+  <div class="col">
+    <figure class="fig">
+      <img src="images/ziest.png" alt="پوستر انرژی زیست‌توده">
+      <figcaption>پوستر پروندهٔ ۵ — منتشرشده در کانال، ۹ آبان ۱۴۰۵</figcaption>
+    </figure>
+  </div>
+</div>
+<div class="hl g">🔗 منبع: گزارش‌های ساتبا و منابع رسمی انرژی — بازبینی آبان ۱۴۰۵</div>
+
+<!-- ═══════ نمودار ═══════ -->
+<div class="chapter-header" id="sec-nemudar">
+  <span class="sec-tag c">نمودار ماه</span>
+  <h2 class="sec">جهش <span class="c">تجدیدپذیرهای ایران</span></h2>
+  <div class="divider"></div>
+</div>
+<p>مهم‌ترین خبر توسعهٔ انرژی‌های نوین در ماه‌های اخیر، جهش ظرفیت نیروگاه‌های تجدیدپذیر کشور بوده است. طبق اعلام ساتبا در مرداد ۱۴۰۵، ظرفیت تجدیدپذیرهای ایران در دو سال از حدود ۱۲۵۰ مگاوات به بیش از ۵۰۰۰ مگاوات رسیده و ایران در توسعهٔ تجدیدپذیرهای آسیا، پس از چین و هند، <b>سوم</b> شده است.</p>
+<div class="chart-box">
+  <h4>ظرفیت نیروگاه‌های تجدیدپذیر ایران (مگاوات)</h4>
+  <div class="cap">دو سال فاصله — طبق اعلام ساتبا، مرداد ۱۴۰۵</div>
+  <svg viewBox="0 0 660 210" width="100%" height="210" xmlns="http://www.w3.org/2000/svg" direction="ltr">
+    <line x1="40" y1="180" x2="620" y2="180" stroke="#D5E0D8" stroke-width="2"/>
+    <line x1="40" y1="60"  x2="620" y2="60"  stroke="#E8EFE9" stroke-width="1" stroke-dasharray="4 4"/>
+    <line x1="40" y1="120" x2="620" y2="120" stroke="#E8EFE9" stroke-width="1" stroke-dasharray="4 4"/>
+    <!-- ستون ۱: ۱۲۵۰ مگاوات -->
+    <rect x="140" y="155" width="120" height="25" rx="6" fill="#9BB8C9"/>
+    <text x="200" y="147" font-family="Vazirmatn" font-size="15" font-weight="800" fill="#5B6472" text-anchor="middle">حدود ۱۲۵۰</text>
+    <text x="200" y="200" font-family="Vazirmatn" font-size="12.5" fill="#5B6472" text-anchor="middle">دو سال پیش</text>
+    <!-- ستون ۲: ۵۰۰۰+ مگاوات -->
+    <rect x="380" y="55" width="120" height="125" rx="6" fill="#178A4C"/>
+    <text x="440" y="47" font-family="Vazirmatn" font-size="16" font-weight="900" fill="#0E5C33" text-anchor="middle">بیش از ۵۰۰۰</text>
+    <text x="440" y="200" font-family="Vazirmatn" font-size="12.5" fill="#5B6472" text-anchor="middle">مرداد ۱۴۰۵</text>
+    <!-- پیکان رشد -->
+    <path d="M 270 140 C 310 120, 330 105, 368 92" stroke="#D9822B" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M 368 92 l -12 -2 l 5 11 z" fill="#D9822B"/>
+    <text x="318" y="112" font-family="Vazirmatn" font-size="12" font-weight="800" fill="#8F5212" text-anchor="middle">۴ برابر شدن</text>
+  </svg>
+  <div class="cap" style="margin-top:6px;">رتبهٔ ایران در توسعهٔ تجدیدپذیرهای آسیا: سوم — پس از چین و هند</div>
+</div>
+
+<!-- ═══════ جدول مقایسه ═══════ -->
+<div class="chapter-header" id="sec-moghayese">
+  <span class="sec-tag c">جمع‌بندی</span>
+  <h2 class="sec">پنج منبع، <span class="c">یک جدول</span></h2>
+  <div class="divider"></div>
+</div>
+<p>پرونده‌های این شماره را کنار هم بگذاریم، تفاوت و نقاط قوت هر منبع روشن می‌شود. این جدول را می‌توانید برای مرور سریع قبل از آزمون یا ارائهٔ کلاسی استفاده کنید:</p>
+<table class="g">
+  <tr><th style="width:86px;">منبع</th><th>چطور برق می‌دهد؟</th><th style="width:150px;">نمونهٔ جهانی</th><th style="width:168px;">نمونهٔ ایران</th></tr>
+  <tr><td><b>☀️ خورشیدی</b></td><td>پنل فتوولتائیک نور را مستقیم به برق تبدیل می‌کند؛ بدون توربین</td><td>ساوه — بزرگ‌ترین نیروگاه خودمصرفی</td><td>پنل بام مدرسه (پروژهٔ در جریان)</td></tr>
+  <tr><td><b>💨 بادی</b></td><td>پروانه، ژنراتور را می‌چرخاند؛ بدون سوخت و دود</td><td>—</td><td>منجیل (۱۰۰+ مگاوات) و خواف</td></tr>
+  <tr><td><b>🌡 زمین‌گرمایی</b></td><td>بخارِ گرمای درون زمین، توربین را می‌چرخاند؛ شب و روز پیوسته</td><td>ایسلند (۹۰٪ خانه‌ها)</td><td>سبلان، مشکین‌شهر (در حال توسعه)</td></tr>
+  <tr><td><b>💧 آبی</b></td><td>آبِ پشت سد توربین را می‌چرخاند؛ سد مثل باتری غول‌آسا</td><td>نروژ (۹۰٪ برق)</td><td>کارون ۳، مسجدسلیمان (۲٬۲۸۰ مگاوات)</td></tr>
+  <tr><td><b>🌱 زیست‌توده</b></td><td>سوزاندن دورریز یا تولید زیست‌گاز در مخزن بی‌هوازی</td><td>آلمان (۹ هزار هاضم)</td><td>پسماند کشاورزی و دامی</td></tr>
+</table>
+
+<!-- ═══════ پروژهٔ ماه ═══════ -->
+<div class="chapter-header" id="sec-proje">
+  <span class="sec-tag a">پروژهٔ ماه</span>
+  <h2 class="sec">انیمیشن اسکرچِ <span class="a">انرژی‌های نوین</span></h2>
+  <div class="divider"></div>
+</div>
+<p>این شماره با یک پروژهٔ تازه همراه شد: یک انیمیشن اسکرچ که صحنهٔ همین مجله را زنده می‌کند. در این انیمیشن، خورشید با پرتوهایش در آسمان می‌چرخد، دو توربین بادی بی‌وقفه می‌چرخند، ابرها آرام حرکت می‌کنند، موج‌های پشت سد بالا و پایین می‌روند و جوانهٔ زیست‌توده از زمین سبز می‌شود و بزرگ می‌شود — همان پنج منبعی که در پرونده‌ها خواندید، این بار به زبان بازی و انیمیشن.</p>
+<p>اسکرچ ابزار برنامه‌نویسیِ تصویری است؛ به‌جای نوشتن کد، بلوک‌ها را کنار هم می‌چینیم. هر کدام از حرکت‌های انیمیشن، یک حلقهٔ «همیشه» است که بلوک‌های چرخش و حرکت را تکرار می‌کند — همان مفهومی که در درس‌های برنامه‌نویسی با آن آشنا شده‌اید، این‌بار به دردِ انرژی خورده است! فایل پروژه و فیلم اجرای آن، همراه این مجله ارائه می‌شود تا خودتان پروژه را باز کنید، کدهایش را ورق بزنید و ایده‌های خودتان را اضافه کنید.</p>
+<div class="link-card">
+  <span class="t">پروژهٔ ۱ — انیمیشن «انرژی‌های نوین»<small>خورشیدِ چرخان، توربین‌ها، موج سد، جوانهٔ رشدکننده</small></span>
+  <span class="u">.sb3 · Scratch 3</span>
+</div>
+<div class="link-card">
+  <span class="t">پروژهٔ ۲ — پنل بامِ مدرسه<small>اعلام‌شده در گزارش ساوه: تجربهٔ عملی فتوولتائیک در خودِ پژوهش‌سرا</small></span>
+  <span class="u-fa">در جریان</span>
+</div>
+
+<!-- ═══════ تقویم + جمع‌بندی ═══════ -->
+<div class="chapter-header" id="sec-taghvim">
+  <span class="sec-tag g">تقویم و جمع‌بندی</span>
+  <h2 class="sec">پیش به سوی <span class="g">آذر</span></h2>
+  <div class="divider"></div>
+</div>
+<p>شمارهٔ آذر مجله، ادامهٔ همین مسیر است؛ این موارد تقریبی‌اند و با برنامهٔ واقعی کانال تنظیم می‌شوند:</p>
+<div class="cal">
+  <div class="row"><span class="when">اوایل آذر</span><span class="what">ادامهٔ پرونده‌های آموزشی انرژی + خبرهای تازهٔ تجدیدپذیرهای ایران</span></div>
+  <div class="row"><span class="when c">پروژه</span><span class="what">پیشرفت پنل بامِ مدرسه و روایت تصویری آن در کانال</span></div>
+  <div class="row"><span class="when c">پروژه</span><span class="what">انتشار انیمیشن اسکرچ و پروژه‌های بچه‌ها پس از تأیید سرپرست انجمن</span></div>
+  <div class="row"><span class="when">پایان آذر</span><span class="what">شمارهٔ ۲ مجلهٔ انرژی‌های نوین — با اخبار، پرونده و تقویم دی</span></div>
+</div>
+<p style="margin-top:10px;">جمع‌بندی آماری این شماره، بر اساس بایگانی کانال:</p>
+<div class="sum-grid">
+  <div class="s"><b>۱۰</b><span>پیام منتشرشده در آبان</span></div>
+  <div class="s"><b>۵</b><span>پروندهٔ منابع تجدیدپذیر</span></div>
+  <div class="s"><b>۲</b><span>گزارش نیروگاه و مزرعهٔ بادی</span></div>
+  <div class="s"><b id="stat-page">۸</b><span>صفحه در این شماره</span></div>
+</div>
+<div class="hl a" style="text-align:center; margin-top:18px;">
+  <span style="font-family:'Lalezar','Vazirmatn',sans-serif; font-size:21px; color:#8F5212;">«انرژی نو، اندیشه نو، آیندهٔ نو»</span><br>
+  <span style="font-weight:600; font-size:12px;">شعار انجمن علمی انرژی‌پژوهان — که امیدواریم این مجله، قدمِ کوچکی در همین راه باشد</span>
+</div>
+<p style="text-align:center; font-size:11px; color:var(--muted); margin-top:6px;">تهیهٔ این شماره از بایگانی کانال انرژی‌پژوهان · آبان ۱۴۰۵ · پژوهش‌سرای دانش‌آموزی امام هادی (ع)</p>
+
+</div>
+
+<!-- ═══════════ پشت جلد ═══════════ -->
+<div class="ending">
+  <div class="glow"></div>
+  <div class="masthead">
+    <div class="org">مجلهٔ انرژی‌های نوین<small>شمارهٔ ۱ · آبان ۱۴۰۵</small></div>
+    <div class="no">پشت جلد</div>
+  </div>
+  <div class="chan-cards">
+    <div class="chan en">
+      <h4>کانال انرژی‌پژوهان</h4>
+      <p>کانال رسمی انجمن دانش‌آموزی انرژی‌های نوین مدرسه؛ جایی برای خبرهای نوآوری، شناخت نیروگاه‌های ایران، آموزش‌های کوتاه انرژی و روایت پروژه‌های واقعی خودمان. هر پروندهٔ این شماره، اول در همین کانال منتشر شده است.</p>
+      <span class="u">ble.ir/anjoman_energypazhohan</span>
+    </div>
+    <div class="chan mad">
+      <h4>پنجمین دورهٔ مسابقات</h4>
+      <p>انجمن علمی انرژی‌پژوهانِ دبیرستان اشرفی اصفهانی، در چارچوب پنجمین دورهٔ مسابقات انرژی‌های نوینِ پژوهش‌سرای دانش‌آموزی امام هادی (ع) فعالیت می‌کند؛ پروژهٔ پنل بامِ مدرسه، گزارشِ بازدید از نیروگاه‌ها و پرونده‌های آموزشی، بخشی از همین مسیر است.</p>
+      <span class="u">سال تحصیلی ۱۴۰۵–۱۴۰۶</span>
+    </div>
+  </div>
+  <div class="slogan">
+    <div class="big">✨ انرژی نو، اندیشه نو، آیندهٔ نو ✨</div>
+    <div class="small">مجلهٔ انرژی‌های نوین · تهیه‌شده از بایگانی کانال انرژی‌پژوهان · آبان ۱۴۰۵</div>
+  </div>
+</div>
+
+</body>
+</html>
