@@ -9,13 +9,20 @@ data class Soal(
     val tafoogGhalat: String
 )
 
+// یک نمونهٔ کد عنوان‌دار — برای درس‌هایی که چند مثال جدا دارند
+data class Nemooneh(
+    val onvan: String,
+    val code: String
+)
+
 // هر درس: عنوان، توضیح، نمونه کد و سؤال‌های آزمونش
 data class Dars(
     val shomareh: Int,
     val onvan: String,
     val tozihat: List<String>,
     val codeNemooneh: String,
-    val soalHa: List<Soal>
+    val soalHa: List<Soal>,
+    val nemoonehHa: List<Nemooneh> = emptyList()
 )
 
 // همهٔ محتوای آموزشی اینجا جمع شده
