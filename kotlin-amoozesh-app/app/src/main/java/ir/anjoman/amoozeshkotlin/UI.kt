@@ -112,6 +112,11 @@ object Abzar {
         activity.window.statusBarColor = RANG_ZAMIN
         activity.window.navigationBarColor = RANG_ZAMIN
     }
+
+    // نرمال‌سازی خروجی برای مقایسهٔ تمرین‌ها: حذف فاصله‌های لبه و خط‌های خالی
+    fun pakKonKhoruji(s: String): String {
+        return s.trim().lines().map { it.trim() }.filter { it.isNotEmpty() }.joinToString("\n")
+    }
 }
 
 /*
@@ -158,5 +163,18 @@ object Zakhire {
     fun tablighNeshanDad(context: Context) {
         val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
         p.edit().putLong("tabligh_akharin", System.currentTimeMillis()).apply()
+    }
+
+    // ---------- تمرین‌های حل‌شدهٔ زمین بازی ----------
+    fun tamrinAnjamShode(context: Context): Int {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        return p.getStringSet("tamrin_anjam", emptySet())?.size ?: 0
+    }
+
+    fun tamrinAnjamKon(context: Context, shomareh: Int) {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        val s = (p.getStringSet("tamrin_anjam", emptySet()) ?: emptySet()).toMutableSet()
+        s.add(shomareh.toString())
+        p.edit().putStringSet("tamrin_anjam", s).apply()
     }
 }
