@@ -22,8 +22,6 @@ class SplashActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Abzar.rangVaredKon(this)
-        // مهاجرت نمره‌های نسخهٔ قبلی به شماره‌گذاری تازه (یک‌بار برای همیشه)
-        Zakhire.mohajeratV3(this)
 
         val root = FrameLayout(this)
         root.layoutDirection = View.LAYOUT_DIRECTION_RTL
@@ -88,7 +86,19 @@ class SplashActivity : Activity() {
         pZir.topMargin = Abzar.dp(this, 8f)
         vasat.addView(zirNevis, pZir)
 
+        // برند سازنده
+        val brand = Abzar.tv(this, "by EmaRoid", 12f, Abzar.RANG_TIZ)
+        val pBrand = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        pBrand.topMargin = Abzar.dp(this, 6f)
+        vasat.addView(brand, pBrand)
+
         setContentView(root)
+
+        // آمارگیر بی‌صدای EmaRoid — فقط مجوز INTERNET، بدون هیچ مجوز دیگری
+        AmarSanj.bego(applicationContext)
 
         // بعد از ۱.۲ ثانیه بریم صفحهٔ اصلی
         Handler(Looper.getMainLooper()).postDelayed({
