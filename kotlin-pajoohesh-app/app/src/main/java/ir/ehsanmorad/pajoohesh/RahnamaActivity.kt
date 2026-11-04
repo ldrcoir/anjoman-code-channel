@@ -134,8 +134,7 @@ class RahnamaActivity : Activity() {
         // ---------- امکانات اپ ----------
         ghabe.addView(Abzar.titrBakhsh(this, "امکانات اپ", tem), safP(18))
         val amar = listOf(
-            Triple("صفحات", "۲۱۶ صفحهٔ رنگی با کیفیت بالا", "📄"),
-            Triple("بخش‌ها", "۱۱ بخش — از جلد تا فنی و حرفه‌ای", "📑"),
+            Triple("بخش‌ها", "از جلد تا فنی و حرفه‌ای، با فهرست زنده", "📑"),
             Triple("جست‌وجو", "متن کل کتاب، همیشه در جیب شما", "🔍"),
             Triple("ورق‌خوردن", "طبیعی و نرم با صدای کاغذ", "🤲"),
             Triple("شب‌خوانی", "فیلتر وارونهٔ ملایم برای تاریکی", "🌙"),
@@ -170,7 +169,7 @@ class RahnamaActivity : Activity() {
 
         // ---------- پایین ----------
         val payin = TextView(this)
-        payin.text = "نسخهٔ ۱.۱  •  EhsanMorad.ir"
+        payin.text = "EhsanMorad.ir"
         payin.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11.5f)
         payin.setTextColor(tem.kamrang)
         payin.typeface = Fontha.vazir(this)
