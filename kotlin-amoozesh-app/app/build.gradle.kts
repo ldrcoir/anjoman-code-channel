@@ -1,6 +1,14 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+}
+
+// کلید امضای قبلی EhsanMorad — همان امضای اپ‌های قبلی (پوشهٔ enteshar)
+val klidProps = Properties().apply {
+    val f = rootProject.file("enteshar/klid.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
 }
 
 android {
@@ -11,8 +19,19 @@ android {
         applicationId = "ir.anjoman.amoozeshkotlin"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "3.0"
+        versionCode = 2
+        versionName = "2.0"
+    }
+
+    if (klidProps.isNotEmpty()) {
+        signingConfigs {
+            create("enteshar") {
+                storeFile = rootProject.file("enteshar/${klidProps.getProperty("klid.fail")}")
+                storePassword = klidProps.getProperty("klid.ramz")
+                keyAlias = klidProps.getProperty("klid.alias")
+                keyPassword = klidProps.getProperty("klid.ramzKey")
+            }
+        }
     }
 
     buildTypes {
@@ -22,6 +41,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (klidProps.isNotEmpty()) {
+                signingConfig = signingConfigs.getByName("enteshar")
+            }
         }
     }
 

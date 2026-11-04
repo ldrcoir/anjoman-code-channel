@@ -21,36 +21,21 @@ import android.widget.TextView
 class QuizActivity : Activity() {
 
     private lateinit var dars: Dars
-    private lateinit var soalHaFaali: List<Soal>   // سؤال‌های این دور (درس یا جامع)
-    private var azmoonJame = false
-    private var shomarehZakhire = 1              // کلید ذخیرهٔ بهترین نمره
     private var soalFaali = 0
     private var emtiyaz = 0
     private var javabDadim = false
     private lateinit var ghabe: LinearLayout
-    private val entekhabHa = mutableListOf<Int>() // جواب هر سؤال برای بازبینی آخر
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Abzar.rangVaredKon(this)
 
-        azmoonJame = intent.getBooleanExtra("azmoon_jame", false)
-        if (azmoonJame) {
-            // آزمون جامع: ۱۵ سؤال تصادفی از همهٔ درس‌ها
-            shomarehZakhire = 999
-            soalHaFaali = DarsHa.darsList
-                .flatMap { it.soalHa }
-                .shuffled()
-                .take(15)
-        } else {
-            dars = DarsHa.baShomareh(intent.getIntExtra("shomareh_dars", 1))
-            shomarehZakhire = dars.shomareh
-            soalHaFaali = dars.soalHa
-        }
+        dars = DarsHa.baShomareh(intent.getIntExtra("shomareh_dars", 1))
 
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        root.layoutDirection =
+            if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
         root.setBackgroundColor(Abzar.RANG_ZAMIN)
 
         val scroll = ScrollView(this)
@@ -78,25 +63,19 @@ class QuizActivity : Activity() {
         soalNeshanBedeh()
     }
 
-    // عنوان بالای آزمون
-    private fun onvanSar(): String {
-        return if (azmoonJame) "آزمون جامع — از همهٔ درس‌ها"
-        else "آزمون: ${dars.onvan}"
-    }
-
     // نمایش سؤال فعلی با گزینه‌هاش
     private fun soalNeshanBedeh() {
         javabDadim = false
-        val soal = soalHaFaali[soalFaali]
+        val soal = dars.soalHa[soalFaali]
         ghabe.removeAllViews()
 
         // سرصفحه
-        val matnDars = Abzar.tv(this, onvanSar(), 14f, Abzar.RANG_KAMRANG)
+        val matnDars = Abzar.tv(this, "${Zaban.t("azmoon")}: ${dars.onvan}", 14f, Abzar.RANG_KAMRANG)
         ghabe.addView(matnDars)
 
         val matnShomareh = Abzar.tv(
             this,
-            "سؤال ${Abzar.adadFarsi(soalFaali + 1)} از ${Abzar.adadFarsi(soalHaFaali.size)}",
+            "${Zaban.t("soal")} ${Zaban.adad(soalFaali + 1)} ${Zaban.t("az")} ${Zaban.adad(dars.soalHa.size)}",
             14f, Abzar.RANG_TALAEI, bold = true
         )
         matnShomareh.setPadding(0, Abzar.dp(this, 4f), 0, 0)
@@ -175,8 +154,6 @@ class QuizActivity : Activity() {
         // دیگه هیچ گزینه‌ای کلیک نمی‌شه
         for (g in hameGozineh) g.isClickable = false
 
-        entekhabHa.add(shomarehEntekhab)
-
         val tafoog = Abzar.tv(
             this,
             if (sahihBood) soal.tafoogSahih else soal.tafoogGhalat,
@@ -197,27 +174,28 @@ class QuizActivity : Activity() {
 
     private fun soalBadi() {
         soalFaali++
-        if (soalFaali < soalHaFaali.size) {
+        if (soalFaali < dars.soalHa.size) {
             soalNeshanBedeh()
         } else {
             natijeNeshanBedeh()
         }
     }
 
-    // صفحهٔ نتیجه: ستاره‌ها + نمره از ۲۰ + بازبینی جواب‌ها + دکمه‌ها
+    // صفحهٔ نتیجه: ستاره‌ها + نمره + دکمه‌ها
     private fun natijeNeshanBedeh() {
-        Zakhire.zakhireKon(this, shomarehZakhire, emtiyaz)
+        Zakhire.zakhireKon(this, dars.shomareh, emtiyaz)
+        Zakhire.afzayeshTest(this)
+        if (Zakhire.bayadTablighNeshanBedeh(this, EmaRoidConfig.TABLIGH_KAMEL_HAR_N_TEST)) {
+            TablighYar.jaizVagoft(this) { }
+            Zakhire.tablighNeshanDad(this)
+        }
         ghabe.removeAllViews()
 
-        val kol = soalHaFaali.size
-        val darsad = if (kol > 0) emtiyaz * 100 / kol else 0
-        val nomre = Math.round(emtiyaz * 20.0 / kol).toInt()
-
         // ستاره‌ها
-        val setareHa = when {
-            darsad >= 90 -> "★ ★ ★"
-            darsad >= 50 -> "★ ★ ☆"
-            darsad > 0 -> "★ ☆ ☆"
+        val setareHa = when (emtiyaz) {
+            3 -> "★ ★ ★"
+            2 -> "★ ★ ☆"
+            1 -> "★ ☆ ☆"
             else -> "☆ ☆ ☆"
         }
         val matnSetare = Abzar.tv(this, setareHa, 40f, Abzar.RANG_TALAEI)
@@ -226,13 +204,13 @@ class QuizActivity : Activity() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        pSetare.topMargin = Abzar.dp(this, 44f)
+        pSetare.topMargin = Abzar.dp(this, 48f)
         ghabe.addView(matnSetare, pSetare)
 
-        // نمره: تعداد درست‌ها + نمرهٔ ۲۰
+        // نمره
         val matnNatije = Abzar.tv(
             this,
-            "${Abzar.adadFarsi(emtiyaz)} از ${Abzar.adadFarsi(kol)} درست",
+            "${Zaban.adad(emtiyaz)} ${Zaban.t("az")} ${Zaban.adad(dars.soalHa.size)} ${Zaban.t("sahih")}",
             24f, Abzar.RANG_MATN, bold = true
         )
         matnNatije.gravity = Gravity.CENTER
@@ -243,26 +221,12 @@ class QuizActivity : Activity() {
         pNatije.topMargin = Abzar.dp(this, 16f)
         ghabe.addView(matnNatije, pNatije)
 
-        val matnNomre = Abzar.tv(
-            this,
-            "نمرهٔ تو: ${Abzar.adadFarsi(nomre)} از ${Abzar.adadFarsi(20)}",
-            17f, Abzar.RANG_TALAEI, bold = true
-        )
-        matnNomre.gravity = Gravity.CENTER
-        val pNomre = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        pNomre.topMargin = Abzar.dp(this, 6f)
-        ghabe.addView(matnNomre, pNomre)
-
         // جملهٔ تشویقی
-        val taarif = when {
-            darsad >= 90 -> "شاهکار کردی! تو یه قهرمان کاتلینی 🏆"
-            darsad >= 70 -> "خیلی خوب بود! یه قدم تا کامل شدن"
-            darsad >= 50 -> "خوب بود! با یک مرور کامل می‌شه"
-            darsad > 0 -> "شروع خوبی بود؛ توضیحات درس را یک بار دیگه بخون"
-            else -> "اشکالی نداره! درس را بخون و دوباره امتحان کن — تو می‌تونی!"
+        val taarif = when (emtiyaz) {
+            3 -> "کامل بود! آفرین"
+            2 -> "خوب بود! یه بار دیگه بزن تا کامل شه"
+            1 -> "شروع خوبی بود، توضیحات درس رو یه بار دیگه بخون"
+            else -> "اشکالی نداره! درس رو بخون و دوباره امتحان کن"
         }
         val matnTaarif = Abzar.tv(this, taarif, 15f, Abzar.RANG_KAMRANG)
         matnTaarif.gravity = Gravity.CENTER
@@ -273,56 +237,11 @@ class QuizActivity : Activity() {
         pTaarif.topMargin = Abzar.dp(this, 12f)
         ghabe.addView(matnTaarif, pTaarif)
 
-        // بازبینی: کدوم درست و کدوم غلط بود؟
-        val kartBazbini = LinearLayout(this)
-        kartBazbini.orientation = LinearLayout.VERTICAL
-        kartBazbini.background = Abzar.kart(this)
-        kartBazbini.setPadding(
-            Abzar.dp(this, 16f), Abzar.dp(this, 14f),
-            Abzar.dp(this, 16f), Abzar.dp(this, 14f)
-        )
-
-        val sarBazbini = Abzar.tv(this, "بازبینی جواب‌ها", 14f, Abzar.RANG_TALAEI, bold = true)
-        kartBazbini.addView(sarBazbini)
-
-        for (i in soalHaFaali.indices) {
-            val soal = soalHaFaali[i]
-            val entekhab = entekhabHa.getOrNull(i) ?: -1
-            val sahihBood = entekhab == soal.shomarehSahih
-
-            val khat = Abzar.tv(
-                this,
-                (if (sahihBood) "✅" else "❌") + " سؤال ${Abzar.adadFarsi(i + 1)}: ${soal.matn.replace("\n", " ")}",
-                13f,
-                if (sahihBood) Abzar.RANG_SABZ else Abzar.RANG_GHERMEZ
-            )
-            khat.setPadding(0, Abzar.dp(this, 8f), 0, 0)
-            kartBazbini.addView(khat)
-
-            if (!sahihBood) {
-                val javabSahih = soal.gozinehHa[soal.shomarehSahih]
-                val khatSahih = Abzar.tv(
-                    this,
-                    "جواب درست: $javabSahih",
-                    13f, Abzar.RANG_KAMRANG
-                )
-                khatSahih.setPadding(0, Abzar.dp(this, 2f), 0, 0)
-                kartBazbini.addView(khatSahih)
-            }
-        }
-
-        val pBazbini = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        pBazbini.topMargin = Abzar.dp(this, 20f)
-        ghabe.addView(kartBazbini, pBazbini)
-
         // بهترین نتیجهٔ ذخیره‌شده
-        val behtarin = Zakhire.behtarin(this, shomarehZakhire)
+        val behtarin = Zakhire.behtarin(this, dars.shomareh)
         val matnBehtarin = Abzar.tv(
             this,
-            "بهترین نتیجه: ${Abzar.adadFarsi(behtarin)} از ${Abzar.adadFarsi(soalHaFaali.size)}",
+            "${Zaban.t("behtarin_natije")}: ${Zaban.adad(behtarin)} ${Zaban.t("az")} ${Zaban.adad(3)}",
             13f, Abzar.RANG_KAMRANG
         )
         matnBehtarin.gravity = Gravity.CENTER
@@ -330,27 +249,26 @@ class QuizActivity : Activity() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        pBehtarin.topMargin = Abzar.dp(this, 14f)
+        pBehtarin.topMargin = Abzar.dp(this, 8f)
         ghabe.addView(matnBehtarin, pBehtarin)
 
         // دوباره
-        val dokmeDobare = Abzar.dokme(this, "دوباره", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
+        val dokmeDobare = Abzar.dokme(this, Zaban.t("dore_jadid"), Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
         dokmeDobare.setOnClickListener {
             soalFaali = 0
             emtiyaz = 0
-            entekhabHa.clear()
             soalNeshanBedeh()
         }
         val pDobare = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        pDobare.topMargin = Abzar.dp(this, 24f)
+        pDobare.topMargin = Abzar.dp(this, 32f)
         ghabe.addView(dokmeDobare, pDobare)
 
         // درس بعدی یا برگشتن به فهرست
-        if (!azmoonJame && dars.shomareh < DarsHa.darsList.size) {
-            val dokmeBadi = Abzar.dokme(this, "درس بعدی", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
+        if (dars.shomareh < DarsHa.darsList.size) {
+            val dokmeBadi = Abzar.dokme(this, "${Zaban.t("dars")} ${Zaban.t("badi")}", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
             dokmeBadi.setOnClickListener {
                 val niat = Intent(this, LessonActivity::class.java)
                 niat.putExtra("shomareh_dars", dars.shomareh + 1)
@@ -364,7 +282,7 @@ class QuizActivity : Activity() {
             pBadi.topMargin = Abzar.dp(this, 12f)
             ghabe.addView(dokmeBadi, pBadi)
         } else {
-            val dokmeFehrest = Abzar.dokme(this, "فهرست درس‌ها", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
+            val dokmeFehrest = Abzar.dokme(this, Zaban.t("dars_ha"), Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
             dokmeFehrest.setOnClickListener {
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
