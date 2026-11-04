@@ -198,13 +198,13 @@ class SplashActivity : Activity() {
         // ---------- خط پایانی ----------
         val payin = Abzar.tv(
             this,
-            "۲۱۶ صفحه • ۱۱ بخش • ورق‌خوردن با صدا • کاملاً آفلاین • بدون هیچ مجوزی",
+            "کاملاً آفلاین • ورق‌خوردن با صدا • بدون هیچ مجوزی",
             11.5f, tem.kamrang
         )
         payin.gravity = android.view.Gravity.CENTER
         ghabe.addView(payin, safP(18))
 
-        val domain = Abzar.tv(this, "نسخهٔ ۱.۲  •  EhsanMorad.ir", 11f, tem.kamrang)
+        val domain = Abzar.tv(this, "EhsanMorad.ir", 11f, tem.kamrang)
         domain.gravity = android.view.Gravity.CENTER
         ghabe.addView(domain, safP(2))
 
