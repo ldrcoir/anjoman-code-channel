@@ -79,3 +79,18 @@ python3 scripts/render_all_v4.py coding                             # رندر �
 Pillow + libraqm با `direction="rtl"` روی متن خام (بدون arabic_reshaper) —
 فونت وزیرمتن، ابعاد ۱۰۸۰×۱۳۵۰. نسخهٔ «clean» هر عکس (بدون نام/آدرس انجمن)
 برای استفادهٔ آزاد در کانال‌های دیگر هم همزمان ساخته می‌شود.
+
+## 📱 اپ‌های اندروید EmaRoid — دانلود مستقیم
+
+همهٔ اپ‌ها با یک کلید رسمی امضا شده‌اند (CN=Ehsan Morad) و فقط مجوز اینترنت دارند.
+دانلود مستقیم از Releases — بدون ورود به گیت‌هاب و بدون آرتیفکت:
+
+| اپ | نسخه | لینک مستقیم |
+| --- | --- | --- |
+| ماشین‌حساب علمی EmaRoid | ۱.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v1.0/MashinHesab-EmaRoid-v1.0-debug.apk) |
+| آموزش Rust از صفر | ۱.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.0/AmoozeshRust-v1.0-debug.apk) |
+| آموزش کاتلین | ۳.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/AmoozeshKotlin-v3.0-debug.apk/AmoozeshKotlin-v3.0-debug.apk) |
+| کالری‌یار | ۲.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk) |
+| کتابچهٔ صندوق | ۱.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/ketabche-sandogh-v1.0/KetabcheSandogh-v1.0-debug.apk) |
+
+> اپ «دستاوردهای پژوهشی ۱۴۰۴» عمداً Release عمومی ندارد (حریم عکس دانش‌آموزان) — فقط نصب از فایل مستقیم.

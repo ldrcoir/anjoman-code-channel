@@ -1,16 +1,11 @@
-
 # کلید امضا — حساس!
 /app/enteshar/klid-ehsanmorad.jks
 /app/enteshar/klid.properties
-
-# کلید امضا — حساس!
-/app/enteshar/klid-ehsanmorad.jks
-/app/enteshar/klid.properties
-
-# کلید امضا — حساس!
 /enteshar/klid-ehsanmorad.jks
 /enteshar/klid.properties
-/local.properties
+
+local.properties
 /app/build/
 /.gradle/
+/.kotlin/
 /app/release/
