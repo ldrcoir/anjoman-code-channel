@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8">
+<title>نشریهٔ انجمن کدنویسی — شمارهٔ ۲ · آبان ۱۴۰۵</title>
+<style>
+/* ─── فونت‌های محلی ─── */
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Regular.ttf'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Medium.ttf'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Bold.ttf'); font-weight:700; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-ExtraBold.ttf'); font-weight:800; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Black.ttf'); font-weight:900; }
+@font-face { font-family:'Lalezar'; src:url('fonts/Lalezar-Regular.ttf'); font-weight:400; }
+
+@page { size: 794px 1123px; margin: 0; }
+
+:root{
+  --indigo:#131A4A;
+  --indigo-d:#0B0F30;
+  --teal:#1E9E9E;
+  --teal-d:#12706F;
+  --amber:#E8A020;
+  --paper:#F4F7FC;
+  --line:#DDE4F0;
+  --muted:#5B6472;
+  --code:#0E1430;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+html,body{
+  margin:0; padding:0; width:794px;
+  background:var(--indigo);
+  color:var(--indigo);
+  font-family:'Vazirmatn', sans-serif;
+  font-size:13.5px; line-height:2;
+  line-break:strict;
+}
+p,td,li{ overflow-wrap:break-word; word-break:break-word; }
+p{ text-align:justify; margin-bottom:9px; }
+
+@media screen{
+  html{ height:auto; display:flex; justify-content:center; background:#2a2f3a; }
+  body{ margin:20px auto; box-shadow:0 8px 40px rgba(0,0,0,.4); }
+}
+
+/* ═══════════ جلد ═══════════ */
+.cover{
+  width:794px; height:1123px; background:var(--indigo);
+  color:#fff; position:relative; overflow:hidden;
+  break-after:page; display:flex; flex-direction:column;
+}
+.cover .band{ position:absolute; left:0; right:0; top:0; height:8px; background:var(--amber); }
+.cover .mona{
+  position:absolute; top:64px; left:50%; transform:translateX(-50%);
+  font-family:'Vazirmatn'; font-weight:700; font-size:15px; letter-spacing:1px;
+  color:#BFD2FF;
+}
+.cover .shomareh{
+  position:absolute; top:64px; right:40px; font-size:13px; color:#8FA3D9;
+}
+.cover .mah{
+  position:absolute; top:64px; left:40px; font-size:13px; color:#8FA3D9;
+}
+.cover .vaset{ flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:0 56px; }
+.cover h1{
+  font-family:'Lalezar'; font-weight:400; font-size:76px; line-height:1.25;
+  margin:18px 0 6px; color:#fff;
+}
+.cover h1 .kod{ color:var(--amber); }
+.cover .zir{
+  font-size:17px; color:#C9D6F5; font-weight:500; margin-top:2px;
+}
+.cover .badge{
+  margin-top:26px; display:inline-block; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.22); border-radius:999px;
+  padding:7px 26px; font-size:14px; font-weight:700; color:#FFD98A;
+}
+.cover .mashgh{
+  margin-top:34px; font-size:13.5px; color:#9FB2E0; max-width:520px; line-height:2.1;
+}
+.cover .code-art{ margin-top:30px; direction:ltr; text-align:left; font-family:Consolas, monospace; font-size:12.5px; color:#7EE0C0; background:rgba(0,0,0,.28); border:1px solid rgba(126,224,192,.25); border-radius:12px; padding:14px 22px; line-height:1.9; }
+.cover .code-art .k{ color:#FF9F5A; }
+.cover .code-art .s{ color:#9CC2FF; }
+.cover .paein{
+  padding:26px 40px 30px; display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid rgba(255,255,255,.14); font-size:12.5px; color:#8FA3D9;
+}
+.cover .paein b{ color:#fff; }
+
+/* ═══════════ صفحات محتوا ═══════════ */
+.page{
+  width:794px; height:1123px; background:var(--paper);
+  break-after:page; padding:56px 54px 60px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+}
+.page.paeini{ break-after:auto; }
+.sar-onvan{
+  display:flex; align-items:center; gap:14px; margin-bottom:16px;
+}
+.sar-onvan .noqteh{ width:10px; height:10px; border-radius:3px; background:var(--amber); }
+.sar-onvan h2{
+  font-family:'Lalezar'; font-weight:400; font-size:31px; color:var(--indigo); line-height:1.3;
+}
+.sar-onvan .khat{ flex:1; height:2px; background:var(--line); }
+.zir-onvan{
+  font-weight:800; font-size:15.5px; color:var(--teal-d); margin:14px 0 6px;
+}
+.page p{ font-size:13.2px; }
+.kart{
+  background:#fff; border:1px solid var(--line); border-radius:14px;
+  padding:16px 20px; margin:10px 0;
+}
+.jadval{ width:100%; border-collapse:collapse; margin:10px 0 4px; background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.jadval th{
+  background:var(--indigo); color:#fff; font-weight:700; font-size:12.5px; padding:6px 10px; text-align:right;
+}
+.jadval td{
+  padding:5.5px 10px; font-size:12.3px; border-top:1px solid var(--line); text-align:right;
+}
+.jadval tr:nth-child(even) td{ background:#F0F4FB; }
+.jadval td.sh{ font-family:Consolas, monospace; direction:ltr; text-align:left; color:var(--teal-d); }
+.kod-box{
+  background:var(--code); color:#DFF5EC; border-radius:14px; padding:16px 20px;
+  font-family:Consolas, 'Courier New', monospace; font-size:12.3px; line-height:1.95;
+  direction:ltr; text-align:left; margin:12px 0; border:1px solid #1F2B5C;
+}
+.kod-box .c{ color:#7B8BC7; }
+.kod-box .k{ color:#FF9F5A; }
+.kod-box .s{ color:#9CC2FF; }
+.kod-box .f{ color:#7EE0C0; }
+.paein-safhe{
+  position:absolute; bottom:22px; right:54px; left:54px;
+  display:flex; justify-content:space-between; font-size:11px; color:var(--muted);
+  border-top:1px solid var(--line); padding-top:10px;
+}
+.paein-safhe b{ color:var(--indigo); }
+.chale-naghsh{
+  display:flex; gap:12px; margin:10px 0;
+}
+.chale-kart{
+  flex:1; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px; font-size:12.4px;
+}
+.chale-kart b{ color:var(--teal-d); display:block; margin-bottom:4px; }
+.sorarif{ background:var(--indigo); color:#fff; border-radius:14px; padding:18px 22px; margin-top:12px; }
+.sorarif .onvan{ font-family:'Lalezar'; font-size:24px; color:var(--amber); margin-bottom:6px; }
+.sorarif p{ color:#D7E0F7; }
+.paein-jeld{
+  width:794px; height:1123px; background:var(--indigo-d); color:#9FB2E0;
+  display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:60px;
+  position:relative; overflow:hidden;
+}
+.paein-jeld .E{ font-family:'Consolas',monospace; font-size:20px; color:#7EE0C0; direction:ltr; background:rgba(0,0,0,.25); padding:18px 26px; border-radius:14px; line-height:2; border:1px solid rgba(126,224,192,.3); margin-top:26px; }
+.paein-jeld h3{ font-family:'Lalezar'; font-size:34px; color:#fff; font-weight:400; margin-bottom:10px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ جلد ═══════════════ -->
+<section class="cover">
+  <div class="band"></div>
+  <div class="shomareh">شمارهٔ ۲ · آبان ۱۴۰۵</div>
+  <div class="mona">پژوهشسرای دانش‌آموزی امام هادی (ع)</div>
+  <div class="mah">ماه‌نامهٔ کد</div>
+  <div class="vaset">
+    <h1>نشریهٔ <span class="kod">انجمن کدنویسی</span></h1>
+    <div class="zir">مسیر ۱۲ درسی Rust تمام شد؛ حالا نوبت توست بسازی!</div>
+    <div class="badge">🦀 پروندهٔ ویژه: Rust از صفر تا سازه‌ها</div>
+    <div class="mashgh">
+      در این شماره: کامل‌شدن ۱۲ درس Rust · درسنامهٔ توابع با return ·
+      چالش برنامه‌نویسی آبان · آدا لولیس، اولین برنامه‌نویس تاریخ ·
+      اپ‌های تازهٔ EmaRoid · بازی کدِ رمزی
+    </div>
+    <div class="code-art">
+<span class="k">fn</span> main() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="f">println!</span>(<span class="s">"Salam, Aban 1405!"</span>);<br>
+}
+    </div>
+  </div>
+  <div class="paein">
+    <div><b>ble.ir/anjomanfaghihi</b> — کانال انجمن کدنویسی</div>
+    <div>هر جمعه با یک درس تازه</div>
+  </div>
+</section>
+
+<!-- ═══════════════ صفحهٔ ۲: سرمقاله + خبرنامه ═══════════════ -->
+<section class="page">
+  <div class="sar-onvan"><div class="noqteh"></div><h2>سرمقاله</h2><div class="khat"></div></div>
+  <p>آبان امسال برای انجمن کدنویسی ماهِ برد‌ها بود. درست همان‌طور که قول داده بودیم، مسیر «آموزش Rust از صفر» با درس یازدهم و دوازدهم به پایان رسید و الان، هر عضو انجمن که هر دوازده درس را خوانده باشد، از «Rust چیست؟» تا «سازه‌ها» راه را کامل رفته است. این دوازده درس سه ماه دوید؛ سریع‌تر از آن‌چه در ابتدای مهر تصور می‌کردیم.</p>
+  <p>اما تمام‌شدن درس‌ها پایان راه نیست؛ شروع است. زبان فقط ابزار است و ابزار وقتی ارزش دارد که چیزی با آن ساخته شود. برای همین چالش آبان را طراحی کردیم: با همان آموخته‌های دوازده درس، یک پروژهٔ کوچک واقعی بساز و در کانال به اشتراک بگذار. جزئیاتش در صفحهٔ چالش این شماره است.</p>
+  
+  <div class="zir-onvan">خبرنامهٔ کانال در آبان</div>
+  <table class="jadval">
+    <tr><th style="width:130px">تاریخ</th><th>اتفاق</th></tr>
+    <tr><td>اوایل آبان</td><td>انتشار درس ۱۱ — توابع با return (پست شمارهٔ ۲۲۳)</td></tr>
+    <tr><td>اوایل آبان</td><td>انتشار درس ۱۲ — سازه‌ها (پست شمارهٔ ۲۲۵) و کامل‌شدن مسیر ۱۲ درسی</td></tr>
+    <tr><td>طی آبان</td><td>ساخت اپ‌های آموزشی EmaRoid: آموزش کاتلین نسخهٔ ۲ (چندزبانه) و ماشین‌حساب علمی</td></tr>
+    <tr><td>جمعه‌ها</td><td>ادامهٔ برنامهٔ انتشار هفتگی — چالش و تمرین‌های تازه</td></tr>
+  </table>
+
+  <div class="zir-onvan">مسیر کامل ۱۲ درس Rust — یک نگاه</div>
+  <table class="jadval">
+    <tr><th style="width:34px">#</th><th>عنوان</th><th style="width:110px">وضعیت</th></tr>
+    <tr><td>۱</td><td>Rust چیست و چرا؟</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۲</td><td>نصب و اولین برنامه</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۳</td><td>چاپ متن با println!</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۴</td><td>کامنت‌ها و پیام‌های کامپایلر</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۵</td><td>متغیرها: let و let mut</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۶</td><td>انواع داده: i32 و f64</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۷</td><td>رشته‌ها</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۸</td><td>تصمیم‌گیری: شرط if</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۹</td><td>حلقه‌های while و loop</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۱۰</td><td>آرایه‌ها و حلقهٔ for</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۱۱</td><td>توابع با return</td><td>✔ منتشر شده</td></tr>
+    <tr><td>۱۲</td><td>سازه‌ها (struct)</td><td>✔ منتشر شده</td></tr>
+  </table>
+  <div class="paein-safhe"><span>نشریهٔ انجمن کدنویسی · آبان ۱۴۰۵</span><b>۲</b></div>
+</section>
+
+<!-- ═══════════════ صفحهٔ ۳: پروندهٔ Rust ═══════════════ -->
+<section class="page">
+  <div class="sar-onvan"><div class="noqteh"></div><h2>پرونده: چرا Rust از همه‌چیز سخت‌گیرتر است؟</h2><div class="khat"></div></div>
+  <p>در طول این دوازده درس بارها دیدید که کامپایلر Rust خطا می‌دهد؛ حتی وقتی کد «به نظر» درست می‌آید. مثلاً E0384 وقتی می‌خواهید مقدار متغیر قفل‌شده را عوض کنید، یا E0308 وقتی جعبهٔ عددی را با متن پر می‌کنید. چرا Rust این‌قدر سخت می‌گیرد؟ جوابش سه راز دارد.</p>
+
+  <div class="kart">
+    <div class="zir-onvan" style="margin-top:0">۱) مالکیت (Ownership) — هر چیز یک مالک دارد</div>
+    <p style="margin-bottom:4px">در Rust هر تکه‌داده یک مالک روشن دارد. وقتی مالک تمام شود (مثلاً تابع تمام شود)، حافظه خودبه‌خود آزاد می‌شود — بدون زباله‌روب، بدون نشتی حافظه. برای همین Rust هم سریعِ C است و هم امن.</p>
+  </div>
+  <div class="kart">
+    <div class="zir-onvan" style="margin-top:0">۲) قرض‌دادن (Borrowing) — یا مالک باش، یا قرض بگیر</div>
+    <p style="margin-bottom:4px">می‌شود داده را به تابع «قرض» داد تا فقط بخواند یا با اجازه عوض کند. Rust حساب‌دار دقیقی است: هم‌زمان نمی‌گذارد دو نفر یکی را عوض کنند. نتیجه؟ همان باگ‌هایی که در زبان‌های دیگر وسط شب گریبان برنامه‌نویس را می‌گیرند، این‌جا موقع کامپایل گرفته می‌شوند.</p>
+  </div>
+  <div class="kart">
+    <div class="zir-onvan" style="margin-top:0">۳) تغییرناپذیری پیش‌فرض — قفل تا وقتی کلید دادی</div>
+    <p style="margin-bottom:4px">یادتان هست درس ۵؟ متغیر پیش‌فرض قفل است و تا ننویسید let mut، تغییر نمی‌کند. این سخت‌گیری باعث می‌شود برنامه‌ها قابل پیش‌بینی و مطمئن‌تر باشند.</p>
+  </div>
+
+  <p>پیام اصلی برای شما: وقتی کامپایلر Rust خطا می‌دهد، در حال دفاع از شماست. هر error یک باگ است که قبل از رسیدن به دست کاربر گرفته شده. برنامه‌نویس‌های حرفه‌ای به پیام‌های کامپایلر «دوستِ صمیمی» می‌گویند!</p>
+
+  <div class="kod-box">
+<span class="c">// سخت‌گیری مفید!</span><br>
+<span class="k">let</span> rekord = 12;<br>
+rekord = 15;  <span class="c">// ❌ error[E0384]: cannot assign twice to immutable variable</span><br>
+<span class="k">let mut</span> emtiaz = 10;<br>
+emtiaz = 15;  <span class="c">// ✅ چون اجازهٔ تغییر دادیم</span>
+  </div>
+  <div class="paein-safhe"><span>نشریهٔ انجمن کدنویسی · آبان ۱۴۰۵</span><b>۳</b></div>
+</section>
+
+<!-- ═══════════════ صفحهٔ ۴: درسنامه ویژه ═══════════════ -->
+<section class="page">
+  <div class="sar-onvan"><div class="noqteh"></div><h2>درسنامهٔ ویژه: توابع با return</h2><div class="khat"></div></div>
+  <p>درس ۱۱ برای خیلی از اعضا سخت‌ترین و در عین حال مهم‌ترین درس مسیر بود؛ چون از «نوشتن کد» به «چیدن کد» می‌رسد. این‌جا خلاصهٔ کاربردی‌اش را برای مرور داریم.</p>
+
+  <div class="zir-onvan">صورت مسئله</div>
+  <p>می‌خواهیم معدل دو نمره را چند بار در برنامه حساب کنیم. اگر هر بار همان تقسیم را بنویسیم، کد شلوغ و خطاخیز می‌شود. راه‌حل: یک تابع، یک بار نوشتن، هر چند بار که لازم باشد صدا زدن.</p>
+
+  <div class="kod-box">
+<span class="k">fn</span> <span class="f">moadele</span>(a: i32, b: i32) -> i32 {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> (a + b) / 2;  <span class="c">// بازگشتِ جواب</span><br>
+}<br><br>
+<span class="k">fn</span> main() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="f">println!</span>(<span class="s">"{}"</span>, moadele(10, 20));  <span class="c">// ۱۵</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="f">println!</span>(<span class="s">"{}"</span>, moadele(18, 14));  <span class="c">// ۱۶</span><br>
+}
+  </div>
+
+  <div class="zir-onvan">سه نکتهٔ امتحانی</div>
+  <div class="chale-naghsh">
+    <div class="chale-kart"><b>۱) نوع ورودی‌ها</b>پارامترها در پرانتز با نوعشان می‌آیند: a: i32 — مثل معرفی‌کردن مهمان با شناسنامه.</div>
+    <div class="chale-kart"><b>۲) نوع خروجی</b>بعد از -> نوشته می‌شود؛ اگر تابع جوابی نداشته باشد اصلاً نوشته نمی‌شود.</div>
+    <div class="chale-kart"><b>۳) سبک Rustی</b>در خط آخر می‌شود return و ; را حذف کرد: عبارتِ بدون سمیکالن خودش جواب است.</div>
+  </div>
+
+  <p>تمرین این بخش: تابعی به اسم <b>sade_bakhtar</b> بنویسید که یک عدد بگیرد و بگوید اول است یا نه. برای اعداد کوچک، همان راه درس‌های قبل کافی است: حلقه از ۲ تا جذرِ عدد و بررسی باقی‌مانده.</p>
+  <div class="paein-safhe"><span>نشریهٔ انجمن کدنویسی · آبان ۱۴۰۵</span><b>۴</b></div>
+</section>
+
+<!-- ═══════════════ صفحهٔ ۵: چالش + بازی ═══════════════ -->
+<section class="page">
+  <div class="sar-onvan"><div class="noqteh"></div><h2>چالش برنامه‌نویسی آبان</h2><div class="khat"></div></div>
+  <div class="sorarif">
+    <div class="onvan">🛠 چالش: کتابخانهٔ کوچک با struct</div>
+    <p>با آموخته‌های درس ۱۲، یک سازهٔ <b>Ketab</b> بسازید با سه فیلد: esm (نام کتاب)، nevisande (نویسنده) و sale_chap (سال چاپ). سه نمونهٔ کتاب بسازید و در یک حلقهٔ for روی آرایه، همه را با println! قشنگ چاپ کنید.</p>
+    <p style="margin-top:8px"><b>امتیاز ویژه:</b> تابعی به اسم tozih بنویسید که یک Ketab بگیرد و یک جملهٔ معرفی برگرداند (با return). کدتان را در کانال بفرستید؛ بهترین‌ها در شمارهٔ آذر معرفی می‌شوند.</p>
+  </div>
+
+  <div class="zir-onvan" style="margin-top:18px">بازی کدِ رمزی — کلمه‌ها را پیدا کن!</div>
+  <p>در جدول زیر، شش واژهٔ این شماره قایم شده: <b>RUST ، STRUCT ، FN ، LOOP ، PRINTLN ، LET</b> (افقی، عمودی و مورب). جای خالی‌ها را با حروف رمز پر کن.</p>
+  <table class="jadval" style="text-align:center">
+    <tr><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">س</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ت</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ک</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ر</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ت</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">س</td></tr>
+    <tr><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ل</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td></tr>
+    <tr><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ف</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td><td style="font-family:Consolas,monospace;direction:ltr;text-align:center">ـ</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--muted)">پاسخ‌ها را دستی حل کنید و حاصل را در چالش اصلی بگنجانید؛ عکسی از جدولِ حل‌شده هم می‌تواند همراه کدتان به کانال بیاید.</p>
+
+  <div class="zir-onvan">پازل نیم‌خطی</div>
+  <div class="kart">
+    <p style="margin-bottom:4px">کدام خط از کد زیر خطا می‌دهد و چرا؟ (راهنمایی: درس ۵!)</p>
+    <div class="kod-box" style="margin-bottom:4px">
+<span class="k">let</span> sen = 15;<br>
+sen = sen + 1;<br>
+<span class="f">println!</span>(<span class="s">"{}"</span>, sen);
+    </div>
+    <p>جواب را با کد چالش بفرستید؛ در شمارهٔ آذر با توضیح کامل می‌آید.</p>
+  </div>
+  <div class="paein-safhe"><span>نشریهٔ انجمن کدنویسی · آبان ۱۴۰۵</span><b>۵</b></div>
+</section>
+
+<!-- ═══════════════ صفحهٔ ۶: مشاهیر + اپ‌ها ═══════════════ -->
+<section class="page">
+  <div class="sar-onvan"><div class="noqteh"></div><h2>چهره‌ها: آدا لولیس — اولین برنامه‌نویس تاریخ</h2><div class="khat"></div></div>
+  <p>حدود دو قرن پیش، وقتی هنوز هیچ کامپیوتری وجود نداشت، دختری در انگلستان با ریاضیات بزرگ شد: آدا لولیس (۱۸۱۵–۱۸۵۲)، دختر شاعر مشهور لرد بایرون. مادرش می‌ترسید آدا مثل پدرش شاعر شود؛ پس ریاضی را جدی گرفت. نتیجه؟ آدا ریاضی‌دان شد و شاعرانه‌ترین برنامه‌نویس تاریخ!</p>
+  <p>آدا با چارلز ببیج روی «موتور تحلیلی» کار کرد؛ ماشینی مکانیکی که قرار بود محاسبات را خودکار انجام دهد. آدا در یادداشت‌هایش الگوریتمی نوشت برای محاسبهٔ اعداد برنولی با همین ماشین — و همین یادداشت امروز به‌عنوان «اولین برنامهٔ منتشرشدهٔ تاریخ» شناخته می‌شود، سال‌ها پیش از آن‌که اولین کامپیوتر الکترونیکی ساخته شود.</p>
+  <p>اما نکتهٔ قشنگ‌تر: آدا دید آن‌چه ببیج ساخته فقط برای محاسبهٔ عدد نیست؛ یک ماشینِ همه‌کاره است که می‌تواند موسیقی بسازد و نمادها را ترکیب کند. یعنی او «برنامه‌نویسی» را نه به‌عنوان حساب‌کردن، بلکه به‌عنوان خلق‌کردن دید! زبان برنامه‌نویسی «Ada» به افتخار او نام‌گذاری شده و روز «آدا لولیس» هر سال، زنان دانشمند دنیا را گرامی می‌دارد.</p>
+
+  <div class="zir-onvan">اپ‌های تازهٔ انجمن — نصب کن!</div>
+  <table class="jadval">
+    <tr><th>اپ</th><th>چی دارد؟</th><th>برای چه کسی؟</th></tr>
+    <tr><td>🎓 آموزش کاتلین — نسخهٔ ۲</td><td>۵ درس + آزمون، سه زبانه (فارسی/انگلیسی/عربی)، صفحه‌خوانِ دکمه‌ای</td><td>شروع‌کننده‌های برنامه‌نویسی</td></tr>
+    <tr><td>🦀 آموزش Rust</td><td>همان ۱۲ درس این نشریه + آزمون هر درس + نشان‌ها</td><td>اعضای مسیر Rust</td></tr>
+    <tr><td>🧮 ماشین‌حساب EmaRoid</td><td>نمودار تابع، حل مرحله‌به‌مرحلهٔ معادله، کولاتز، اعداد اول</td><td>درس ریاضی و کدنویسی</td></tr>
+  </table>
+  <div class="paein-safhe"><span>نشریهٔ انجمن کدنویسی · آبان ۱۴۰۵</span><b>۶</b></div>
+</section>
+
+<!-- ═══════════════ صفحهٔ ۷: تقویم + جمع‌بندی ═══════════════ -->
+<section class="page">
+  <div class="sar-onvan"><div class="noqteh"></div><h2>تقویم آذر و جمع‌بندی</h2><div class="khat"></div></div>
+
+  <div class="zir-onvan">جمعه‌های آذر — تقویم انتشار</div>
+  <table class="jadval">
+    <tr><th style="width:120px">تاریخ</th><th>برنامه</th></tr>
+    <tr><td>آذر ۶ — ۲۷ نوامبر</td><td>اعلام نتایج چالش آبان + معرفی کدهای برگزیده</td></tr>
+    <tr><td>آذر ۱۳ — ۴ دسامبر</td><td>درس ۱۳ — فهرست‌ها (Vec): آرایه‌ای که بزرگ می‌شود</td></tr>
+    <tr><td>آذر ۲۰ — ۱۱ دسامبر</td><td>درس ۱۴ — متدها و impl: رفتار دادن به سازه‌ها</td></tr>
+    <tr><td>آذر ۲۷ — ۱۸ دسامبر</td><td>شمارهٔ ۳ نشریه + شروع فصل دوم: پروژهٔ کوچک گروهی</td></tr>
+  </table>
+
+  <div class="zir-onvan">جمع‌بندی آماری این شماره</div>
+  <div class="chale-naghsh">
+    <div class="chale-kart"><b>۱۲ درس</b>مسیر کامل Rust از صفر تا سازه‌ها منتشر شد</div>
+    <div class="chale-kart"><b>۳ اپ</b>اپ‌های آموزشی EmaRoid ساخته شد (کاتلین، Rust، ماشین‌حساب)</div>
+    <div class="chale-kart"><b>۱ چالش</b>چالش struct کتابخانه — با امتیاز ویژه</div>
+  </div>
+
+  <div class="zir-onvan">سه جمله که باید یادت بماند</div>
+  <div class="kart">
+    <p style="margin-bottom:2px">۱) متغیر پیش‌فرض قفل است؛ تا ننویسی let mut، تغییر نمی‌کند.</p>
+    <p style="margin-bottom:2px">۲) تابع یک‌بار نوشته می‌شود و هزار بار صدا زده — با return جوابش را بگیر.</p>
+    <p style="margin-bottom:0">۳) کامپایلر سخت‌گیر، دوستِ توست؛ هر error یک باگ است که قبل از کاربر گرفته شد.</p>
+  </div>
+
+  <div class="paein-safhe"><span>نشریهٔ انجمن کدنویسی · آبان ۱۴۰۵</span><b>۷</b></div>
+</section>
+
+<!-- ═══════════════ پشت جلد ═══════════════ -->
+<section class="paein-jeld">
+  <h3>نشریهٔ انجمن کدنویسی</h3>
+  <div style="font-size:14px; color:#C9D6F5">شمارهٔ ۲ · آبان ۱۴۰۵ · پژوهشسرای دانش‌آموزی امام هادی (ع)</div>
+  <div class="E">
+fn entezar() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let aban = "tamam shod";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let azar = "hanooz dar rah";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(aban, azar)
+}
+  </div>
+  <div style="margin-top:30px; font-size:13px; line-height:2.1">
+    کانال انجمن کدنویسی: <b style="color:#fff">ble.ir/anjomanfaghihi</b><br>
+    ساخته‌شده با عشق توسط تیم محتوای انجمن · برند اپ‌ها: EmaRoid
+  </div>
+</section>
+
+</body>
+</html>

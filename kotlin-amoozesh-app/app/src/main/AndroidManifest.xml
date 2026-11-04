@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- هیچ دسترسی اینترنتی یا چیز اضافه‌ای لازم نداریم -->
+    <!-- تنها مجوز اپ: اینترنت — برای آمارگیر و تبلیغ EmaRoid.
+         هیچ مجوز دیگری (IMEI/تلفن/مکان) لازم نیست و گرفته نمی‌شود. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="آموزش کاتلین"
         android:icon="@mipmap/ic_launcher"
@@ -30,28 +33,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".PlaygroundActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".TamrinActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".QuizActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".MenuActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".TemActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
