@@ -156,6 +156,8 @@ class LessonActivity : Activity() {
         }
         // صفحهٔ کد
         saFeHa.add(saFeKod())
+        // نمونه‌های عنوان‌دارِ درس — هر کدام یک صفحهٔ جدا
+        for (nem in dars.nemoonehHa) saFeHa.add(saFeKodUmumi(nem.onvan, nem.code))
         // صفحهٔ آزمون
         saFeHa.add(saFeAzmoon())
 
@@ -192,14 +194,20 @@ class LessonActivity : Activity() {
         return ghabe
     }
 
-    private fun saFeKod(): View {
+    private fun saFeKod(): View = saFeKodUmumi(
+        if (Zaban.bekhon(this@LessonActivity) == Zaban.Z.FA) "نمونهٔ کد — با دقت بخون" else "Code sample",
+        dars.codeNemooneh
+    )
+
+    // یک صفحهٔ کد با سرنویس دلخواه — هم نمونهٔ اصلی، هم نمونه‌های عنوان‌دار درس
+    private fun saFeKodUmumi(sar: String, kod: String): View {
         val ghabe = LinearLayout(this)
         ghabe.orientation = LinearLayout.VERTICAL
         ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 6f), Abzar.dp(this, 20f), 0)
 
         val sarNevesht = Abzar.tv(
             this,
-            if (Zaban.bekhon(this@LessonActivity) == Zaban.Z.FA) "نمونهٔ کد — با دقت بخون" else "Code sample",
+            sar,
             14f, Abzar.RANG_TALAEI, bold = true
         )
         ghabe.addView(sarNevesht)
@@ -219,7 +227,7 @@ class LessonActivity : Activity() {
         val ghabeKod = HorizontalScrollView(this)
         ghabeKod.isHorizontalScrollBarEnabled = false
         val matnKod = TextView(this)
-        matnKod.text = dars.codeNemooneh
+        matnKod.text = kod
         matnKod.typeface = Typeface.MONOSPACE
         matnKod.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         matnKod.setTextColor(Abzar.RANG_MATN)
