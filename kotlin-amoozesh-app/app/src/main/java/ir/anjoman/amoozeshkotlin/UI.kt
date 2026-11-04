@@ -166,6 +166,11 @@ object Zakhire {
     }
 
     // ---------- تمرین‌های حل‌شدهٔ زمین بازی ----------
+    fun tamrinAnjamAst(context: Context, shomareh: Int): Boolean {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        return p.getStringSet("tamrin_anjam", emptySet())?.contains(shomareh.toString()) ?: false
+    }
+
     fun tamrinAnjamShode(context: Context): Int {
         val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
         return p.getStringSet("tamrin_anjam", emptySet())?.size ?: 0
