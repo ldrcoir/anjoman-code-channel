@@ -95,26 +95,21 @@ class KhavanakActivity : Activity() {
         nivarBalaJadid.addView(neshaneSeda)
 
         // دکمهٔ شب‌خوانی — فقط برای تم‌های روشن؛ در تم تیره صفحه‌ها خودشان تیره‌اند
-        // و وارونه‌کردنشان هیچ‌چیز دیده نمی‌شود
+        // و وارونه‌کردنشان هیچ‌چیز دیده نمی‌شود — بدون هیچ پیامی، فقط محوِ ملایم دکمه
         neshaneShab = dokmeGerd(if (Ketab.shabBekhon(this) && !tem.khater) "ic_rooz" else "ic_shab")
+        if (tem.khater) neshaneShab.alpha = 0.40f
         neshaneShab.setOnClickListener {
             if (tem.khater) {
-                Toast.makeText(
-                    this,
-                    "تم تیره خودش حالِ شب دارد — شب‌خوانی برای تم‌های روشن است",
-                    Toast.LENGTH_SHORT
-                ).show()
+                // هیچ پیامی نمی‌دهیم؛ فقط یک تپِ ملایم نشان می‌دهد این دکمه اینجا کاره نیست
+                neshaneShab.animate().alpha(0.15f).setDuration(120).withEndAction {
+                    neshaneShab.animate().alpha(0.40f).setDuration(260).start()
+                }.start()
                 return@setOnClickListener
             }
             val no = !Ketab.shabBekhon(this)
             Ketab.shabZakhire(this, no)
             neshaneSetColor(neshaneShab, if (no) "ic_rooz" else "ic_shab")
             filterHa()
-            Toast.makeText(
-                this,
-                if (no) "🌙 شب‌خوانی روشن شد" else "☀ شب‌خوانی خاموش شد",
-                Toast.LENGTH_SHORT
-            ).show()
         }
         nivarBalaJadid.addView(neshaneShab)
         rishe.addView(nivarBalaJadid)
