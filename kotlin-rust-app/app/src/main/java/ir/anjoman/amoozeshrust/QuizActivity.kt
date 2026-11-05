@@ -99,9 +99,12 @@ class QuizActivity : Activity() {
         pKartSoal.topMargin = Abzar.dp(this, 20f)
         ghabe.addView(kartSoal, pKartSoal)
 
-        // گزینه‌ها؛ همه رو نگه می‌داریم که موقع جواب رنگشون رو عوض کنیم
+        // گزینه‌ها؛ هر بار با چینش تازه می‌آیند تا جواب درست همیشه اول نباشد
+        val gozinehTafkiki = soal.gozinehHa.withIndex().shuffled()
+        val shomarehSahihTafkiki = gozinehTafkiki.indexOfFirst { it.index == soal.shomarehSahih }
         val hameGozineh = mutableListOf<TextView>()
-        soal.gozinehHa.forEachIndexed { index, gozineh ->
+        gozinehTafkiki.forEachIndexed { index, joft ->
+            val gozineh = joft.value
             val dokme = TextView(this)
             dokme.text = gozineh
             dokme.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
@@ -117,7 +120,7 @@ class QuizActivity : Activity() {
             dokme.setOnClickListener {
                 if (javabDadim) return@setOnClickListener
                 javabDadim = true
-                javabCheckKon(dokme, index, soal, hameGozineh)
+                javabCheckKon(dokme, index, shomarehSahihTafkiki, soal, hameGozineh)
             }
             hameGozineh.add(dokme)
 
@@ -134,10 +137,11 @@ class QuizActivity : Activity() {
     private fun javabCheckKon(
         entekhab: TextView,
         shomarehEntekhab: Int,
+        shomarehSahih: Int,
         soal: Soal,
         hameGozineh: List<TextView>
     ) {
-        val sahihBood = shomarehEntekhab == soal.shomarehSahih
+        val sahihBood = shomarehEntekhab == shomarehSahih
         if (sahihBood) {
             emtiyaz++
             entekhab.background = Abzar.kart(this, Abzar.RANG_SABZ)
@@ -146,7 +150,7 @@ class QuizActivity : Activity() {
             entekhab.background = Abzar.kart(this, Abzar.RANG_GHERMEZ)
             entekhab.setTextColor(Color.WHITE)
             // جواب درست رو هم سبز می‌کنیم که یاد بمونه
-            val dorost = hameGozineh[soal.shomarehSahih]
+            val dorost = hameGozineh[shomarehSahih]
             dorost.background = Abzar.kart(this, Abzar.RANG_SABZ)
             dorost.setTextColor(Color.WHITE)
         }

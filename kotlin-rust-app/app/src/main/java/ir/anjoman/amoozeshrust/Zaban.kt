@@ -66,13 +66,13 @@ object Zaban {
     private val jadvalHa: Map<String, Map<Z, String>> = mapOf(
         "onvan_app" to mapOf(
             Z.FA to "آموزش Rust",
-            Z.EN to "Learn Kotlin",
-            Z.AR to "تعلّم كوتلين"
+            Z.EN to "Learn Rust",
+            Z.AR to "تعلّم رَست"
         ),
         "zir_onvan" to mapOf(
             Z.FA to "قدم‌به‌قدم راست یاد بگیر",
-            Z.EN to "Learn Kotlin step by step",
-            Z.AR to "تعلّم كوتلين خطوة بخطوة"
+            Z.EN to "Learn Rust step by step",
+            Z.AR to "تعلّم رَست خطوة بخطوة"
         ),
         "pishraft_kol" to mapOf(
             Z.FA to "پیشرفت کل",
