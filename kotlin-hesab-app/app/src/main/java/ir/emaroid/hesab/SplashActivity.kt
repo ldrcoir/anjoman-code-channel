@@ -23,8 +23,8 @@ class SplashActivity : Activity() {
         Abzar.rangVaredKon(this)
 
         val root = FrameLayout(this)
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        root.background = NagshZamin(0xFF101A33.toInt(), 0xFF0B1220.toInt())
+        root.layoutDirection = if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+        root.background = NagshZamin(Abzar.RANG_SHURU, Abzar.RANG_PAYAN)
 
         val vasat = LinearLayout(this)
         vasat.orientation = LinearLayout.VERTICAL
@@ -45,14 +45,14 @@ class SplashActivity : Activity() {
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER))
         vasat.addView(ghabeMark, LinearLayout.LayoutParams(Abzar.dp(this, 120f), Abzar.dp(this, 120f)))
 
-        val onvan = Abzar.tv(this, "ماشین‌حساب EmaRoid", 26f, Abzar.RANG_MATN)
+        val onvan = Abzar.tv(this, Zaban.t("onvan_app"), 26f, Abzar.RANG_MATN)
         onvan.typeface = FontBox.vazirBlack(this)
         val pO = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         pO.topMargin = Abzar.dp(this, 24f)
         vasat.addView(onvan, pO)
 
-        val zir = Abzar.tv(this, "نمودار • حل مرحله‌به‌مرحله • کولاتز", 13f, Abzar.RANG_KAMRANG)
+        val zir = Abzar.tv(this, Zaban.t("zir_onvan"), 13f, Abzar.RANG_KAMRANG)
         val pZ = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         pZ.topMargin = Abzar.dp(this, 6f)

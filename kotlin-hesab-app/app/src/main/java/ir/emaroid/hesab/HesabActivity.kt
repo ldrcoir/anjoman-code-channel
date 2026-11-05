@@ -7,12 +7,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 
 /*
- * ماشین‌حساب علمی — صفحهٔ اصلی حساب
- * نمایش عبارت + نتیجهٔ زنده + صفحه‌کلید بزرگ + تاریخچه
+ * ماشین‌حساب علمی — صفحهٔ کلید فانتزی ✨
+ * کلیدهای شیشه‌ای نئون روی کهکشان بنفش؛ عملگرها صورتی، توابع فیروزه‌ای، = سبز گرادیانی
+ * نمایش شیشه‌ای با نتیجهٔ زندهٔ طلایی + تاریخچهٔ شیشه‌ای
  */
 class HesabActivity : Activity() {
 
@@ -29,14 +29,14 @@ class HesabActivity : Activity() {
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
         root.layoutDirection = View.LAYOUT_DIRECTION_LTR
-        root.background = NagshZamin(0xFF101A33.toInt(), 0xFF0B1220.toInt())
+        root.background = NagshZamin(Abzar.RANG_SHURU, Abzar.RANG_PAYAN)
         root.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 12f), Abzar.dp(this, 14f), Abzar.dp(this, 12f))
 
-        // نوار بالا: بازگشت + درجه/رادیان
+        // نوار بالا: خانه + زبان؟ نه — خانه + درجه/رادیان
         val sar = LinearLayout(this)
         sar.orientation = LinearLayout.HORIZONTAL
         sar.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        val bargasht = Abzar.dokme(this, "‹ خانه", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
+        val bargasht = Abzar.dokme(this, Zaban.t("khane"), Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
         bargasht.layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         bargasht.setOnClickListener { finish() }
@@ -56,10 +56,10 @@ class HesabActivity : Activity() {
         root.addView(sar, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
-        // نمایش
+        // نمایش شیشه‌ای
         val kartNemayesh = LinearLayout(this)
         kartNemayesh.orientation = LinearLayout.VERTICAL
-        kartNemayesh.background = Abzar.kart(this, Abzar.RANG_CODE, 14f)
+        kartNemayesh.background = Abzar.shisheh(this, 0x33231B4E, 0x4D22D3EE, 22f, 1.5f)
         kartNemayesh.setPadding(Abzar.dp(this, 16f), Abzar.dp(this, 14f), Abzar.dp(this, 16f), Abzar.dp(this, 14f))
 
         natijeZende = TextView(this)
@@ -72,7 +72,7 @@ class HesabActivity : Activity() {
 
         nemayesh = TextView(this)
         nemayesh.text = ""
-        nemayesh.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 34f)
+        nemayesh.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 36f)
         nemayesh.setTextColor(Abzar.RANG_MATN)
         nemayesh.typeface = Typeface.MONOSPACE
         nemayesh.gravity = Gravity.END
@@ -86,7 +86,7 @@ class HesabActivity : Activity() {
             topMargin = Abzar.dp(this@HesabActivity, 12f)
         })
 
-        // تاریخچه
+        // تاریخچهٔ شیشه‌ای
         ghabeTarikhche = LinearLayout(this)
         ghabeTarikhche.orientation = LinearLayout.VERTICAL
         val pT = LinearLayout.LayoutParams(
@@ -94,7 +94,7 @@ class HesabActivity : Activity() {
         pT.topMargin = Abzar.dp(this, 8f)
         root.addView(ghabeTarikhche, pT)
 
-        // صفحه‌کلید
+        // صفحه‌کلید فانتزی
         root.addView(safheKelid(), LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
 
@@ -130,18 +130,54 @@ class HesabActivity : Activity() {
             val r = LinearLayout(this)
             for ((label, no) in radif) {
                 val amali = no in "+-*/^!%=" || no == 'C' || no == 'B'
-                val tavalod = if (no == 'd') Abzar.RANG_DOKME
-                else if (no == 'f') 0xFF1B2C4F.toInt()
-                else if (label == "=") Abzar.RANG_SABZ
-                else if (label == "C") Abzar.RANG_GHERMEZ
-                else Abzar.RANG_DOKME_AMAL
-                val dokme = Abzar.dokme(this, label, tavalod,
-                    if (label == "=" || label == "C") Abzar.RANG_ZAMIN else Abzar.RANG_MATN,
-                    size = if (no == 'd') 20f else 16f)
+
+                // پوشش شیشه‌ای بر اساس نقش کلید
+                val posht: android.graphics.drawable.Drawable
+                val rangMatn: Int
+                var size = 18f
+                when {
+                    label == "=" -> {
+                        posht = Abzar.gradian(this, 0xFF34D399.toInt(), 0xFF22D3EE.toInt(), 22f)
+                        rangMatn = 0xFF07131F.toInt()
+                    }
+                    label == "C" -> {
+                        posht = Abzar.shisheh(this, 0x40F87171.toInt(), 0x80F87171.toInt(), 22f, 1.5f)
+                        rangMatn = Abzar.RANG_GHERMEZ
+                    }
+                    no == 'B' -> {
+                        posht = Abzar.shisheh(this, 0x40F2B134.toInt(), 0x80F2B134.toInt(), 22f, 1.5f)
+                        rangMatn = Abzar.RANG_TALAEI
+                    }
+                    no in "+-*/^!%" -> {
+                        posht = Abzar.shisheh(this, 0x33FF4D9E.toInt(), 0x8CFF4D9E.toInt(), 22f, 1.5f)
+                        rangMatn = Abzar.RANG_GOLABI
+                        size = 21f
+                    }
+                    no == 'f' -> {
+                        posht = Abzar.shisheh(this, 0x3022D3EE.toInt(), 0x7A22D3EE.toInt(), 22f, 1.2f)
+                        rangMatn = Abzar.RANG_TIZ
+                        size = 16f
+                    }
+                    else -> {
+                        // اعداد و پرانتز — شیشهٔ بنفش ملایم
+                        posht = Abzar.shisheh(this, Abzar.RANG_DOKME, 0x30FFFFFF, 22f, 1.2f)
+                        rangMatn = Abzar.RANG_MATN
+                        size = 22f
+                    }
+                }
+                val dokme = TextView(this)
+                dokme.text = label
+                dokme.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, size)
+                dokme.setTextColor(rangMatn)
+                dokme.typeface = FontBox.vazirBold(this)
+                dokme.gravity = Gravity.CENTER
+                dokme.background = posht
+                dokme.isClickable = true
+                Abzar.fasor(dokme)
                 dokme.setOnClickListener { bezan(label, no) }
                 r.addView(dokme, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f).apply {
-                    setMargins(Abzar.dp(this@HesabActivity, 3f), Abzar.dp(this@HesabActivity, 3f),
-                        Abzar.dp(this@HesabActivity, 3f), Abzar.dp(this@HesabActivity, 3f))
+                    setMargins(Abzar.dp(this@HesabActivity, 3.5f), Abzar.dp(this@HesabActivity, 3.5f),
+                        Abzar.dp(this@HesabActivity, 3.5f), Abzar.dp(this@HesabActivity, 3.5f))
                 })
             }
             g.addView(r, LinearLayout.LayoutParams(
@@ -163,7 +199,7 @@ class HesabActivity : Activity() {
                     tarikhcheKhata()
                     nemayesh.text = natije
                 } catch (e: Exception) {
-                    natijeZende.text = e.message ?: "خطا"
+                    natijeZende.text = Zaban.t("khata")
                 }
             }
             'f' -> nemayesh.text = alan + when (label) {
@@ -177,10 +213,18 @@ class HesabActivity : Activity() {
     private fun tarikhcheKhata() {
         ghabeTarikhche.removeAllViews()
         for (s in tarikhche.take(3)) {
-            val t = Abzar.tv(this, s, 12f, Abzar.RANG_KAMRANG)
+            val t = TextView(this)
+            t.text = s
+            t.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 12f)
+            t.setTextColor(Abzar.RANG_KAMRANG)
             t.typeface = Typeface.MONOSPACE
             t.gravity = Gravity.END
-            ghabeTarikhche.addView(t)
+            t.background = Abzar.shisheh(this, 0x26231B4E, 0x1FFFFFFF, 12f, 1f)
+            t.setPadding(Abzar.dp(this, 10f), Abzar.dp(this, 4f), Abzar.dp(this, 10f), Abzar.dp(this, 4f))
+            val p = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            p.topMargin = Abzar.dp(this, 4f)
+            ghabeTarikhche.addView(t, p)
         }
     }
 }
