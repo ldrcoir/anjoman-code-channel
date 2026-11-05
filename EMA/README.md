@@ -7,7 +7,7 @@
 | اپ | نسخه | لینک مستقیم |
 |---|---|---|
 | آموزش Rust | **۱.۱** (۱۴ درس) | https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.1/AmoozeshRust-v1.1-debug.apk |
-| ماشین‌حساب علمی | ۱.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v1.0/MashinHesab-EmaRoid-v1.0-debug.apk |
+| ماشین‌حساب علمی | **۲.۰** (کهکشان بنفش، ۱۲ زبان) | https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.0/MashinHesab-EmaRoid-v2.0-debug.apk |
 | کتابچهٔ صندوق | ۱.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/ketabche-sandogh-v1.0/KetabcheSandogh-v1.0-debug.apk |
 | کالری‌یار | ۲.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk |
 | آموزش Kotlin | ۳.۰ (قدیمی) | https://github.com/ldrcoir/anjoman-code-channel/releases/download/apk-v2.0/AmoozeshKotlin-v3.0-debug.apk |
