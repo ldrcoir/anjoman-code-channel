@@ -1,6 +1,8 @@
 name: pak-ran-ha
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/pak-ran-ha.yml"
 
 permissions:
   actions: write
