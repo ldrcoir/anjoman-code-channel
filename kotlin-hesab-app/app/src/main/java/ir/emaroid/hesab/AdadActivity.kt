@@ -24,8 +24,8 @@ class AdadActivity : Activity() {
 
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        root.background = NagshZamin(0xFF101A33.toInt(), 0xFF0B1220.toInt())
+        root.layoutDirection = if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+        root.background = NagshZamin(Abzar.RANG_SHURU, Abzar.RANG_PAYAN)
         root.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 10f), Abzar.dp(this, 14f), Abzar.dp(this, 14f))
 
         val sar = LinearLayout(this)

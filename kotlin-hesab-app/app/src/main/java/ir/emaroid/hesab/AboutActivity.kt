@@ -20,8 +20,8 @@ class AboutActivity : Activity() {
         Abzar.rangVaredKon(this)
 
         val root = FrameLayout(this)
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        root.background = NagshZamin(0xFF101A33.toInt(), 0xFF0B1220.toInt())
+        root.layoutDirection = if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+        root.background = NagshZamin(Abzar.RANG_SHURU, Abzar.RANG_PAYAN)
 
         val vasat = LinearLayout(this)
         vasat.orientation = LinearLayout.VERTICAL
@@ -55,8 +55,7 @@ class AboutActivity : Activity() {
         brand.setPadding(0, Abzar.dp(this, 6f), 0, 0)
         kart.addView(brand)
 
-        val tozih = Abzar.tv(this,
-            "ماشین‌حساب علمی با نمودار، حل مرحله‌به‌مرحلهٔ معادله،\nکولاتز و اعداد اول؛ ساختهٔ EmaRoid برای بچه‌های پژوهشسرا",
+        val tozih = Abzar.tv(this, Zaban.t("darbare_matn"),
             14f, Abzar.RANG_KAMRANG)
         tozih.gravity = Gravity.CENTER
         tozih.setPadding(0, Abzar.dp(this, 12f), 0, 0)
@@ -72,7 +71,7 @@ class AboutActivity : Activity() {
 
         vasat.addView(kart)
 
-        val dokme = Abzar.dokme(this, "بازگشت", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
+        val dokme = Abzar.dokme(this, Zaban.t("bazgasht"), Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
         dokme.setOnClickListener { finish() }
         val pD = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
