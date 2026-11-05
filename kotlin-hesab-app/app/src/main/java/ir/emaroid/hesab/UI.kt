@@ -6,26 +6,35 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.HapticFeedbackConstants
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 
 /*
- * ابزارهای رابط کاربری EmaRoid — ماشین‌حساب
+ * ابزارهای رابط کاربری EmaRoid — نسخهٔ «خیره» ✨
+ * پالت بنفش کیهانی + کلیدهای شیشه‌ای نئون + فشردن فانتزی
  */
 object Abzar {
 
-    val RANG_ZAMIN = 0xFF0D1526.toInt()
-    val RANG_KART = 0xFF18233D.toInt()
-    val RANG_CODE = 0xFF0B1220.toInt()
-    val RANG_TIZ = 0xFF2AA8B8.toInt()
-    val RANG_TALAEI = 0xFFF2B134.toInt()
-    val RANG_MATN = 0xFFEAF2FF.toInt()
-    val RANG_KAMRANG = 0xFF94A3B8.toInt()
-    val RANG_SABZ = 0xFF22C55E.toInt()
-    val RANG_GHERMEZ = 0xFFEF4444.toInt()
-    val RANG_KHAKISTARI = 0xFF334155.toInt()
-    val RANG_DOKME = 0xFF223052.toInt()
-    val RANG_DOKME_AMAL = 0xFF2AA8B8.toInt()
+    // پس‌زمینهٔ کهکشانی
+    val RANG_SHURU = 0xFF1D1246.toInt()      // بنفش کهکشانی بالا
+    val RANG_PAYAN = 0xFF0A0820.toInt()      // سرمه‌ای شب پایین
+
+    val RANG_ZAMIN = 0xFF130E33.toInt()
+    val RANG_KART = 0xFF231B4E.toInt()
+    val RANG_CODE = 0xFF1B1540.toInt()
+    val RANG_TIZ = 0xFF22D3EE.toInt()        // فیروزه‌ای نئون
+    val RANG_GOLABI = 0xFFFF4D9E.toInt()     // صورتی نئون
+    val RANG_BANAFSH = 0xFF8B5CF6.toInt()    // بنفش روشن
+    val RANG_TALAEI = 0xFFF2B134.toInt()     // طلایی
+    val RANG_MATN = 0xFFF3F0FF.toInt()
+    val RANG_KAMRANG = 0xFFA79FD6.toInt()
+    val RANG_SABZ = 0xFF34D399.toInt()       // سبز نئون
+    val RANG_GHERMEZ = 0xFFF87171.toInt()
+    val RANG_KHAKISTARI = 0xFF3A3170.toInt()
+    val RANG_DOKME = 0xFF2B2258.toInt()      // کلید شیشه‌ای بنفش
+    val RANG_DOKME_AMAL = 0xFFFF4D9E.toInt() // عملگرها صورتی
 
     fun dp(c: Context, v: Float): Int =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, c.resources.displayMetrics).toInt()
@@ -37,10 +46,31 @@ object Abzar {
         return g
     }
 
+    // کارت شیشه‌ای — پس‌زمینهٔ نیمه‌شفاف + خط درخشان
+    fun shisheh(
+        c: Context, rang: Int = RANG_DOKME, rangKhat: Int = 0x2EFFFFFF,
+        shoa: Float = 20f, setorKhat: Float = 1.2f
+    ): GradientDrawable {
+        val g = GradientDrawable()
+        g.setColor(rang)
+        g.setStroke(dp(c, setorKhat), rangKhat)
+        g.cornerRadius = dp(c, shoa).toFloat()
+        return g
+    }
+
+    // دایرهٔ درخشان (نشان بخش‌ها)
     fun dayereh(c: Context, rang: Int): GradientDrawable {
         val g = GradientDrawable()
         g.shape = GradientDrawable.OVAL
         g.setColor(rang)
+        return g
+    }
+
+    // گرادیان مورب فانتزی — برای کلید = و کارت‌های ویژه
+    fun gradian(c: Context, rang1: Int, rang2: Int, shoa: Float = 18f): GradientDrawable {
+        val g = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR, intArrayOf(rang1, rang2))
+        g.cornerRadius = dp(c, shoa).toFloat()
         return g
     }
 
@@ -78,6 +108,21 @@ object Abzar {
         val tv = TypedValue()
         v.context.theme.resolveAttribute(android.R.attr.selectableItemBackground, tv, true)
         v.foreground = v.context.getDrawable(tv.resourceId)
+    }
+
+    // فشردن فانتزی: کلید موقع لمس کمی کوچک می‌شود + لرزش ظریف — حس کلیدهای واقعی
+    fun fasor(v: View) {
+        v.setOnTouchListener { vv, ev ->
+            when (ev.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    vv.animate().scaleX(0.90f).scaleY(0.90f).setDuration(50).start()
+                    vv.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL ->
+                    vv.animate().scaleX(1f).scaleY(1f).setDuration(130).start()
+            }
+            false // کلیک عادی همچنان اجرا می‌شود
+        }
     }
 
     fun adadFarsi(n: Int): String {
