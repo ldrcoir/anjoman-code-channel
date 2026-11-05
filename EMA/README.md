@@ -6,7 +6,7 @@
 
 | اپ | نسخه | لینک مستقیم |
 |---|---|---|
-| آموزش Rust | ۱.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.0/AmoozeshRust-v1.0-debug.apk |
+| آموزش Rust | **۱.۱** (۱۴ درس) | https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.1/AmoozeshRust-v1.1-debug.apk |
 | ماشین‌حساب علمی | ۱.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v1.0/MashinHesab-EmaRoid-v1.0-debug.apk |
 | کتابچهٔ صندوق | ۱.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/ketabche-sandogh-v1.0/KetabcheSandogh-v1.0-debug.apk |
 | کالری‌یار | ۲.۰ | https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk |
@@ -14,6 +14,7 @@
 
 ## در همین پوشه
 
+- `APK/AmoozeshRust-v1.1-debug.apk` — بیلد تازهٔ ۱۴ درسی (مطابق Release)
 - `APK/AmoozeshKotlin-fix-g65.apk` — بیلد تعمیرشدهٔ گ۶۵ (۱.۲۱ مگابایت)؛ تا وقتی دربارهٔ شمارهٔ نسخهٔ نو (پیشنهاد: ۴.۰) تصمیم بگیری اینجا منتظر است
 
 ## مجله‌ها (سورس + PDF در خود ریپو)
