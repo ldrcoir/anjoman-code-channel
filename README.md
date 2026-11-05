@@ -87,8 +87,8 @@ Pillow + libraqm با `direction="rtl"` روی متن خام (بدون arabic_re
 
 | اپ | نسخه | لینک مستقیم |
 | --- | --- | --- |
-| ماشین‌حساب علمی EmaRoid | ۱.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v1.0/MashinHesab-EmaRoid-v1.0-debug.apk) |
-| آموزش Rust از صفر | ۱.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.0/AmoozeshRust-v1.0-debug.apk) |
+| ماشین‌حساب علمی EmaRoid | **۲.۰** کهکشان بنفش | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.0/MashinHesab-EmaRoid-v2.0-debug.apk) |
+| آموزش Rust از صفر | **۱.۱** (۱۴ درس) | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.1/AmoozeshRust-v1.1-debug.apk) |
 | آموزش کاتلین | ۳.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/AmoozeshKotlin-v3.0-debug.apk/AmoozeshKotlin-v3.0-debug.apk) |
 | کالری‌یار | ۲.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk) |
 | کتابچهٔ صندوق | ۱.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/ketabche-sandogh-v1.0/KetabcheSandogh-v1.0-debug.apk) |
