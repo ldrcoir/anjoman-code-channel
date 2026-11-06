@@ -10,10 +10,15 @@ package ir.emaroid.hesab
  * پشتیبانی: sin cos tan asin acos atan ln log sqrt abs exp
  * ثابت‌ها: pi , e   |  کاراکتر «!» فاکتوریل  |  ^
  * حالت درجه/رادیان برای توابع مثلثاتی
+ * علاوه بر این، عبارت‌های فقط‌حسابی (بدون حروف) با BozorgAdad دقیق و بی‌گردشدن حساب می‌شوند
+ * متغیرها (مثل x برای حل عددی) با moteqayyerHa تزریق می‌شوند
  */
 object MahineHesab {
 
     var daraje: Boolean = true // true یعنی توابع مثلثاتی با درجه کار می‌کنند
+
+    // متغیرهای تزریقی — حل عددی f(x)=0 از این استفاده می‌کند
+    var moteqayyerHa: Map<String, Double> = emptyMap()
 
     // ---------- ابزار عمومی ----------
     fun faghatAdad(s: String): Boolean {
@@ -46,6 +51,15 @@ object MahineHesab {
     }
 
     fun natijeRishti(mathn: String): String {
+        val pakehShode = pakeh(mathn)
+        // مسیر دقیق: عبارت فقط‌حسابی → اعداد بزرگ بی‌گردشدن
+        if (BozorgAdad.mohemAst(pakehShode)) {
+            try {
+                return BozorgAdad.rishti(BozorgAdad.hesabKon(pakehShode))
+            } catch (_: Exception) {
+                // اگر مسیر دقیق رد شد (مثلاً توان بسیار بزرگ) مسیر عمومی پیام خطای درستش را می‌دهد
+            }
+        }
         return rishti(hesabKon(mathn))
     }
 
@@ -153,6 +167,8 @@ object MahineHesab {
             val shoroo = i
             while (i < m.length && (m[i].isLetter())) i++
             val esm = m.substring(shoroo, i).lowercase()
+            // متغیر تزریقی (مثل x در حل عددی) مقدم بر ثابت‌هاست
+            if (moteqayyerHa.containsKey(esm)) return moteqayyerHa[esm]!!
             // فاکتوریل پارامتری مثل 5! از عامل می‌آید
             return when (esm) {
                 "pi", "π" -> Math.PI

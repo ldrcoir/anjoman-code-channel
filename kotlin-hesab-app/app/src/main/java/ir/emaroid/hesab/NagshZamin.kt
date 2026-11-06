@@ -9,72 +9,49 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 
 /*
- * پس‌زمینهٔ «خیره» ✨ — کهکشان بنفش با شفق
- * گرادیان مورب سه‌رنگ + هاله‌های نور صورتی/فیروزه‌ای + ستاره‌های ریز
- * + نمادهای ریاضی کم‌رنگ پراکنده (π √ ∑ ∞)
+ * پس‌زمینهٔ «سنگ‌زغالی» — تیره، جدی و بی‌شلوغ
+ * گرادیان گرافیت + شبکهٔ خیلی کم‌رنگ خطوط ابزار دقیق + یک هالهٔ نرم فیروزه‌ای
+ * هیچ ستاره و نماد شناوری نیست — حواس کاربر روی محاسبه می‌ماند
  */
 class NagshZamin(private val rangBala: Int, private val rangPaein: Int) : Drawable() {
 
     private val qalam = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val qalamNeveshteh = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val qalamKhat = Paint(Paint.ANTI_ALIAS_FLAG)
     private val qalamNur = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    // نمادهای ریاضی که در پس‌زمینه شناورند
-    private val alamatHa = listOf("π", "√", "∑", "∞", "ƒ", "≈", "≠", "∆", "∫", "%", "±", "Ω")
 
     override fun draw(canvas: Canvas) {
         val b = bounds
         val w = b.width().toFloat()
         val h = b.height().toFloat()
 
-        // گرادیان مورب کهکشانی
+        // گرادیان عمودی گرافیت
         qalam.shader = LinearGradient(
-            0f, 0f, w * 0.35f, h,
+            0f, 0f, w * 0.20f, h,
             rangBala, rangPaein, Shader.TileMode.CLAMP
         )
         canvas.drawRect(0f, 0f, w, h, qalam)
         qalam.shader = null
 
-        // هالهٔ صورتی بالا-راست
-        nur(canvas, w * 0.88f, h * 0.10f, w * 0.55f, 0x2EFF4D9E)
-        // هالهٔ فیروزه‌ای پایین-چپ
-        nur(canvas, w * 0.06f, h * 0.92f, w * 0.50f, 0x2A22D3EE)
-        // هالهٔ بنفش وسط
-        nur(canvas, w * 0.75f, h * 0.55f, w * 0.42f, 0x228B5CF6)
+        // شبکهٔ ابزار دقیق — خطوط عمودی و افقی خیلی کم‌رنگ
+        qalamKhat.style = Paint.Style.STROKE
+        qalamKhat.strokeWidth = 1f
+        qalamKhat.color = 0x0DFFFFFF
+        val gom = 56f
+        var x = gom
+        while (x < w) { canvas.drawLine(x, 0f, x, h, qalamKhat); x += gom }
+        var y = gom
+        while (y < h) { canvas.drawLine(0f, y, w, y, qalamKhat); y += gom }
 
-        // ستاره‌های ریز ثابت (چیدمان قطعی تا هر فریم یکسان بماند)
-        qalam.style = Paint.Style.FILL
-        qalam.color = 0x66FFFFFF
-        val star = floatArrayOf(0.08f, 0.14f, 0.22f, 0.31f, 0.38f, 0.47f, 0.56f, 0.63f, 0.72f, 0.81f, 0.9f, 0.95f)
-        var i = 0
-        for (fy in star) {
-            val fx = if (i % 2 == 0) (i * 0.137f) % 0.9f + 0.05f else (i * 0.293f) % 0.85f + 0.1f
-            val shoa = if (i % 3 == 0) 4.5f else 2.5f
-            canvas.drawCircle(w * fx, h * fy, shoa, qalam)
-            i++
-        }
+        // یک هالهٔ نرم فیروزه‌ای بالا-راست — نفسِ ملایم، نه نئون
+        nur(canvas, w * 0.92f, h * 0.06f, w * 0.60f, 0x1A2FA8C9)
 
-        // نمادهای ریاضی شناور
-        qalamNeveshteh.textSize = 40f
-        qalamNeveshteh.color = 0x16FFFFFF
-        var j = 0
-        var y = 100f
-        while (y < h) {
-            var x = if (j % 2 == 0) 36f else 110f
-            while (x < w) {
-                val alamat = alamatHa[j % alamatHa.size]
-                canvas.save()
-                canvas.rotate((j % 3 - 1) * 9f, x, y)
-                canvas.drawText(alamat, x, y, qalamNeveshteh)
-                canvas.restore()
-                x += 230f
-                j++
-            }
-            y += 180f
-        }
+        // خط تأکید ظریف زیر نوار بالا — امضای پالت
+        qalamKhat.strokeWidth = 2f
+        qalamKhat.color = 0x2E2FA8C9
+        canvas.drawLine(0f, 2f, w, 2f, qalamKhat)
     }
 
-    // هالهٔ نور نرم (گرادیان شعاعی محو شونده)
+    // هالهٔ نور نرم (گرادیان شعاعی محوشونده)
     private fun nur(canvas: Canvas, cx: Float, cy: Float, shoa: Float, rang: Int) {
         qalamNur.shader = RadialGradient(cx, cy, shoa,
             intArrayOf(rang, 0x00000000 or (rang and 0x00FFFFFF)),

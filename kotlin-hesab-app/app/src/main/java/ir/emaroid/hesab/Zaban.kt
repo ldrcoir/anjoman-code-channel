@@ -170,6 +170,28 @@ object Zaban {
             Z.PT to "Primos, fatores, MDC, Collatz, bases",
             Z.TR to "Asallar, çarpanlar, EBOB, Collatz, tabanlar"
         ),
+        "b5t" to mapOf(
+            Z.FA to "معادلات سنگین", Z.EN to "Heavy Equations",
+            Z.AR to "المعادلات الثقيلة", Z.ZH to "高阶方程", Z.JA to "高度な方程式",
+            Z.HI to "उच्च-घात समीकरण", Z.ES to "Ecuaciones avanzadas",
+            Z.FR to "Équations avancées", Z.DE to "Schwere Gleichungen",
+            Z.RU to "Сложные уравнения", Z.PT to "Equações avançadas",
+            Z.TR to "Ağır Denklemler"
+        ),
+        "b5d" to mapOf(
+            Z.FA to "درجهٔ ۳، درجهٔ ۴ و حل عددی با اعداد بزرگ",
+            Z.EN to "Cubic, quartic & numeric — big numbers",
+            Z.AR to "التكعيبي والرباعي والحل العددي بأعداد كبيرة",
+            Z.ZH to "三次、四次与数值求解 — 大数支持",
+            Z.JA to "三次・四次・数値解法 — 巨大数対応",
+            Z.HI to "त्रघात, चघात और संख्यात्मक — बड़ी संख्याएँ",
+            Z.ES to "Cúbicas, cuárticas y numérico — números grandes",
+            Z.FR to "Cubiques, quartiques et numérique — grands nombres",
+            Z.DE to "Kubisch, quartisch & numerisch — große Zahlen",
+            Z.RU to "Кубические, биквадратные и численно — большие числа",
+            Z.PT to "Cúbicas, quárticas e numérico — números grandes",
+            Z.TR to "Kübik, dördüncü derece ve sayısal — büyük sayılar"
+        ),
         "khane" to mapOf(
             Z.FA to "‹ خانه", Z.EN to "‹ Home", Z.AR to "‹ الرئيسية",
             Z.ZH to "‹ 主页", Z.JA to "‹ ホーム", Z.HI to "‹ होम",

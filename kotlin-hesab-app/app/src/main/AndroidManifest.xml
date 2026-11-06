@@ -26,6 +26,7 @@
         <activity android:name=".RasmActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".HalActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".AdadActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".MoadelatSanginActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".AboutActivity" android:exported="false" android:screenOrientation="portrait" />
     </application>
 

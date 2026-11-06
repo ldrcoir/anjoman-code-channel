@@ -10,9 +10,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 
 /*
- * ماشین‌حساب علمی — صفحهٔ کلید فانتزی ✨
- * کلیدهای شیشه‌ای نئون روی کهکشان بنفش؛ عملگرها صورتی، توابع فیروزه‌ای، = سبز گرادیانی
- * نمایش شیشه‌ای با نتیجهٔ زندهٔ طلایی + تاریخچهٔ شیشه‌ای
+ * ماشین‌حساب علمی — پالت سنگ‌زغالی جدی
+ * کلیدهای سنگی مات؛ عملگرها فولادی، توابع فیروزه‌ای مه‌گرفته، = تأکید واحد
+ * نمایش تیره با نتیجهٔ زندهٔ کهربایی + تاریخچهٔ مات
  */
 class HesabActivity : Activity() {
 
@@ -59,7 +59,7 @@ class HesabActivity : Activity() {
         // نمایش شیشه‌ای
         val kartNemayesh = LinearLayout(this)
         kartNemayesh.orientation = LinearLayout.VERTICAL
-        kartNemayesh.background = Abzar.shisheh(this, 0x33231B4E, 0x4D22D3EE, 22f, 1.5f)
+        kartNemayesh.background = Abzar.shisheh(this, 0x331B212A, 0x402FA8C9, 22f, 1.5f)
         kartNemayesh.setPadding(Abzar.dp(this, 16f), Abzar.dp(this, 14f), Abzar.dp(this, 16f), Abzar.dp(this, 14f))
 
         natijeZende = TextView(this)
@@ -137,30 +137,30 @@ class HesabActivity : Activity() {
                 var size = 18f
                 when {
                     label == "=" -> {
-                        posht = Abzar.gradian(this, 0xFF34D399.toInt(), 0xFF22D3EE.toInt(), 22f)
-                        rangMatn = 0xFF07131F.toInt()
+                        posht = Abzar.gradian(this, 0xFF256B85.toInt(), 0xFF2FA8C9.toInt(), 22f)
+                        rangMatn = 0xFF08121A.toInt()
                     }
                     label == "C" -> {
-                        posht = Abzar.shisheh(this, 0x40F87171.toInt(), 0x80F87171.toInt(), 22f, 1.5f)
+                        posht = Abzar.shisheh(this, 0x33D96459.toInt(), 0x66D96459.toInt(), 22f, 1.5f)
                         rangMatn = Abzar.RANG_GHERMEZ
                     }
                     no == 'B' -> {
-                        posht = Abzar.shisheh(this, 0x40F2B134.toInt(), 0x80F2B134.toInt(), 22f, 1.5f)
+                        posht = Abzar.shisheh(this, 0x33D9A441.toInt(), 0x66D9A441.toInt(), 22f, 1.5f)
                         rangMatn = Abzar.RANG_TALAEI
                     }
                     no in "+-*/^!%" -> {
-                        posht = Abzar.shisheh(this, 0x33FF4D9E.toInt(), 0x8CFF4D9E.toInt(), 22f, 1.5f)
+                        posht = Abzar.shisheh(this, 0x2E7A92AB.toInt(), 0x557A92AB.toInt(), 22f, 1.5f)
                         rangMatn = Abzar.RANG_GOLABI
                         size = 21f
                     }
                     no == 'f' -> {
-                        posht = Abzar.shisheh(this, 0x3022D3EE.toInt(), 0x7A22D3EE.toInt(), 22f, 1.2f)
+                        posht = Abzar.shisheh(this, 0x262FA8C9.toInt(), 0x552FA8C9.toInt(), 22f, 1.2f)
                         rangMatn = Abzar.RANG_TIZ
                         size = 16f
                     }
                     else -> {
-                        // اعداد و پرانتز — شیشهٔ بنفش ملایم
-                        posht = Abzar.shisheh(this, Abzar.RANG_DOKME, 0x30FFFFFF, 22f, 1.2f)
+                        // اعداد و پرانتز — کلید سنگی مات
+                        posht = Abzar.shisheh(this, Abzar.RANG_DOKME, 0x22FFFFFF, 22f, 1.2f)
                         rangMatn = Abzar.RANG_MATN
                         size = 22f
                     }
@@ -219,7 +219,7 @@ class HesabActivity : Activity() {
             t.setTextColor(Abzar.RANG_KAMRANG)
             t.typeface = Typeface.MONOSPACE
             t.gravity = Gravity.END
-            t.background = Abzar.shisheh(this, 0x26231B4E, 0x1FFFFFFF, 12f, 1f)
+            t.background = Abzar.shisheh(this, 0x261B212A, 0x1FFFFFFF, 12f, 1f)
             t.setPadding(Abzar.dp(this, 10f), Abzar.dp(this, 4f), Abzar.dp(this, 10f), Abzar.dp(this, 4f))
             val p = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
