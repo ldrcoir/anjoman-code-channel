@@ -3,7 +3,7 @@ name: build-apk
 on:
   push:
     paths:
-      - "kotlin-amoozesh-app/**"
+      - "EMA/app-ha/kotlin-amoozesh-app/**"
       - ".github/workflows/build-apk.yml"
   workflow_dispatch:
 
@@ -30,15 +30,15 @@ jobs:
 
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon
-        working-directory: kotlin-amoozesh-app
+        working-directory: EMA/app-ha/kotlin-amoozesh-app
 
       - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk AmoozeshKotlin-v3.0-debug.apk
-        working-directory: kotlin-amoozesh-app
+        run: cp app/build/outputs/apk/debug/app-debug.apk AmoozeshKotlin-v4.0-debug.apk
+        working-directory: EMA/app-ha/kotlin-amoozesh-app
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: amoozesh-kotlin-apk
-          path: kotlin-amoozesh-app/AmoozeshKotlin-v3.0-debug.apk
+          name: amoozesh-kotlin-v4
+          path: EMA/app-ha/kotlin-amoozesh-app/AmoozeshKotlin-v4.0-debug.apk
           if-no-files-found: error

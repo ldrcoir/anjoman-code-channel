@@ -3,7 +3,7 @@ name: build-sandogh-apk
 on:
   push:
     paths:
-      - "kotlin-sandogh-app/**"
+      - "EMA/app-ha/kotlin-sandogh-app/**"
       - ".github/workflows/build-sandogh-apk.yml"
   workflow_dispatch:
 
@@ -28,10 +28,10 @@ jobs:
         env:
           LEDGER_B64: ${{ secrets.SANDOGH_LEDGER }}
         run: |
-          mkdir -p kotlin-sandogh-app/app/src/main/assets
+          mkdir -p EMA/app-ha/kotlin-sandogh-app/app/src/main/assets
           if [ -n "$LEDGER_B64" ]; then
-            printf '%s' "$LEDGER_B64" | base64 -d > kotlin-sandogh-app/app/src/main/assets/ledger.json
-            echo "ledger.json: $(wc -c < kotlin-sandogh-app/app/src/main/assets/ledger.json) bytes"
+            printf '%s' "$LEDGER_B64" | base64 -d > EMA/app-ha/kotlin-sandogh-app/app/src/main/assets/ledger.json
+            echo "ledger.json: $(wc -c < EMA/app-ha/kotlin-sandogh-app/app/src/main/assets/ledger.json) bytes"
           else
             echo "SANDOGH_LEDGER خالی است — بیلد بدون داده"
           fi
@@ -43,15 +43,15 @@ jobs:
 
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon
-        working-directory: kotlin-sandogh-app
+        working-directory: EMA/app-ha/kotlin-sandogh-app
 
       - name: Rename APK
         run: cp app/build/outputs/apk/debug/app-debug.apk KetabcheSandogh-v1.0-debug.apk
-        working-directory: kotlin-sandogh-app
+        working-directory: EMA/app-ha/kotlin-sandogh-app
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: ketabche-sandogh-apk
-          path: kotlin-sandogh-app/KetabcheSandogh-v1.0-debug.apk
+          path: EMA/app-ha/kotlin-sandogh-app/KetabcheSandogh-v1.0-debug.apk
           if-no-files-found: error

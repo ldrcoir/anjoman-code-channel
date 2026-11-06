@@ -3,7 +3,7 @@ name: build-calorie-apk
 on:
   push:
     paths:
-      - "kotlin-calorie-app/**"
+      - "EMA/app-ha/kotlin-calorie-app/**"
       - ".github/workflows/build-calorie-apk.yml"
   workflow_dispatch:
 
@@ -30,15 +30,15 @@ jobs:
 
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon
-        working-directory: kotlin-calorie-app
+        working-directory: EMA/app-ha/kotlin-calorie-app
 
       - name: Rename APK
         run: cp app/build/outputs/apk/debug/app-debug.apk KalariYar-v2.0-debug.apk
-        working-directory: kotlin-calorie-app
+        working-directory: EMA/app-ha/kotlin-calorie-app
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: kalaryar-v2-apk
-          path: kotlin-calorie-app/KalariYar-v2.0-debug.apk
+          path: EMA/app-ha/kotlin-calorie-app/KalariYar-v2.0-debug.apk
           if-no-files-found: error

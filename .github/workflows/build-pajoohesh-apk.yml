@@ -3,7 +3,7 @@ name: build-pajoohesh-apk
 on:
   push:
     paths:
-      - "kotlin-pajoohesh-app/**"
+      - "EMA/app-ha/kotlin-pajoohesh-app/**"
       - "enteshar/**"
       - ".github/workflows/build-pajoohesh-apk.yml"
   workflow_dispatch:
@@ -45,16 +45,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
         run: |
-          mkdir -p kotlin-pajoohesh-app/app/src/main/assets
+          mkdir -p EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets
           code=$(curl -sS -o /tmp/assets.zip -w "%{http_code}" -L \
             -H "Authorization: Bearer $GH_TOKEN" \
             "https://raw.githubusercontent.com/ldrcoir/pajoohesh-pages/main/assets.zip")
           echo "http: $code | size: $(wc -c < /tmp/assets.zip) bytes"
           if [ "$code" = "200" ] && [ -s /tmp/assets.zip ]; then
-            unzip -o -q /tmp/assets.zip -d kotlin-pajoohesh-app/app/src/main/assets
-            echo "pages: $(ls kotlin-pajoohesh-app/app/src/main/assets/pages | wc -l)"
-            echo "cover: $(ls -la kotlin-pajoohesh-app/app/src/main/assets/cover.webp | awk '{print $5}') bytes"
-            echo "matn: $(ls -la kotlin-pajoohesh-app/app/src/main/assets/matn.json | awk '{print $5}') bytes"
+            unzip -o -q /tmp/assets.zip -d EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets
+            echo "pages: $(ls EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets/pages | wc -l)"
+            echo "cover: $(ls -la EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets/cover.webp | awk '{print $5}') bytes"
+            echo "matn: $(ls -la EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets/matn.json | awk '{print $5}') bytes"
           else
             echo "محتوا نیامد — بیلد بدون محتوا ادامه می‌یابد"
           fi
@@ -67,10 +67,10 @@ jobs:
       # نسخهٔ release امضاشده با کلیدی که گام قبل از ریپوی خصوصی گرفت
       - name: Build signed release APK
         run: gradle assembleRelease --no-daemon
-        working-directory: kotlin-pajoohesh-app
+        working-directory: EMA/app-ha/kotlin-pajoohesh-app
 
       - name: Verify APK signature
-        working-directory: kotlin-pajoohesh-app
+        working-directory: EMA/app-ha/kotlin-pajoohesh-app
         run: |
           APK=app/build/outputs/apk/release/app-release.apk
           test -f "$APK"
@@ -80,12 +80,12 @@ jobs:
           head -4 /tmp/sig.txt
 
       - name: Rename APK
-        run: cp app/build/outputs/apk/release/app-release.apk DastavardhayePajoohesh-v1.2.apk
-        working-directory: kotlin-pajoohesh-app
+        run: cp app/build/outputs/apk/release/app-release.apk DastavardhayePajoohesh-v1.3.apk
+        working-directory: EMA/app-ha/kotlin-pajoohesh-app
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: dastavardha-pajoohesh-apk
-          path: kotlin-pajoohesh-app/DastavardhayePajoohesh-v1.2.apk
+          path: EMA/app-ha/kotlin-pajoohesh-app/DastavardhayePajoohesh-v1.3.apk
           if-no-files-found: error
