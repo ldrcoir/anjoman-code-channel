@@ -28,8 +28,8 @@
 ## صف انتشار (queue) — 4 مورد
 
 - `che-amoozeshi/011-enerjy-badi` —  — 
-- `che-amoozeshi/012-ketab-boyle-renewable` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹)؛
-- `che-amoozeshi/013-ketab-mackay-hotair` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹)؛
+- `che-amoozeshi/012-ketab-boyle-renewable` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹
+- `che-amoozeshi/013-ketab-mackay-hotair` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹
 - `khollagheh/013-bazi-chalesh-enerjy-sabz` —  — 
 
 جمع پست‌ها: 11 | صف: 4

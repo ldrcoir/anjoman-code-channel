@@ -36,7 +36,8 @@
 | 4-moarefi | 013-kharazmi | خوارزمی؛ پدر الگوریتم | منتشرشده (message_id=53) |
 | 4-moarefi | 019-poster-gpt | دستیار هوشمند برنامه‌نویسی: ChatGPT | منتشرشده (message_id=51) |
 | 4-moarefi | 025-grace-hopper | گریس هاپر؛ مادر کامپایلر | منتشرشده (message_id=194) |
-| 4-moarefi | 031-moarefi-free-resources | آرشیو رایگان فارسی آموزش برنامه‌نویسی (free-resources) | پیش‌نویس — منتظر تأیید سردبیر؛ پس از تأیید، در کانال انجمن کدن |
+| 4-moarefi | 031-moarefi-free-resources | آرشیو رایگان فارسی آموزش برنامه‌نویسی (free-resources) | پیش‌نویس — منتظر تأیید سردبیر؛ پس از تأیید، در کانال انجمن ک |
+| 4-moarefi | 032-moarefi-kitab-git | کتاب رسمی گیت به فارسی (Pro Git) | پیش‌نویس — منتظر تأیید سردبیر؛ پس از تأیید، در کانال انجمن ک |
 | 5-etelaeiei | 015-fatemieh-aval-1448 | شهادت حضرت فاطمهٔ زهرا (س) | منتشرشده (message_id=157) |
 | 5-etelaeiei | 020-fatemieh-simple-1448 | تسلیت ایام فاطمیه (نسخهٔ ساده با عکس اینترنتی) | منتشرشده (message_id=159) |
 | 6-khollagheh | 007-code-va-zendegi | زندگی، مثل یک کد | منتشرشده (message_id=20) |
@@ -49,8 +50,8 @@
 ## صف انتشار (queue) — 10 مورد
 
 - `4-moarefi/023-grace-hopper` —  — 
-- `4-moarefi/035-ketab-rust-in-action` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹)؛
-- `4-moarefi/036-ketab-programming-rust` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹)؛
+- `4-moarefi/035-ketab-rust-in-action` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹
+- `4-moarefi/036-ketab-programming-rust` —  — queue — پیش‌نمایش برای سردبیر (گردش ۴۹، ۱۴۰۵-۰۸-۰۹
 - `4-moarefi/10-manabe-rasmi` —  — 
 - `4-moarefi/20-poster-gorayesh` —  — 
 - `5-etelaeiei/abane13-roz-daneshamooz` —  — 
@@ -59,4 +60,4 @@
 - `5-etelaeiei/fatemeh-sa-1448` —  — 
 - `5-etelaeiei/shabe-yalda` —  — 
 
-جمع پست‌ها: 32 | صف: 10
+جمع پست‌ها: 33 | صف: 10
