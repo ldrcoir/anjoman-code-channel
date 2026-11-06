@@ -124,7 +124,7 @@ class PlaygroundActivity : Activity() {
         virayeshgar.isVerticalScrollBarEnabled = true
 
         val kod = intent.getStringExtra("kod")
-        virayeshgar.text = (kod ?: tamrin?.codeShoro ?: nemuneShoro())
+        virayeshgar.setText(kod ?: tamrin?.codeShoro ?: nemuneShoro())
 
         val pVirayeshgar = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -275,7 +275,7 @@ fun main() {
         for ((onvan, kod) in nemuneHa) {
             val chip = Abzar.dokme(this, onvan, Abzar.RANG_KHAKISTARI, Abzar.RANG_MATN)
             chip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
-            chip.setOnClickListener { virayeshgar.text = kod; matnKhoroji.text = Zaban.t("namune_lod") }
+            chip.setOnClickListener { virayeshgar.setText(kod); matnKhoroji.text = Zaban.t("namune_lod") }
             val pChip = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
