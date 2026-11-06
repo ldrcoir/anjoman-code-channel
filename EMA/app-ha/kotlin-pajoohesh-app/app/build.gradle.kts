@@ -7,7 +7,7 @@ plugins {
 
 // کلید امضا — پوشهٔ enteshar در ریشهٔ مخزن (طبق دستور سردبیر، کلید در مخزن نگهداری می‌شود)
 val klidProps = Properties().apply {
-    val f = rootProject.file("../../enteshar/klid.properties")
+    val f = rootProject.file("../../../enteshar/klid.properties")
     if (f.exists()) f.inputStream().use { load(it) }
 }
 
@@ -26,7 +26,7 @@ android {
     if (klidProps.isNotEmpty()) {
         signingConfigs {
             create("enteshar") {
-                storeFile = rootProject.file("../enteshar/${klidProps.getProperty("klid.fail")}")
+                storeFile = rootProject.file("../../../enteshar/${klidProps.getProperty("klid.fail")}")
                 storePassword = klidProps.getProperty("klid.ramz")
                 keyAlias = klidProps.getProperty("klid.alias")
                 keyPassword = klidProps.getProperty("klid.ramzKey")
