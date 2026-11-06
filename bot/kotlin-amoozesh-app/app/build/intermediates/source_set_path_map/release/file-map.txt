@@ -1,7 +1,0 @@
-ir.anjoman.amoozeshkotlin.app-pngs-0 /home/z/my-project/kotlin-amoozesh-app/app/build/generated/res/pngs/release
-ir.anjoman.amoozeshkotlin.app-resValues-1 /home/z/my-project/kotlin-amoozesh-app/app/build/generated/res/resValues/release
-ir.anjoman.amoozeshkotlin.app-packageReleaseResources-2 /home/z/my-project/kotlin-amoozesh-app/app/build/intermediates/incremental/release/packageReleaseResources/merged.dir
-ir.anjoman.amoozeshkotlin.app-packageReleaseResources-3 /home/z/my-project/kotlin-amoozesh-app/app/build/intermediates/incremental/release/packageReleaseResources/stripped.dir
-ir.anjoman.amoozeshkotlin.app-merged_res-4 /home/z/my-project/kotlin-amoozesh-app/app/build/intermediates/merged_res/release
-ir.anjoman.amoozeshkotlin.app-main-5 /home/z/my-project/kotlin-amoozesh-app/app/src/main/res
-ir.anjoman.amoozeshkotlin.app-release-6 /home/z/my-project/kotlin-amoozesh-app/app/src/release/res

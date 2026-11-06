@@ -1,7 +1,0 @@
-ir.anjoman.amoozeshrust.app-pngs-0 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/build/generated/res/pngs/release
-ir.anjoman.amoozeshrust.app-resValues-1 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/build/generated/res/resValues/release
-ir.anjoman.amoozeshrust.app-packageReleaseResources-2 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/build/intermediates/incremental/release/packageReleaseResources/merged.dir
-ir.anjoman.amoozeshrust.app-packageReleaseResources-3 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/build/intermediates/incremental/release/packageReleaseResources/stripped.dir
-ir.anjoman.amoozeshrust.app-merged_res-4 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/build/intermediates/merged_res/release
-ir.anjoman.amoozeshrust.app-main-5 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/src/main/res
-ir.anjoman.amoozeshrust.app-release-6 /home/z/my-project/anjoman-code-bot/kotlin-rust-app/app/src/release/res

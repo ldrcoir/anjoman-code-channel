@@ -1,1 +1,0 @@
-ir.anjoman.amoozeshkotlin:mipmap/ic_launcher = 0x7f010000
