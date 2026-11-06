@@ -13,7 +13,6 @@ import android.widget.TextView
 
 /*
  * منوی اصلی اپ — همهٔ بخش‌ها یک‌جا
- * از دکمهٔ ☰ صفحهٔ اصلی باز می‌شود
  */
 class MenuActivity : Activity() {
 
@@ -31,7 +30,8 @@ class MenuActivity : Activity() {
     private fun safheBekon(): View {
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        root.layoutDirection =
+            if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
         root.setBackgroundColor(Abzar.RANG_ZAMIN)
 
         val scroll = ScrollView(this)
@@ -56,18 +56,19 @@ class MenuActivity : Activity() {
         )
 
         // سرصفحه
-        val onvan = Abzar.tv(this, "منو", 30f, Abzar.RANG_MATN)
+        val onvan = Abzar.tv(this, Zaban.t("menu"), 30f, Abzar.RANG_MATN)
         onvan.typeface = FontBox.vazirBlack(this)
         ghabe.addView(onvan)
 
-        val zirOnvan = Abzar.tv(this, "همهٔ بخش‌های اپ اینجاست", 14f, Abzar.RANG_KAMRANG)
+        val zirOnvan = Abzar.tv(this, Zaban.t("menu_zir"), 14f, Abzar.RANG_KAMRANG)
         zirOnvan.setPadding(0, Abzar.dp(this, 6f), 0, 0)
         ghabe.addView(zirOnvan)
 
         // وضعیت کلی
+        val fehrest = Tarjomeh.fehrest(Zaban.bekhon(this))
         var majmoo = 0
         var hadaf = 0
-        for (d in DarsHa.darsList) {
+        for (d in fehrest) {
             val n = Zakhire.behtarin(this, d.shomareh)
             if (n > 0) majmoo += n
             hadaf += d.soalHa.size
@@ -76,10 +77,11 @@ class MenuActivity : Activity() {
         kartVaziat.orientation = LinearLayout.VERTICAL
         kartVaziat.background = Abzar.kart(this, Abzar.RANG_CODE, 14f)
         kartVaziat.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 12f), Abzar.dp(this, 14f), Abzar.dp(this, 12f))
+        val temIdx = TemHa.temHa.indexOf(TemHa.faeli).coerceAtLeast(0)
         kartVaziat.addView(
             Abzar.tv(
                 this,
-                "وضعیت تو: ${Abzar.adadFarsi(majmoo)} از ${Abzar.adadFarsi(hadaf)} سؤال درست • تم: ${TemHa.faeli.esm}",
+                "${Zaban.t("vaziat")}: ${Zaban.adad(majmoo)} ${Zaban.t("az")} ${Zaban.adad(hadaf)} ${Zaban.t("soal_sah")} • ${Zaban.t("tem_$temIdx")}",
                 13f, Abzar.RANG_TALAEI, bold = true
             )
         )
@@ -92,27 +94,31 @@ class MenuActivity : Activity() {
 
         // آیتم‌های منو
         ghabe.addView(
-            itemKart("📚", "درس‌ها", "${Abzar.adadFarsi(DarsHa.darsList.size)} درس در ۶ فصل — از مقدمه تا پیشرفته", "dars"),
+            itemKart("📚", Zaban.t("dars_ha"), "${Zaban.adad(fehrest.size)} ${Zaban.t("dars")} — ${Zaban.t("menu_dars_tozih")}", "dars"),
             pKart()
         )
         ghabe.addView(
-            itemKart("⌨", "زمین بازی کد", "هر کدی بنویسی همان‌جا اجرا می‌شود؛ با خطایابی فارسی", "zamin"),
+            itemKart("⌨", Zaban.t("zamin_bazi"), Zaban.t("zamin_bazi_tozih"), "zamin"),
             pKart()
         )
         ghabe.addView(
-            itemKart("✏", "تمرین‌های عملی", "${Abzar.adadFarsi(Zakhire.tamrinAnjamShode(this))} از ${Abzar.adadFarsi(DarsHa.tamrinHa.size)} تمرین حل شده", "tamrin"),
+            itemKart("✏", Zaban.t("tamrin_titr"), "${Zaban.adad(Zakhire.tamrinAnjamShode(this))} ${Zaban.t("az")} ${Zaban.adad(DarsHa.tamrinHa.size)}", "tamrin"),
             pKart()
         )
         ghabe.addView(
-            itemKart("🏅", "آزمون جامع", "۱۵ سؤال تصادفی از همهٔ درس‌ها؛ نمره از ۲۰", "jame"),
+            itemKart("🏅", Zaban.t("azmoon_jame"), Zaban.t("azmoon_jame_tozih"), "jame"),
             pKart()
         )
         ghabe.addView(
-            itemKart("🎨", "تم و ظاهر", "۶ تم رنگی؛ کل اپ با یک لمس عوض می‌شود", "tem"),
+            itemKart("🚀", Zaban.t("dastan"), Zaban.t("dastan_tozih"), "dastan"),
             pKart()
         )
         ghabe.addView(
-            itemKart("ℹ", "دربارهٔ ما", "انجمن کدنویسی مدرسهٔ شهید فقیهی", "darbare"),
+            itemKart("🎨", Zaban.t("tem_titr"), Zaban.t("tem_tozih"), "tem"),
+            pKart()
+        )
+        ghabe.addView(
+            itemKart("ℹ", Zaban.t("darbare"), "", "darbare"),
             pKart()
         )
 
@@ -155,9 +161,11 @@ class MenuActivity : Activity() {
         sotoon.orientation = LinearLayout.VERTICAL
         val matnOnvan = Abzar.tv(this, onvan, 17f, Abzar.RANG_MATN, bold = true)
         sotoon.addView(matnOnvan)
-        val matnTozih = Abzar.tv(this, tozih, 13f, Abzar.RANG_KAMRANG)
-        matnTozih.setPadding(0, Abzar.dp(this, 3f), 0, 0)
-        sotoon.addView(matnTozih)
+        if (tozih.isNotBlank()) {
+            val matnTozih = Abzar.tv(this, tozih, 13f, Abzar.RANG_KAMRANG)
+            matnTozih.setPadding(0, Abzar.dp(this, 3f), 0, 0)
+            sotoon.addView(matnTozih)
+        }
         val pSotoon = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         pSotoon.marginStart = Abzar.dp(this, 14f)
         kart.addView(sotoon, pSotoon)
@@ -174,10 +182,12 @@ class MenuActivity : Activity() {
             "zamin" -> startActivity(Intent(this, PlaygroundActivity::class.java))
             "tamrin" -> startActivity(Intent(this, TamrinActivity::class.java))
             "jame" -> {
+                AmarSanj.sabt(applicationContext, "quiz_start", org.json.JSONObject().put("jame", true))
                 val niat = Intent(this, QuizActivity::class.java)
                 niat.putExtra("azmoon_jame", true)
                 startActivity(niat)
             }
+            "dastan" -> startActivity(Intent(this, DastanActivity::class.java))
             "tem" -> startActivity(Intent(this, TemActivity::class.java))
             "darbare" -> startActivity(Intent(this, AboutActivity::class.java))
         }

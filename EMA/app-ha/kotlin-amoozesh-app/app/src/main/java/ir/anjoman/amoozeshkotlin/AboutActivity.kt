@@ -11,7 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 
 /*
- * صفحهٔ درباره — برند EmaRoid طبق خواستهٔ سردبیر
+ * صفحهٔ درباره — برند EmaRoid
  */
 class AboutActivity : Activity() {
 
@@ -22,7 +22,7 @@ class AboutActivity : Activity() {
         val root = FrameLayout(this)
         root.layoutDirection =
             if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
-        root.background = NagshZamin(0xFF101A33.toInt(), 0xFF0B1220.toInt())
+        root.background = Abzar.nagsh(this)
 
         val vasat = LinearLayout(this)
         vasat.orientation = LinearLayout.VERTICAL
@@ -75,27 +75,15 @@ class AboutActivity : Activity() {
         brand.setPadding(0, Abzar.dp(this, 6f), 0, 0)
         kart.addView(brand)
 
-        val onvan = Abzar.tv(this, "انجمن کدنویسی مدرسهٔ شهید فقیهی", 16f, Abzar.RANG_MATN, bold = true)
+        val onvan = Abzar.tv(this, Zaban.t("onvan_app"), 16f, Abzar.RANG_MATN, bold = true)
         onvan.gravity = Gravity.CENTER
         onvan.setPadding(0, Abzar.dp(this, 12f), 0, 0)
         kart.addView(onvan)
 
-        val tozih = Abzar.tv(
-            this, "این اپ برای یادگیری کاتلین ساخته شده؛\nساختهٔ $EmaRoidBrand با عشق برای بچه‌های پژوهشسرا",
-            14f, Abzar.RANG_KAMRANG
-        )
+        val tozih = Abzar.tv(this, Zaban.t("darbare_matn"), 14f, Abzar.RANG_KAMRANG)
         tozih.gravity = Gravity.CENTER
         tozih.setPadding(0, Abzar.dp(this, 10f), 0, 0)
         kart.addView(tozih)
-
-        // نسخه
-        try {
-            val pm = packageManager.getPackageInfo(packageName, 0)
-            val neskh = Abzar.tv(this, "v${pm.versionName}", 12f, Abzar.RANG_KAMRANG)
-            neskh.setPadding(0, Abzar.dp(this, 14f), 0, 0)
-            kart.addView(neskh)
-        } catch (_: Exception) {
-        }
 
         vasat.addView(kart)
 
@@ -112,6 +100,3 @@ class AboutActivity : Activity() {
         setContentView(root)
     }
 }
-
-// رشتهٔ برند برای استفادهٔ متن‌ها
-const val EmaRoidBrand = "EmaRoid"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -13,20 +14,23 @@ import kotlin.concurrent.thread
 /*
  * آمارگیر سبک EmaRoid — نسخهٔ «حرمت‌دار»
  *
- * پرسش سردبیر: «این باعث می‌شه تعداد مجوزها زیاد بشه؟»
- * جواب: نه! این آمارگیر فقط و فقط از مجوز INTERNET استفاده می‌کند
- * که اپ‌های آنلاین همیشه دارند. ما هیچ‌کدام از این‌ها را نمی‌گیریم:
- *   - IMEI / شماره سریال گوشی → نیاز به READ_PHONE_STATE دارد، جمع نمی‌شود
- *   - شماره تلفن، مخاطبین، موقعیت GPS → اصلاً دست نمی‌زنیم
- * کشور را از زبان سیستم + اپراتور (بدون مجوز) می‌خوانیم و مدل گوشی را
- * از Build (بدون مجوز). یعنی صفر مجوز جدید.
- * ارسال کاملاً بی‌صدا و کوتاه است؛ اگر اینترنت نبود، بی‌سروصدا دفعهٔ بعد.
+ * فقط از مجوز INTERNET استفاده می‌کند که اپ‌های آنلاین همیشه دارند.
+ * IMEI / شماره تلفن / مخاطبین / موقعیت GPS → هیچ‌کدام جمع نمی‌شود.
+ *
+ * دو نوع آمار:
+ *   ۱) ضربان: هر ۲۴ ساعت یک گزارش از وضعیت اپ (باز شدن، دستگاه، کشور...)
+ *   ۲) رویدادها: هر کاری که کاربر می‌کند — درس باز شده، هر جواب آزمون،
+ *      تمرین حل‌شده، اجرای کد، تغییر زبان/تم، دیدن داستان — همه با sabt()
+ *      ثبت و همراه ضربان بعدی یک‌جا فرستاده می‌شود.
+ * ارسال کاملاً بی‌صدا؛ اگر اینترنت نبود، بی‌سروصدا دفعهٔ بعد.
  */
 object AmarSanj {
 
     private const val FILE = "amar_emaroid"
     private const val KEY_AKHARIN = "akharin_ersal_ms"
     private const val KEY_TEDAD_BAZ = "tedad_baz_shodan"
+    private const val KEY_RUYDADHA = "ruydadha"
+    private const val HAD_RUYDAD = 400
 
     fun bego(appContext: Context) {
         try {
@@ -49,6 +53,29 @@ object AmarSanj {
         }
     }
 
+    // ثبت یک رویداد — بی‌صدا و سبک؛ همراه ضربان بعدی می‌رود
+    fun sabt(appContext: Context, rooydad: String, etelaat: JSONObject? = null) {
+        try {
+            val p = appContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+            val list = JSONArray(p.getString(KEY_RUYDADHA, "[]") ?: "[]")
+            val e = JSONObject()
+            e.put("e", rooydad)
+            e.put("ts", System.currentTimeMillis())
+            if (etelaat != null) e.put("d", etelaat)
+            list.put(e)
+            // نگه‌داشتن سقف — رویدادهای کهنه دور ریخته می‌شوند
+            val bishtar = list.length() - HAD_RUYDAD
+            if (bishtar > 0) {
+                val taze = JSONArray()
+                for (i in bishtar until list.length()) taze.put(list.get(i))
+                p.edit().putString(KEY_RUYDADHA, taze.toString()).apply()
+            } else {
+                p.edit().putString(KEY_RUYDADHA, list.toString()).apply()
+            }
+        } catch (_: Exception) {
+        }
+    }
+
     // ساخت JSON آمار — برای آزمون واحد جدا شده
     fun besaz(
         esmPake: String,
@@ -62,7 +89,8 @@ object AmarSanj {
         keshvar: String,
         zaban: String,
         tedadBaz: Int,
-        zamandar: Long
+        zamandar: Long,
+        ruydadHa: JSONArray = JSONArray()
     ): JSONObject {
         return JSONObject().apply {
             put("app", esmPake)
@@ -77,6 +105,7 @@ object AmarSanj {
             put("opens", tedadBaz)
             put("ts", zamandar)
             put("brand", EmaRoidConfig.BRAND)
+            put("events", ruydadHa)
         }
     }
 
@@ -89,6 +118,11 @@ object AmarSanj {
         ).firstOrNull { !it.isNullOrBlank() } ?: "ir"
         val zaban = c.resources.configuration.locales[0].language
         val m: DisplayMetrics = c.resources.displayMetrics
+
+        // رویدادهای ذخیره‌شده را می‌فرستیم و خالی می‌کنیم
+        val p = c.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+        val ruydadHa = JSONArray(p.getString(KEY_RUYDADHA, "[]") ?: "[]")
+        p.edit().putString(KEY_RUYDADHA, "[]").apply()
 
         return besaz(
             esmPake = c.packageName,
@@ -106,7 +140,8 @@ object AmarSanj {
             keshvar = keshvar.lowercase(),
             zaban = zaban,
             tedadBaz = tedad,
-            zamandar = System.currentTimeMillis()
+            zamandar = System.currentTimeMillis(),
+            ruydadHa = ruydadHa
         )
     }
 

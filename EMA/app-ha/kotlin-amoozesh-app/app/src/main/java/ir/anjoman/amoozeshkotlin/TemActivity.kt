@@ -12,13 +12,14 @@ import android.widget.TextView
 
 /*
  * انتخاب تم — شش تم رنگی
- * با هر لمس، تم ذخیره و اعمال می‌شود؛ همهٔ صفحه‌ها موقع برگشتن با تم تازه ساخته می‌شوند
+ * با هر لمس، تم ذخیره و همان لحظه به همهٔ رنگ‌های اپ اعمال می‌شود
  */
 class TemActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Abzar.rangVaredKon(this)
+        AmarSanj.sabt(applicationContext, "tem_open")
         setContentView(safheBekon())
     }
 
@@ -30,7 +31,8 @@ class TemActivity : Activity() {
     private fun safheBekon(): View {
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        root.layoutDirection =
+            if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
         root.setBackgroundColor(Abzar.RANG_ZAMIN)
 
         val scroll = ScrollView(this)
@@ -54,28 +56,24 @@ class TemActivity : Activity() {
             )
         )
 
-        val onvan = Abzar.tv(this, "تم و ظاهر", 28f, Abzar.RANG_MATN)
+        val onvan = Abzar.tv(this, Zaban.t("tem_titr"), 28f, Abzar.RANG_MATN)
         onvan.typeface = FontBox.vazirBlack(this)
         ghabe.addView(onvan)
 
-        val zirOnvan = Abzar.tv(this, "یکی را انتخاب کن؛ کل اپ همان لحظه عوض می‌شود", 14f, Abzar.RANG_KAMRANG)
+        val zirOnvan = Abzar.tv(this, Zaban.t("tem_zironvan"), 14f, Abzar.RANG_KAMRANG)
         zirOnvan.setPadding(0, Abzar.dp(this, 6f), 0, Abzar.dp(this, 8f))
         ghabe.addView(zirOnvan)
 
-        for (tem in TemHa.temHa) {
+        for ((i, tem) in TemHa.temHa.withIndex()) {
             val p = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             p.topMargin = Abzar.dp(this, 14f)
-            ghabe.addView(kartTem(tem), p)
+            ghabe.addView(kartTem(i, tem), p)
         }
 
-        val nasihat = Abzar.tv(
-            this,
-            "نکته: تم‌های تیره برای شب و چشم، تم روشن برای نور روز خوب است.",
-            13f, Abzar.RANG_KAMRANG
-        )
+        val nasihat = Abzar.tv(this, Zaban.t("tem_nasihat"), 13f, Abzar.RANG_KAMRANG)
         val pNasihat = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -87,7 +85,7 @@ class TemActivity : Activity() {
     }
 
     // کارت هر تم: نمونهٔ رنگ‌ها + نام + علامت انتخاب
-    private fun kartTem(tem: Tem): LinearLayout {
+    private fun kartTem(i: Int, tem: Tem): LinearLayout {
         val faaliAst = tem.esm == TemHa.faeli.esm
 
         val kart = LinearLayout(this)
@@ -105,6 +103,8 @@ class TemActivity : Activity() {
         Abzar.lams(kart)
         kart.setOnClickListener {
             TemHa.entekhabKon(this, tem)
+            AmarSanj.sabt(applicationContext, "tem_changed", org.json.JSONObject().put("tem", i))
+            Abzar.rangVaredKon(this)   // رنگ‌های همین صفحه هم همان لحظه عوض می‌شوند
             setContentView(safheBekon())   // بازسازی فوری همین صفحه با تم تازه
         }
 
@@ -126,11 +126,11 @@ class TemActivity : Activity() {
 
         val sotoon = LinearLayout(this)
         sotoon.orientation = LinearLayout.VERTICAL
-        val matnEsm = Abzar.tv(this, tem.esm, 17f, Abzar.RANG_MATN, bold = true)
+        val matnEsm = Abzar.tv(this, Zaban.t("tem_$i"), 17f, Abzar.RANG_MATN, bold = true)
         sotoon.addView(matnEsm)
         val matnNo = Abzar.tv(
             this,
-            if (tem.tir) "تم تیره" else "تم روشن",
+            if (tem.tir) Zaban.t("tem_tir") else Zaban.t("tem_roshan"),
             12f, Abzar.RANG_KAMRANG
         )
         matnNo.setPadding(0, Abzar.dp(this, 3f), 0, 0)
@@ -140,7 +140,7 @@ class TemActivity : Activity() {
         kart.addView(sotoon, pSotoon)
 
         val halat = TextView(this)
-        halat.text = if (faaliAst) "✓ فعال" else "انتخاب"
+        halat.text = if (faaliAst) Zaban.t("faal") else Zaban.t("entekhab")
         halat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
         halat.setTextColor(if (faaliAst) Abzar.RANG_SABZ else Abzar.RANG_KAMRANG)
         halat.typeface = FontBox.vazirBold(this)

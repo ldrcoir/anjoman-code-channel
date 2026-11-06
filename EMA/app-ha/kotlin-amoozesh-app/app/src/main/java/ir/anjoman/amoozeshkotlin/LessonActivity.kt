@@ -2,7 +2,6 @@ package ir.anjoman.amoozeshkotlin
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
@@ -14,18 +13,15 @@ import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 
 /*
- * صفحهٔ درس — بازطراحی کامل طبق خواستهٔ مالک:
- * «متن اسکرول نخوره، دکمهٔ بعد و قبل داشته باشه، بگراند طرح جالب بگذار»
- *
- * درس به چند صفحهٔ هم‌قد صفحه تقسیم می‌شود:
- *   صفحه ۱..آخر-۲ : توضیح‌ها (هر صفحه ۲ پاراگراف)
- *   صفحهٔ کد       : نمونه کد توی کارت تیره
- *   صفحهٔ آخر      : بهترین نمره + دکمهٔ آزمون
- * با دکمه‌های «قبلی/بعدی»، نقطه‌های موقعیت و کشیدن انگشت هم کار می‌کند.
- * پس‌زمینه: NagshZamin (گرادیان + نشانه‌های کد کم‌رنگ)
+ * صفحهٔ درس — صفحه‌به‌صفحه با اسکرول نرم:
+ *   هر صفحه داخل ScrollView است؛ هیچ متنی هرگز از صفحه بیرون نمی‌زند
+ *   پاراگراف‌ها کارت‌های با خط تاکیدی دارند
+ *   بلوک کد با رنگ‌آمیزی زبان کاتلین (کامنت/رشته/کلیدواژه/عدد) نشان داده می‌شود
+ *   دکمهٔ قبلی/بعدی + نقطه‌ها + کشیدن انگشت
  */
 class LessonActivity : Activity() {
 
@@ -42,13 +38,13 @@ class LessonActivity : Activity() {
         Abzar.rangVaredKon(this)
 
         val shomareh = intent.getIntExtra("shomareh_dars", 1)
-        dars = DarsHa.baShomareh(shomareh)
+        dars = Tarjomeh.baShomareh(Zaban.bekhon(this), shomareh)
 
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
         root.layoutDirection =
             if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
-        root.background = NagshZamin(0xFF101A33.toInt(), 0xFF0B1220.toInt())
+        root.background = Abzar.nagsh(this)
 
         // نوار بالا: درس x از n + عنوان
         val sarBar = LinearLayout(this)
@@ -165,7 +161,7 @@ class LessonActivity : Activity() {
             s.visibility = View.GONE
             ghabeSaFe.addView(
                 s, FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
                 )
             )
         }
@@ -181,61 +177,57 @@ class LessonActivity : Activity() {
         }
     }
 
-    /*
-     * «درسنامه فقط متن نباشد» — هر پاراگراف کارتِ خودش را دارد:
-     * کارت گرد + نوار رنگی فیروزه‌ای در ابتدای کارت + فاصلهٔ خط راحت
-     */
+    // صفحهٔ متن: کارت‌های پاراگراف داخل ScrollView — اسکرول نرم و ظاهر تمیز
     private fun saFeMatn(paragrafHa: List<String>): View {
+        val lafand = ScrollView(this)
+        lafand.isVerticalScrollBarEnabled = false
         val ghabe = LinearLayout(this)
         ghabe.orientation = LinearLayout.VERTICAL
-        ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 6f), Abzar.dp(this, 20f), 0)
+        ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 6f), Abzar.dp(this, 20f), Abzar.dp(this, 12f))
         for (p in paragrafHa) {
             val kart = LinearLayout(this)
             kart.orientation = LinearLayout.HORIZONTAL
             kart.background = Abzar.kart(this, Abzar.RANG_KART, 14f)
-            kart.setPadding(
-                Abzar.dp(this, 14f), Abzar.dp(this, 14f),
-                Abzar.dp(this, 14f), Abzar.dp(this, 14f)
-            )
-            // نوار رنگی ابتدای کارت (در راست‌چین سمت راست می‌نشیند)
-            val navar = View(this)
-            navar.background = Abzar.kart(this, Abzar.RANG_TIZ, 3f)
-            kart.addView(
-                navar, LinearLayout.LayoutParams(
-                    Abzar.dp(this, 4f), ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            )
+            val pad = Abzar.dp(this, 14f)
+            kart.setPadding(pad, pad, pad, pad)
+
+            // خط تاکیدی سمت راست کارت
+            val khat = View(this)
+            khat.background = Abzar.kart(this, Abzar.RANG_TALAEI, 3f)
+            kart.addView(khat, LinearLayout.LayoutParams(Abzar.dp(this, 3f), ViewGroup.LayoutParams.MATCH_PARENT))
+
             val t = Abzar.tv(this, p, 16f, Abzar.RANG_MATN)
-            t.setLineSpacing(Abzar.dp(this, 5f).toFloat(), 1.15f)
-            t.setPadding(Abzar.dp(this, 12f), 0, 0, 0)
-            kart.addView(
-                t, LinearLayout.LayoutParams(
-                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
-                )
-            )
+            t.setLineSpacing(Abzar.dp(this, 5f).toFloat(), 1f)
+            val pMatn = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            pMatn.marginStart = Abzar.dp(this, 12f)
+            kart.addView(t, pMatn)
+
             val pKart = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )
             pKart.topMargin = Abzar.dp(this, 12f)
             ghabe.addView(kart, pKart)
         }
-        return ghabe
+        lafand.addView(
+            ghabe, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        return lafand
     }
 
     private fun saFeKod(): View = saFeKodUmumi(
-        if (Zaban.bekhon(this@LessonActivity) == Zaban.Z.FA) "نمونهٔ کد — با دقت بخون" else "Code sample",
+        Zaban.t("nemune_kod"),
         dars.codeNemooneh
     )
 
-    /*
-     * «کدها متن خام نباشد» — کارت کد به سبک ویرایشگر:
-     *   سرنویس با سه دایرهٔ پنجره + برچسب Kotlin + خط جداکننده
-     *   + کدِ رنگ‌آمیزی‌شده با موتور KodRang
-     */
+    // یک صفحهٔ کد با سرنویس دلخواه — هم نمونهٔ اصلی، هم نمونه‌های عنوان‌دار درس
     private fun saFeKodUmumi(sar: String, kod: String): View {
+        val lafand = ScrollView(this)
+        lafand.isVerticalScrollBarEnabled = false
         val ghabe = LinearLayout(this)
         ghabe.orientation = LinearLayout.VERTICAL
-        ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 6f), Abzar.dp(this, 20f), 0)
+        ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 6f), Abzar.dp(this, 20f), Abzar.dp(this, 12f))
 
         val sarNevesht = Abzar.tv(
             this,
@@ -246,77 +238,52 @@ class LessonActivity : Activity() {
 
         val kart = LinearLayout(this)
         kart.orientation = LinearLayout.VERTICAL
-        kart.background = Abzar.kart(this, Abzar.RANG_CODE, 14f)
+        kart.background = Abzar.kart(this, Abzar.RANG_CODE, 12f)
         val pad = Abzar.dp(this, 16f)
-        kart.setPadding(pad, Abzar.dp(this, 10f), pad, pad)
+        kart.setPadding(pad, pad, pad, pad)
         val pKart = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
         pKart.topMargin = Abzar.dp(this, 12f)
         ghabe.addView(kart, pKart)
 
-        // سرنویس ویرایشگر — همیشه چپ‌چین مثل یک پنجرهٔ واقعی
-        val sarKart = LinearLayout(this)
-        sarKart.orientation = LinearLayout.HORIZONTAL
-        sarKart.gravity = Gravity.CENTER_VERTICAL
-        sarKart.layoutDirection = View.LAYOUT_DIRECTION_LTR
-        val rangDaireha = intArrayOf(0xFFFF5F56.toInt(), 0xFFFFBD2E.toInt(), 0xFF27C93F.toInt())
-        for (r in rangDaireha) {
-            val d = View(this)
-            d.background = Abzar.dayereh(this, r)
-            sarKart.addView(
-                d, LinearLayout.LayoutParams(
-                    Abzar.dp(this, 11f), Abzar.dp(this, 11f)
-                ).apply { setMargins(0, 0, Abzar.dp(this@LessonActivity, 7f), 0) }
-            )
-        }
-        val labelKotlin = TextView(this)
-        labelKotlin.text = "Kotlin"
-        labelKotlin.typeface = Typeface.MONOSPACE
-        labelKotlin.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-        labelKotlin.setTextColor(Abzar.RANG_KAMRANG)
-        labelKotlin.setPadding(Abzar.dp(this, 6f), 0, 0, 0)
-        sarKart.addView(labelKotlin)
-        kart.addView(sarKart)
-
-        // خط جداکنندهٔ سرنویس از کد
-        val khat = View(this)
-        khat.background = Abzar.kart(this, 0x2BFFFFFF, 1f)
-        val pKhat = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, Abzar.dp(this, 1f)
-        )
-        pKhat.topMargin = Abzar.dp(this, 10f)
-        kart.addView(khat, pKhat)
-
-        // کد رنگ‌آمیزی‌شده؛ بدون اسکرول عمودی؛ افقی تا جای ممکن
+        // کد با رنگ‌آمیزی کاتلین؛ افقی و عمودی اسکرول می‌شود
         val ghabeKod = HorizontalScrollView(this)
         ghabeKod.isHorizontalScrollBarEnabled = false
         val matnKod = TextView(this)
-        matnKod.text = KodRang.rangKon(kod)
+        matnKod.text = Abzar.kodRengin(kod)
         matnKod.typeface = Typeface.MONOSPACE
         matnKod.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         matnKod.setTextColor(Abzar.RANG_MATN)
         matnKod.textDirection = View.TEXT_DIRECTION_LTR
         matnKod.gravity = Gravity.START
-        matnKod.setLineSpacing(Abzar.dp(this, 5f).toFloat(), 1f)
-        val pKod = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        matnKod.setLineSpacing(Abzar.dp(this, 4f).toFloat(), 1f)
+        ghabeKod.addView(
+            matnKod, FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         )
-        pKod.topMargin = Abzar.dp(this, 12f)
-        ghabeKod.addView(matnKod, pKod)
         kart.addView(ghabeKod)
-        return ghabe
+        lafand.addView(
+            ghabe, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        return lafand
     }
 
     private fun saFeAzmoon(): View {
+        val lafand = ScrollView(this)
+        lafand.isVerticalScrollBarEnabled = false
         val ghabe = LinearLayout(this)
         ghabe.orientation = LinearLayout.VERTICAL
         ghabe.gravity = Gravity.CENTER_HORIZONTAL
-        ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 16f), Abzar.dp(this, 20f), 0)
+        ghabe.setPadding(Abzar.dp(this, 20f), Abzar.dp(this, 16f), Abzar.dp(this, 20f), Abzar.dp(this, 12f))
 
+        val kol = dars.soalHa.size
         val behtarin = Zakhire.behtarin(this, dars.shomareh)
         val matnHalat = if (behtarin >= 0) {
-            "${Zaban.t("behtarin_natije")}: ${Zaban.adad(behtarin)} ${Zaban.t("az")} ${Zaban.adad(3)}"
+            "${Zaban.t("behtarin_natije")}: ${Zaban.adad(behtarin)} ${Zaban.t("az")} ${Zaban.adad(kol)}"
         } else {
             Zaban.t("hanuz_azmoon")
         }
@@ -325,6 +292,7 @@ class LessonActivity : Activity() {
 
         val dokmeAzmoon = Abzar.dokme(this, Zaban.t("shoroo_azmoon"), Abzar.RANG_SABZ, Abzar.RANG_ZAMIN)
         dokmeAzmoon.setOnClickListener {
+            AmarSanj.sabt(applicationContext, "quiz_start", org.json.JSONObject().put("d", dars.shomareh))
             val niat = Intent(this, QuizActivity::class.java)
             niat.putExtra("shomareh_dars", dars.shomareh)
             startActivity(niat)
@@ -344,7 +312,13 @@ class LessonActivity : Activity() {
         )
         pB.topMargin = Abzar.dp(this, 10f)
         ghabe.addView(dokmeBargasht, pB)
-        return ghabe
+
+        lafand.addView(
+            ghabe, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        return lafand
     }
 
     // ---------- جابه‌جایی بین صفحه‌ها ----------
@@ -367,6 +341,12 @@ class LessonActivity : Activity() {
         val anim = TranslateAnimation(jahatX, 0f, 0f, 0f)
         anim.duration = 220
         saFe.startAnimation(anim)
+
+        // آمار: هر صفحهٔ درس که دیده شد ثبت می‌شود
+        AmarSanj.sabt(
+            applicationContext, "lesson_page",
+            org.json.JSONObject().put("d", dars.shomareh).put("p", index)
+        )
 
         // نقطه‌ها: صفحهٔ فعلی درشت و روشن
         for (j in 0 until ghabeNoqte.childCount) {

@@ -2,19 +2,24 @@ package ir.anjoman.amoozeshkotlin
 
 /*
  * تنظیمات سراسری EmaRoid
- * همهٔ آدرس‌ها و کلیدها اینجاست تا بعداً با خواستهٔ سردبیر عوض شود
+ * همهٔ آدرس‌ها و کلیدها اینجاست تا بعداً با خواستهٔ مالک عوض شود
  */
 object EmaRoidConfig {
 
     // برند سازنده
     const val BRAND = "EmaRoid"
 
-    // آدرس گیرندهٔ آمار (وقتی سردبیر هاست PHP گرفت، همین را عوض کن)
+    // آدرس گیرندهٔ آمار (وقتی مالک هاست PHP گرفت، همین را عوض کن)
     // فایل سمت سرور: web-emaroid-amar/amar.php
     const val AMAR_URL = "https://emaroid.example.com/amar/amar.php"
 
     // هر چند ساعت یک‌بار حداکثر یک گزارش بفرستیم
     const val AMAR_FASELE_SAAT = 24
+
+    // به‌روزرسانی آنلاین: آخرین Release گیت‌هاب چک می‌شود؛
+    // اگر فایل APK تازه‌ای با نسخهٔ بالاتر باشد، کاربر خبردار می‌شود
+    const val RUZRESANI_URL = "https://api.github.com/repos/ldrcoir/anjoman-code-channel/releases/latest"
+    const val RUZRESANI_ALAME = "AmoozeshKotlin"  // نام فایل APK این اپ در Release
 
     // تبلیغات: فعلاً «خانه» (تبلیغ خودمان) است؛
     // بعد از گرفتن اکانت تپسل، MODE را «tapsell» بگذار و کلیدها را پر کن

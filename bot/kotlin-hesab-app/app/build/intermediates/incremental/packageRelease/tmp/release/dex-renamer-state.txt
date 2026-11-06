@@ -1,0 +1,4 @@
+#Wed Nov 04 11:36:29 UTC 2026
+base.0=/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

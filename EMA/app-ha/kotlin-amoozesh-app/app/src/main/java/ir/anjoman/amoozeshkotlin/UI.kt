@@ -4,6 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -11,20 +15,20 @@ import android.widget.TextView
 
 /*
  * ابزارهای کوچک برای ساختن رابط کاربری با کد
- * همهٔ رنگ‌ها و کارت‌ها و متن‌ها از همین‌جا می‌ان
+ * همهٔ رنگ‌ها از TemHa می‌آیند؛ یعنی با عوض‌کردن تم، کل اپ رنگ عوض می‌کند
  */
 object Abzar {
 
-    val RANG_ZAMIN = 0xFF0F172A.toInt()      // سرمه‌ای تیرهٔ پس‌زمینه
-    val RANG_KART = 0xFF1E293B.toInt()       // رنگ کارت‌ها
-    val RANG_CODE = 0xFF0B1220.toInt()       // پس‌زمینهٔ تیره‌تر برای کد
-    val RANG_TIZ = 0xFF2AA8B8.toInt()        // فیروزه‌ای
-    val RANG_TALAEI = 0xFFF2B134.toInt()     // طلایی
-    val RANG_MATN = 0xFFEAF2FF.toInt()       // رنگ اصلی متن
-    val RANG_KAMRANG = 0xFF94A3B8.toInt()    // متن کم‌رنگ
-    val RANG_SABZ = 0xFF22C55E.toInt()       // جواب درست
-    val RANG_GHERMEZ = 0xFFEF4444.toInt()    // جواب غلط
-    val RANG_KHAKISTARI = 0xFF334155.toInt() // برای چیزهای خالی
+    var RANG_ZAMIN = 0xFF0F172A.toInt()      // پس‌زمینهٔ اصلی (از تم)
+    var RANG_KART = 0xFF1E293B.toInt()       // رنگ کارت‌ها (از تم)
+    var RANG_CODE = 0xFF0B1220.toInt()       // پس‌زمینهٔ بلوک کد (از تم)
+    var RANG_TIZ = 0xFF2AA8B8.toInt()        // تاکیدی اصلی (از تم)
+    var RANG_TALAEI = 0xFFF2B134.toInt()     // تاکیدی دوم (از تم)
+    var RANG_MATN = 0xFFEAF2FF.toInt()       // متن اصلی (از تم)
+    var RANG_KAMRANG = 0xFF94A3B8.toInt()    // متن کم‌رنگ (از تم)
+    var RANG_SABZ = 0xFF22C55E.toInt()       // جواب درست (از تم)
+    var RANG_GHERMEZ = 0xFFEF4444.toInt()    // جواب غلط (از تم)
+    var RANG_KHAKISTARI = 0xFF334155.toInt() // عناصر خالی/خنثی (از تم)
 
     fun dp(context: Context, meghdar: Float): Int =
         TypedValue.applyDimension(
@@ -32,6 +36,28 @@ object Abzar {
             meghdar,
             context.resources.displayMetrics
         ).toInt()
+
+    // رنگ‌های تم فعلی را داخل ابزارها می‌نشاند؛ در شروع هر صفحه صدا زده می‌شود
+    fun rangVaredKon(activity: Activity) {
+        TemHa.barGhardan(activity)
+        val tem = TemHa.faeli
+        RANG_ZAMIN = tem.zamin
+        RANG_KART = tem.kart
+        RANG_CODE = tem.code
+        RANG_TIZ = tem.tiz
+        RANG_TALAEI = tem.talaei
+        RANG_MATN = tem.matn
+        RANG_KAMRANG = tem.kamrang
+        RANG_SABZ = tem.sabz
+        RANG_GHERMEZ = tem.ghermez
+        RANG_KHAKISTARI = tem.khakestari
+        activity.window.statusBarColor = tem.zamin
+        activity.window.navigationBarColor = tem.zamin
+    }
+
+    // پس‌زمینهٔ طرح‌دار هم‌خانوادهٔ تم فعلی
+    fun nagsh(context: Context): NagshZamin =
+        NagshZamin(TemHa.faeli.zamin, TemHa.faeli.code)
 
     // کارت با گوشهٔ گرد
     fun kart(context: Context, rang: Int = RANG_KART, shoa: Float = 16f): GradientDrawable {
@@ -101,16 +127,85 @@ object Abzar {
         v.foreground = v.context.getDrawable(khoroji.resourceId)
     }
 
-    // تبدیل عدد انگلیسی به رقم فارسی
-    fun adadFarsi(adad: Int): String {
-        val raghamHa = listOf("۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹")
-        return adad.toString().map { raghamHa[it - '0'] }.joinToString("")
-    }
+    // تبدیل عدد به رقم زبان فعلی
+    fun adadFarsi(adad: Int): String = Zaban.adad(adad)
 
-    // نوار وضعیت رو هم‌رنگ پس‌زمینه می‌کنیم که تمیز باشه
-    fun rangVaredKon(activity: Activity) {
-        activity.window.statusBarColor = RANG_ZAMIN
-        activity.window.navigationBarColor = RANG_ZAMIN
+    /*
+     * رنگ‌آمیزی کد کاتلین — دیگر کد متن خام و زشت نیست:
+     * کامنت سبز-خاکستری، رشتهٔ سبز، کلیدواژه بنفش، عدد نارنجی
+     */
+    fun kodRengin(kod: String, rangPae: Int = RANG_MATN): SpannableString {
+        val sp = SpannableString(kod)
+        val rangComment = if (TemHa.faeli.tir) 0xFF6A9955.toInt() else 0xFF3D7A4A.toInt()
+        val rangReshteh = if (TemHa.faeli.tir) 0xFF98C379.toInt() else 0xFF22813A.toInt()
+        val rangKolidozhe = if (TemHa.faeli.tir) 0xFFC678DD.toInt() else 0xFF8A2BB8.toInt()
+        val rangAdad = if (TemHa.faeli.tir) 0xFFD19A66.toInt() else 0xFFB25C10.toInt()
+
+        val kolidozheHa = setOf(
+            "fun", "val", "var", "if", "else", "when", "for", "while", "return", "in",
+            "class", "data", "object", "true", "false", "null", "Int", "Double",
+            "String", "Boolean", "List", "MutableList", "it"
+        )
+        val tabeHa = setOf(
+            "println", "print", "readln", "toInt", "toIntOrNull", "sum", "size", "max",
+            "min", "add", "listOf", "mutableListOf", "main", "joinToString", "repeat", "until"
+        )
+
+        var i = 0
+        val n = kod.length
+        while (i < n) {
+            val c = kod[i]
+            // کامنت //
+            if (c == '/' && i + 1 < n && kod[i + 1] == '/') {
+                var payan = kod.indexOf('\n', i)
+                if (payan == -1) payan = n
+                sp.setSpan(ForegroundColorSpan(rangComment), i, payan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                i = payan
+                continue
+            }
+            // رشتهٔ داخل گیومه
+            if (c == '"') {
+                var j = i + 1
+                while (j < n) {
+                    if (kod[j] == '\\') { j += 2; continue }
+                    if (kod[j] == '"') { j++; break }
+                    j++
+                }
+                val payan = minOf(j, n)
+                sp.setSpan(ForegroundColorSpan(rangReshteh), i, payan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                i = payan
+                continue
+            }
+            // عدد
+            if (c.isDigit()) {
+                var j = i
+                while (j < n && (kod[j].isDigit() || kod[j] == '.')) j++
+                sp.setSpan(ForegroundColorSpan(rangAdad), i, j, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                i = j
+                continue
+            }
+            // کلمه
+            if (c.isLetter() || c == '_') {
+                var j = i
+                while (j < n && (kod[j].isLetterOrDigit() || kod[j] == '_')) j++
+                val kalame = kod.substring(i, j)
+                val rang = when {
+                    kalame in kolidozheHa -> rangKolidozhe
+                    kalame in tabeHa -> rangPae
+                    else -> -1
+                }
+                if (rang != -1) {
+                    sp.setSpan(ForegroundColorSpan(rang), i, j, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    if (kalame in kolidozheHa) {
+                        sp.setSpan(StyleSpan(android.graphics.Typeface.BOLD), i, j, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                }
+                i = j
+                continue
+            }
+            i++
+        }
+        return sp
     }
 
     // نرمال‌سازی خروجی برای مقایسهٔ تمرین‌ها: حذف فاصله‌های لبه و خط‌های خالی
@@ -148,6 +243,18 @@ object Zakhire {
         return jam
     }
 
+    // بهترین نمرهٔ آزمون جامع
+    fun behtarinJame(context: Context): Int {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        return p.getInt("behtarin_jame", -1)
+    }
+
+    fun zakhireJame(context: Context, emtiyaz: Int) {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        val ghabli = p.getInt("behtarin_jame", -1)
+        if (emtiyaz > ghabli) p.edit().putInt("behtarin_jame", emtiyaz).apply()
+    }
+
     // ---------- شمارش آزمون‌ها برای تبلیغ کامل (هر N آزمون یک‌بار) ----------
     fun afzayeshTest(context: Context) {
         val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
@@ -181,5 +288,24 @@ object Zakhire {
         val s = (p.getStringSet("tamrin_anjam", emptySet()) ?: emptySet()).toMutableSet()
         s.add(shomareh.toString())
         p.edit().putStringSet("tamrin_anjam", s).apply()
+    }
+
+    // ---------- فصل‌های داستان خوانده‌شده ----------
+    fun dastanDidehAst(context: Context, shomareh: Int): Boolean {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        return p.getStringSet("dastan_dideh", emptySet())?.contains(shomareh.toString()) ?: false
+    }
+
+    fun dastanDidehKon(context: Context, shomareh: Int) {
+        val p = context.getSharedPreferences("zakhire", Context.MODE_PRIVATE)
+        val s = (p.getStringSet("dastan_dideh", emptySet()) ?: emptySet()).toMutableSet()
+        s.add(shomareh.toString())
+        p.edit().putStringSet("dastan_dideh", s).apply()
+    }
+
+    fun dastanDorehPasShode(context: Context): Int {
+        var n = 0
+        for (dars in DarsHa.darsList) if (behtarin(context, dars.shomareh) > 0) n++
+        return n
     }
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ir.anjoman.amoozeshrust"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="34" />
+
+    <!--
+         تنها مجوز اپ: اینترنت — برای آمارگیر و تبلیغ EmaRoid.
+         هیچ مجوز دیگری (IMEI/تلفن/مکان) لازم نیست و گرفته نمی‌شود.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:extractNativeLibs="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="آموزش Rust"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.Material.NoActionBar" >
+        <activity
+            android:name="ir.anjoman.amoozeshrust.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ir.anjoman.amoozeshrust.HomeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ir.anjoman.amoozeshrust.LessonActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ir.anjoman.amoozeshrust.QuizActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ir.anjoman.amoozeshrust.AboutActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

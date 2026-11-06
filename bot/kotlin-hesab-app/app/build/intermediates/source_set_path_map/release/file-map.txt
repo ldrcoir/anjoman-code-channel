@@ -1,0 +1,7 @@
+ir.emaroid.hesab.app-pngs-0 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/build/generated/res/pngs/release
+ir.emaroid.hesab.app-resValues-1 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/build/generated/res/resValues/release
+ir.emaroid.hesab.app-packageReleaseResources-2 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/build/intermediates/incremental/release/packageReleaseResources/merged.dir
+ir.emaroid.hesab.app-packageReleaseResources-3 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/build/intermediates/incremental/release/packageReleaseResources/stripped.dir
+ir.emaroid.hesab.app-merged_res-4 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/build/intermediates/merged_res/release
+ir.emaroid.hesab.app-main-5 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/res
+ir.emaroid.hesab.app-release-6 /home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/release/res

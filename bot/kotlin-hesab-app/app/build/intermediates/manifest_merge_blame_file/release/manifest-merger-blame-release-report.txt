@@ -1,0 +1,98 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="ir.emaroid.hesab"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="34" />
+10
+11    <!-- تنها مجوز: اینترنت (آمارگیر EmaRoid) — بدون IMEI/تلفن/مکان -->
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:5:5-67
+12-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:5:22-64
+13
+14    <application
+14-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:7:5-30:19
+15        android:allowBackup="true"
+15-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:10:9-35
+16        android:extractNativeLibs="false"
+17        android:icon="@mipmap/ic_launcher"
+17-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:9:9-43
+18        android:label="ماشین‌حساب EmaRoid"
+18-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:8:9-43
+19        android:supportsRtl="true"
+19-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:11:9-35
+20        android:theme="@android:style/Theme.Material.NoActionBar" >
+20-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:12:9-66
+21        <activity
+21-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:14:9-22:20
+22            android:name="ir.emaroid.hesab.SplashActivity"
+22-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:15:13-43
+23            android:exported="true"
+23-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:16:13-36
+24            android:screenOrientation="portrait" >
+24-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:17:13-49
+25            <intent-filter>
+25-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:18:13-21:29
+26                <action android:name="android.intent.action.MAIN" />
+26-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:19:17-69
+26-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:19:25-66
+27
+28                <category android:name="android.intent.category.LAUNCHER" />
+28-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:20:17-77
+28-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:20:27-74
+29            </intent-filter>
+30        </activity>
+31        <activity
+31-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:24:9-112
+32            android:name="ir.emaroid.hesab.HomeActivity"
+32-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:24:19-47
+33            android:exported="false"
+33-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:24:48-72
+34            android:screenOrientation="portrait" />
+34-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:24:73-109
+35        <activity
+35-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:25:9-113
+36            android:name="ir.emaroid.hesab.HesabActivity"
+36-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:25:19-48
+37            android:exported="false"
+37-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:25:49-73
+38            android:screenOrientation="portrait" />
+38-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:25:74-110
+39        <activity
+39-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:26:9-112
+40            android:name="ir.emaroid.hesab.RasmActivity"
+40-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:26:19-47
+41            android:exported="false"
+41-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:26:48-72
+42            android:screenOrientation="portrait" />
+42-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:26:73-109
+43        <activity
+43-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:27:9-111
+44            android:name="ir.emaroid.hesab.HalActivity"
+44-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:27:19-46
+45            android:exported="false"
+45-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:27:47-71
+46            android:screenOrientation="portrait" />
+46-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:27:72-108
+47        <activity
+47-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:28:9-112
+48            android:name="ir.emaroid.hesab.AdadActivity"
+48-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:28:19-47
+49            android:exported="false"
+49-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:28:48-72
+50            android:screenOrientation="portrait" />
+50-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:28:73-109
+51        <activity
+51-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:29:9-113
+52            android:name="ir.emaroid.hesab.AboutActivity"
+52-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:29:19-48
+53            android:exported="false"
+53-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:29:49-73
+54            android:screenOrientation="portrait" />
+54-->/home/z/my-project/anjoman-code-bot/kotlin-hesab-app/app/src/main/AndroidManifest.xml:29:74-110
+55    </application>
+56
+57</manifest>

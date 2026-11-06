@@ -2,7 +2,6 @@ package ir.anjoman.amoozeshkotlin
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -11,60 +10,52 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.TextView
 
 /*
  * تبلیغ‌یار EmaRoid — سیستم درآمدزایی تبلیغاتی
  *
  * طراحی دو مرحله‌ای:
- *  ۱) الان: «تبلیغ خانه» — کارت‌های تبلیغی خودمان (کانال باله، اپ‌های دیگر
- *     EmaRoid، نشریه) می‌چرخند؛ صفر هزینه، صفر مجوز اضافه، بدون سرور.
- *  ۲) بعداً: وقتی سردبیر اکانت تپسل گرفت، فقط TABLIGH_MODE را در
+ *  ۱) الان: «تبلیغ خانه» — کارت‌های تبلیغی خودمان می‌چرخند؛ صفر هزینه،
+ *     صفر مجوز اضافه، بدون سرور.
+ *  ۲) بعداً: وقتی مالک اکانت تپسل گرفت، فقط TABLIGH_MODE را در
  *     EmaRoidConfig روی "tapsell" بگذارد و کلیدها را پر کند — جای اتصال
- *     SDK از همین‌جا مشخص است (jaizVagoft / noghteTapsell).
+ *     SDK از همین‌جا مشخص است (noghteTapsellBanner / jaizVagoft).
  *
- * جای تبلیغ‌ها (طبق تحلیل بازار): بنر پایین صفحهٔ فهرست + کارت کامل
- * بعد از هر ۳ آزمون (کامل‌بازِ قابل بستن) — هیچ تبلیغی وسط مطالعه نیست.
+ * جای تبلیغ‌ها: بنر پایین فهرست + کارت کامل بعد از هر ۳ آزمون
+ * (کامل‌بازِ قابل بستن) — هیچ تبلیغی وسط مطالعه نیست.
  */
 object TablighYar {
 
     // ---------- دادهٔ تبلیغ خانه ----------
-    data class Tabligh(
+    class Tabligh(
         val onvan: String,
         val matn: String,
         val emuz: String,   // ایموجی/نشان
-        val link: String    // برای کانال: ble.ir/...
+        val link: String
     )
 
-    fun tablighHa(): List<Tabligh> = listOf(
-        Tabligh(
-            "کانال انجمن کدنویسی",
-            "درس‌های Rust و چیزهای باحال دیگر",
-            "🦀",
-            "https://ble.ir/anjomanfaghihi"
-        ),
-        Tabligh(
-            "دستاوردهای پژوهش",
-            "کتابچهٔ پژوهش‌های ۱۴۰۴ — مال بچه‌های پژوهشسرا",
-            "📗",
-            "https://cafebazaar.ir/dev?id=emaroid"
-        ),
-        Tabligh(
-            "نشریهٔ آبان",
-            "مجلهٔ انجمن — هر ماه با خواندنی‌های نو",
-            "📰",
-            "https://ble.ir/anjomanfaghihi"
-        )
+    fun tablighHa(c: Context): List<Tabligh> = listOf(
+        Tabligh(Zaban.t("tab_1_onvan"), Zaban.t("tab_1_matn"), "🦀", "https://cafebazaar.ir/dev?id=emaroid"),
+        Tabligh(Zaban.t("tab_2_onvan"), Zaban.t("tab_2_matn"), "🧮", "https://cafebazaar.ir/dev?id=emaroid"),
+        Tabligh(Zaban.t("tab_3_onvan"), Zaban.t("tab_3_matn"), "🚀", "https://cafebazaar.ir/dev?id=emaroid")
     )
+
+    private fun clikKon(c: Context, t: Tabligh) {
+        AmarSanj.sabt(c.applicationContext, "ad_click", org.json.JSONObject().put("t", t.onvan))
+        try {
+            c.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(t.link)))
+        } catch (_: Exception) {
+        }
+    }
 
     // ---------- بنر چرخان پایین صفحه ----------
     fun banner(c: Context, bolandiDp: Float = 64f): FrameLayout {
         val ghabe = FrameLayout(c)
-        ghabe.background = Abzar.kart(c, 0xFF16213A.toInt(), 14f)
+        ghabe.background = Abzar.kart(c, Abzar.RANG_KART, 14f)
         val pad = Abzar.dp(c, 8f)
         ghabe.setPadding(pad, pad, pad, pad)
 
-        val etiket = Abzar.tv(c, "تبلیغ", 10f, 0x66FFFFFF)
+        val etiket = Abzar.tv(c, Zaban.t("tabligh"), 10f, 0x66FFFFFF)
         val pEtiket = FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
             Gravity.TOP or Gravity.START
@@ -81,7 +72,7 @@ object TablighYar {
         ghabe.addView(matnGhabe, pGhabe)
 
         val handler = Handler(Looper.getMainLooper())
-        val ha = tablighHa()
+        val ha = tablighHa(c)
         var index = 0
 
         fun neshanBedeh(i: Int) {
@@ -89,12 +80,7 @@ object TablighYar {
             val t = ha[i % ha.size]
             matnGhabe.isClickable = true
             Abzar.lams(matnGhabe)
-            matnGhabe.setOnClickListener {
-                try {
-                    c.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(t.link)))
-                } catch (_: Exception) {
-                }
-            }
+            matnGhabe.setOnClickListener { clikKon(c, t) }
             val emuz = Abzar.tv(c, t.emuz, 26f)
             emuz.setPadding(0, 0, Abzar.dp(c, 12f), 0)
             matnGhabe.addView(emuz)
@@ -127,12 +113,13 @@ object TablighYar {
 
     // ---------- کارت کامل بعد از آزمون (قابل بستن) ----------
     fun kartKamel(c: Context, bastan: () -> Unit): FrameLayout {
+        AmarSanj.sabt(c.applicationContext, "ad_shown")
         val root = FrameLayout(c)
         root.setBackgroundColor(0xCC05080F.toInt())
 
         val kart = LinearLayout(c)
         kart.orientation = LinearLayout.VERTICAL
-        kart.background = Abzar.kart(c, 0xFF16213A.toInt(), 20f)
+        kart.background = Abzar.kart(c, Abzar.RANG_KART, 20f)
         val pad = Abzar.dp(c, 22f)
         kart.setPadding(pad, pad, pad, pad)
         val pKart = FrameLayout.LayoutParams(
@@ -143,7 +130,7 @@ object TablighYar {
         pKart.marginEnd = Abzar.dp(c, 24f)
         root.addView(kart, pKart)
 
-        val ha = tablighHa()
+        val ha = tablighHa(c)
         val t = ha[(System.currentTimeMillis() / 60000L).toInt() % ha.size]
 
         val emuz = Abzar.tv(c, t.emuz, 44f)
@@ -160,12 +147,9 @@ object TablighYar {
         matn.setPadding(0, Abzar.dp(c, 8f), 0, 0)
         kart.addView(matn)
 
-        val berav = Abzar.dokme(c, "دیدن", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
+        val berav = Abzar.dokme(c, Zaban.t("didan"), Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
         berav.setOnClickListener {
-            try {
-                c.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(t.link)))
-            } catch (_: Exception) {
-            }
+            clikKon(c, t)
             bastan()
         }
         val pBerav = LinearLayout.LayoutParams(
@@ -174,7 +158,7 @@ object TablighYar {
         pBerav.topMargin = Abzar.dp(c, 18f)
         kart.addView(berav, pBerav)
 
-        val bastanDokme = Abzar.dokme(c, "بستن", Abzar.RANG_KAMRANG, Abzar.RANG_KAMRANG, khateDor = true)
+        val bastanDokme = Abzar.dokme(c, Zaban.t("bastan"), Abzar.RANG_KAMRANG, Abzar.RANG_KAMRANG, khateDor = true)
         bastanDokme.setOnClickListener { bastan() }
         val pBastan = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -202,7 +186,7 @@ object TablighYar {
         // ویدیوی جایزه‌دار فعلاً تبلیغ خانه است؛ با تپسل جایگزین می‌شود
         val ghabe = FrameLayout(c)
         setContentViewFull(c, ghabe)
-        ghabe.addView(kartKamel(c) { (ghabe.parent as? ViewGroup)?.removeView(ghabe) ; movafagh() })
+        ghabe.addView(kartKamel(c) { (ghabe.parent as? ViewGroup)?.removeView(ghabe); movafagh() })
     }
 
     private fun setContentViewFull(c: Context, v: View) {

@@ -858,7 +858,7 @@ val darsHaPishrafteh: List<Dars> = listOf(
                 }
 
                 fun main() {
-                    val m = Madrese("شهید فقیهی")
+                    val m = Madrese("کاوش")
                     m.ezafeKon(DaneshAmooz("علی", 18))
                     m.ezafeKon(DaneshAmooz("سارا", 20))
                     m.moadelKol()

@@ -7,7 +7,8 @@
  *
  * کارش: اپ کاتلین (AmarSanj.kt) یک JSON کوچک به این فایل POST می‌کند:
  *   { app, v_name, v_code, android, model, maker, screen,
- *     country, lang, opens, ts, brand }
+ *     country, lang, opens, ts, brand,
+ *     events: [ {e: 'quiz_answer', ts: ..., d: {...}}, ... ] }
  *
  * این فایل آن را در یک فایل SQLite کنار خودش ذخیره می‌کند
  * و هیچ اطلاعات شخصی (IMEI، شماره تلفن، ایمیل) نمی‌پذیرد.
@@ -23,7 +24,7 @@
  */
 
 $dbFayl = __DIR__ . '/amar.sqlite';
-$hadAksarSize = 4096; // بدنهٔ JSON حداکثر ۴KB
+$hadAksarSize = 16384; // بدنهٔ JSON حداکثر ۱۶KB (برای رویدادها)
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(200);
     echo json_encode([
         'ok' => true,
-        'sazande' => 'EmaRoid AmarSanj v1',
+        'sazande' => 'EmaRoid AmarSanj v2',
         'rahnama' => 'POST JSON be in adrs az app (AmarSanj.kt) — didan-e amar: namayesh.php'
     ], JSON_UNESCAPED_UNICODE);
     exit;
@@ -62,6 +63,22 @@ foreach ($kelidha as $k) {
     $pakize[$k] = mb_substr(trim((string)$v), 0, 64);
 }
 
+// رویدادها: آرایهٔ events — هر رویداد {e, ts, d}
+$ruydadha = [];
+if (isset($dart['events']) && is_array($dart['events'])) {
+    foreach ($dart['events'] as $r) {
+        if (!is_array($r)) continue;
+        $e = isset($r['e']) ? mb_substr(trim((string)$r['e']), 0, 64) : '';
+        if ($e === '') continue;
+        $ts = isset($r['ts']) ? (int)$r['ts'] : time() * 1000;
+        $d = isset($r['d']) && is_array($r['d'])
+            ? mb_substr(json_encode($r['d'], JSON_UNESCAPED_UNICODE), 0, 512)
+            : '';
+        $ruydadha[] = ['e' => $e, 'ts' => $ts, 'd' => $d];
+        if (count($ruydadha) >= 500) break; // سقف رویداد در هر گزارش
+    }
+}
+
 // IP ذخیره نمی‌شود (حریم خصوصی)
 
 try {
@@ -80,7 +97,23 @@ try {
         VALUES (:app,:v_name,:v_code,:android,:model,:maker,:screen,:country,:lang,:opens,:ts,:brand,:pak,:zaman)');
     $st->execute(array_merge($pakize, ['pak' => $pak, 'zaman' => time()]));
 
-    echo json_encode(['ok' => true, 'sepas' => 'EmaRoid']);
+    // جدول رویدادها — آمارِ همه‌چیز
+    $db->exec('CREATE TABLE IF NOT EXISTS ruydad (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        app TEXT, pak TEXT, e TEXT, ts INTEGER, d TEXT,
+        zaman INTEGER
+    )');
+    $stR = $db->prepare('INSERT INTO ruydad (app, pak, e, ts, d, zaman)
+        VALUES (:app, :pak, :e, :ts, :d, :zaman)');
+    foreach ($ruydadha as $r) {
+        $stR->execute([
+            ':app' => $pakize['app'], ':pak' => $pak,
+            ':e' => $r['e'], ':ts' => $r['ts'], ':d' => $r['d'],
+            ':zaman' => time()
+        ]);
+    }
+
+    echo json_encode(['ok' => true, 'sepas' => 'EmaRoid', 'ruydad' => count($ruydadha)]);
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['ok' => false, 'khata' => 'khataye dakheli']);

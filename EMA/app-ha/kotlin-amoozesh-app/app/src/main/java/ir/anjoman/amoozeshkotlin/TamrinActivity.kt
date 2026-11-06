@@ -21,6 +21,7 @@ class TamrinActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Abzar.rangVaredKon(this)
+        AmarSanj.sabt(applicationContext, "tamrin_list_open")
         setContentView(safheBekon())
     }
 
@@ -30,9 +31,13 @@ class TamrinActivity : Activity() {
     }
 
     private fun safheBekon(): View {
+        val z = Zaban.bekhon(this)
+        val tamrinHa = Tarjomeh.tamrinHa(z)
+
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        root.layoutDirection =
+            if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
         root.setBackgroundColor(Abzar.RANG_ZAMIN)
 
         val scroll = ScrollView(this)
@@ -56,21 +61,21 @@ class TamrinActivity : Activity() {
             )
         )
 
-        val onvan = Abzar.tv(this, "تمرین‌های عملی", 26f, Abzar.RANG_MATN)
+        val onvan = Abzar.tv(this, Zaban.t("tamrin_ha_titr"), 26f, Abzar.RANG_MATN)
         onvan.typeface = FontBox.vazirBlack(this)
         ghabe.addView(onvan)
 
         val anjamShode = Zakhire.tamrinAnjamShode(this)
         val zirOnvan = Abzar.tv(
             this,
-            "کد را خودت بنویس تا خروجی درست بدهد — ${Abzar.adadFarsi(anjamShode)} از ${Abzar.adadFarsi(DarsHa.tamrinHa.size)} حل شده",
+            "${Zaban.t("tamrin_zir_onvan")} — ${Zaban.adad(anjamShode)} ${Zaban.t("az")} ${Zaban.adad(tamrinHa.size)} ${Zaban.t("hal_shod")}",
             14f, Abzar.RANG_KAMRANG
         )
         zirOnvan.setPadding(0, Abzar.dp(this, 6f), 0, 0)
         ghabe.addView(zirOnvan)
 
         // یک کارت برای هر تمرین
-        for ((i, tamrin) in DarsHa.tamrinHa.withIndex()) {
+        for ((i, tamrin) in tamrinHa.withIndex()) {
             val pKart = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -80,11 +85,7 @@ class TamrinActivity : Activity() {
         }
 
         // یادآوری کوچک ته صفحه
-        val nasihat = Abzar.tv(
-            this,
-            "نکته: تمرین‌ها به درس‌های مربوطشان وصل‌اند؛ اگر گیر کردی اول درس را یک بار دیگر بخوان.",
-            13f, Abzar.RANG_KAMRANG
-        )
+        val nasihat = Abzar.tv(this, Zaban.t("nasihat_tamrin"), 13f, Abzar.RANG_KAMRANG)
         val pNasihat = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -115,7 +116,7 @@ class TamrinActivity : Activity() {
 
         val anjam = Zakhire.tamrinAnjamAst(this, i)
         val dayereh = TextView(this)
-        dayereh.text = if (anjam) "✓" else Abzar.adadFarsi(i + 1)
+        dayereh.text = if (anjam) "✓" else Zaban.adad(i + 1)
         dayereh.gravity = Gravity.CENTER
         dayereh.typeface = FontBox.vazirBold(this)
         dayereh.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
@@ -132,7 +133,7 @@ class TamrinActivity : Activity() {
 
         val halat = Abzar.tv(
             this,
-            if (anjam) "درست حل شد" else "هنوز حل نشده",
+            if (anjam) Zaban.t("hal_shod") else Zaban.t("hal_nashode"),
             13f,
             if (anjam) Abzar.RANG_SABZ else Abzar.RANG_KAMRANG
         )

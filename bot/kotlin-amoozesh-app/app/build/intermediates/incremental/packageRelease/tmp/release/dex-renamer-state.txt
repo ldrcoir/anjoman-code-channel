@@ -1,0 +1,4 @@
+#Wed Nov 04 11:23:52 UTC 2026
+base.0=/home/z/my-project/kotlin-amoozesh-app/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

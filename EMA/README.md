@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | ماشین‌حساب علمی EmaRoid | **۲.۱** اعداد بزرگ + معادلات سنگین | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.1/MashinHesab-EmaRoid-v2.1-debug.apk) |
 | آموزش Rust از صفر | **۱.۱** (۱۴ درس) | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.1/AmoozeshRust-v1.1-debug.apk) |
-| آموزش کاتلین | **۴.۰** درس‌نامهٔ کارتی + کد ویرایشگری | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-kotlin-v4.0/AmoozeshKotlin-v4.0-debug.apk) |
+| آموزش کاتلین | **۱.۰** (۲۵ درس، سه‌زبانه، ماجرای کدنورد) | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-kotlin-v1.0/AmoozeshKotlin-v1.0-debug.apk) |
 | کالری‌یار | ۲.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk) |
 | کتابچهٔ صندوق | ۱.۰ (تأییدشده — دست نمی‌خورد) | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/ketabche-sandogh-v1.0/KetabcheSandogh-v1.0-debug.apk) |
 

@@ -1,7 +1,6 @@
 package ir.anjoman.amoozeshkotlin
 
 import android.app.Activity
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
@@ -34,14 +33,17 @@ class PlaygroundActivity : Activity() {
         super.onCreate(savedInstanceState)
         Abzar.rangVaredKon(this)
 
+        AmarSanj.sabt(applicationContext, "playground_open")
         tamrinIndex = intent.getIntExtra("tamrin", -1)
-        val tamrin = if (tamrinIndex >= 0 && tamrinIndex < DarsHa.tamrinHa.size) {
-            DarsHa.tamrinHa[tamrinIndex]
+        val tamrinHa = Tarjomeh.tamrinHa(Zaban.bekhon(this))
+        val tamrin = if (tamrinIndex >= 0 && tamrinIndex < tamrinHa.size) {
+            tamrinHa[tamrinIndex]
         } else null
 
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        root.layoutDirection =
+            if (Zaban.rastChin(this)) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
         root.setBackgroundColor(Abzar.RANG_ZAMIN)
 
         val scroll = ScrollView(this)
@@ -69,7 +71,7 @@ class PlaygroundActivity : Activity() {
         if (tamrin != null) {
             val matnShomareh = Abzar.tv(
                 this,
-                "تمرین ${Abzar.adadFarsi(tamrinIndex + 1)} از ${Abzar.adadFarsi(DarsHa.tamrinHa.size)}",
+                "${Zaban.t("tamrin")} ${Zaban.adad(tamrinIndex + 1)} ${Zaban.t("az")} ${Zaban.adad(tamrinHa.size)}",
                 14f, Abzar.RANG_TALAEI, bold = true
             )
             ghabe.addView(matnShomareh)
@@ -84,11 +86,11 @@ class PlaygroundActivity : Activity() {
             tozih.setPadding(0, Abzar.dp(this, 10f), 0, 0)
             ghabe.addView(tozih)
         } else {
-            val onvan = Abzar.tv(this, "زمین بازی کد", 26f, Abzar.RANG_MATN)
+            val onvan = Abzar.tv(this, Zaban.t("zamin_bazi"), 26f, Abzar.RANG_MATN)
             onvan.typeface = FontBox.vazirBlack(this)
             ghabe.addView(onvan)
 
-            val zirOnvan = Abzar.tv(this, "کد کاتلین بنویس، اجرا کن و نتیجه را ببین", 14f, Abzar.RANG_KAMRANG)
+            val zirOnvan = Abzar.tv(this, Zaban.t("zamin_bazi_zir"), 14f, Abzar.RANG_KAMRANG)
             zirOnvan.setPadding(0, Abzar.dp(this, 6f), 0, 0)
             ghabe.addView(zirOnvan)
         }
@@ -109,7 +111,7 @@ class PlaygroundActivity : Activity() {
         virayeshgar.typeface = Typeface.MONOSPACE
         virayeshgar.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
         virayeshgar.setTextColor(Abzar.RANG_MATN)
-        virayeshgar.hint = "کد کاتلین را اینجا بنویس..."
+        virayeshgar.hint = Zaban.t("hint_kod")
         virayeshgar.setHintTextColor(Abzar.RANG_KHAKISTARI)
         virayeshgar.background = Abzar.kart(this, Abzar.RANG_CODE, 12f)
         virayeshgar.setPadding(
@@ -122,7 +124,7 @@ class PlaygroundActivity : Activity() {
         virayeshgar.isVerticalScrollBarEnabled = true
 
         val kod = intent.getStringExtra("kod")
-        virayeshgar.setText(kod ?: tamrin?.codeShoro ?: nemuneShoro())
+        virayeshgar.text = (kod ?: tamrin?.codeShoro ?: nemuneShoro())
 
         val pVirayeshgar = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -132,7 +134,7 @@ class PlaygroundActivity : Activity() {
         ghabe.addView(virayeshgar, pVirayeshgar)
 
         // کادر ورودی برای readln
-        val matnVoroodi = Abzar.tv(this, "ورودی (هر خط، جواب یک readln)", 13f, Abzar.RANG_KAMRANG)
+        val matnVoroodi = Abzar.tv(this, Zaban.t("voroodi"), 13f, Abzar.RANG_KAMRANG)
         val pMatnVoroodi = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -145,7 +147,7 @@ class PlaygroundActivity : Activity() {
         voroodi.typeface = Typeface.MONOSPACE
         voroodi.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
         voroodi.setTextColor(Abzar.RANG_MATN)
-        voroodi.hint = "مثلاً:\nعلی\n17"
+        voroodi.hint = "علی\n17"
         voroodi.setHintTextColor(Abzar.RANG_KHAKISTARI)
         voroodi.background = Abzar.kart(this, Abzar.RANG_KART, 12f)
         voroodi.setPadding(
@@ -163,7 +165,7 @@ class PlaygroundActivity : Activity() {
         ghabe.addView(voroodi, pVoroodi)
 
         // دکمهٔ اجرا
-        val dokmeEjra = Abzar.dokme(this, "▶  اجرای کد", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
+        val dokmeEjra = Abzar.dokme(this, Zaban.t("ejra"), Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
         dokmeEjra.setOnClickListener { ejraKon(tamrin) }
         val pEjra = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -191,14 +193,14 @@ class PlaygroundActivity : Activity() {
             Abzar.dp(this, 14f), Abzar.dp(this, 12f)
         )
 
-        val sarKhoroji = Abzar.tv(this, "خروجی برنامه", 12f, Abzar.RANG_KAMRANG)
+        val sarKhoroji = Abzar.tv(this, Zaban.t("khoruji_barname"), 12f, Abzar.RANG_KAMRANG)
         kartKhoroji.addView(sarKhoroji)
 
         matnKhoroji = TextView(this)
         matnKhoroji.typeface = Typeface.MONOSPACE
         matnKhoroji.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
         matnKhoroji.setTextColor(Abzar.RANG_MATN)
-        matnKhoroji.text = "دکمهٔ اجرا را بزن تا نتیجه اینجا نمایش داده شود"
+        matnKhoroji.text = Zaban.t("bekon_ejra")
         matnKhoroji.setPadding(0, Abzar.dp(this, 8f), 0, Abzar.dp(this, 4f))
         kartKhoroji.addView(matnKhoroji)
 
@@ -210,7 +212,7 @@ class PlaygroundActivity : Activity() {
         bakhshNatije.addView(kartKhoroji, pKartKhoroji)
 
         // دکمهٔ برگشت
-        val dokmeBargasht = Abzar.dokme(this, "بازگشت", Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
+        val dokmeBargasht = Abzar.dokme(this, Zaban.t("bargasht"), Abzar.RANG_TIZ, Abzar.RANG_TIZ, khateDor = true)
         dokmeBargasht.setOnClickListener { finish() }
         val pBargasht = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -228,37 +230,37 @@ class PlaygroundActivity : Activity() {
         sotoon.orientation = LinearLayout.HORIZONTAL
 
         val nemuneHa = listOf(
-            "سلام دنیا" to """fun main() {
+            Zaban.t("namune_1") to """fun main() {
     println("سلام دنیا!")
 }""",
-            "متغیرها" to """fun main() {
+            Zaban.t("namune_2") to """fun main() {
     val esm = "سارا"
     var emtiaz = 10
     emtiaz += 5
     println("${'$'}esm: ${'$'}emtiaz")
 }""",
-            "شرط" to """fun main() {
+            Zaban.t("namune_3") to """fun main() {
     val sen = 15
     if (sen >= 18) println("مجازه!")
     else println("هنوز نه!")
 }""",
-            "حلقه" to """fun main() {
+            Zaban.t("namune_4") to """fun main() {
     for (i in 1..5) print("${'$'}i ")
 }""",
-            "تابع" to """fun jam(a: Int, b: Int): Int {
+            Zaban.t("namune_5") to """fun jam(a: Int, b: Int): Int {
     return a + b
 }
 
 fun main() {
     println(jam(2, 3))
 }""",
-            "لیست" to """fun main() {
+            Zaban.t("namune_6") to """fun main() {
     val nomreHa = mutableListOf(18, 15)
     nomreHa.add(20)
     println(nomreHa.size)
     println(nomreHa.sum())
 }""",
-            "کلاس" to """class Daneshamooz(val esm: String, var nomre: Int) {
+            Zaban.t("namune_7") to """class Daneshamooz(val esm: String, var nomre: Int) {
     fun taarif(): String {
         return "${'$'}esm: ${'$'}nomre"
     }
@@ -273,7 +275,7 @@ fun main() {
         for ((onvan, kod) in nemuneHa) {
             val chip = Abzar.dokme(this, onvan, Abzar.RANG_KHAKISTARI, Abzar.RANG_MATN)
             chip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
-            chip.setOnClickListener { virayeshgar.setText(kod); matnKhoroji.text = "کد آماده لود شد؛ اجرا کن!" }
+            chip.setOnClickListener { virayeshgar.text = kod; matnKhoroji.text = Zaban.t("namune_lod") }
             val pChip = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -304,8 +306,15 @@ fun main() {
         bakhshNatije.removeAllViews()
         bakhshNatije.addView(kartKhoroji)
 
+        AmarSanj.sabt(
+            applicationContext, "playground_run",
+            org.json.JSONObject()
+                .put("movafagh", n.movafagh)
+                .put("tamrin", tamrinIndex >= 0)
+        )
+
         if (n.movafagh) {
-            val khoroji = n.khoruji.ifEmpty { "(برنامه بدون خروجی تمام شد)" }
+            val khoroji = n.khoruji.ifEmpty { Zaban.t("khoruji_nadarad") }
             matnKhoroji.text = khoroji
             matnKhoroji.setTextColor(Abzar.RANG_MATN)
 
@@ -313,12 +322,9 @@ fun main() {
             if (tamrin != null) {
                 if (Abzar.pakKonKhoruji(n.khoruji) == Abzar.pakKonKhoruji(tamrin.khorujiMontazer)) {
                     Zakhire.tamrinAnjamKon(this, tamrinIndex)
+                    AmarSanj.sabt(applicationContext, "tamrin_solved", org.json.JSONObject().put("t", tamrinIndex))
 
-                    val taborrik = Abzar.tv(
-                        this,
-                        "✅ آفرین! تمرین درست حل شد 🎉",
-                        15f, Abzar.RANG_SABZ, bold = true
-                    )
+                    val taborrik = Abzar.tv(this, Zaban.t("taborrik"), 15f, Abzar.RANG_SABZ, bold = true)
                     taborrik.gravity = Gravity.CENTER
                     val pTaborrik = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -328,8 +334,9 @@ fun main() {
                     bakhshNatije.addView(taborrik, pTaborrik)
 
                     // اگر تمرین بعدی وجود دارد، دکمه‌اش را بگذار
-                    if (tamrinIndex + 1 < DarsHa.tamrinHa.size) {
-                        val dokmeBadi = Abzar.dokme(this, "تمرین بعدی", Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
+                    val tamrinHa = Tarjomeh.tamrinHa(Zaban.bekhon(this))
+                    if (tamrinIndex + 1 < tamrinHa.size) {
+                        val dokmeBadi = Abzar.dokme(this, Zaban.t("tamrin_badi"), Abzar.RANG_TIZ, Abzar.RANG_ZAMIN)
                         dokmeBadi.setOnClickListener {
                             val niat = intent
                             niat.putExtra("tamrin", tamrinIndex + 1)
@@ -344,7 +351,7 @@ fun main() {
                         pBadi.topMargin = Abzar.dp(this, 10f)
                         bakhshNatije.addView(dokmeBadi, pBadi)
                     } else {
-                        val payan = Abzar.tv(this, "همهٔ تمرین‌ها را حل کردی! قهرمان کاتلین 🏆", 14f, Abzar.RANG_TALAEI)
+                        val payan = Abzar.tv(this, Zaban.t("hame_tamrin"), 14f, Abzar.RANG_TALAEI)
                         payan.gravity = Gravity.CENTER
                         val pPayan = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -354,11 +361,7 @@ fun main() {
                         bakhshNatije.addView(payan, pPayan)
                     }
                 } else {
-                    val ghalat = Abzar.tv(
-                        this,
-                        "کد اجرا شد ولی خروجی با جواب مورد نظر تمرین فرق دارد.",
-                        14f, Abzar.RANG_TALAEI, bold = true
-                    )
+                    val ghalat = Abzar.tv(this, Zaban.t("kod_ejra_shod_ghalat"), 14f, Abzar.RANG_TALAEI, bold = true)
                     val pGhalat = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
@@ -368,7 +371,7 @@ fun main() {
 
                     val montazer = Abzar.tv(
                         this,
-                        "خروجی منتظر:\n${tamrin.khorujiMontazer}",
+                        "${Zaban.t("khoruji_montazer")}\n${tamrin.khorujiMontazer}",
                         13f, Abzar.RANG_KAMRANG
                     )
                     montazer.typeface = Typeface.MONOSPACE
@@ -381,7 +384,7 @@ fun main() {
                 }
             }
         } else {
-            matnKhoroji.text = n.peyghamKhata
+            matnKhoroji.text = n.peyghamKhata ?: ""
             matnKhoroji.setTextColor(Abzar.RANG_GHERMEZ)
         }
     }
