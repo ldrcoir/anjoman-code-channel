@@ -1,57 +1,51 @@
-# ⛔ غیرفعال‌شده به دستور سردبیر (۱۴۰۵-۰۸-۰۳):
-# «اعتماد نمی‌کنم به اون برنامه و صف؛ خودت باید بیای این کارو انجام بدی:
-# اول محتوای هر کانال را چک می‌کنی، اگر تکراری نبود پست می‌گذاری، دسته‌بندی هم خودت»
-# دلیل: درس ۵ سه بار و تسلیت انرژی دوبار منتشر شد (دوبارسازی دیمون + CI).
-# از این پس انتشار فقط توسط ایجنت با اسکن زندهٔ کانال انجام می‌شود.
-# برای فعال‌سازی دوباره: schedule را برگردان + secrets را چک کن.
-name: bedar (DISABLED)
-
-on:
-  workflow_dispatch:
-    inputs:
-      dry:
-        description: "فقط شبیه‌سازی (بدون انتشار)"
-        required: false
-        default: "true"
-
-permissions:
-  contents: read
-concurrency:
-  group: bedar
-  cancel-in-progress: false
-
-jobs:
-  bedar:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: نصب وابستگی‌ها
-        run: pip install requests pillow
-
-      - name: آماده‌سازی محیط (env رمزی + فونت + چیدمان مسیرها)
-        env:
-          BALE_TOKEN: ${{ secrets.BALE_TOKEN }}
-          GH_PUSH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
-        run: |
-          git config --global user.name "roznegar-bot"
-          git config --global user.email "roznegar-bot@users.noreply.github.com"
-          mkdir -p "$RUNNER_TEMP/root"
-          ln -s "$GITHUB_WORKSPACE" "$RUNNER_TEMP/root/anjoman-code-bot"
-          printf 'BALE_TOKEN=%s\nGITHUB_TOKEN=%s\n' "$BALE_TOKEN" "$GH_PUSH_TOKEN" \
-            > "$RUNNER_TEMP/root/.env"
-
-      - name: اجرای بیدار
-        env:
-          ANJOMAN_ROOT: ${{ runner.temp }}/root
-          ANJOMAN_REPO: ${{ github.workspace }}
-          ANJOMAN_FONT_DIR: ${{ github.workspace }}/assets/fonts
-          BEDAR_DRY: ${{ github.event.inputs.dry || github.event.client_payload.dry || 'false' }}
-        run: python scripts/bedar_ci.py
+IyDim5Qg2LrbjNix2YHYudin2YTigIzYtNiv2Ycg2KjZhyDYr9iz2KrZiNix
+INiz2LHYr9io24zYsSAo27HbtNuw27Ut27DbuC3bsNuzKToKIyDCq9in2LnY
+qtmF2KfYryDZhtmF24zigIzaqdmG2YUg2KjZhyDYp9mI2YYg2KjYsdmG2KfZ
+hdmHINmIINi12YHYmyDYrtmI2K/YqiDYqNin24zYryDYqNuM2KfbjCDYp9uM
+2YYg2qnYp9ix2Ygg2KfZhtis2KfZhSDYqNiv24w6CiMg2KfZiNmEINmF2K3Y
+qtmI2KfbjCDZh9ixINqp2KfZhtin2YQg2LHYpyDahtqpINmF24zigIzaqdmG
+24zYjCDYp9qv2LEg2Kraqdix2KfYsduMINmG2KjZiNivINm+2LPYqiDZhduM
+4oCM2q/YsNin2LHbjNiMINiv2LPYqtmH4oCM2KjZhtiv24wg2YfZhSDYrtmI
+2K/YqsK7CiMg2K/ZhNuM2YQ6INiv2LHYsyDbtSDYs9mHINio2KfYsSDZiCDY
+qtiz2YTbjNiqINin2YbYsdqY24wg2K/ZiNio2KfYsSDZhdmG2KrYtNixINi0
+2K8gKNiv2YjYqNin2LHYs9in2LLbjCDYr9uM2YXZiNmGICsgQ0kpLgojINin
+2LIg2KfbjNmGINm+2LMg2KfZhtiq2LTYp9ixINmB2YLYtyDYqtmI2LPYtyDY
+p9uM2KzZhtiqINio2Kcg2KfYs9qp2YYg2LLZhtiv2YfZlCDaqdin2YbYp9mE
+INin2YbYrNin2YUg2YXbjOKAjNi02YjYry4KIyDYqNix2KfbjCDZgdi52KfZ
+hOKAjNiz2KfYstuMINiv2YjYqNin2LHZhzogc2NoZWR1bGUg2LHYpyDYqNix
+2q/Ysdiv2KfZhiArIHNlY3JldHMg2LHYpyDahtqpINqp2YYuCm5hbWU6IGJl
+ZGFyIChESVNBQkxFRCkKCm9uOgogIHdvcmtmbG93X2Rpc3BhdGNoOgogICAg
+aW5wdXRzOgogICAgICBkcnk6CiAgICAgICAgZGVzY3JpcHRpb246ICLZgdmC
+2Lcg2LTYqNuM2YfigIzYs9in2LLbjCAo2KjYr9mI2YYg2KfZhtiq2LTYp9ix
+KSIKICAgICAgICByZXF1aXJlZDogZmFsc2UKICAgICAgICBkZWZhdWx0OiAi
+dHJ1ZSIKCnBlcm1pc3Npb25zOgogIGNvbnRlbnRzOiByZWFkCmNvbmN1cnJl
+bmN5OgogIGdyb3VwOiBiZWRhcgogIGNhbmNlbC1pbi1wcm9ncmVzczogZmFs
+c2UKCmpvYnM6CiAgYmVkYXI6CiAgICBydW5zLW9uOiB1YnVudHUtbGF0ZXN0
+CiAgICB0aW1lb3V0LW1pbnV0ZXM6IDMwCiAgICBzdGVwczoKICAgICAgLSB1
+c2VzOiBhY3Rpb25zL2NoZWNrb3V0QHY0CiAgICAgICAgd2l0aDoKICAgICAg
+ICAgIGZldGNoLWRlcHRoOiAwCgogICAgICAtIHVzZXM6IGFjdGlvbnMvc2V0
+dXAtcHl0aG9uQHY1CiAgICAgICAgd2l0aDoKICAgICAgICAgIHB5dGhvbi12
+ZXJzaW9uOiAiMy4xMSIKCiAgICAgIC0gbmFtZTog2YbYtdioINmI2KfYqNiz
+2Krar9uM4oCM2YfYpwogICAgICAgIHJ1bjogcGlwIGluc3RhbGwgcmVxdWVz
+dHMgcGlsbG93CgogICAgICAtIG5hbWU6INii2YXYp9iv2YfigIzYs9in2LLb
+jCDZhdit24zYtyAoZW52INix2YXYstuMICsg2YHZiNmG2KogKyDahtuM2K/Z
+hdin2YYg2YXYs9uM2LHZh9inKQogICAgICAgIGVudjoKICAgICAgICAgIEJB
+TEVfVE9LRU46ICR7eyBzZWNyZXRzLkJBTEVfVE9LRU4gfX0KICAgICAgICAg
+IEdIX1BVU0hfVE9LRU46ICR7eyBzZWNyZXRzLkdIX1BVU0hfVE9LRU4gfX0K
+ICAgICAgICBydW46IHwKICAgICAgICAgIGdpdCBjb25maWcgLS1nbG9iYWwg
+dXNlci5uYW1lICJyb3puZWdhci1ib3QiCiAgICAgICAgICBnaXQgY29uZmln
+IC0tZ2xvYmFsIHVzZXIuZW1haWwgInJvem5lZ2FyLWJvdEB1c2Vycy5ub3Jl
+cGx5LmdpdGh1Yi5jb20iCiAgICAgICAgICBta2RpciAtcCAiJFJVTk5FUl9U
+RU1QL3Jvb3QiCiAgICAgICAgICBsbiAtcyAiJEdJVEhVQl9XT1JLU1BBQ0Ui
+ICIkUlVOTkVSX1RFTVAvcm9vdC9hbmpvbWFuLWNvZGUtYm90IgogICAgICAg
+ICAgcHJpbnRmICdCQUxFX1RPS0VOPSVzXG5HSVRIVUJfVE9LRU49JXNcbicg
+IiRCQUxFX1RPS0VOIiAiJEdIX1BVU0hfVE9LRU4iIFwKICAgICAgICAgICAg
+PiAiJFJVTk5FUl9URU1QL3Jvb3QvLmVudiIKCiAgICAgIC0gbmFtZTog2KfY
+rNix2KfbjCDYqNuM2K/Yp9ixCiAgICAgICAgZW52OgogICAgICAgICAgQU5K
+T01BTl9ST09UOiAke3sgcnVubmVyLnRlbXAgfX0vcm9vdAogICAgICAgICAg
+QU5KT01BTl9SRVBPOiAke3sgZ2l0aHViLndvcmtzcGFjZSB9fQogICAgICAg
+ICAgQU5KT01BTl9GT05UX0RJUjogJHt7IGdpdGh1Yi53b3Jrc3BhY2UgfX0v
+YXNzZXRzL2ZvbnRzCiAgICAgICAgICBCRURBUl9EUlk6ICR7eyBnaXRodWIu
+ZXZlbnQuaW5wdXRzLmRyeSB8fCBnaXRodWIuZXZlbnQuY2xpZW50X3BheWxv
+YWQuZHJ5IHx8ICdmYWxzZScgfX0KICAgICAgICBydW46IHB5dGhvbiBzY3Jp
+cHRzL2JlZGFyX2NpLnB5Cg==
