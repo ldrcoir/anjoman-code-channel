@@ -66,7 +66,7 @@ echo "[$(TS)] دیمن غیرفعال است (دستور سردبیر) — ان�
 rm -f "$ROOT/.roznegar.pid"
 
 # ۴) فهرست کانال‌های فعال را در لاگ بنویس
-for CH in "$REPO"/channels/*/channel.json; do
+for CH in "$REPO"/scripts/channels/*/channel.json; do
   [ -f "$CH" ] || continue
   SLUG=$(python3 -c "import json;print(json.load(open('$CH'))['slug'])" 2>/dev/null)
   echo "[$(TS)] کانال فعال: $SLUG" >> "$LOG"

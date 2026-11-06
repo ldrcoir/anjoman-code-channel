@@ -26,7 +26,7 @@ MARGIN = 64
 
 # مسیر فونت‌ها از محل خود فایل مشتق می‌شود (repo/assets/fonts)؛ محیطی هم قابل‌بازنویسی است
 FONT_DIR = os.environ.get("ANJOMAN_FONT_DIR") or str(
-    Path(__file__).resolve().parent.parent / "assets" / "fonts")
+    Path(__file__).resolve().parent / "assets" / "fonts")
 FONTS = {
     "mono":     "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
     "fa_bold":  f"{FONT_DIR}/Vazirmatn-Bold.ttf",

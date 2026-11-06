@@ -52,7 +52,7 @@ def log(msg):
 def discover_channels():
     """همهٔ کانال‌های تعریف‌شده را برمی‌گرداند: [(slug, slots, state_path)]"""
     out = []
-    base = REPO / "channels"
+    base = REPO / "scripts" / "channels"
     if not base.exists():
         return out
     for d in sorted(base.iterdir()):

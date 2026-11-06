@@ -99,9 +99,9 @@ def main():
         if i + 1 < len(sys.argv):
             chdir_arg = sys.argv[i + 1]
     if chdir_arg:
-        build_stats(REPO / "channels" / chdir_arg)
+        build_stats(REPO / "scripts" / "channels" / chdir_arg)
     else:
-        base = REPO / "channels"
+        base = REPO / "scripts" / "channels"
         if base.exists():
             for d in sorted(base.iterdir()):
                 if d.is_dir() and not d.name.startswith("_") and (d / "channel.json").exists():

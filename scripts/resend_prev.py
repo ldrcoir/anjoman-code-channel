@@ -33,9 +33,9 @@ CHAT_ID = "5100057643"
 API = f"https://tapi.bale.ai/bot{TOK}"
 
 POSTS = {
-    "013": {"folder": REPO / "channels/coding/posts/013-kharazmi",
+    "013": {"folder": REPO / "scripts/channels/coding/posts/013-kharazmi",
             "old_id": None, "new_id": 53},   # قبلاً ارسال مجدد شد — فقط همگام‌سازی آمار
-    "014": {"folder": REPO / "channels/coding/posts/014-rust-dars-04-commentha",
+    "014": {"folder": REPO / "scripts/channels/coding/posts/014-rust-dars-04-commentha",
             "old_id": 50, "new_id": None},
 }
 
@@ -73,7 +73,7 @@ def sync_stats(code, new_id, folder):
             d["message_id"] = new_id
         p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n",
                      encoding="utf-8")
-    p = REPO / "channels/coding/content/stats.md"
+    p = REPO / "scripts/channels/coding/content/stats.md"
     txt = p.read_text(encoding="utf-8")
     txt = re.sub(rf"(\| {code} \|[^\n]*\| )\d+( \|)",
                  rf"\g<1>{new_id}\2", txt)

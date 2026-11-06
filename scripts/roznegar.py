@@ -93,7 +93,7 @@ def git(*args):
 
 def load_channel(slug):
     """شناسنامهٔ کانال را می‌خواند و مسیرها را برمی‌گرداند"""
-    chdir = REPO / "channels" / slug
+    chdir = REPO / "scripts" / "channels" / slug
     cj = chdir / "channel.json"
     if not cj.exists():
         raise FileNotFoundError(f"کانال «{slug}» وجود ندارد: {cj}")

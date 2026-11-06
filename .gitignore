@@ -5,12 +5,12 @@ __pycache__/
 tool-results/
 
 # محتوای کتاب (عکس دانش‌آموزان) هرگز در ریپوی عمومی نمی‌رود — از ریپوی خصوصی تزریق می‌شود
-kotlin-pajoohesh-app/app/src/main/assets/pages/
-kotlin-pajoohesh-app/app/src/main/assets/cover.webp
-kotlin-pajoohesh-app/app/src/main/assets/matn.json
+EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets/pages/
+EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets/cover.webp
+EMA/app-ha/kotlin-pajoohesh-app/app/src/main/assets/matn.json
 
 # بیلد لوکال
-kotlin-pajoohesh-app/.gradle/
-kotlin-pajoohesh-app/app/build/
-kotlin-pajoohesh-app/.kotlin/
-kotlin-pajoohesh-app/local.properties
+EMA/app-ha/kotlin-pajoohesh-app/.gradle/
+EMA/app-ha/kotlin-pajoohesh-app/app/build/
+EMA/app-ha/kotlin-pajoohesh-app/.kotlin/
+EMA/app-ha/kotlin-pajoohesh-app/local.properties

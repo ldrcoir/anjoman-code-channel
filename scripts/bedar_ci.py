@@ -44,7 +44,7 @@ lines = [f"بیدار-سی‌آی | تهران {now.isoformat(timespec='seconds'
 exit_code = 0
 
 # ─── کشف همهٔ کانال‌ها — مثل دیمون: هر پوشهٔ channels/* با channel.json ───
-base = REPO / "channels"
+base = REPO / "scripts" / "channels"
 channel_dirs = []
 if base.exists():
     for d in sorted(base.iterdir()):

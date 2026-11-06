@@ -11,12 +11,12 @@ REPO = ROOT / "anjoman-code-bot"
 sys.path.insert(0, str(REPO / "scripts"))
 from enerjy_poster import render, spec_text, set_channel
 
-cfg = json.loads((REPO / "channels/enerjy-novin/channel.json").read_text(encoding="utf-8"))
-logo = REPO / "channels/enerjy-novin/assets/logo.png"
+cfg = json.loads((REPO / "scripts/channels/enerjy-novin/channel.json").read_text(encoding="utf-8"))
+logo = REPO / "scripts/channels/enerjy-novin/assets/logo.png"
 cfg["_logo_path"] = str(logo) if logo.exists() else ""
 set_channel(cfg)
 
-QUEUE = REPO / "channels/enerjy-novin/content/queue"
+QUEUE = REPO / "scripts/channels/enerjy-novin/content/queue"
 target = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else None
 
 folders = [target] if target else [f.parent for f in sorted(QUEUE.rglob("spec.py"))]

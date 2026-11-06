@@ -9,12 +9,12 @@ REPO = ROOT / "anjoman-code-bot"
 sys.path.insert(0, str(REPO / "scripts"))
 from poster_lib import render, spec_text, set_channel
 
-cfg = json.loads((REPO / "channels/coding/channel.json").read_text(encoding="utf-8"))
-logo = REPO / "channels/coding/assets/logo.png"
+cfg = json.loads((REPO / "scripts/channels/coding/channel.json").read_text(encoding="utf-8"))
+logo = REPO / "scripts/channels/coding/assets/logo.png"
 cfg["_logo_path"] = str(logo) if logo.exists() else ""
 set_channel(cfg)
 
-queue = REPO / "channels/coding/content/queue/b1-amoozesh"
+queue = REPO / "scripts/channels/coding/content/queue/b1-amoozesh"
 for folder in sorted(p for p in queue.iterdir() if p.is_dir()):
     if not (folder / "spec.py").exists():
         continue
