@@ -12,29 +12,29 @@ import android.view.View
 import android.widget.TextView
 
 /*
- * ابزارهای رابط کاربری EmaRoid — نسخهٔ «خیره» ✨
- * پالت بنفش کیهانی + کلیدهای شیشه‌ای نئون + فشردن فانتزی
+ * ابزارهای رابط کاربری EmaRoid — پالت «سنگ‌زغالی»
+ * تیرهٔ جدی و بی‌شلوغ؛ فیروزه‌ای ملایم تنها رنگ تأکید؛ بدون ستاره و نئون
  */
 object Abzar {
 
-    // پس‌زمینهٔ کهکشانی
-    val RANG_SHURU = 0xFF1D1246.toInt()      // بنفش کهکشانی بالا
-    val RANG_PAYAN = 0xFF0A0820.toInt()      // سرمه‌ای شب پایین
+    // پس‌زمینهٔ سنگ‌زغالی
+    val RANG_SHURU = 0xFF151A21.toInt()      // گرافیت بالا
+    val RANG_PAYAN = 0xFF0C0F13.toInt()      // عمق پایین
 
-    val RANG_ZAMIN = 0xFF130E33.toInt()
-    val RANG_KART = 0xFF231B4E.toInt()
-    val RANG_CODE = 0xFF1B1540.toInt()
-    val RANG_TIZ = 0xFF22D3EE.toInt()        // فیروزه‌ای نئون
-    val RANG_GOLABI = 0xFFFF4D9E.toInt()     // صورتی نئون
-    val RANG_BANAFSH = 0xFF8B5CF6.toInt()    // بنفش روشن
-    val RANG_TALAEI = 0xFFF2B134.toInt()     // طلایی
-    val RANG_MATN = 0xFFF3F0FF.toInt()
-    val RANG_KAMRANG = 0xFFA79FD6.toInt()
-    val RANG_SABZ = 0xFF34D399.toInt()       // سبز نئون
-    val RANG_GHERMEZ = 0xFFF87171.toInt()
-    val RANG_KHAKISTARI = 0xFF3A3170.toInt()
-    val RANG_DOKME = 0xFF2B2258.toInt()      // کلید شیشه‌ای بنفش
-    val RANG_DOKME_AMAL = 0xFFFF4D9E.toInt() // عملگرها صورتی
+    val RANG_ZAMIN = 0xFF101318.toInt()
+    val RANG_KART = 0xFF1B212A.toInt()
+    val RANG_CODE = 0xFF161B22.toInt()
+    val RANG_TIZ = 0xFF2FA8C9.toInt()        // فیروزه‌ای مه‌گرفته — تنها تأکید
+    val RANG_GOLABI = 0xFF7A92AB.toInt()     // فولاد آبی سرد
+    val RANG_BANAFSH = 0xFF5B6B7C.toInt()    // سیلایی
+    val RANG_TALAEI = 0xFFD9A441.toInt()     // کهربایی خاکی
+    val RANG_MATN = 0xFFE8ECF1.toInt()
+    val RANG_KAMRANG = 0xFF8A94A1.toInt()
+    val RANG_SABZ = 0xFF2FA36B.toInt()       // سبز خاموش
+    val RANG_GHERMEZ = 0xFFD96459.toInt()    // سرخ خاموش
+    val RANG_KHAKISTARI = 0xFF2A313B.toInt()
+    val RANG_DOKME = 0xFF1F2630.toInt()      // کلید سنگی
+    val RANG_DOKME_AMAL = 0xFF31404E.toInt() // عملگرها فولادی
 
     fun dp(c: Context, v: Float): Int =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, c.resources.displayMetrics).toInt()
@@ -110,7 +110,7 @@ object Abzar {
         v.foreground = v.context.getDrawable(tv.resourceId)
     }
 
-    // فشردن فانتزی: کلید موقع لمس کمی کوچک می‌شود + لرزش ظریف — حس کلیدهای واقعی
+    // فشردن: کلید موقع لمس کمی کوچک می‌شود + لرزش ظریف — حس کلید واقعی
     fun fasor(v: View) {
         v.setOnTouchListener { vv, ev ->
             when (ev.actionMasked) {

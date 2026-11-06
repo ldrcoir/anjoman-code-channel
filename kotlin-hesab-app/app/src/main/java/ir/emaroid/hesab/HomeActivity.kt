@@ -13,8 +13,8 @@ import android.widget.ScrollView
 import android.widget.TextView
 
 /*
- * خانهٔ ماشین‌حساب EmaRoid — نسخهٔ خیره ✨
- * چهار کارت شیشه‌ای درخشان روی کهکشان + دکمهٔ زبان (۱۲ زبان)
+ * خانهٔ ماشین‌حساب EmaRoid — پالت سنگ‌زغالی
+ * پنج کارت مات روی پس‌زمینهٔ تیره + دکمهٔ زبان (۱۲ زبان)
  */
 class HomeActivity : Activity() {
 
@@ -57,7 +57,7 @@ class HomeActivity : Activity() {
         dokmeZaban.text = "🌐"
         dokmeZaban.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 22f)
         dokmeZaban.gravity = Gravity.CENTER
-        dokmeZaban.background = Abzar.shisheh(this, 0x40231B4E, 0x6622D3EE, 20f, 1.3f)
+        dokmeZaban.background = Abzar.shisheh(this, 0x331B212A, 0x552FA8C9, 20f, 1.3f)
         dokmeZaban.setPadding(Abzar.dp(this, 10f), Abzar.dp(this, 8f), Abzar.dp(this, 10f), Abzar.dp(this, 8f))
         dokmeZaban.isClickable = true
         Abzar.fasor(dokmeZaban)
@@ -66,18 +66,19 @@ class HomeActivity : Activity() {
         g.addView(sar)
         g.addView(View(this), LinearLayout.LayoutParams(1, Abzar.dp(this, 18f)))
 
-        // چهار بخش — هر کارت با هالهٔ رنگ خودش
+        // پنج بخش — هر کارت با خط تأکید خودش
         val bakhsha = listOf(
             Quad("🧮", Zaban.t("b1t"), Zaban.t("b1d"), Abzar.RANG_GOLABI, HesabActivity::class.java),
             Quad("📈", Zaban.t("b2t"), Zaban.t("b2d"), Abzar.RANG_TIZ, RasmActivity::class.java),
             Quad("🪜", Zaban.t("b3t"), Zaban.t("b3d"), Abzar.RANG_SABZ, HalActivity::class.java),
-            Quad("🔢", Zaban.t("b4t"), Zaban.t("b4d"), Abzar.RANG_BANAFSH, AdadActivity::class.java)
+            Quad("🔢", Zaban.t("b4t"), Zaban.t("b4d"), Abzar.RANG_BANAFSH, AdadActivity::class.java),
+            Quad("∑", Zaban.t("b5t"), Zaban.t("b5d"), Abzar.RANG_TALAEI, MoadelatSanginActivity::class.java)
         )
         for (b in bakhsha) {
             val kart = LinearLayout(this)
             kart.orientation = LinearLayout.HORIZONTAL
             kart.gravity = Gravity.CENTER_VERTICAL
-            kart.background = Abzar.shisheh(this, 0x52231B4E, haloeRang(b.halo), 22f, 1.5f)
+            kart.background = Abzar.shisheh(this, 0x3F1B212A, haloeRang(b.halo), 22f, 1.5f)
             kart.setPadding(Abzar.dp(this, 14f), Abzar.dp(this, 18f), Abzar.dp(this, 16f), Abzar.dp(this, 18f))
             kart.isClickable = true
             Abzar.lams(kart)

@@ -1,0 +1,17 @@
+{
+  "number": 32,
+  "code": "032",
+  "channel": "coding",
+  "category_fa": "ترویجی",
+  "series": "معرفی منابع — کتاب",
+  "title": "کتاب رسمی گیت به فارسی (Pro Git)",
+  "date": "2026-11-06",
+  "message_id": null,
+  "status": "پیش‌نویس — منتظر تأیید مالک؛ پس از تأیید، در کانال انجمن کدنویسی منتشر می‌شود",
+  "image": "post.png",
+  "clean_image": "post-clean.png",
+  "links": {
+    "book": "https://git-scm.com/book/fa/v2"
+  },
+  "note": "به فرمان «کتاب پیدا کن» — کتاب تکی و مشخص؛ در تضاد با پست ۰۳۱ که آرشیو بود"
+}
