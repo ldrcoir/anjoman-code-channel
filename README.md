@@ -87,7 +87,7 @@ Pillow + libraqm با `direction="rtl"` روی متن خام (بدون arabic_re
 
 | اپ | نسخه | لینک مستقیم |
 | --- | --- | --- |
-| ماشین‌حساب علمی EmaRoid | **۲.۰** کهکشان بنفش | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.0/MashinHesab-EmaRoid-v2.0-debug.apk) |
+| ماشین‌حساب علمی EmaRoid | **۲.۱** اعداد بزرگ + معادلات سنگین | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.1/MashinHesab-EmaRoid-v2.1-debug.apk) |
 | آموزش Rust از صفر | **۱.۱** (۱۴ درس) | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.1/AmoozeshRust-v1.1-debug.apk) |
 | آموزش کاتلین | ۳.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/AmoozeshKotlin-v3.0-debug.apk/AmoozeshKotlin-v3.0-debug.apk) |
 | کالری‌یار | ۲.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk) |
