@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- کتاب کاملاً آفلاین است؛ هیچ مجوزی ندارد و همهٔ محتوا داخل خود اپ است -->
+    <!-- همهٔ محتوا داخل خود اپ است و هیچ مجوزی ندارد -->
     <application
-        android:label="دستاوردهای پژوهشی ۱۴۰۴"
+        android:label="پژوهش‌سرا"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:allowBackup="true"

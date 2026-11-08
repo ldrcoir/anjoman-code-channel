@@ -81,9 +81,9 @@ class SplashActivity : Activity() {
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         ))
 
-        // ---------- سربرگ — نام کتاب با فونت نمایشی ----------
+        // ---------- سربرگ — برند اپ با فونت نمایشی ----------
         val onvan = TextView(this)
-        onvan.text = "دستاوردهای پژوهشی ۱۴۰۴"
+        onvan.text = "پژوهش‌سرا"
         onvan.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
         onvan.setTextColor(tem.matn)
         onvan.typeface = Fontha.lalezar(this)
@@ -198,7 +198,7 @@ class SplashActivity : Activity() {
         // ---------- خط پایانی ----------
         val payin = Abzar.tv(
             this,
-            "کاملاً آفلاین • ورق‌خوردن با صدا • بدون هیچ مجوزی",
+            "ورق‌خوردن با صدا • ۱۰ تم • جست‌وجو در کل متن",
             11.5f, tem.kamrang
         )
         payin.gravity = android.view.Gravity.CENTER
