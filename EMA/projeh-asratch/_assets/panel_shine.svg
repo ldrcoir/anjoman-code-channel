@@ -1,0 +1,7 @@
+<svg viewBox="0 0 170 100" width="170" height="100" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#pc)">
+  <clipPath id="pc"><rect x="14" y="24" width="142" height="52" rx="4"/></clipPath>
+  <path d="M20 96 L 58 8 L 74 8 L 36 96 Z" fill="#FFFFFF" opacity="0.55"/>
+  <path d="M44 96 L 82 8 L 90 8 L 52 96 Z" fill="#FFFFFF" opacity="0.3"/>
+</g>
+</svg>

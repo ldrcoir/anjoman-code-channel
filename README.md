@@ -80,14 +80,14 @@ Pillow + libraqm با `direction="rtl"` روی متن خام (بدون arabic_re
 فونت وزیرمتن، ابعاد ۱۰۸۰×۱۳۵۰. نسخهٔ «clean» هر عکس (بدون نام/آدرس انجمن)
 برای استفادهٔ آزاد در کانال‌های دیگر هم همزمان ساخته می‌شود.
 
-## 📱 اپ‌های اندروید EmaRoid — دانلود مستقیم
+## 📱 اپ‌های اندروید پژوهش‌سرا — دانلود مستقیم
 
 همهٔ اپ‌ها با یک کلید رسمی امضا شده‌اند (CN=Ehsan Morad) و فقط مجوز اینترنت دارند.
 دانلود مستقیم از Releases — بدون ورود به گیت‌هاب و بدون آرتیفکت:
 
 | اپ | نسخه | لینک مستقیم |
 | --- | --- | --- |
-| ماشین‌حساب علمی EmaRoid | **۲.۰** کهکشان بنفش | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.0/MashinHesab-EmaRoid-v2.0-debug.apk) |
+| ماشین‌حساب علمی پژوهش‌سرا | **۲.۰** کهکشان بنفش | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/mashin-hesab-v2.0/MashinHesab-EmaRoid-v2.0-debug.apk) |
 | آموزش Rust از صفر | **۱.۱** (۱۴ درس) | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/amoozesh-rust-v1.1/AmoozeshRust-v1.1-debug.apk) |
 | آموزش کاتلین | ۳.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/AmoozeshKotlin-v3.0-debug.apk/AmoozeshKotlin-v3.0-debug.apk) |
 | کالری‌یار | ۲.۰ | [APK](https://github.com/ldrcoir/anjoman-code-channel/releases/download/KalariYar-v2.0-debug.apk/KalariYar-v2.0-debug.apk) |

@@ -1,0 +1,67 @@
+<svg viewBox="0 0 480 360" width="480" height="360" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="ksky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#7FCBEE"/><stop offset="0.6" stop-color="#BEE6F4"/><stop offset="1" stop-color="#FFF3D2"/>
+  </linearGradient>
+  <radialGradient id="kglow" cx="0.85" cy="0.22" r="0.55">
+    <stop offset="0" stop-color="#FFF3C0" stop-opacity="0.9"/><stop offset="1" stop-color="#FFF3C0" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="kzamin" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#93D47F"/><stop offset="1" stop-color="#5FAE52"/>
+  </linearGradient>
+  <linearGradient id="kroof" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#D97B57"/><stop offset="1" stop-color="#B0522F"/>
+  </linearGradient>
+</defs>
+<rect width="480" height="360" fill="url(#ksky)"/>
+<rect width="480" height="360" fill="url(#kglow)"/>
+<rect x="0" y="272" width="480" height="88" fill="url(#kzamin)"/>
+<rect x="0" y="268" width="480" height="7" fill="#54A24A"/>
+<!-- مدرسهٔ پژوهش‌سرا -->
+<g>
+  <rect x="56" y="196" width="152" height="76" rx="3" fill="#F7ECD2"/>
+  <g stroke="#E3D2AC" stroke-width="1.6">
+    <line x1="56" y1="212" x2="208" y2="212"/><line x1="56" y1="228" x2="208" y2="228"/>
+    <line x1="56" y1="244" x2="208" y2="244"/><line x1="56" y1="258" x2="208" y2="258"/>
+  </g>
+  <path d="M44 198 L 132 148 L 220 198 Z" fill="url(#kroof)"/>
+  <path d="M44 198 L 132 148 L 132 156 L 56 200 Z" fill="#E9916B" opacity="0.6"/>
+  <rect x="42" y="196" width="180" height="7" rx="3" fill="#8F4527"/>
+  <rect x="120" y="152" width="24" height="9" rx="3" fill="#8F4527"/>
+  <!-- در و پنجره‌ها -->
+  <rect x="116" y="234" width="32" height="38" rx="2" fill="#7A4A2B"/>
+  <rect x="121" y="240" width="9" height="9" rx="1.5" fill="#E8C97E"/>
+  <circle cx="141" cy="254" r="1.8" fill="#E8C97E"/>
+  <rect x="70" y="216" width="26" height="20" rx="2" fill="#BFE3F2" stroke="#7A4A2B" stroke-width="2.4"/>
+  <line x1="83" y1="216" x2="83" y2="236" stroke="#7A4A2B" stroke-width="1.6"/>
+  <rect x="168" y="216" width="26" height="20" rx="2" fill="#BFE3F2" stroke="#7A4A2B" stroke-width="2.4"/>
+  <line x1="181" y1="216" x2="181" y2="236" stroke="#7A4A2B" stroke-width="1.6"/>
+  <!-- تابلوی پژوهش‌سرا -->
+  <rect x="94" y="260" width="76" height="12" rx="3" fill="#0E5C33"/>
+  <text x="132" y="269.5" font-family="Vazirmatn, sans-serif" font-size="8.6" fill="#FFF7D6" text-anchor="middle" direction="rtl">پژوهش‌سرا</text>
+</g>
+<!-- پرچم حیاط -->
+<g>
+  <line x1="248" y1="212" x2="248" y2="272" stroke="#7C8FA0" stroke-width="3"/>
+  <path d="M249 214 L 272 220 L 249 228 Z" fill="#16A34A"/>
+  <circle cx="248" cy="210" r="3" fill="#C8D3DC"/>
+</g>
+<!-- کابل برق از بام به ایستگاه -->
+<path d="M 196 186 C 250 176, 286 200, 318 232" stroke="#4A5B6B" stroke-width="2.6" fill="none" stroke-dasharray="7 5"/>
+<!-- ایستگاه باتری -->
+<g>
+  <rect x="300" y="236" width="64" height="36" rx="5" fill="#8CA0B3"/>
+  <rect x="300" y="236" width="64" height="8" rx="4" fill="#6B7F92"/>
+  <rect x="308" y="246" width="48" height="20" rx="3" fill="#54687C"/>
+  <path d="M 334 247 l -7 11 h 5.5 l -3.5 9 l 11 -12 h -6.5 z" fill="#FBBF24"/>
+  <rect x="296" y="270" width="72" height="6" rx="2" fill="#54687C"/>
+</g>
+<!-- گل‌ها و علف -->
+<g stroke="#4E9B44" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.8">
+  <path d="M282 282 l -3 -8 M286 282 l 0 -10 M290 282 l 3 -8"/>
+  <path d="M380 288 l -3 -8 M384 288 l 0 -10 M388 288 l 3 -8"/>
+</g>
+<g fill="#FDE68A"><circle cx="34" cy="292" r="3.2"/><circle cx="222" cy="296" r="3.2"/><circle cx="416" cy="286" r="3.2"/></g>
+<g fill="#F87171"><circle cx="96" cy="304" r="3"/><circle cx="330" cy="300" r="3"/></g>
+<g fill="#F9A8D4"><circle cx="180" cy="308" r="3"/><circle cx="446" cy="298" r="3"/></g>
+</svg>
