@@ -1,0 +1,111 @@
+{
+  "updated": "2026-10-28T06:33:33+03:30",
+  "channel": "enerjy-novin",
+  "total": 10,
+  "by_category": {
+    "؟": 4,
+    "معرفی": 1,
+    "الف — ترویجی/دانستنی (معرفی انرژی‌های نوین)": 1,
+    "اطلاعیه": 1,
+    "ترویجی/آموزشی (سری منابع انرژی — ۲. انرژی باد)": 1,
+    "ترویجی/دانستنی": 2
+  },
+  "by_series": {
+    "—": 7,
+    "آغاز به کار | آبان ۱۴۰۵": 1,
+    "ایام فاطمیه | ۱۴ جمادی‌الاول ۱۴۴۸": 1,
+    "منابع انرژی — دنبالهٔ «۱. انرژی خورشیدی» ادمین": 1
+  },
+  "posts": [
+    {
+      "code": null,
+      "title": null,
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 9
+    },
+    {
+      "code": null,
+      "title": null,
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 10
+    },
+    {
+      "code": null,
+      "title": "۲. انرژی باد — دنبالهٔ «۱. انرژی خورشیدی» ادمین",
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 20
+    },
+    {
+      "code": null,
+      "title": "نیروگاه خورشیدی متانول کاوه — ساوه (۱۳۰ مگاوات)",
+      "category_fa": null,
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 24
+    },
+    {
+      "code": "001",
+      "title": "انرژی‌پژوهان آغاز به کار کرد",
+      "category_fa": "معرفی",
+      "series": "آغاز به کار | آبان ۱۴۰۵",
+      "lesson": null,
+      "date": "2026-10-24",
+      "message_id": 3
+    },
+    {
+      "code": "002",
+      "title": "انرژی‌های نوین چیست؟",
+      "category_fa": "الف — ترویجی/دانستنی (معرفی انرژی‌های نوین)",
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 4
+    },
+    {
+      "code": "003",
+      "title": "شهادت دخت پیامبر اسلام (س)",
+      "category_fa": "اطلاعیه",
+      "series": "ایام فاطمیه | ۱۴ جمادی‌الاول ۱۴۴۸",
+      "lesson": null,
+      "date": "2026-10-25",
+      "message_id": 8
+    },
+    {
+      "code": "008",
+      "title": "«۲. انرژی بادی» — سری آموزشی منابع انرژی",
+      "category_fa": "ترویجی/آموزشی (سری منابع انرژی — ۲. انرژی باد)",
+      "series": "منابع انرژی — دنبالهٔ «۱. انرژی خورشیدی» ادمین",
+      "lesson": null,
+      "date": "2026-10-27",
+      "message_id": 23
+    },
+    {
+      "code": "009",
+      "title": "۳. انرژی زمین‌گرمایی — دنبالهٔ «۱. خورشیدی» و «۲. بادی»",
+      "category_fa": "ترویجی/دانستنی",
+      "series": null,
+      "lesson": null,
+      "date": "2026-10-27",
+      "message_id": 26
+    },
+    {
+      "code": "010",
+      "title": "۴. انرژی آب (برق‌آبی) — دنبالهٔ «۱. خورشیدی»، «۲. بادی» و «۳. زمین‌گرمایی»",
+      "category_fa": "ترویجی/دانستنی",
+      "series": null,
+      "lesson": null,
+      "date": "2026-10-28",
+      "message_id": 28
+    }
+  ]
+}

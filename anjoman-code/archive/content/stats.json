@@ -1,0 +1,260 @@
+{
+  "updated": "2026-10-28T11:11:30+03:30",
+  "channel": "coding",
+  "total": 25,
+  "by_category": {
+    "؟": 4,
+    "آموزشی": 4,
+    "خلاقانه": 3,
+    "ترویجی": 2,
+    "معرفی": 2,
+    "اطلاعیه": 1,
+    "رویداد — کارگاه عملی اعضا (بند ۳)": 1,
+    "نشریهٔ الکترونیکی — پیوست PDF (بند ۲)": 1,
+    "فعالیت خلاقانه — فایل بازی مرورگری (بند ۴)": 1,
+    "معرفی ابزار/منبع (بند ۵)": 1,
+    "مناسبتی": 1,
+    "نشریهٔ الکترونیکی (بند ۲)": 2,
+    "فعالیت خلاقانه (بند ۴)": 2
+  },
+  "by_series": {
+    "آموزش Rust از صفر": 6,
+    "آموزش پایتون از صفر": 1,
+    "چالش کدنویسی": 1,
+    "نگاه خلاقانه به کدنویسی": 1,
+    "نشریهٔ الکترونیکی": 1,
+    "بازی مرورگری": 2,
+    "معرفی کتاب": 1,
+    "چهره‌های دنیای کامپیوتر": 2,
+    "دههٔ نخست ایام فاطمیه | ۱۳ جمادی‌الاول ۱۴۴۸": 1,
+    "—": 8,
+    "ایام فاطمیه | جمادی‌الاول ۱۴۴۸": 1
+  },
+  "posts": [
+    {
+      "code": null,
+      "title": "درس ۵ — متغیرها: let و let mut",
+      "category_fa": null,
+      "series": "آموزش Rust از صفر",
+      "lesson": null,
+      "date": null,
+      "message_id": 160
+    },
+    {
+      "code": null,
+      "title": "درس ۱ — نصب پایتون و اولین اجرا (ویدیو)",
+      "category_fa": null,
+      "series": "آموزش پایتون از صفر",
+      "lesson": null,
+      "date": null,
+      "message_id": 189
+    },
+    {
+      "code": null,
+      "title": "درس ۶ — انواع داده: i32 و f64",
+      "category_fa": null,
+      "series": "آموزش Rust از صفر",
+      "lesson": null,
+      "date": null,
+      "message_id": 190
+    },
+    {
+      "code": null,
+      "title": "چالش ۱ — خروجی این برنامه چیست؟ (ترتیب عملگرها)",
+      "category_fa": null,
+      "series": "چالش کدنویسی",
+      "lesson": null,
+      "date": null,
+      "message_id": 192
+    },
+    {
+      "code": "006",
+      "title": "Rust چیست و چرا؟",
+      "category_fa": "آموزشی",
+      "series": "آموزش Rust از صفر",
+      "lesson": 1,
+      "date": "2026-10-20",
+      "message_id": 18
+    },
+    {
+      "code": "007",
+      "title": "زندگی، مثل یک کد",
+      "category_fa": "خلاقانه",
+      "series": "نگاه خلاقانه به کدنویسی",
+      "lesson": null,
+      "date": "2026-10-20",
+      "message_id": 20
+    },
+    {
+      "code": "008",
+      "title": "مجلهٔ انجمن کدنویسی",
+      "category_fa": "ترویجی",
+      "series": "نشریهٔ الکترونیکی",
+      "lesson": null,
+      "date": "2026-10-20",
+      "message_id": 22
+    },
+    {
+      "code": "009",
+      "title": "بازی رفیق مار",
+      "category_fa": "خلاقانه",
+      "series": "بازی مرورگری",
+      "lesson": null,
+      "date": "2026-10-20",
+      "message_id": 46
+    },
+    {
+      "code": "010",
+      "title": "نصب و اولین برنامه",
+      "category_fa": "آموزشی",
+      "series": "آموزش Rust از صفر",
+      "lesson": 2,
+      "date": "2026-10-21",
+      "message_id": 27
+    },
+    {
+      "code": "011",
+      "title": "کتاب رسمی زبان Rust — The Rust Programming Language",
+      "category_fa": "ترویجی",
+      "series": "معرفی کتاب",
+      "lesson": null,
+      "date": "2026-10-21",
+      "message_id": 41
+    },
+    {
+      "code": "012",
+      "title": "چاپ متن با println!",
+      "category_fa": "آموزشی",
+      "series": "آموزش Rust از صفر",
+      "lesson": 3,
+      "date": "2026-10-22",
+      "message_id": 42
+    },
+    {
+      "code": "013",
+      "title": "خوارزمی؛ پدر الگوریتم",
+      "category_fa": "معرفی",
+      "series": "چهره‌های دنیای کامپیوتر",
+      "lesson": null,
+      "date": "2026-10-23",
+      "message_id": 53
+    },
+    {
+      "code": "014",
+      "title": "کامنت‌ها و پیام‌های کامپایلر",
+      "category_fa": "آموزشی",
+      "series": "آموزش Rust از صفر",
+      "lesson": 4,
+      "date": "2026-10-24",
+      "message_id": 54
+    },
+    {
+      "code": "015",
+      "title": "شهادت حضرت فاطمهٔ زهرا (س)",
+      "category_fa": "اطلاعیه",
+      "series": "دههٔ نخست ایام فاطمیه | ۱۳ جمادی‌الاول ۱۴۴۸",
+      "lesson": null,
+      "date": "2026-10-25",
+      "message_id": 157
+    },
+    {
+      "code": "016",
+      "title": "کارگاه عملی کدنویسی | جلسه اول",
+      "category_fa": "رویداد — کارگاه عملی اعضا (بند ۳)",
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 12
+    },
+    {
+      "code": "017",
+      "title": "نسخهٔ کامل PDF | نشریهٔ شمارهٔ ۱ — مهر ۱۴۰۵",
+      "category_fa": "نشریهٔ الکترونیکی — پیوست PDF (بند ۲)",
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 24
+    },
+    {
+      "code": "018",
+      "title": "فایل بازی «رفیق مار» — نسخهٔ آفلاین",
+      "category_fa": "فعالیت خلاقانه — فایل بازی مرورگری (بند ۴)",
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 48
+    },
+    {
+      "code": "019",
+      "title": "دستیار هوشمند برنامه‌نویسی: ChatGPT",
+      "category_fa": "معرفی ابزار/منبع (بند ۵)",
+      "series": null,
+      "lesson": null,
+      "date": null,
+      "message_id": 51
+    },
+    {
+      "code": "020",
+      "title": "تسلیت ایام فاطمیه (نسخهٔ ساده با عکس اینترنتی)",
+      "category_fa": "مناسبتی",
+      "series": "ایام فاطمیه | جمادی‌الاول ۱۴۴۸",
+      "lesson": null,
+      "date": "2026-10-25",
+      "message_id": 159
+    },
+    {
+      "code": "025",
+      "title": "گریس هاپر؛ مادر کامپایلر",
+      "category_fa": "معرفی",
+      "series": "چهره‌های دنیای کامپیوتر",
+      "lesson": null,
+      "date": "2026-10-27",
+      "message_id": 194
+    },
+    {
+      "code": "026",
+      "title": "بازی‌های مرورگری انجمن — ربات مسیریاب + رفیق مار",
+      "category_fa": "خلاقانه",
+      "series": "بازی مرورگری",
+      "lesson": null,
+      "date": "2026-10-27",
+      "message_id": 201
+    },
+    {
+      "code": "027",
+      "title": "مجلهٔ انجمن کدنویسی — شمارهٔ ۲ (آبان ۱۴۰۵) + پیوست PDF",
+      "category_fa": "نشریهٔ الکترونیکی (بند ۲)",
+      "series": null,
+      "lesson": null,
+      "date": "2026-10-28",
+      "message_id": 202
+    },
+    {
+      "code": "028",
+      "title": "نسخهٔ دانلودی «رفیق مار» — عین نسخهٔ آنلاین",
+      "category_fa": "فعالیت خلاقانه (بند ۴)",
+      "series": null,
+      "lesson": null,
+      "date": "2026-10-28",
+      "message_id": 205
+    },
+    {
+      "code": "029",
+      "title": "نسخهٔ دانلودی «ربات مسیریاب» — عین نسخهٔ آنلاین",
+      "category_fa": "فعالیت خلاقانه (بند ۴)",
+      "series": null,
+      "lesson": null,
+      "date": "2026-10-28",
+      "message_id": 206
+    },
+    {
+      "code": "030",
+      "title": "مجلهٔ انجمن کدنویسی — شمارهٔ ۱ (مهر ۱۴۰۵) + پیوست PDF",
+      "category_fa": "نشریهٔ الکترونیکی (بند ۲)",
+      "series": null,
+      "lesson": null,
+      "date": "2026-10-28",
+      "message_id": 208
+    }
+  ]
+}

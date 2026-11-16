@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ربات مسیریاب | انجمن کدنویسی</title>
+<style>
+  body { font-family:Tahoma, sans-serif; background:#0D1230; color:#E8EEF8;
+         text-align:center; margin:0; padding:16px; }
+  h1 { font-size:26px; margin:6px 0 2px; }
+  #shomare { color:#22D3EE; font-weight:bold; margin-bottom:8px; }
+  canvas { background:#0B0E22; border:3px solid #22D3EE; border-radius:10px;
+           max-width:100%; touch-action:manipulation; }
+  .rahnama { color:#94A3B8; font-size:13px; line-height:1.8; margin:8px auto; max-width:420px; }
+  .dokme-ha { margin-top:10px; }
+  button { font-family:inherit; font-size:20px; font-weight:bold; color:#fff; cursor:pointer;
+           background:rgba(255,255,255,.09); border:2px solid rgba(255,255,255,.3);
+           border-radius:12px; padding:10px 18px; margin:3px; user-select:none; }
+  button:active { transform:scale(.93); }
+  .jomle { background:rgba(34,211,238,.16); border-color:#22D3EE; }
+  .ejra  { background:rgba(52,211,153,.2); border-color:#34D399; font-size:22px; }
+  .pak   { background:rgba(251,113,133,.16); border-color:#FB7185; }
+  #barname { direction:ltr; min-height:34px; margin:8px auto; max-width:430px;
+             display:flex; flex-wrap:wrap; gap:4px; justify-content:center; }
+  #barname span { background:#1A2151; border:1px solid #22D3EE; border-radius:8px;
+                  padding:3px 9px; font-size:16px; }
+  .dostor { direction:ltr; display:grid; grid-template-columns:repeat(3, 74px);
+            gap:6px; justify-content:center; margin-top:10px; }
+  .dostor #b-bala  { grid-column:2; }
+  .dostor #b-chap  { grid-column:1; grid-row:2; }
+  .dostor #b-paeen { grid-column:2; grid-row:2; }
+  .dostor #b-rast  { grid-column:3; grid-row:2; }
+  #payam { min-height:24px; font-weight:bold; color:#34D399; }
+  .paeen { color:#64748B; font-size:12px; margin-top:14px; }
+</style>
+</head>
+<body>
+  <h1>🤖 ربات مسیریاب</h1>
+  <div id="shomare">مرحلهٔ ۱</div>
+
+  <canvas id="zamin" width="480" height="336"></canvas>
+
+  <div class="rahnama">
+    به ربات دستور بده: دکمه‌های جهت را بزن تا «برنامه» ساخته شود، بعد «اجرا» را بزن.
+    ربات خانه‌به‌خانه مسیرش را می‌رود — خانه‌ها شطرنجی‌اند، شمردن‌شان راحت است!
+    به دیوار و خانهٔ تیره نزن.
+  </div>
+
+  <div id="barname"></div>
+  <div id="payam"></div>
+
+  <div class="dokme-ha">
+    <div class="dostor">
+      <button class="jomle" id="b-bala">⬆</button>
+      <button class="jomle" id="b-chap">⬅</button>
+      <button class="jomle" id="b-paeen">⬇</button>
+      <button class="jomle" id="b-rast">➡</button>
+    </div>
+    <button class="ejra" id="b-ejra">▶ اجرا</button>
+    <button class="pak" id="b-pak">🗑 پاک کردن</button>
+    <button id="b-avval">🔄 از اول</button>
+  </div>
+
+  <div class="paeen">انجمن علمی‌پژوهشی کدنویسی | مدرسهٔ شهید فقیهی — ble.ir/anjomanfaghihi</div>
+
+<script>
+// bazie "robot masiryab" — tak-file, bedoone ketabkhane
+// robot bayad be parcham berese; ma be oon "barname" midim na tak-tak feshar!
+
+var KADR = 48, SOTUN = 10, SATR = 7;          // khane-ha-ye zamin
+var zamin = document.getElementById('zamin');
+var ghalam = zamin.getContext('2d');
+
+// har naghshe: "." khane-ye khali, "#" divar, "R" robot, "P" parcham (hadaf)
+var naghsheha = [
+  [ "..........",
+    "..........",
+    "....R...P.",
+    "..........",
+    "..........",
+    "..........",
+    ".........." ],
+  [ "..........",
+    ".....#....",
+    "...R.#.P..",
+    ".....#....",
+    ".....#....",
+    "..........",
+    ".........." ],
+  [ "....######",
+    "....P.....",
+    "..........",
+    "######....",
+    "..........",
+    "R.........",
+    ".........." ]
+];
+
+var shomareSath = 0;
+var robot = {x:0, y:0};
+var parcham = {x:0, y:0};
+var divarha = [];        // list-e khane-haye divar {x, y}
+var barname = [];        // barname-e robat: list-e jahat-ha
+var darEjra = false;
+var jomleha = { bala:{x:0,y:-1}, paeen:{x:0,y:1}, chap:{x:-1,y:0}, rast:{x:1,y:0} };
+
+// adad-e farsi rooye safhe — mesl-e bazi-e mar
+function faN(n) {
+  var j = '۰۱۲۳۴۵۶۷۸۹', s = String(n), kholase = '';
+  for (var i = 0; i < s.length; i++) kholase += j[+s[i]];
+  return kholase;
+}
+
+function naghsheBegir() {
+  divarha = [];
+  var satrha = naghsheha[shomareSath];
+  for (var y = 0; y < SATR; y++) {
+    for (var x = 0; x < SOTUN; x++) {
+      var h = satrha[y][x];
+      if (h == '#') divarha.push({x:x, y:y});
+      if (h == 'R') robot = {x:x, y:y};
+      if (h == 'P') parcham = {x:x, y:y};
+    }
+  }
+}
+
+function divarDar(x, y) {
+  for (var i = 0; i < divarha.length; i++)
+    if (divarha[i].x == x && divarha[i].y == y) return true;
+  return false;
+}
+
+function rasm() {
+  // zamin-e shatranji — ta khane-ha ro beshe shemord
+  for (var x = 0; x < SOTUN; x++) {
+    for (var y = 0; y < SATR; y++) {
+      ghalam.fillStyle = (x + y) % 2 == 0 ? '#121838' : '#0B0E22';
+      ghalam.fillRect(x*KADR, y*KADR, KADR, KADR);
+    }
+  }
+  // divar-ha
+  for (var i = 0; i < divarha.length; i++) {
+    ghalam.fillStyle = '#475569';
+    ghalam.fillRect(divarha[i].x*KADR+2, divarha[i].y*KADR+2, KADR-4, KADR-4);
+  }
+  // parcham-e hadaf
+  ghalam.font = '30px Tahoma';
+  ghalam.textAlign = 'center';
+  ghalam.textBaseline = 'middle';
+  ghalam.fillText('🏁', parcham.x*KADR + KADR/2, parcham.y*KADR + KADR/2 + 2);
+  // robot: narm-e gerad ba do cheshm
+  var rx = robot.x*KADR, ry = robot.y*KADR;
+  ghalam.fillStyle = '#22D3EE';
+  ghalam.beginPath();
+  ghalam.arc(rx + KADR/2, ry + KADR/2, KADR/2 - 5, 0, Math.PI*2);
+  ghalam.fill();
+  ghalam.fillStyle = '#0B0E22';
+  ghalam.beginPath();
+  ghalam.arc(rx + KADR/2 - 7, ry + KADR/2 - 3, 3.5, 0, Math.PI*2);
+  ghalam.arc(rx + KADR/2 + 7, ry + KADR/2 - 3, 3.5, 0, Math.PI*2);
+  ghalam.fill();
+  // antan-e rooye sar
+  ghalam.strokeStyle = '#22D3EE';
+  ghalam.beginPath();
+  ghalam.moveTo(rx + KADR/2, ry + 5);
+  ghalam.lineTo(rx + KADR/2, ry - 4);
+  ghalam.stroke();
+  ghalam.fillStyle = '#FB923C';
+  ghalam.beginPath();
+  ghalam.arc(rx + KADR/2, ry - 6, 4, 0, Math.PI*2);
+  ghalam.fill();
+}
+
+function barnameNeshoonBedeh() {
+  var bakhsh = document.getElementById('barname');
+  bakhsh.innerHTML = '';
+  for (var i = 0; i < barname.length; i++) {
+    var n = document.createElement('span');
+    var j = barname[i];
+    n.textContent = j.x == 1 ? '➡' : j.x == -1 ? '⬅' : j.y == -1 ? '⬆' : '⬇';
+    bakhsh.appendChild(n);
+  }
+}
+
+function dastorEzafe(nam) {
+  if (darEjra || barname.length >= 24) return;
+  barname.push(jomleha[nam]);
+  barnameNeshoonBedeh();
+}
+
+function edame() {
+  if (darEjra || barname.length == 0) return;
+  darEjra = true;
+  document.getElementById('payam').textContent = '';
+  var ghadam = 0;
+  var saat = setInterval(function() {
+    if (ghadam >= barname.length) {
+      clearInterval(saat);
+      darEjra = false;
+      return;
+    }
+    var j = barname[ghadam];
+    var xJadid = robot.x + j.x, yJadid = robot.y + j.y;
+    if (xJadid < 0 || yJadid < 0 || xJadid >= SOTUN || yJadid >= SATR || divarDar(xJadid, yJadid)) {
+      // khord be divar — robat mimone va barname ghat mishe
+      clearInterval(saat);
+      darEjra = false;
+      document.getElementById('payam').style.color = '#FB7185';
+      document.getElementById('payam').textContent = 'اوه! ربات به دیوار خورد — برنامه را عوض کن';
+      return;
+    }
+    robot.x = xJadid; robot.y = yJadid;
+    rasm();
+    ghadam++;
+    if (robot.x == parcham.x && robot.y == parcham.y) {
+      clearInterval(saat);
+      darEjra = false;
+      barname = [];
+      barnameNeshoonBedeh();
+      if (shomareSath + 1 < naghsheha.length) {
+        shomareSath++;
+        shoroo();   // naghshe-ye jadid + pak kardan-e payam
+        document.getElementById('payam').style.color = '#34D399';
+        document.getElementById('payam').textContent = 'آفرین! ربات رسید — حالا برنامهٔ تازه بده';
+      } else {
+        document.getElementById('payam').style.color = '#34D399';
+        document.getElementById('payam').textContent = '🏆 همهٔ مرحله‌ها را تمام کردی! از اول بازی کن';
+      }
+    }
+  }, 350);
+}
+
+function shoroo() {
+  naghsheBegir();
+  barname = [];
+  barnameNeshoonBedeh();
+  document.getElementById('shomare').textContent = 'مرحلهٔ ' + faN(shomareSath + 1) + ' از ' + faN(naghsheha.length);
+  document.getElementById('payam').textContent = '';
+  rasm();
+}
+
+// dokme-ha: ham rooye gooshi ham ba kibord (arrows) dorost kar mikone
+document.getElementById('b-bala').onclick  = function() { dastorEzafe('bala'); };
+document.getElementById('b-paeen').onclick = function() { dastorEzafe('paeen'); };
+document.getElementById('b-chap').onclick  = function() { dastorEzafe('chap'); };
+document.getElementById('b-rast').onclick  = function() { dastorEzafe('rast'); };
+document.getElementById('b-ejra').onclick  = edame;
+document.getElementById('b-pak').onclick   = function() { if (!darEjra) { barname = []; barnameNeshoonBedeh(); } };
+document.getElementById('b-avval').onclick = function() { if (!darEjra) { shomareSath = 0; shoroo(); } };
+
+document.addEventListener('keydown', function(e) {
+  var n = {ArrowUp:'bala', ArrowDown:'paeen', ArrowLeft:'chap', ArrowRight:'rast'}[e.key];
+  if (n) { dastorEzafe(n); e.preventDefault(); }
+  if (e.key == 'Enter') { edame(); e.preventDefault(); }
+});
+
+shoroo();
+</script>
+</body>
+</html>

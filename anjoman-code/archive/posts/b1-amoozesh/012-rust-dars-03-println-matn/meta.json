@@ -1,0 +1,15 @@
+{
+  "number": 12,
+  "code": "012",
+  "channel": "coding",
+  "category_fa": "آموزشی",
+  "series": "آموزش Rust از صفر",
+  "lesson": 3,
+  "title": "چاپ متن با println!",
+  "date": "2026-10-22",
+  "message_id": 42,
+  "doc_message_id": null,
+  "image": "post.png",
+  "clean_image": "post-clean.png",
+  "statute": "شیوه‌نامهٔ هشتمین دوره مسابقات کدنویسی پژوهش‌سراها ۱۴۰۵-۱۴۰۴ (پیوست ۱ — انجمن علمی و پژوهشی کدنویسی)"
+}

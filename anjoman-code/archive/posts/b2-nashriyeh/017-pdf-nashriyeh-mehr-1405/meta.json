@@ -1,0 +1,21 @@
+{
+ "number": 17,
+ "code": "017",
+ "channel": "coding",
+ "category_fa": "نشریهٔ الکترونیکی — پیوست PDF (بند ۲)",
+ "title": "نسخهٔ کامل PDF | نشریهٔ شمارهٔ ۱ — مهر ۱۴۰۵",
+ "date": null,
+ "message_id": 24,
+ "posted_by": {
+  "kind": "bot",
+  "name": "pc_anjoman_1_bot",
+  "user_id": 1091872508
+ },
+ "image": null,
+ "clean_image": null,
+ "doc": "magazine.pdf",
+ "hashtags_status": "اصلاح شد (۱۴۰۵-۰۸-۰۳): #نشریه_الکترونیکی → #نشریه_انجمن + قاب — editMessageCaption ok=true",
+ "notes": [
+  "فایل PDF از صف بند ۲ کپی شد (همان نسخهٔ منتشرشده)"
+ ]
+}
