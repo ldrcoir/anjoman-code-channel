@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><title>درس ۱۳ Rust — پوستر</title>
+<style>@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Regular.ttf') format('truetype'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Medium.ttf') format('truetype'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Bold.ttf') format('truetype'); font-weight:700; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-ExtraBold.ttf') format('truetype'); font-weight:800; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Black.ttf') format('truetype'); font-weight:900; }
+@font-face { font-family:'DejaVu Sans Mono'; src:url('fonts/DejaVuSansMono.ttf') format('truetype'); font-weight:400; }
+
+:root {
+  --bg:#0d1230; --bg2:#1a2151; --cyan:#22d3ee; --violet:#a78bfa; --green:#34d399;
+  --amber:#fcd34d; --white:#f2f6ff; --sub:#c6d0e4; --muted:#94a3b8; --codebg:#0b0e22;
+}
+html, body { margin:0; padding:0; background:var(--bg); }
+.poster {
+  width:720px; position:relative; direction:rtl; text-align:right;
+  font-family:'Vazirmatn', sans-serif; color:var(--white);
+  background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  padding:44px 48px 60px 48px; box-sizing:border-box;
+}
+.poster::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size:44px 44px; }
+.poster > * { position:relative; }
+.brandrow { display:flex; justify-content:space-between; align-items:baseline;
+  font-size:16px; color:var(--sub); letter-spacing:0.2px; margin-bottom:18px; }
+.brandrow b { color:var(--cyan); font-weight:800; font-size:18px; }
+.lesson-chip { font-size:16px; color:var(--bg); background:var(--cyan);
+  padding:2px 14px; border-radius:99px; font-weight:800; }
+.gh-num { position:absolute; top:6px; left:34px; font-size:150px; font-weight:900;
+  color:rgba(167,139,250,0.10); line-height:1; }
+h1.title { font-size:54px; font-weight:900; line-height:1.25; margin:6px 0 10px 0; }
+h1.title .en { font-family:'DejaVu Sans Mono', monospace; color:var(--cyan);
+  direction:ltr; unicode-bidi:embed; font-size:0.82em; font-weight:400; }
+.subtitle { font-size:25px; color:var(--sub); font-weight:500; line-height:1.6; margin-bottom:22px; }
+.sep { height:1px; background:rgba(255,255,255,0.12); margin:26px 0; }
+p.body { font-size:24px; line-height:1.8; color:var(--white); margin:0 0 16px 0; text-align:right; }
+p.body b { color:var(--cyan); font-weight:800; }
+.keys { display:flex; flex-wrap:wrap; gap:10px 34px; margin:8px 0 4px 0; }
+.key { flex:1 1 190px; min-width:180px; }
+.key .kt { font-size:17px; color:var(--muted); margin-bottom:4px; }
+.key .kt .en { font-family:'DejaVu Sans Mono', monospace; direction:ltr; unicode-bidi:embed; color:var(--violet); }
+.key .kv { font-size:21px; font-weight:700; line-height:1.5; }
+.code-panel { background:var(--codebg); border:1px solid rgba(122,162,247,0.35);
+  border-radius:14px; padding:20px 22px; direction:ltr; text-align:left; margin:20px 0 12px 0; }
+.code-cap { font-family:'Vazirmatn', sans-serif; direction:rtl; text-align:right;
+  font-size:16px; color:var(--muted); margin-bottom:12px; }
+.code-panel pre { margin:0; font-family:'DejaVu Sans Mono', monospace; font-size:18.5px;
+  line-height:1.55; color:#dce1eb; }
+.c-v { color:#7aa2f7; } .c-f { color:#bb86fc; } .c-s { color:#a6d9a7; }
+.c-m { color:#78859b; } .c-o { color:#fcd34d; } .c-k { color:#34d399; }
+.out { background:rgba(252,211,77,0.08); border-radius:10px; padding:10px 16px;
+  direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace;
+  font-size:17px; color:var(--amber); margin:0 0 8px 0; }
+.out .lbl { font-family:'Vazirmatn', sans-serif; direction:rtl; unicode-bidi:embed;
+  display:inline-block; color:var(--muted); font-size:15px; margin-right:10px; }
+.tip { border-right:5px solid var(--green); background:rgba(52,211,153,0.07);
+  border-radius:12px; padding:16px 20px; margin:20px 0 6px 0; }
+.tip .tt { color:var(--green); font-size:19px; font-weight:800; margin-bottom:6px; }
+.tip .tx { font-size:23px; line-height:1.75; }
+h2.h2 { font-size:34px; font-weight:900; color:var(--white); margin:0 0 14px 0; }
+h2.h2 .dot { color:var(--cyan); }
+.q { margin-bottom:18px; }
+.q .qq { font-size:23.5px; font-weight:800; line-height:1.6; margin-bottom:8px; }
+.q .qq .qn { color:var(--violet); font-weight:900; }
+.q .ops { font-size:21.5px; line-height:1.7; color:var(--sub); }
+.answers { font-size:19px; color:var(--bg); background:var(--cyan); display:inline-block;
+  padding:6px 18px; border-radius:99px; font-weight:800; margin:6px 0 4px 0; }
+.exercise { border:1.5px dashed rgba(167,139,250,0.55); border-radius:14px;
+  padding:18px 20px; margin-top:22px; }
+.exercise .et { color:var(--violet); font-size:19px; font-weight:800; margin-bottom:6px; }
+.exercise .ex { font-size:23px; line-height:1.75; }
+.footer { margin-top:30px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.14);
+  display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; }
+.footer .f1 { font-size:16px; color:var(--sub); }
+.footer .f2 { font-size:16px; color:var(--cyan); font-weight:700; direction:ltr; unicode-bidi:embed; }
+.poster{min-height:2427px;}</style></head>
+<body>
+<div class="poster">
+  <div class="gh-num">۱۳</div>
+  <div class="brandrow"><b>پژوهش‌سرا</b><span>مسیر Rust از صفر</span><span class="lesson-chip">درس ۱۳ از ۱۴</span></div>
+
+  <h1 class="title">شمارشی‌ها <span class="en">(enum)</span><br>و تطبیق الگو با <span class="en">match</span></h1>
+  <div class="subtitle">داده‌ای که فقط چند حالت دارد — و یک شاخه برای هر حالت</div>
+  <div class="sep"></div>
+
+  <p class="body">تا حالا متغیرهایمان عدد و متن بودند؛ ولی دنیای واقعی «حالت» هم دارد: چراغ یا روشن است یا خاموش، بازی یا برنده است یا بازنده. برای همین Rust قالبی به نام <b><span class="en">enum</span></b> می‌دهد: جایی که با هم توافق می‌کنید این مقدار فقط یکی از همین چند حالت را می‌تواند باشد.</p>
+
+  <div class="keys">
+    <div class="key"><div class="kt">قالبِ <span class="en">enum</span></div><div class="kv">فهرست حالت‌های مجازِ یک مقدار</div></div>
+    <div class="key"><div class="kt">کلیدواژهٔ <span class="en">match</span></div><div class="kv">یک شاخه برای هر حالت</div></div>
+    <div class="key"><div class="kt">کامپایلر</div><div class="kv">حالتِ جامانده = خطای ساخت</div></div>
+  </div>
+
+  <div class="code-panel">
+    <div class="code-cap">فایل «cheragh.rs» — اولین شمارشیِ تو</div>
+    <pre><span class="c-k">enum</span> <span class="c-f">Cheragh</span> {
+    <span class="c-v">Roshan</span>,
+    <span class="c-v">Khamoosh</span>,
+}
+
+<span class="c-k">fn</span> <span class="c-f">main</span>() {
+    <span class="c-k">let</span> cheragh = <span class="c-f">Cheragh</span>::<span class="c-v">Roshan</span>;
+
+    <span class="c-k">match</span> cheragh {
+        <span class="c-f">Cheragh</span>::<span class="c-v">Roshan</span> =&gt; <span class="c-f">println!</span>(<span class="c-s">"Roshan!"</span>),
+        <span class="c-f">Cheragh</span>::<span class="c-v">Khamoosh</span> =&gt; <span class="c-f">println!</span>(<span class="c-s">"Khamoosh."</span>),
+    }
+}</pre>
+  </div>
+  <div class="out"><span class="lbl">خروجی برنامه:</span>Roshan!</div>
+
+  <div class="tip">
+    <div class="tt">نکتهٔ طلایی</div>
+    <div class="tx">کامپایلر مواظب توست: اگر یک حالت را در <span class="en">match</span> جا بیندازی، Rust اجازه نمی‌دهد برنامه ساخته شود. یعنی باگِ «حالتِ فراموش‌شده» قبل از رسیدن به دست کاربر گرفته می‌شود.</div>
+  </div>
+
+  <div class="sep"></div>
+  <h2 class="h2"><span class="dot">●</span> آزمون سریع</h2>
+
+  <div class="q"><div class="qq"><span class="qn">۱.</span> enum برای چیست؟</div>
+    <div class="ops">الف) تکرار کد &nbsp;&nbsp; ب) وقتی مقدار فقط می‌تواند یکی از چند حالت مشخص باشد<br>ج) نگه‌داشتن فهرست خرید &nbsp;&nbsp; د) پاک کردن حافظه</div></div>
+
+  <div class="q"><div class="qq"><span class="qn">۲.</span> اگر در match یکی از حالت‌ها را جا بیندازیم چه می‌شود؟</div>
+    <div class="ops">الف) کامپایل خطا می‌دهد و برنامه ساخته نمی‌شود<br>ب) برنامه همان را نادیده می‌گیرد &nbsp;&nbsp; ج) کامپایلر حدس می‌زند &nbsp;&nbsp; د) هیچ اتفاقی نمی‌افتد</div></div>
+
+  <div class="q"><div class="qq"><span class="qn">۳.</span> match چه‌طور کار می‌کند؟</div>
+    <div class="ops">الف) همیشه اولین شاخه را اجرا می‌کند &nbsp;&nbsp; ب) فقط با عدد کار می‌کند<br>ج) هر حالت را با شاخه‌هایش مقایسه می‌کند و کارِ همان شاخه را می‌کند<br>د) متن را پاک می‌کند</div></div>
+
+  <div class="answers">پاسخ‌ها: ۱) ب &nbsp;·&nbsp; ۲) الف &nbsp;·&nbsp; ۳) ج</div>
+
+  <div class="exercise">
+    <div class="et">تمرین خانه</div>
+    <div class="ex">enumی برای فصل‌های سال بساز و با match برای هر فصل یک یادگاری چاپ کن — بهار: باران و شکوفه؛ زمستان: برف و نارنج. خروجی‌اش را در کانال بفرست.</div>
+  </div>
+
+  <div class="footer">
+    <div class="f1">درسنامهٔ پوستری · انجمن کدنویسی پژوهش‌سرا</div>
+    <div class="f2">ble.ir/anjomanfaghihi</div>
+  </div>
+</div>
+</body></html>

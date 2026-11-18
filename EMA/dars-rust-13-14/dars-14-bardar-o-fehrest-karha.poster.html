@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><title>درس ۱۴ Rust — پوستر</title>
+<style>@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Regular.ttf') format('truetype'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Medium.ttf') format('truetype'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Bold.ttf') format('truetype'); font-weight:700; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-ExtraBold.ttf') format('truetype'); font-weight:800; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Black.ttf') format('truetype'); font-weight:900; }
+@font-face { font-family:'DejaVu Sans Mono'; src:url('fonts/DejaVuSansMono.ttf') format('truetype'); font-weight:400; }
+
+:root {
+  --bg:#0d1230; --bg2:#1a2151; --cyan:#22d3ee; --violet:#a78bfa; --green:#34d399;
+  --amber:#fcd34d; --white:#f2f6ff; --sub:#c6d0e4; --muted:#94a3b8; --codebg:#0b0e22;
+}
+html, body { margin:0; padding:0; background:var(--bg); }
+.poster {
+  width:720px; position:relative; direction:rtl; text-align:right;
+  font-family:'Vazirmatn', sans-serif; color:var(--white);
+  background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  padding:44px 48px 60px 48px; box-sizing:border-box;
+}
+.poster::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size:44px 44px; }
+.poster > * { position:relative; }
+.brandrow { display:flex; justify-content:space-between; align-items:baseline;
+  font-size:16px; color:var(--sub); letter-spacing:0.2px; margin-bottom:18px; }
+.brandrow b { color:var(--cyan); font-weight:800; font-size:18px; }
+.lesson-chip { font-size:16px; color:var(--bg); background:var(--cyan);
+  padding:2px 14px; border-radius:99px; font-weight:800; }
+.gh-num { position:absolute; top:6px; left:34px; font-size:150px; font-weight:900;
+  color:rgba(167,139,250,0.10); line-height:1; }
+h1.title { font-size:54px; font-weight:900; line-height:1.25; margin:6px 0 10px 0; }
+h1.title .en { font-family:'DejaVu Sans Mono', monospace; color:var(--cyan);
+  direction:ltr; unicode-bidi:embed; font-size:0.82em; font-weight:400; }
+.subtitle { font-size:25px; color:var(--sub); font-weight:500; line-height:1.6; margin-bottom:22px; }
+.sep { height:1px; background:rgba(255,255,255,0.12); margin:26px 0; }
+p.body { font-size:24px; line-height:1.8; color:var(--white); margin:0 0 16px 0; text-align:right; }
+p.body b { color:var(--cyan); font-weight:800; }
+.keys { display:flex; flex-wrap:wrap; gap:10px 34px; margin:8px 0 4px 0; }
+.key { flex:1 1 190px; min-width:180px; }
+.key .kt { font-size:17px; color:var(--muted); margin-bottom:4px; }
+.key .kt .en { font-family:'DejaVu Sans Mono', monospace; direction:ltr; unicode-bidi:embed; color:var(--violet); }
+.key .kv { font-size:21px; font-weight:700; line-height:1.5; }
+.code-panel { background:var(--codebg); border:1px solid rgba(122,162,247,0.35);
+  border-radius:14px; padding:20px 22px; direction:ltr; text-align:left; margin:20px 0 12px 0; }
+.code-cap { font-family:'Vazirmatn', sans-serif; direction:rtl; text-align:right;
+  font-size:16px; color:var(--muted); margin-bottom:12px; }
+.code-panel pre { margin:0; font-family:'DejaVu Sans Mono', monospace; font-size:18.5px;
+  line-height:1.55; color:#dce1eb; }
+.c-v { color:#7aa2f7; } .c-f { color:#bb86fc; } .c-s { color:#a6d9a7; }
+.c-m { color:#78859b; } .c-o { color:#fcd34d; } .c-k { color:#34d399; }
+.out { background:rgba(252,211,77,0.08); border-radius:10px; padding:10px 16px;
+  direction:ltr; text-align:left; font-family:'DejaVu Sans Mono', monospace;
+  font-size:17px; color:var(--amber); margin:0 0 8px 0; }
+.out .lbl { font-family:'Vazirmatn', sans-serif; direction:rtl; unicode-bidi:embed;
+  display:inline-block; color:var(--muted); font-size:15px; margin-right:10px; }
+.tip { border-right:5px solid var(--green); background:rgba(52,211,153,0.07);
+  border-radius:12px; padding:16px 20px; margin:20px 0 6px 0; }
+.tip .tt { color:var(--green); font-size:19px; font-weight:800; margin-bottom:6px; }
+.tip .tx { font-size:23px; line-height:1.75; }
+h2.h2 { font-size:34px; font-weight:900; color:var(--white); margin:0 0 14px 0; }
+h2.h2 .dot { color:var(--cyan); }
+.q { margin-bottom:18px; }
+.q .qq { font-size:23.5px; font-weight:800; line-height:1.6; margin-bottom:8px; }
+.q .qq .qn { color:var(--violet); font-weight:900; }
+.q .ops { font-size:21.5px; line-height:1.7; color:var(--sub); }
+.answers { font-size:19px; color:var(--bg); background:var(--cyan); display:inline-block;
+  padding:6px 18px; border-radius:99px; font-weight:800; margin:6px 0 4px 0; }
+.exercise { border:1.5px dashed rgba(167,139,250,0.55); border-radius:14px;
+  padding:18px 20px; margin-top:22px; }
+.exercise .et { color:var(--violet); font-size:19px; font-weight:800; margin-bottom:6px; }
+.exercise .ex { font-size:23px; line-height:1.75; }
+.footer { margin-top:30px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.14);
+  display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; }
+.footer .f1 { font-size:16px; color:var(--sub); }
+.footer .f2 { font-size:16px; color:var(--cyan); font-weight:700; direction:ltr; unicode-bidi:embed; }
+.poster{min-height:2718px;}</style></head>
+<body>
+<div class="poster">
+  <div class="gh-num">۱۴</div>
+  <div class="brandrow"><b>پژوهش‌سرا</b><span>مسیر Rust از صفر</span><span class="lesson-chip">درس ۱۴ از ۱۴</span></div>
+
+  <h1 class="title">بردار <span class="en">(Vec)</span><br>و پروژهٔ «فهرست کارها»</h1>
+  <div class="subtitle">فهرستی که نفس می‌کشد — و ساختهٔ کوچک آخرِ مسیر</div>
+  <div class="sep"></div>
+
+  <p class="body">آرایه را یادت هست؟ طولش از اول ثابت بود. ولی فهرست خرید تو هر روز عوض می‌شود؛ یکی اضافه می‌شود، یکی خط می‌خورد. اینجا بردار (Vec) به کمکمان می‌آید: لیستی که با <b><span class="en">push</span></b> بزرگ می‌شود و اندازه‌اش هر چقدر که لازم باشد.</p>
+
+  <div class="keys">
+    <div class="key"><div class="kt"><span class="en">Vec::new() + push</span></div><div class="kv">بردار تازه بساز و بزرگش کن</div></div>
+    <div class="key"><div class="kt">کلیدواژهٔ <span class="en">mut</span></div><div class="kv">جعبه‌ای که قرار است تغییر کند</div></div>
+    <div class="key"><div class="kt"><span class="en">for + len</span></div><div class="kv">پیمایش اعضا و پرسیدن طول</div></div>
+  </div>
+
+  <div class="code-panel">
+    <div class="code-cap">پروژهٔ «فهرست کارها» — سازهٔ درس ۱۲ + بردار</div>
+    <pre><span class="c-k">struct</span> <span class="c-f">Kar</span> {
+    <span class="c-v">onvan</span>: <span class="c-f">String</span>,
+    <span class="c-v">anjamShod</span>: <span class="c-k">bool</span>,
+}
+
+<span class="c-k">fn</span> <span class="c-f">main</span>() {
+    <span class="c-k">let</span> <span class="c-k">mut</span> list: <span class="c-f">Vec</span>&lt;<span class="c-f">Kar</span>&gt; = <span class="c-f">Vec</span>::<span class="c-f">new</span>();
+
+    list.<span class="c-f">push</span>(<span class="c-f">Kar</span> {{
+        onvan: <span class="c-f">String</span>::<span class="c-f">from</span>(<span class="c-s">"tamrin-e rust"</span>),
+        anjamShod: <span class="c-k">false</span>,
+    }});
+    list.<span class="c-f">push</span>(<span class="c-f">Kar</span> {{
+        onvan: <span class="c-f">String</span>::<span class="c-f">from</span>(<span class="c-s">"khandan-e dars 14"</span>),
+        anjamShod: <span class="c-k">true</span>,
+    }});
+
+    <span class="c-f">println!</span>(<span class="c-s">"tedad-e karha: {{}}"</span>, list.<span class="c-f">len</span>());
+
+    <span class="c-k">for</span> kar <span class="c-k">in</span> list {{
+        <span class="c-k">if</span> kar.anjamShod {{
+            <span class="c-f">println!</span>(<span class="c-s">"[x] {{}}"</span>, kar.onvan);
+        }} <span class="c-k">else</span> {{
+            <span class="c-f">println!</span>(<span class="c-s">"[ ] {{}}"</span>, kar.onvan);
+        }}
+    }}
+}}</pre>
+  </div>
+  <div class="out"><span class="lbl">خروجی برنامه:</span>tedad-e karha: 2<br>[ ] tamrin-e rust<br>[x] khandan-e dars 14</div>
+
+  <div class="tip">
+    <div class="tt">نکتهٔ طلایی</div>
+    <div class="tx">آرایه طول ثابت دارد ولی بردار در جا بزرگ می‌شود. هر جا قرار است فهرست وسط کار اضافه یا کم شود، از اول Vec با mut بساز.</div>
+  </div>
+
+  <div class="sep"></div>
+  <h2 class="h2"><span class="dot">●</span> آزمون سریع</h2>
+
+  <div class="q"><div class="qq"><span class="qn">۱.</span> فرق Vec با آرایه چیست؟</div>
+    <div class="ops">الف) Vec فقط متن نگه می‌دارد &nbsp;&nbsp; ب) فرقی ندارند<br>ج) آرایه فقط عدد می‌گیرد &nbsp;&nbsp; د) طول Vec عوض می‌شود؛ آرایه ثابت است</div></div>
+
+  <div class="q"><div class="qq"><span class="qn">۲.</span> به بردار چطور عضو اضافه می‌کنیم؟</div>
+    <div class="ops">الف) با add &nbsp;&nbsp; ب) با push &nbsp;&nbsp; ج) با plus &nbsp;&nbsp; د) با give</div></div>
+
+  <div class="q"><div class="qq"><span class="qn">۳.</span> چرا کنار let کلمهٔ mut می‌گذاریم؟</div>
+    <div class="ops">الف) برای سریع‌تر شدن &nbsp;&nbsp; ب) لازم نیست؛ فقط قشنگ است<br>ج) چون Rust خیلی دوستش دارد &nbsp;&nbsp; د) چون قرار است مقدارش وسط برنامه عوض شود</div></div>
+
+  <div class="answers">پاسخ‌ها: ۱) د &nbsp;·&nbsp; ۲) ب &nbsp;·&nbsp; ۳) د</div>
+
+  <div class="exercise">
+    <div class="et">تمرین خانه — پروژهٔ پایانی مسیر</div>
+    <div class="ex">برنامهٔ «فهرست کارها» را خودت از اول بنویس و خروجی‌اش را در کانال بفرست. اگر بنویسیش، یعنی از درس ۱ تا ۱۴ را واقعاً یاد گرفته‌ای.</div>
+  </div>
+
+  <div class="footer">
+    <div class="f1">درسنامهٔ پوستری · انجمن کدنویسی پژوهش‌سرا</div>
+    <div class="f2">ble.ir/anjomanfaghihi</div>
+  </div>
+</div>
+</body></html>
